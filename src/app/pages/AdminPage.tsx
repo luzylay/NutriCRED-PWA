@@ -15,9 +15,18 @@ import {
   CheckCircle,
   Clock,
   TrendingUp,
+  TrendingUp,
   Activity,
   BookOpen,
+  Globe,
+  Smartphone,
+  Layers,
 } from "lucide-react";
+import {
+  PieChart, Pie, Cell,
+  BarChart, Bar,
+  XAxis, YAxis, Tooltip, ResponsiveContainer, Legend
+} from "recharts";
 import { useAuth } from "../contexts/AuthContext";
 import { useData } from "../contexts/DataContext";
 import { useTranslation } from "../contexts/LanguageContext";
@@ -34,7 +43,7 @@ import type { AdminUser, AdminStats, AlertRule, AuditLog } from "../lib/types";
 
 // ─── TAB TYPES ────────────────────────────────────────────────────────────────
 
-type AdminTab = "overview" | "users" | "children" | "rules" | "audit";
+type AdminTab = "overview" | "impact" | "users" | "children" | "rules" | "audit";
 
 // ─── OVERVIEW PANEL ───────────────────────────────────────────────────────────
 
@@ -518,6 +527,146 @@ function AuditPanel({ auditLogs }: { auditLogs: AuditLog[] }) {
   );
 }
 
+// ─── INVESTOR METRICS PANEL (IMPACTO) ──────────────────────────────────────────
+
+function InvestorMetricsPanel() {
+  // MOCK DATA: Voluminous data tailored for Investor Pitch (Peru Rural Context)
+  const DEMOGRAPHICS_DATA = [
+    { name: "Mujeres (Madres/Abuelas)", value: 85, color: "#ec4899" }, // Pink
+    { name: "Hombres (Padres/Abuelos)", value: 12, color: "#3b82f6" }, // Blue
+    { name: "No Definido / Otros", value: 3, color: "#94a3b8" }, // Slate
+  ];
+
+  const DEVICE_DATA = [
+    { name: "Android", users: 3450 },
+    { name: "iOS", users: 120 },
+    { name: "Desktop (Postas)", users: 430 },
+  ];
+
+  const REGION_DATA = [
+    { region: "Puno (Sierra)", users: 1540 },
+    { region: "Cusco (Sierra)", users: 1120 },
+    { region: "Loreto (Selva)", users: 890 },
+    { region: "Lima (Periferia)", users: 450 },
+  ];
+
+  return (
+    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
+      {/* KPI Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {[
+          { label: "Familias Impactadas", value: "4,000+", icon: Users, color: "text-blue-500", bg: "bg-blue-500/10" },
+          { label: "Uso Móvil (Android/iOS)", value: "89%", icon: Smartphone, color: "text-emerald-500", bg: "bg-emerald-500/10" },
+          { label: "Adopción Rural", value: "75%", icon: Globe, color: "text-purple-500", bg: "bg-purple-500/10" },
+        ].map((kpi, i) => (
+          <div key={i} className="bg-card border border-border rounded-2xl p-5 flex items-center gap-4 shadow-sm">
+            <div className={`p-3 rounded-xl ${kpi.bg}`}>
+              <kpi.icon className={`size-6 ${kpi.color}`} />
+            </div>
+            <div>
+              <p className={`text-2xl font-extrabold ${kpi.color}`} style={{ fontFamily: "Nunito, sans-serif" }}>
+                {kpi.value}
+              </p>
+              <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">{kpi.label}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Demographics (Donut Chart) */}
+        <div className="bg-card border border-border rounded-2xl p-5 shadow-sm">
+          <h3 className="text-sm font-bold text-foreground mb-4 font-nunito flex items-center gap-2">
+            <Users className="size-4 text-pink-500" />
+            Perfil Demográfico (Cuidadores)
+          </h3>
+          <div className="h-[250px] w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={DEMOGRAPHICS_DATA}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={60}
+                  outerRadius={80}
+                  paddingAngle={5}
+                  dataKey="value"
+                  stroke="none"
+                >
+                  {DEMOGRAPHICS_DATA.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip 
+                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                  itemStyle={{ fontWeight: 'bold' }}
+                />
+                <Legend verticalAlign="bottom" height={36} wrapperStyle={{ fontSize: '12px', fontWeight: 'bold' }} />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+          <p className="text-xs text-muted-foreground text-center mt-2">
+            El 85% de las interacciones son lideradas por madres, validando el enfoque del UX.
+          </p>
+        </div>
+
+        {/* Technology (Bar Chart) */}
+        <div className="bg-card border border-border rounded-2xl p-5 shadow-sm">
+          <h3 className="text-sm font-bold text-foreground mb-4 font-nunito flex items-center gap-2">
+            <Smartphone className="size-4 text-emerald-500" />
+            Adopción Tecnológica (Dispositivos)
+          </h3>
+          <div className="h-[250px] w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={DEVICE_DATA} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fontWeight: 'bold', fill: '#888' }} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#888' }} />
+                <Tooltip 
+                  cursor={{ fill: 'transparent' }}
+                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                />
+                <Bar dataKey="users" fill="#10b981" radius={[6, 6, 0, 0]} barSize={40} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+          <p className="text-xs text-muted-foreground text-center mt-2">
+            Alta penetración de dispositivos Android en sectores rurales (estrategia PWA exitosa).
+          </p>
+        </div>
+      </div>
+
+      {/* Region (Horizontal Bar Chart) */}
+      <div className="bg-card border border-border rounded-2xl p-5 shadow-sm">
+        <h3 className="text-sm font-bold text-foreground mb-4 font-nunito flex items-center gap-2">
+          <Globe className="size-4 text-indigo-500" />
+          Penetración Geográfica (Regiones Críticas)
+        </h3>
+        <div className="h-[200px] w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={REGION_DATA} layout="vertical" margin={{ top: 0, right: 20, left: 20, bottom: 0 }}>
+              <XAxis type="number" hide />
+              <YAxis type="category" dataKey="region" axisLine={false} tickLine={false} tick={{ fontSize: 12, fontWeight: 'bold', fill: '#555' }} width={120} />
+              <Tooltip cursor={{ fill: 'transparent' }} contentStyle={{ borderRadius: '12px', border: 'none' }} />
+              <Bar dataKey="users" fill="#6366f1" radius={[0, 6, 6, 0]} barSize={20}>
+                {REGION_DATA.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={['#6366f1', '#8b5cf6', '#d946ef', '#f43f5e'][index % 4]} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+      
+      <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-4 text-xs text-amber-700 dark:text-amber-400 flex items-start gap-3">
+        <ShieldCheck className="size-5 shrink-0 mt-0.5" />
+        <p>
+          <strong>Política de Privacidad y Anonimización:</strong> Estos datos son estrictamente agregados. No se recolecta información de identificación personal (PII) de los usuarios para la generación de estas métricas, cumpliendo con la Ley N.º 29733 de Protección de Datos Personales de Perú.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 // ─── ADMIN PAGE ───────────────────────────────────────────────────────────────
 
 export default function AdminPage() {
@@ -557,6 +706,7 @@ export default function AdminPage() {
 
   const TABS: Array<{ id: AdminTab; icon: React.ComponentType<{ className?: string }>; label: string }> = [
     { id: "overview", icon: BarChart2, label: "Resumen" },
+    { id: "impact", icon: Layers, label: "Impacto (VCs)" },
     { id: "users", icon: Users, label: "Usuarios" },
     { id: "children", icon: Baby, label: "Niños" },
     { id: "rules", icon: FileText, label: "Reglas" },
@@ -627,6 +777,7 @@ export default function AdminPage() {
           {activeTab === "overview" && (
             <OverviewPanel stats={stats} auditLogs={auditLogs} />
           )}
+          {activeTab === "impact" && <InvestorMetricsPanel />}
           {activeTab === "users" && <UsersPanel />}
           {activeTab === "children" && <ChildrenPanel />}
           {activeTab === "rules" && <RulesPanel />}
