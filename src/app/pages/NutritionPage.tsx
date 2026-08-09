@@ -192,16 +192,16 @@ export default function NutritionPage() {
               </p>
             </div>
 
-            {/* Cápsula Educativa: Lenguaje Inclusivo y Sencillo */}
+            {/* Cápsula Educativa: Lenguaje Objetivo y Directo */}
             <div className="bg-blue-50/50 dark:bg-blue-900/10 border-l-4 border-blue-500 p-4 rounded-r-2xl mb-6">
-              <h4 className="text-sm font-bold text-foreground mb-2">🧱 Los Ladrillos que Construyen a tu Bebé</h4>
+              <h4 className="text-sm font-bold text-foreground mb-2">Nutrientes Esenciales para tu Bebé</h4>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Imagina que el cuerpito de tu wawa es una casita en construcción. Para hacerla fuerte, necesita tres materiales especiales (que los médicos llaman <em>bioelementos</em>):
+                Para crecer sano y fuerte, el cuerpo de tu bebé necesita tres tipos de nutrientes (bioelementos):
               </p>
               <ul className="text-xs text-muted-foreground mt-2 space-y-1.5 ml-1">
-                <li><strong className="text-foreground">1. Los Ladrillos (Primarios):</strong> Son las <em>proteínas</em> de la quinua o cañihua. Hacen crecer sus bracitos y su cerebro.</li>
-                <li><strong className="text-foreground">2. El Cemento (Secundarios):</strong> Es el <em>calcio</em> del tarwi o la leche. Pega los ladrillos y hace sus huesos duros.</li>
-                <li><strong className="text-foreground">3. El Escudo Protector (Oligoelementos):</strong> Es el <em>hierro</em> de la sangrecita. Aunque se necesita poquito, es mágico: combate la anemia y le da defensas para no enfermar.</li>
+                <li><strong className="text-foreground">1. Bioelementos Primarios (Proteínas):</strong> Presentes en la quinua o cañihua. Sirven para desarrollar los músculos y el cerebro.</li>
+                <li><strong className="text-foreground">2. Bioelementos Secundarios (Calcio):</strong> Presentes en la leche o el tarwi. Sirven para endurecer y fortalecer los huesos.</li>
+                <li><strong className="text-foreground">3. Oligoelementos (Hierro y Zinc):</strong> Presentes en la sangrecita. Sirven para prevenir la anemia y darle defensas contra enfermedades.</li>
               </ul>
             </div>
 
