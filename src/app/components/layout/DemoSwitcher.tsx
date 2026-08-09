@@ -1,6 +1,14 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router";
-import { Baby, BarChart2, Users, ShieldCheck, Wifi, WifiOff, Settings } from "lucide-react";
+import {
+  Baby,
+  BarChart2,
+  Users,
+  ShieldCheck,
+  Wifi,
+  WifiOff,
+  Settings,
+} from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useData } from "../../contexts/DataContext";
 import { useTranslation } from "../../contexts/LanguageContext";
@@ -17,10 +25,34 @@ interface DemoTab {
 }
 
 const DEMO_TABS: DemoTab[] = [
-  { id: "family", path: "/familia", Icon: Baby, labelKey: "nav.family", sub: "PWA" },
-  { id: "professional", path: "/dashboard", Icon: BarChart2, labelKey: "nav.professional", sub: "Dashboard" },
-  { id: "agent", path: "/actor", Icon: Users, labelKey: "nav.agent", sub: "Comunitario" },
-  { id: "admin", path: "/admin", Icon: ShieldCheck, labelKey: "nav.admin", sub: "Sistema" },
+  {
+    id: "family",
+    path: "/familia",
+    Icon: Baby,
+    labelKey: "nav.family",
+    sub: "PWA",
+  },
+  {
+    id: "professional",
+    path: "/dashboard",
+    Icon: BarChart2,
+    labelKey: "nav.professional",
+    sub: "Dashboard",
+  },
+  {
+    id: "agent",
+    path: "/actor",
+    Icon: Users,
+    labelKey: "nav.agent",
+    sub: "Comunitario",
+  },
+  {
+    id: "admin",
+    path: "/admin",
+    Icon: ShieldCheck,
+    labelKey: "nav.admin",
+    sub: "Sistema",
+  },
 ];
 
 export function DemoSwitcher() {
@@ -34,12 +66,14 @@ export function DemoSwitcher() {
   if (!isDemoMode) return null;
 
   const activeTab =
-    DEMO_TABS.find((t) => location.pathname.startsWith(t.path))?.id ??
-    "family";
+    DEMO_TABS.find((t) => location.pathname.startsWith(t.path))?.id ?? "family";
 
   return (
     <>
-      <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
+      <SettingsModal
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+      />
       <div className="bg-card border-b border-border sticky top-0 z-40 shadow-sm">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between">
@@ -96,7 +130,9 @@ export function DemoSwitcher() {
                 ) : (
                   <WifiOff className="size-3 animate-pulse" />
                 )}
-                <span className="hidden sm:inline">{isOnline ? t("app.online") : t("app.offline")}</span>
+                <span className="hidden sm:inline">
+                  {isOnline ? t("app.online") : t("app.offline")}
+                </span>
               </span>
 
               {/* Settings button */}
@@ -105,7 +141,9 @@ export function DemoSwitcher() {
                 className="flex items-center gap-1.5 bg-muted/80 hover:bg-muted text-foreground px-2.5 py-1.5 rounded-xl text-xs font-bold transition-all border border-border cursor-pointer"
                 title={t("app.settings")}
               >
-                <span className="text-xs font-black">{languageInfo.abbrev}</span>
+                <span className="text-xs font-black">
+                  {languageInfo.abbrev}
+                </span>
                 <Settings className="size-3.5 text-muted-foreground" />
               </button>
             </div>

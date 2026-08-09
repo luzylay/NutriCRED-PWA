@@ -3,177 +3,176 @@
 :root {
   --font-size: 16px;
   /* Yanapiri Wawa — Identidad Principal */
-  --background: #FAFAFA;
-  --foreground: #27257B;
-  --card: #FFFFFF;
-  --card-foreground: #27257B;
-  --popover: #FFFFFF;
-  --popover-foreground: #27257B;
-  --primary: #12B1E7;
-  --primary-foreground: #FFFFFF;
-  --secondary: #EEF5FC;
-  --secondary-foreground: #27257B;
-  --muted: #EEF1F8;
-  --muted-foreground: #6B6FA8;
-  --accent: #EC2088;
-  --accent-foreground: #FFFFFF;
-  --destructive: #DC2626;
-  --destructive-foreground: #FFFFFF;
+  --background: #fafafa;
+  --foreground: #27257b;
+  --card: #ffffff;
+  --card-foreground: #27257b;
+  --popover: #ffffff;
+  --popover-foreground: #27257b;
+  --primary: #12b1e7;
+  --primary-foreground: #ffffff;
+  --secondary: #eef5fc;
+  --secondary-foreground: #27257b;
+  --muted: #eef1f8;
+  --muted-foreground: #6b6fa8;
+  --accent: #ec2088;
+  --accent-foreground: #ffffff;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
   --border: rgba(39, 37, 123, 0.1);
   --input: transparent;
-  --input-background: #F0F3FA;
-  --switch-background: #C5CAE0;
+  --input-background: #f0f3fa;
+  --switch-background: #c5cae0;
   --font-weight-medium: 600;
   --font-weight-normal: 400;
-  --ring: #12B1E7;
-  --chart-1: #12B1E7;
-  --chart-2: #EC2088;
+  --ring: #12b1e7;
+  --chart-1: #12b1e7;
+  --chart-2: #ec2088;
   --chart-3: #22c55e;
-  --chart-4: #E5A100;
-  --chart-5: #27257B;
+  --chart-4: #e5a100;
+  --chart-5: #27257b;
   --radius: 0.875rem;
-  --sidebar: #EEF1F8;
-  --sidebar-foreground: #27257B;
-  --sidebar-primary: #12B1E7;
-  --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #EEF5FC;
-  --sidebar-accent-foreground: #27257B;
+  --sidebar: #eef1f8;
+  --sidebar-foreground: #27257b;
+  --sidebar-primary: #12b1e7;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #eef5fc;
+  --sidebar-accent-foreground: #27257b;
   --sidebar-border: rgba(39, 37, 123, 0.1);
-  --sidebar-ring: #12B1E7;
+  --sidebar-ring: #12b1e7;
   /* Glassmorphism & Gradients */
   --glass-bg: rgba(255, 255, 255, 0.6);
   --glass-border: rgba(255, 255, 255, 0.4);
   --glass-shadow: 0 8px 32px 0 rgba(39, 37, 123, 0.15);
-  --gradient-background: linear-gradient(135deg, #F0F3FA 0%, #FAFAFA 100%);
-  --gradient-primary: linear-gradient(135deg, #12B1E7 0%, #0d96c4 100%);
+  --gradient-background: linear-gradient(135deg, #f0f3fa 0%, #fafafa 100%);
+  --gradient-primary: linear-gradient(135deg, #12b1e7 0%, #0d96c4 100%);
 }
 
 .dark {
   /* Yanapiri Wawa — Modo Oscuro Cuida-Vista */
-  --background: #18182B;
-  --foreground: #E1E4EC;
+  --background: #18182b;
+  --foreground: #e1e4ec;
   --card: #252942;
-  --card-foreground: #E1E4EC;
+  --card-foreground: #e1e4ec;
   --popover: #252942;
-  --popover-foreground: #E1E4EC;
-  --primary: #4DD0E1;
-  --primary-foreground: #18182B;
-  --secondary: #1E2040;
-  --secondary-foreground: #E1E4EC;
-  --muted: #1E2040;
-  --muted-foreground: #9094C4;
-  --accent: #FF8A80;
-  --accent-foreground: #18182B;
-  --destructive: #FF5252;
-  --destructive-foreground: #18182B;
+  --popover-foreground: #e1e4ec;
+  --primary: #4dd0e1;
+  --primary-foreground: #18182b;
+  --secondary: #1e2040;
+  --secondary-foreground: #e1e4ec;
+  --muted: #1e2040;
+  --muted-foreground: #9094c4;
+  --accent: #ff8a80;
+  --accent-foreground: #18182b;
+  --destructive: #ff5252;
+  --destructive-foreground: #18182b;
   --border: rgba(225, 228, 236, 0.1);
-  --input: #1E2040;
-  --input-background: #1E2040;
-  --switch-background: #3A3D60;
+  --input: #1e2040;
+  --input-background: #1e2040;
+  --switch-background: #3a3d60;
   --font-weight-medium: 600;
   --font-weight-normal: 400;
-  --ring: #4DD0E1;
-  --chart-1: #4DD0E1;
-  --chart-2: #FF8A80;
+  --ring: #4dd0e1;
+  --chart-1: #4dd0e1;
+  --chart-2: #ff8a80;
   --chart-3: #4ade80;
-  --chart-4: #FBBF24;
-  --chart-5: #9094C4;
-  --sidebar: #1E2040;
-  --sidebar-foreground: #E1E4EC;
-  --sidebar-primary: #4DD0E1;
-  --sidebar-primary-foreground: #18182B;
+  --chart-4: #fbbf24;
+  --chart-5: #9094c4;
+  --sidebar: #1e2040;
+  --sidebar-foreground: #e1e4ec;
+  --sidebar-primary: #4dd0e1;
+  --sidebar-primary-foreground: #18182b;
   --sidebar-accent: #252942;
-  --sidebar-accent-foreground: #E1E4EC;
+  --sidebar-accent-foreground: #e1e4ec;
   --sidebar-border: rgba(225, 228, 236, 0.1);
-  --sidebar-ring: #4DD0E1;
+  --sidebar-ring: #4dd0e1;
   /* Glassmorphism & Gradients */
   --glass-bg: rgba(37, 41, 66, 0.6);
   --glass-border: rgba(225, 228, 236, 0.1);
   --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
-  --gradient-background: linear-gradient(135deg, #1E2040 0%, #18182B 100%);
-  --gradient-primary: linear-gradient(135deg, #4DD0E1 0%, #30A6B8 100%);
+  --gradient-background: linear-gradient(135deg, #1e2040 0%, #18182b 100%);
+  --gradient-primary: linear-gradient(135deg, #4dd0e1 0%, #30a6b8 100%);
 }
 
 .theme-andean {
   /* Yanapiri Wawa — Andino Esmeralda (Alto contraste naturaleza) */
-  --background: #F4F9F5;
-  --foreground: #143D28;
-  --card: #FFFFFF;
-  --card-foreground: #143D28;
-  --popover: #FFFFFF;
-  --popover-foreground: #143D28;
+  --background: #f4f9f5;
+  --foreground: #143d28;
+  --card: #ffffff;
+  --card-foreground: #143d28;
+  --popover: #ffffff;
+  --popover-foreground: #143d28;
   --primary: #059669;
-  --primary-foreground: #FFFFFF;
-  --secondary: #E8F5EE;
-  --secondary-foreground: #143D28;
-  --muted: #E2ECE5;
-  --muted-foreground: #4D735C;
-  --accent: #D97706;
-  --accent-foreground: #FFFFFF;
-  --destructive: #DC2626;
-  --destructive-foreground: #FFFFFF;
+  --primary-foreground: #ffffff;
+  --secondary: #e8f5ee;
+  --secondary-foreground: #143d28;
+  --muted: #e2ece5;
+  --muted-foreground: #4d735c;
+  --accent: #d97706;
+  --accent-foreground: #ffffff;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
   --border: rgba(20, 61, 40, 0.12);
   --input: transparent;
-  --input-background: #E8F2EC;
-  --switch-background: #A3C9B2;
+  --input-background: #e8f2ec;
+  --switch-background: #a3c9b2;
   --ring: #059669;
   --chart-1: #059669;
-  --chart-2: #D97706;
-  --chart-3: #10B981;
-  --chart-4: #F59E0B;
-  --chart-5: #143D28;
-  --sidebar: #E8F5EE;
-  --sidebar-foreground: #143D28;
+  --chart-2: #d97706;
+  --chart-3: #10b981;
+  --chart-4: #f59e0b;
+  --chart-5: #143d28;
+  --sidebar: #e8f5ee;
+  --sidebar-foreground: #143d28;
   --sidebar-primary: #059669;
-  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-primary-foreground: #ffffff;
   /* Glassmorphism & Gradients */
   --glass-bg: rgba(255, 255, 255, 0.7);
   --glass-border: rgba(255, 255, 255, 0.5);
   --glass-shadow: 0 8px 32px 0 rgba(20, 61, 40, 0.15);
-  --gradient-background: linear-gradient(135deg, #E8F5EE 0%, #F4F9F5 100%);
+  --gradient-background: linear-gradient(135deg, #e8f5ee 0%, #f4f9f5 100%);
   --gradient-primary: linear-gradient(135deg, #059669 0%, #047857 100%);
 }
 
 .theme-sunset {
   /* Yanapiri Wawa — Cálido Atardecer (Terracota y Ámbar) */
-  --background: #FCF8F5;
-  --foreground: #4A1D16;
-  --card: #FFFFFF;
-  --card-foreground: #4A1D16;
-  --popover: #FFFFFF;
-  --popover-foreground: #4A1D16;
-  --primary: #EA580C;
-  --primary-foreground: #FFFFFF;
-  --secondary: #FEEDDF;
-  --secondary-foreground: #4A1D16;
-  --muted: #F5E5DC;
-  --muted-foreground: #8C5346;
-  --accent: #BE185D;
-  --accent-foreground: #FFFFFF;
-  --destructive: #E11D48;
-  --destructive-foreground: #FFFFFF;
+  --background: #fcf8f5;
+  --foreground: #4a1d16;
+  --card: #ffffff;
+  --card-foreground: #4a1d16;
+  --popover: #ffffff;
+  --popover-foreground: #4a1d16;
+  --primary: #ea580c;
+  --primary-foreground: #ffffff;
+  --secondary: #feeddf;
+  --secondary-foreground: #4a1d16;
+  --muted: #f5e5dc;
+  --muted-foreground: #8c5346;
+  --accent: #be185d;
+  --accent-foreground: #ffffff;
+  --destructive: #e11d48;
+  --destructive-foreground: #ffffff;
   --border: rgba(74, 29, 22, 0.12);
   --input: transparent;
-  --input-background: #FAEDE5;
-  --switch-background: #E4BCAB;
-  --ring: #EA580C;
-  --chart-1: #EA580C;
-  --chart-2: #BE185D;
-  --chart-3: #16A34A;
-  --chart-4: #D97706;
-  --chart-5: #4A1D16;
-  --sidebar: #FEEDDF;
-  --sidebar-foreground: #4A1D16;
-  --sidebar-primary: #EA580C;
-  --sidebar-primary-foreground: #FFFFFF;
+  --input-background: #faede5;
+  --switch-background: #e4bcab;
+  --ring: #ea580c;
+  --chart-1: #ea580c;
+  --chart-2: #be185d;
+  --chart-3: #16a34a;
+  --chart-4: #d97706;
+  --chart-5: #4a1d16;
+  --sidebar: #feeddf;
+  --sidebar-foreground: #4a1d16;
+  --sidebar-primary: #ea580c;
+  --sidebar-primary-foreground: #ffffff;
   /* Glassmorphism & Gradients */
   --glass-bg: rgba(255, 255, 255, 0.7);
   --glass-border: rgba(255, 255, 255, 0.5);
   --glass-shadow: 0 8px 32px 0 rgba(74, 29, 22, 0.15);
-  --gradient-background: linear-gradient(135deg, #FEEDDF 0%, #FCF8F5 100%);
-  --gradient-primary: linear-gradient(135deg, #EA580C 0%, #C2410C 100%);
+  --gradient-background: linear-gradient(135deg, #feeddf 0%, #fcf8f5 100%);
+  --gradient-primary: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
 }
-
 
 @theme inline {
   --color-background: var(--background);
@@ -232,7 +231,11 @@
     font-family: "Plus Jakarta Sans", system-ui, sans-serif;
   }
 
-  h1, h2, h3, h4, .font-nunito {
+  h1,
+  h2,
+  h3,
+  h4,
+  .font-nunito {
     font-family: "Nunito", system-ui, sans-serif;
   }
 
@@ -288,13 +291,21 @@
   }
 
   /* Accessible Focus Rings */
-  a, button, input, select, textarea {
+  a,
+  button,
+  input,
+  select,
+  textarea {
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-shadow;
   }
 
   /* Ergonomic Touch Targets for Mobile (WCAG 2.1 AAA) */
   @media (max-width: 768px) {
-    button, a[role="button"], select, input[type="button"], input[type="submit"] {
+    button,
+    a[role="button"],
+    select,
+    input[type="button"],
+    input[type="submit"] {
       min-height: 44px;
       min-width: 44px;
     }
@@ -325,7 +336,7 @@
   .btn-gradient:hover {
     background-position: right center;
     transform: scale(1.02);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
   }
 
   .btn-gradient:active {
@@ -334,9 +345,15 @@
 }
 
 @keyframes gradientFlow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* Accessibility Scaling Utilities */

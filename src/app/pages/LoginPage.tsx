@@ -1,5 +1,14 @@
 import { useState } from "react";
-import { Baby, Settings, User, Lock, ArrowRight, Info, ShieldCheck, HeartPulse } from "lucide-react";
+import {
+  Baby,
+  Settings,
+  User,
+  Lock,
+  ArrowRight,
+  Info,
+  ShieldCheck,
+  HeartPulse,
+} from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { useTranslation } from "../contexts/LanguageContext";
 import { SettingsModal } from "../components/shared/SettingsModal";
@@ -38,13 +47,22 @@ export default function LoginPage() {
 
   return (
     <>
-      <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
+      <SettingsModal
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+      />
 
       <div className="min-h-screen bg-gradient-flow flex flex-col items-center justify-center p-4 relative overflow-hidden">
         {/* Animated background blobs */}
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full mix-blend-multiply filter blur-[100px] opacity-70 animate-blob"></div>
-        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-accent/20 rounded-full mix-blend-multiply filter blur-[100px] opacity-70 animate-blob" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute -bottom-32 left-1/2 w-96 h-96 bg-secondary/40 rounded-full mix-blend-multiply filter blur-[100px] opacity-60 animate-blob" style={{ animationDelay: '4s' }}></div>
+        <div
+          className="absolute top-1/4 right-1/4 w-96 h-96 bg-accent/20 rounded-full mix-blend-multiply filter blur-[100px] opacity-70 animate-blob"
+          style={{ animationDelay: "2s" }}
+        ></div>
+        <div
+          className="absolute -bottom-32 left-1/2 w-96 h-96 bg-secondary/40 rounded-full mix-blend-multiply filter blur-[100px] opacity-60 animate-blob"
+          style={{ animationDelay: "4s" }}
+        ></div>
 
         {/* Top right language settings quick toggle */}
         <div className="absolute top-4 right-4 md:top-6 md:right-6 z-20">
@@ -61,7 +79,6 @@ export default function LoginPage() {
         </div>
 
         <div className="w-full max-w-sm glass-panel rounded-[2rem] p-6 md:p-8 space-y-8 shadow-2xl relative z-10 border border-white/20">
-          
           {/* Hero Logo Section */}
           <div className="text-center space-y-4">
             <div className="relative inline-block">
@@ -141,7 +158,7 @@ export default function LoginPage() {
           {/* Quick Links */}
           <div className="space-y-3 pt-2">
             <button
-              onClick={() => window.location.href = '/registro'}
+              onClick={() => (window.location.href = "/registro")}
               className="w-full bg-card hover:bg-muted/50 text-foreground font-bold py-3.5 rounded-2xl text-xs active:scale-[0.98] transition-all cursor-pointer border border-border shadow-sm flex items-center justify-center gap-2"
             >
               <ShieldCheck className="size-4 text-primary" />
@@ -159,36 +176,63 @@ export default function LoginPage() {
 
           {/* Smart Test Credentials Accordion */}
           <div className="mt-6 border-t border-border/40 pt-4">
-            <button 
+            <button
               onClick={() => setShowCredentials(!showCredentials)}
               className="flex items-center justify-center gap-1.5 w-full text-[11px] font-bold text-muted-foreground hover:text-foreground transition-colors"
             >
               <Info className="size-3" />
               <span>Ver accesos de prueba</span>
             </button>
-            
+
             {showCredentials && (
               <div className="mt-4 grid grid-cols-2 gap-2 animate-in fade-in slide-in-from-top-2 duration-300">
-                <button onClick={() => autoFill('maria', 'maria123')} className="bg-card hover:bg-primary/10 border border-border p-2 rounded-xl text-left transition-colors group">
-                  <p className="text-[10px] text-muted-foreground font-bold uppercase mb-0.5">Madre</p>
-                  <p className="text-xs font-black text-foreground group-hover:text-primary">maria</p>
+                <button
+                  onClick={() => autoFill("maria", "maria123")}
+                  className="bg-card hover:bg-primary/10 border border-border p-2 rounded-xl text-left transition-colors group"
+                >
+                  <p className="text-[10px] text-muted-foreground font-bold uppercase mb-0.5">
+                    Madre
+                  </p>
+                  <p className="text-xs font-black text-foreground group-hover:text-primary">
+                    maria
+                  </p>
                 </button>
-                <button onClick={() => autoFill('carlos', 'carlos123')} className="bg-card hover:bg-primary/10 border border-border p-2 rounded-xl text-left transition-colors group">
-                  <p className="text-[10px] text-muted-foreground font-bold uppercase mb-0.5">Enfermero</p>
-                  <p className="text-xs font-black text-foreground group-hover:text-primary">carlos</p>
+                <button
+                  onClick={() => autoFill("carlos", "carlos123")}
+                  className="bg-card hover:bg-primary/10 border border-border p-2 rounded-xl text-left transition-colors group"
+                >
+                  <p className="text-[10px] text-muted-foreground font-bold uppercase mb-0.5">
+                    Enfermero
+                  </p>
+                  <p className="text-xs font-black text-foreground group-hover:text-primary">
+                    carlos
+                  </p>
                 </button>
-                <button onClick={() => autoFill('luisa', 'luisa123')} className="bg-card hover:bg-primary/10 border border-border p-2 rounded-xl text-left transition-colors group">
-                  <p className="text-[10px] text-muted-foreground font-bold uppercase mb-0.5">Promotora</p>
-                  <p className="text-xs font-black text-foreground group-hover:text-primary">luisa</p>
+                <button
+                  onClick={() => autoFill("luisa", "luisa123")}
+                  className="bg-card hover:bg-primary/10 border border-border p-2 rounded-xl text-left transition-colors group"
+                >
+                  <p className="text-[10px] text-muted-foreground font-bold uppercase mb-0.5">
+                    Promotora
+                  </p>
+                  <p className="text-xs font-black text-foreground group-hover:text-primary">
+                    luisa
+                  </p>
                 </button>
-                <button onClick={() => autoFill('admin', 'admin123')} className="bg-card hover:bg-primary/10 border border-border p-2 rounded-xl text-left transition-colors group">
-                  <p className="text-[10px] text-muted-foreground font-bold uppercase mb-0.5">Gestor</p>
-                  <p className="text-xs font-black text-foreground group-hover:text-primary">admin</p>
+                <button
+                  onClick={() => autoFill("admin", "admin123")}
+                  className="bg-card hover:bg-primary/10 border border-border p-2 rounded-xl text-left transition-colors group"
+                >
+                  <p className="text-[10px] text-muted-foreground font-bold uppercase mb-0.5">
+                    Gestor
+                  </p>
+                  <p className="text-xs font-black text-foreground group-hover:text-primary">
+                    admin
+                  </p>
                 </button>
               </div>
             )}
           </div>
-
         </div>
       </div>
     </>

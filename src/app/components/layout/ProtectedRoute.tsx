@@ -15,7 +15,10 @@ interface ProtectedRouteProps {
  * If not authenticated, redirects to login.
  * If authenticated but wrong role, redirects to the user's own route.
  */
-export function ProtectedRoute({ children, allowedRoles = [] }: ProtectedRouteProps) {
+export function ProtectedRoute({
+  children,
+  allowedRoles = [],
+}: ProtectedRouteProps) {
   const { isLoggedIn, user, isDemoMode } = useAuth();
   const location = useLocation();
 
@@ -26,11 +29,7 @@ export function ProtectedRoute({ children, allowedRoles = [] }: ProtectedRoutePr
   // Demo mode bypasses role checks
   if (isDemoMode) return <>{children}</>;
 
-  if (
-    allowedRoles.length > 0 &&
-    user &&
-    !allowedRoles.includes(user.role)
-  ) {
+  if (allowedRoles.length > 0 && user && !allowedRoles.includes(user.role)) {
     // Redirect to the correct route for this user's role
     const roleRoutes: Record<UserRole, string> = {
       CAREGIVER: "/familia",

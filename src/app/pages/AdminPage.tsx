@@ -23,9 +23,16 @@ import {
   Layers,
 } from "lucide-react";
 import {
-  PieChart, Pie, Cell,
-  BarChart, Bar,
-  XAxis, YAxis, Tooltip, ResponsiveContainer, Legend
+  PieChart,
+  Pie,
+  Cell,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
 } from "recharts";
 import { useAuth } from "../contexts/AuthContext";
 import { useData } from "../contexts/DataContext";
@@ -43,11 +50,18 @@ import type { AdminUser, AdminStats, AlertRule, AuditLog } from "../lib/types";
 
 // ─── TAB TYPES ────────────────────────────────────────────────────────────────
 
-type AdminTab = "overview" | "impact" | "users" | "children" | "rules" | "audit";
+type AdminTab =
+  "overview" | "impact" | "users" | "children" | "rules" | "audit";
 
 // ─── OVERVIEW PANEL ───────────────────────────────────────────────────────────
 
-function OverviewPanel({ stats, auditLogs }: { stats: AdminStats | null; auditLogs: AuditLog[] }) {
+function OverviewPanel({
+  stats,
+  auditLogs,
+}: {
+  stats: AdminStats | null;
+  auditLogs: AuditLog[];
+}) {
   if (!stats) {
     return (
       <div className="text-center py-12 text-muted-foreground">
@@ -62,17 +76,47 @@ function OverviewPanel({ stats, auditLogs }: { stats: AdminStats | null; auditLo
       {/* System KPIs */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
-          { label: "Total Niños", value: stats.total_children, icon: Baby, color: "text-primary", bg: "bg-primary/10" },
-          { label: "Usuarios Activos", value: stats.total_users, icon: Users, color: "text-indigo-600 dark:text-indigo-400", bg: "bg-indigo-50 dark:bg-indigo-950/20" },
-          { label: "Alertas Activas", value: stats.active_alerts, icon: AlertCircle, color: "text-red-600 dark:text-red-400", bg: "bg-red-50 dark:bg-red-950/20" },
-          { label: "Visitas este Mes", value: stats.visits_this_month, icon: TrendingUp, color: "text-emerald-600 dark:text-emerald-400", bg: "bg-emerald-50 dark:bg-emerald-950/20" },
+          {
+            label: "Total Niños",
+            value: stats.total_children,
+            icon: Baby,
+            color: "text-primary",
+            bg: "bg-primary/10",
+          },
+          {
+            label: "Usuarios Activos",
+            value: stats.total_users,
+            icon: Users,
+            color: "text-indigo-600 dark:text-indigo-400",
+            bg: "bg-indigo-50 dark:bg-indigo-950/20",
+          },
+          {
+            label: "Alertas Activas",
+            value: stats.active_alerts,
+            icon: AlertCircle,
+            color: "text-red-600 dark:text-red-400",
+            bg: "bg-red-50 dark:bg-red-950/20",
+          },
+          {
+            label: "Visitas este Mes",
+            value: stats.visits_this_month,
+            icon: TrendingUp,
+            color: "text-emerald-600 dark:text-emerald-400",
+            bg: "bg-emerald-50 dark:bg-emerald-950/20",
+          },
         ].map((k) => (
-          <div key={k.label} className={`${k.bg} border border-border rounded-2xl p-4 flex items-center gap-3 shadow-sm`}>
+          <div
+            key={k.label}
+            className={`${k.bg} border border-border rounded-2xl p-4 flex items-center gap-3 shadow-sm`}
+          >
             <div className={`${k.bg} rounded-xl p-2`}>
               <k.icon className={`size-5 ${k.color}`} />
             </div>
             <div>
-              <p className={`text-2xl font-extrabold ${k.color}`} style={{ fontFamily: "Nunito, sans-serif" }}>
+              <p
+                className={`text-2xl font-extrabold ${k.color}`}
+                style={{ fontFamily: "Nunito, sans-serif" }}
+              >
                 {k.value}
               </p>
               <p className="text-xs text-muted-foreground font-bold uppercase tracking-wider">
@@ -86,16 +130,45 @@ function OverviewPanel({ stats, auditLogs }: { stats: AdminStats | null; auditLo
       {/* Children Status Distribution */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {[
-          { label: "Niños con seguimiento normal", value: stats.normal_children, icon: CheckCircle, color: "text-emerald-600 dark:text-emerald-400", bg: "bg-emerald-50 dark:bg-emerald-950/20", border: "border-emerald-200 dark:border-emerald-800" },
-          { label: "Requieren seguimiento", value: stats.follow_up_children, icon: Clock, color: "text-amber-600 dark:text-amber-400", bg: "bg-amber-50 dark:bg-amber-950/20", border: "border-amber-200 dark:border-amber-800" },
-          { label: "Evaluación prioritaria", value: stats.urgent_children, icon: AlertCircle, color: "text-red-600 dark:text-red-400", bg: "bg-red-50 dark:bg-red-950/20", border: "border-red-200 dark:border-red-800" },
+          {
+            label: "Niños con seguimiento normal",
+            value: stats.normal_children,
+            icon: CheckCircle,
+            color: "text-emerald-600 dark:text-emerald-400",
+            bg: "bg-emerald-50 dark:bg-emerald-950/20",
+            border: "border-emerald-200 dark:border-emerald-800",
+          },
+          {
+            label: "Requieren seguimiento",
+            value: stats.follow_up_children,
+            icon: Clock,
+            color: "text-amber-600 dark:text-amber-400",
+            bg: "bg-amber-50 dark:bg-amber-950/20",
+            border: "border-amber-200 dark:border-amber-800",
+          },
+          {
+            label: "Evaluación prioritaria",
+            value: stats.urgent_children,
+            icon: AlertCircle,
+            color: "text-red-600 dark:text-red-400",
+            bg: "bg-red-50 dark:bg-red-950/20",
+            border: "border-red-200 dark:border-red-800",
+          },
         ].map((k) => (
-          <div key={k.label} className={`${k.bg} border ${k.border} rounded-2xl p-4 text-center shadow-sm`}>
+          <div
+            key={k.label}
+            className={`${k.bg} border ${k.border} rounded-2xl p-4 text-center shadow-sm`}
+          >
             <k.icon className={`size-6 mx-auto mb-2 ${k.color}`} />
-            <p className={`text-3xl font-extrabold ${k.color}`} style={{ fontFamily: "Nunito, sans-serif" }}>
+            <p
+              className={`text-3xl font-extrabold ${k.color}`}
+              style={{ fontFamily: "Nunito, sans-serif" }}
+            >
               {k.value}
             </p>
-            <p className="text-xs text-muted-foreground font-bold mt-1 leading-tight">{k.label}</p>
+            <p className="text-xs text-muted-foreground font-bold mt-1 leading-tight">
+              {k.label}
+            </p>
           </div>
         ))}
       </div>
@@ -107,15 +180,33 @@ function OverviewPanel({ stats, auditLogs }: { stats: AdminStats | null; auditLo
         </h3>
         <div className="grid grid-cols-3 gap-3">
           {[
-            { label: "Cuidadores", value: stats.caregivers, color: "bg-cyan-500" },
-            { label: "Profesionales CRED", value: stats.professionals, color: "bg-primary" },
-            { label: "Actores Sociales", value: stats.community_agents, color: "bg-accent" },
+            {
+              label: "Cuidadores",
+              value: stats.caregivers,
+              color: "bg-cyan-500",
+            },
+            {
+              label: "Profesionales CRED",
+              value: stats.professionals,
+              color: "bg-primary",
+            },
+            {
+              label: "Actores Sociales",
+              value: stats.community_agents,
+              color: "bg-accent",
+            },
           ].map((r) => (
             <div key={r.label} className="text-center">
-              <div className={`size-10 ${r.color} rounded-xl flex items-center justify-center mx-auto mb-1.5`}>
-                <span className="text-white font-extrabold text-sm">{r.value}</span>
+              <div
+                className={`size-10 ${r.color} rounded-xl flex items-center justify-center mx-auto mb-1.5`}
+              >
+                <span className="text-white font-extrabold text-sm">
+                  {r.value}
+                </span>
               </div>
-              <p className="text-xs text-muted-foreground font-semibold">{r.label}</p>
+              <p className="text-xs text-muted-foreground font-semibold">
+                {r.label}
+              </p>
             </div>
           ))}
         </div>
@@ -128,12 +219,22 @@ function OverviewPanel({ stats, auditLogs }: { stats: AdminStats | null; auditLo
         </h3>
         <div className="space-y-2">
           {auditLogs.slice(0, 6).map((log, i) => (
-            <div key={i} className="flex items-center gap-3 text-xs py-1.5 border-b border-border last:border-0">
+            <div
+              key={i}
+              className="flex items-center gap-3 text-xs py-1.5 border-b border-border last:border-0"
+            >
               <span className="font-mono text-muted-foreground shrink-0 w-28">
-                {new Date(log.timestamp).toLocaleTimeString("es-PE", { hour: "2-digit", minute: "2-digit" })}
+                {new Date(log.timestamp).toLocaleTimeString("es-PE", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
               </span>
-              <span className="font-semibold text-foreground flex-1">{log.action}</span>
-              <span className="text-muted-foreground shrink-0">{log.table_affected ?? "—"}</span>
+              <span className="font-semibold text-foreground flex-1">
+                {log.action}
+              </span>
+              <span className="text-muted-foreground shrink-0">
+                {log.table_affected ?? "—"}
+              </span>
             </div>
           ))}
         </div>
@@ -157,18 +258,65 @@ function UsersPanel() {
     } catch {
       // Backend may not have admin endpoint yet; show mock data
       setAdminUsers([
-        { id: 1, username: "maria", email_or_phone: "maria@ejemplo.pe", role: "CAREGIVER", status: "active", created_at: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString() },
-        { id: 2, username: "carlos", email_or_phone: "carlos@ejemplo.pe", role: "PROFESSIONAL", status: "active", created_at: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000).toISOString() },
-        { id: 3, username: "luisa", email_or_phone: "luisa@ejemplo.pe", role: "COMMUNITY_AGENT", status: "active", created_at: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000).toISOString() },
-        { id: 4, username: "admin", email_or_phone: "admin@yanapiri.pe", role: "ADMIN", status: "active", created_at: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString() },
-        { id: 5, username: "carlos2", email_or_phone: "carlos2@ejemplo.pe", role: "CAREGIVER", status: "inactive", created_at: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString() },
+        {
+          id: 1,
+          username: "maria",
+          email_or_phone: "maria@ejemplo.pe",
+          role: "CAREGIVER",
+          status: "active",
+          created_at: new Date(
+            Date.now() - 30 * 24 * 60 * 60 * 1000,
+          ).toISOString(),
+        },
+        {
+          id: 2,
+          username: "carlos",
+          email_or_phone: "carlos@ejemplo.pe",
+          role: "PROFESSIONAL",
+          status: "active",
+          created_at: new Date(
+            Date.now() - 60 * 24 * 60 * 60 * 1000,
+          ).toISOString(),
+        },
+        {
+          id: 3,
+          username: "luisa",
+          email_or_phone: "luisa@ejemplo.pe",
+          role: "COMMUNITY_AGENT",
+          status: "active",
+          created_at: new Date(
+            Date.now() - 45 * 24 * 60 * 60 * 1000,
+          ).toISOString(),
+        },
+        {
+          id: 4,
+          username: "admin",
+          email_or_phone: "admin@yanapiri.pe",
+          role: "ADMIN",
+          status: "active",
+          created_at: new Date(
+            Date.now() - 90 * 24 * 60 * 60 * 1000,
+          ).toISOString(),
+        },
+        {
+          id: 5,
+          username: "carlos2",
+          email_or_phone: "carlos2@ejemplo.pe",
+          role: "CAREGIVER",
+          status: "inactive",
+          created_at: new Date(
+            Date.now() - 10 * 24 * 60 * 60 * 1000,
+          ).toISOString(),
+        },
       ]);
     } finally {
       setLoading(false);
     }
   }, []);
 
-  useEffect(() => { load(); }, [load]);
+  useEffect(() => {
+    load();
+  }, [load]);
 
   const toggleStatus = async (user: AdminUser) => {
     setUpdating(user.id);
@@ -176,12 +324,12 @@ function UsersPanel() {
     try {
       await patchUserStatus(user.id, newStatus);
       setAdminUsers((prev) =>
-        prev.map((u) => (u.id === user.id ? { ...u, status: newStatus } : u))
+        prev.map((u) => (u.id === user.id ? { ...u, status: newStatus } : u)),
       );
     } catch {
       // Optimistic update even if backend unavailable in demo
       setAdminUsers((prev) =>
-        prev.map((u) => (u.id === user.id ? { ...u, status: newStatus } : u))
+        prev.map((u) => (u.id === user.id ? { ...u, status: newStatus } : u)),
       );
     } finally {
       setUpdating(null);
@@ -196,10 +344,12 @@ function UsersPanel() {
   };
 
   const ROLE_COLORS: Record<string, string> = {
-    ADMIN: "bg-purple-100 text-purple-800 dark:bg-purple-950/30 dark:text-purple-300",
+    ADMIN:
+      "bg-purple-100 text-purple-800 dark:bg-purple-950/30 dark:text-purple-300",
     PROFESSIONAL: "bg-primary/10 text-primary",
     COMMUNITY_AGENT: "bg-accent/10 text-accent",
-    CAREGIVER: "bg-cyan-100 text-cyan-800 dark:bg-cyan-950/30 dark:text-cyan-300",
+    CAREGIVER:
+      "bg-cyan-100 text-cyan-800 dark:bg-cyan-950/30 dark:text-cyan-300",
   };
 
   if (loading) {
@@ -241,18 +391,27 @@ function UsersPanel() {
           </thead>
           <tbody className="divide-y divide-border text-xs">
             {adminUsers.map((u) => (
-              <tr key={u.id} className={`hover:bg-muted/20 transition-colors ${u.status === "inactive" ? "opacity-60" : ""}`}>
+              <tr
+                key={u.id}
+                className={`hover:bg-muted/20 transition-colors ${u.status === "inactive" ? "opacity-60" : ""}`}
+              >
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-2.5">
                     <div className="size-8 rounded-xl bg-primary/10 flex items-center justify-center font-bold text-primary text-sm">
                       {u.username[0].toUpperCase()}
                     </div>
-                    <span className="font-semibold text-foreground">{u.username}</span>
+                    <span className="font-semibold text-foreground">
+                      {u.username}
+                    </span>
                   </div>
                 </td>
-                <td className="px-4 py-3 hidden sm:table-cell text-muted-foreground">{u.email_or_phone}</td>
+                <td className="px-4 py-3 hidden sm:table-cell text-muted-foreground">
+                  {u.email_or_phone}
+                </td>
                 <td className="px-4 py-3">
-                  <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${ROLE_COLORS[u.role] ?? "bg-muted text-muted-foreground"}`}>
+                  <span
+                    className={`px-2 py-0.5 rounded-full text-xs font-bold ${ROLE_COLORS[u.role] ?? "bg-muted text-muted-foreground"}`}
+                  >
                     {ROLE_LABELS[u.role] ?? u.role}
                   </span>
                 </td>
@@ -260,12 +419,16 @@ function UsersPanel() {
                   {new Date(u.created_at).toLocaleDateString("es-PE")}
                 </td>
                 <td className="px-4 py-3">
-                  <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold ${
-                    u.status === "active"
-                      ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-400"
-                      : "bg-muted text-muted-foreground"
-                  }`}>
-                    <span className={`size-1.5 rounded-full ${u.status === "active" ? "bg-emerald-500" : "bg-gray-400"}`} />
+                  <span
+                    className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold ${
+                      u.status === "active"
+                        ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-400"
+                        : "bg-muted text-muted-foreground"
+                    }`}
+                  >
+                    <span
+                      className={`size-1.5 rounded-full ${u.status === "active" ? "bg-emerald-500" : "bg-gray-400"}`}
+                    />
                     {u.status === "active" ? "Activo" : "Inactivo"}
                   </span>
                 </td>
@@ -324,20 +487,31 @@ function ChildrenPanel() {
           </thead>
           <tbody className="divide-y divide-border text-xs">
             {children.map((child) => (
-              <tr key={child.id} className="hover:bg-muted/20 transition-colors">
+              <tr
+                key={child.id}
+                className="hover:bg-muted/20 transition-colors"
+              >
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-2.5">
                     <div className="size-8 rounded-xl bg-primary/10 flex items-center justify-center font-bold text-primary text-sm">
                       {child.name[0]}
                     </div>
                     <div>
-                      <p className="font-semibold text-foreground">{child.name}</p>
-                      <p className="text-muted-foreground text-xs">{child.sex === "M" ? "Masculino" : "Femenino"}</p>
+                      <p className="font-semibold text-foreground">
+                        {child.name}
+                      </p>
+                      <p className="text-muted-foreground text-xs">
+                        {child.sex === "M" ? "Masculino" : "Femenino"}
+                      </p>
                     </div>
                   </div>
                 </td>
-                <td className="px-4 py-3 hidden sm:table-cell text-muted-foreground">{child.age}</td>
-                <td className="px-4 py-3 hidden md:table-cell text-muted-foreground">{child.caregiver}</td>
+                <td className="px-4 py-3 hidden sm:table-cell text-muted-foreground">
+                  {child.age}
+                </td>
+                <td className="px-4 py-3 hidden md:table-cell text-muted-foreground">
+                  {child.caregiver}
+                </td>
                 <td className="px-4 py-3">
                   <AlertBadge level={child.status} />
                 </td>
@@ -371,26 +545,54 @@ function RulesPanel() {
           {
             id: 1,
             name: "weight_for_age_urgent",
-            description: "Z-score peso-para-edad < -3 SD (desnutrición aguda severa)",
-            versions: [{ version: "1.0", activation_date: "2024-01-01T00:00:00", source_doc: "OMS WHO Standards 2006 / MINSA CRED NTS 137" }],
+            description:
+              "Z-score peso-para-edad < -3 SD (desnutrición aguda severa)",
+            versions: [
+              {
+                version: "1.0",
+                activation_date: "2024-01-01T00:00:00",
+                source_doc: "OMS WHO Standards 2006 / MINSA CRED NTS 137",
+              },
+            ],
           },
           {
             id: 2,
             name: "weight_for_age_follow_up",
-            description: "Z-score peso-para-edad entre -3 y -2 SD (riesgo de desnutrición)",
-            versions: [{ version: "1.0", activation_date: "2024-01-01T00:00:00", source_doc: "OMS WHO Standards 2006 / MINSA CRED NTS 137" }],
+            description:
+              "Z-score peso-para-edad entre -3 y -2 SD (riesgo de desnutrición)",
+            versions: [
+              {
+                version: "1.0",
+                activation_date: "2024-01-01T00:00:00",
+                source_doc: "OMS WHO Standards 2006 / MINSA CRED NTS 137",
+              },
+            ],
           },
           {
             id: 3,
             name: "muac_urgent",
-            description: "Perímetro braquial (MUAC) < 11.5 cm — desnutrición aguda severa",
-            versions: [{ version: "1.0", activation_date: "2024-01-01T00:00:00", source_doc: "OMS MUAC Protocol 2013" }],
+            description:
+              "Perímetro braquial (MUAC) < 11.5 cm — desnutrición aguda severa",
+            versions: [
+              {
+                version: "1.0",
+                activation_date: "2024-01-01T00:00:00",
+                source_doc: "OMS MUAC Protocol 2013",
+              },
+            ],
           },
           {
             id: 4,
             name: "muac_follow_up",
-            description: "Perímetro braquial (MUAC) entre 11.5 y 12.5 cm — riesgo moderado",
-            versions: [{ version: "1.0", activation_date: "2024-01-01T00:00:00", source_doc: "OMS MUAC Protocol 2013" }],
+            description:
+              "Perímetro braquial (MUAC) entre 11.5 y 12.5 cm — riesgo moderado",
+            versions: [
+              {
+                version: "1.0",
+                activation_date: "2024-01-01T00:00:00",
+                source_doc: "OMS MUAC Protocol 2013",
+              },
+            ],
           },
         ]);
       })
@@ -432,12 +634,18 @@ function RulesPanel() {
               <div className="flex items-start justify-between gap-2">
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className={`size-2 rounded-full ${isUrgent ? "bg-red-500" : "bg-amber-400"}`} />
-                    <p className={`text-xs font-bold uppercase tracking-wider ${isUrgent ? "text-red-700 dark:text-red-400" : "text-amber-700 dark:text-amber-400"}`}>
+                    <span
+                      className={`size-2 rounded-full ${isUrgent ? "bg-red-500" : "bg-amber-400"}`}
+                    />
+                    <p
+                      className={`text-xs font-bold uppercase tracking-wider ${isUrgent ? "text-red-700 dark:text-red-400" : "text-amber-700 dark:text-amber-400"}`}
+                    >
                       {isUrgent ? "Alerta Urgente" : "Alerta de Seguimiento"}
                     </p>
                   </div>
-                  <p className="text-sm font-semibold text-foreground">{rule.description}</p>
+                  <p className="text-sm font-semibold text-foreground">
+                    {rule.description}
+                  </p>
                   {rule.versions.map((v, i) => (
                     <p key={i} className="text-xs text-muted-foreground mt-1.5">
                       v{v.version} · Fuente: {v.source_doc}
@@ -454,11 +662,17 @@ function RulesPanel() {
       </div>
 
       <div className="bg-muted/30 border border-border rounded-2xl p-4 text-xs text-muted-foreground leading-relaxed">
-        <p className="font-bold text-foreground mb-1">Sobre las reglas clínicas</p>
+        <p className="font-bold text-foreground mb-1">
+          Sobre las reglas clínicas
+        </p>
         Las reglas de alerta del sistema están basadas en los{" "}
-        <strong>Estándares de Crecimiento Infantil de la OMS (2006)</strong> y la{" "}
-        <strong>Norma Técnica de Salud CRED del MINSA Perú (NTS 137-2023)</strong>.
-        Cualquier cambio a las reglas debe ser validado por personal clínico autorizado.
+        <strong>Estándares de Crecimiento Infantil de la OMS (2006)</strong> y
+        la{" "}
+        <strong>
+          Norma Técnica de Salud CRED del MINSA Perú (NTS 137-2023)
+        </strong>
+        . Cualquier cambio a las reglas debe ser validado por personal clínico
+        autorizado.
       </div>
     </div>
   );
@@ -500,7 +714,9 @@ function AuditPanel({ auditLogs }: { auditLogs: AuditLog[] }) {
                   <td className="px-4 py-2.5 font-mono text-muted-foreground">
                     {log.user_id ? `uid_${log.user_id}` : "anon"}
                   </td>
-                  <td className="px-4 py-2.5 font-semibold text-foreground">{log.action}</td>
+                  <td className="px-4 py-2.5 font-semibold text-foreground">
+                    {log.action}
+                  </td>
                   <td className="px-4 py-2.5 hidden md:table-cell text-muted-foreground">
                     {log.table_affected ?? "—"}
                   </td>
@@ -514,7 +730,10 @@ function AuditPanel({ auditLogs }: { auditLogs: AuditLog[] }) {
               ))}
               {auditLogs.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="px-4 py-8 text-center text-muted-foreground text-sm">
+                  <td
+                    colSpan={6}
+                    className="px-4 py-8 text-center text-muted-foreground text-sm"
+                  >
                     Sin registros de auditoría disponibles.
                   </td>
                 </tr>
@@ -530,7 +749,7 @@ function AuditPanel({ auditLogs }: { auditLogs: AuditLog[] }) {
 // ─── INVESTOR METRICS PANEL (IMPACTO) ──────────────────────────────────────────
 
 /**
- * Custom Hook (Buena Práctica): 
+ * Custom Hook (Buena Práctica):
  * Separa toda la lógica matemática y cálculo de KPIs de la interfaz gráfica.
  * Esto hace que el código sea 100% entendible y escalable.
  */
@@ -539,23 +758,26 @@ function useInvestorMetrics() {
 
   // KPI 1: Demografía (Cálculo de distribución por sexo)
   const demographicsData = useMemo(() => {
-    const boys = children.filter(c => c.sex === 'M').length;
-    const girls = children.filter(c => c.sex === 'F').length;
+    const boys = children.filter((c) => c.sex === "M").length;
+    const girls = children.filter((c) => c.sex === "F").length;
     return [
       { name: "Niñas", value: girls, color: "#ec4899" }, // Color Rosado/Femenino
-      { name: "Niños", value: boys, color: "#3b82f6" },  // Color Azul/Masculino
+      { name: "Niños", value: boys, color: "#3b82f6" }, // Color Azul/Masculino
     ];
   }, [children]);
 
   // KPI 2: Penetración Geográfica (Agrupación por ubicación real)
   const regionData = useMemo(() => {
-    const counts = children.reduce((acc, curr) => {
-      // Normalizamos el texto de la comunidad para evitar duplicados por mayúsculas
-      const comm = curr.community ? curr.community.trim() : "No Definido";
-      acc[comm] = (acc[comm] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
-    
+    const counts = children.reduce(
+      (acc, curr) => {
+        // Normalizamos el texto de la comunidad para evitar duplicados por mayúsculas
+        const comm = curr.community ? curr.community.trim() : "No Definido";
+        acc[comm] = (acc[comm] || 0) + 1;
+        return acc;
+      },
+      {} as Record<string, number>,
+    );
+
     return Object.entries(counts)
       .map(([region, users]) => ({ region, users }))
       .sort((a, b) => b.users - a.users); // Ordenado de Mayor impacto a Menor
@@ -565,58 +787,89 @@ function useInvestorMetrics() {
   const [deviceStats, setDeviceStats] = useState([
     { name: "Android", users: 0 },
     { name: "iOS", users: 0 },
-    { name: "Desktop", users: 0 }
+    { name: "Desktop", users: 0 },
   ]);
 
   useEffect(() => {
     // Leemos el User-Agent del navegador para detectar el ecosistema del usuario actual
     const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-    
+
     // Proyectamos el uso basándonos en la base de usuarios reales de la plataforma
     const baseScale = Math.max(1, children.length);
     setDeviceStats([
-      { name: "Android", users: (isMobile && !isIOS ? 1 : 0) + (baseScale * 3) },
+      { name: "Android", users: (isMobile && !isIOS ? 1 : 0) + baseScale * 3 },
       { name: "iOS", users: (isIOS ? 1 : 0) + Math.floor(baseScale * 0.2) },
-      { name: "Desktop (Postas)", users: (!isMobile ? 1 : 0) + Math.floor(baseScale * 0.5) },
+      {
+        name: "Desktop (Postas)",
+        users: (!isMobile ? 1 : 0) + Math.floor(baseScale * 0.5),
+      },
     ]);
   }, [children.length]);
 
   // Métricas Rápidas (Summary)
   const totalFamilies = children.length;
-  const isRural = regionData.length > 0 && regionData[0].region.toLowerCase() !== "lima";
+  const isRural =
+    regionData.length > 0 && regionData[0].region.toLowerCase() !== "lima";
 
   return {
     demographicsData,
     regionData,
     deviceStats,
     totalFamilies,
-    isRural
+    isRural,
   };
 }
 
 function InvestorMetricsPanel() {
   // Extraemos la data ya calculada y lista para renderizar
-  const { demographicsData, regionData, deviceStats, totalFamilies, isRural } = useInvestorMetrics();
+  const { demographicsData, regionData, deviceStats, totalFamilies, isRural } =
+    useInvestorMetrics();
 
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
       {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {[
-          { label: "Familias Monitoreadas", value: totalFamilies, icon: Users, color: "text-blue-500", bg: "bg-blue-500/10" },
-          { label: "Crecimiento de Red", value: `+${totalFamilies * 2}%`, icon: TrendingUp, color: "text-emerald-500", bg: "bg-emerald-500/10" },
-          { label: "Enfoque Descentralizado", value: isRural ? "Sí" : "En progreso", icon: Globe, color: "text-purple-500", bg: "bg-purple-500/10" },
+          {
+            label: "Familias Monitoreadas",
+            value: totalFamilies,
+            icon: Users,
+            color: "text-blue-500",
+            bg: "bg-blue-500/10",
+          },
+          {
+            label: "Crecimiento de Red",
+            value: `+${totalFamilies * 2}%`,
+            icon: TrendingUp,
+            color: "text-emerald-500",
+            bg: "bg-emerald-500/10",
+          },
+          {
+            label: "Enfoque Descentralizado",
+            value: isRural ? "Sí" : "En progreso",
+            icon: Globe,
+            color: "text-purple-500",
+            bg: "bg-purple-500/10",
+          },
         ].map((kpi, i) => (
-          <div key={i} className="bg-card border border-border rounded-2xl p-5 flex items-center gap-4 shadow-sm">
+          <div
+            key={i}
+            className="bg-card border border-border rounded-2xl p-5 flex items-center gap-4 shadow-sm"
+          >
             <div className={`p-3 rounded-xl ${kpi.bg}`}>
               <kpi.icon className={`size-6 ${kpi.color}`} />
             </div>
             <div>
-              <p className={`text-2xl font-extrabold ${kpi.color}`} style={{ fontFamily: "Nunito, sans-serif" }}>
+              <p
+                className={`text-2xl font-extrabold ${kpi.color}`}
+                style={{ fontFamily: "Nunito, sans-serif" }}
+              >
                 {kpi.value}
               </p>
-              <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">{kpi.label}</p>
+              <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
+                {kpi.label}
+              </p>
             </div>
           </div>
         ))}
@@ -646,16 +899,25 @@ function InvestorMetricsPanel() {
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
-                <Tooltip 
-                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
-                  itemStyle={{ fontWeight: 'bold' }}
+                <Tooltip
+                  contentStyle={{
+                    borderRadius: "12px",
+                    border: "none",
+                    boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
+                  }}
+                  itemStyle={{ fontWeight: "bold" }}
                 />
-                <Legend verticalAlign="bottom" height={36} wrapperStyle={{ fontSize: '12px', fontWeight: 'bold' }} />
+                <Legend
+                  verticalAlign="bottom"
+                  height={36}
+                  wrapperStyle={{ fontSize: "12px", fontWeight: "bold" }}
+                />
               </PieChart>
             </ResponsiveContainer>
           </div>
           <p className="text-xs text-muted-foreground text-center mt-2">
-            Distribución en tiempo real de infantes monitoreados en el ecosistema.
+            Distribución en tiempo real de infantes monitoreados en el
+            ecosistema.
           </p>
         </div>
 
@@ -667,19 +929,41 @@ function InvestorMetricsPanel() {
           </h3>
           <div className="h-[250px] w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={deviceStats} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fontWeight: 'bold', fill: '#888' }} />
-                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#888' }} />
-                <Tooltip 
-                  cursor={{ fill: 'transparent' }}
-                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+              <BarChart
+                data={deviceStats}
+                margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
+              >
+                <XAxis
+                  dataKey="name"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fontSize: 12, fontWeight: "bold", fill: "#888" }}
                 />
-                <Bar dataKey="users" fill="#10b981" radius={[6, 6, 0, 0]} barSize={40} />
+                <YAxis
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fontSize: 12, fill: "#888" }}
+                />
+                <Tooltip
+                  cursor={{ fill: "transparent" }}
+                  contentStyle={{
+                    borderRadius: "12px",
+                    border: "none",
+                    boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
+                  }}
+                />
+                <Bar
+                  dataKey="users"
+                  fill="#10b981"
+                  radius={[6, 6, 0, 0]}
+                  barSize={40}
+                />
               </BarChart>
             </ResponsiveContainer>
           </div>
           <p className="text-xs text-muted-foreground text-center mt-2">
-            Alta penetración de dispositivos Android en sectores rurales (estrategia PWA exitosa).
+            Alta penetración de dispositivos Android en sectores rurales
+            (estrategia PWA exitosa).
           </p>
         </div>
       </div>
@@ -692,24 +976,52 @@ function InvestorMetricsPanel() {
         </h3>
         <div className="h-[200px] w-full">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={regionData} layout="vertical" margin={{ top: 0, right: 20, left: 20, bottom: 0 }}>
+            <BarChart
+              data={regionData}
+              layout="vertical"
+              margin={{ top: 0, right: 20, left: 20, bottom: 0 }}
+            >
               <XAxis type="number" hide />
-              <YAxis type="category" dataKey="region" axisLine={false} tickLine={false} tick={{ fontSize: 12, fontWeight: 'bold', fill: '#555' }} width={120} />
-              <Tooltip cursor={{ fill: 'transparent' }} contentStyle={{ borderRadius: '12px', border: 'none' }} />
-              <Bar dataKey="users" fill="#6366f1" radius={[0, 6, 6, 0]} barSize={20}>
+              <YAxis
+                type="category"
+                dataKey="region"
+                axisLine={false}
+                tickLine={false}
+                tick={{ fontSize: 12, fontWeight: "bold", fill: "#555" }}
+                width={120}
+              />
+              <Tooltip
+                cursor={{ fill: "transparent" }}
+                contentStyle={{ borderRadius: "12px", border: "none" }}
+              />
+              <Bar
+                dataKey="users"
+                fill="#6366f1"
+                radius={[0, 6, 6, 0]}
+                barSize={20}
+              >
                 {regionData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={['#6366f1', '#8b5cf6', '#d946ef', '#f43f5e'][index % 4]} />
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={
+                      ["#6366f1", "#8b5cf6", "#d946ef", "#f43f5e"][index % 4]
+                    }
+                  />
                 ))}
               </Bar>
             </BarChart>
           </ResponsiveContainer>
         </div>
       </div>
-      
+
       <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-4 text-xs text-amber-700 dark:text-amber-400 flex items-start gap-3">
         <ShieldCheck className="size-5 shrink-0 mt-0.5" />
         <p>
-          <strong>Política de Privacidad y Anonimización:</strong> Estos datos son estrictamente agregados. No se recolecta información de identificación personal (PII) de los usuarios para la generación de estas métricas, cumpliendo con la Ley N.º 29733 de Protección de Datos Personales de Perú.
+          <strong>Política de Privacidad y Anonimización:</strong> Estos datos
+          son estrictamente agregados. No se recolecta información de
+          identificación personal (PII) de los usuarios para la generación de
+          estas métricas, cumpliendo con la Ley N.º 29733 de Protección de Datos
+          Personales de Perú.
         </p>
       </div>
     </div>
@@ -753,7 +1065,11 @@ export default function AdminPage() {
   const { t, languageInfo } = useTranslation();
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
-  const TABS: Array<{ id: AdminTab; icon: React.ComponentType<{ className?: string }>; label: string }> = [
+  const TABS: Array<{
+    id: AdminTab;
+    icon: React.ComponentType<{ className?: string }>;
+    label: string;
+  }> = [
     { id: "overview", icon: BarChart2, label: "Resumen" },
     { id: "impact", icon: Layers, label: "Impacto (VCs)" },
     { id: "users", icon: Users, label: "Usuarios" },
@@ -764,7 +1080,10 @@ export default function AdminPage() {
 
   return (
     <>
-      <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
+      <SettingsModal
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+      />
       <div className="min-h-screen bg-gradient-flow relative flex flex-col md:flex-row">
         {/* Background container to prevent scrollbars from blobs */}
         <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
@@ -796,7 +1115,10 @@ export default function AdminPage() {
 
             <HeaderActions
               onSettings={() => setIsSettingsOpen(true)}
-              onRefresh={() => { refreshData(); loadStats(); }}
+              onRefresh={() => {
+                refreshData();
+                loadStats();
+              }}
               isRefreshing={isLoading}
               onLogout={logout}
             />
@@ -836,4 +1158,3 @@ export default function AdminPage() {
     </>
   );
 }
-

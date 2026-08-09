@@ -26,20 +26,25 @@ interface SettingsModalProps {
 export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
   const { language, setLanguage, t, supportedLanguages } = useTranslation();
   const { theme, setTheme, themes, textScale, setTextScale } = useTheme();
-  const [activeTab, setActiveTab] = useState<"language" | "theme" | "a11y" | "ai">("language");
+  const [activeTab, setActiveTab] = useState<
+    "language" | "theme" | "a11y" | "ai"
+  >("language");
   const [isTestingTTS, setIsTestingTTS] = useState(false);
 
   if (!isOpen) return null;
 
   const handleTestTTS = () => {
     setIsTestingTTS(true);
-    let sampleText = "¡Hola! Yanapiri Wawa te ayuda a cuidar el crecimiento de tu bebé.";
+    let sampleText =
+      "¡Hola! Yanapiri Wawa te ayuda a cuidar el crecimiento de tu bebé.";
     if (language === "qu") {
-      sampleText = "Allillanchu! Yanapiri Wawa wawaykipa sumaq wiñayninta qhawan.";
+      sampleText =
+        "Allillanchu! Yanapiri Wawa wawaykipa sumaq wiñayninta qhawan.";
     } else if (language === "ay") {
       sampleText = "Kamisaki! Yanapiri Wawa wawanakan suma jilawip sum uñji.";
     } else if (language === "en") {
-      sampleText = "Hello! Yanapiri Wawa helps you monitor your child's healthy growth.";
+      sampleText =
+        "Hello! Yanapiri Wawa helps you monitor your child's healthy growth.";
     }
 
     tts.speak(sampleText, {
@@ -59,10 +64,15 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
               <Globe className="size-5" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-foreground" style={{ fontFamily: "Nunito, sans-serif" }}>
+              <h2
+                className="text-base font-bold text-foreground"
+                style={{ fontFamily: "Nunito, sans-serif" }}
+              >
                 {t("settings.title")}
               </h2>
-              <p className="text-xs text-muted-foreground">Personalización e Idiomas</p>
+              <p className="text-xs text-muted-foreground">
+                Personalización e Idiomas
+              </p>
             </div>
           </div>
           <button
@@ -76,7 +86,11 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
         {/* Tab switcher inside settings */}
         <div className="flex border-b border-border/50 bg-muted/20 px-3 pt-2">
           {[
-            { id: "language" as const, label: t("settings.language"), icon: Globe },
+            {
+              id: "language" as const,
+              label: t("settings.language"),
+              icon: Globe,
+            },
             { id: "theme" as const, label: t("settings.theme"), icon: Palette },
             { id: "a11y" as const, label: "Accesibilidad", icon: Eye },
             { id: "ai" as const, label: "IA Médica", icon: BrainCircuit },
@@ -125,12 +139,18 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                       }`}
                     >
                       <div className="flex items-center gap-3">
-                        <div className={`size-10 rounded-xl flex items-center justify-center font-black text-sm shrink-0 ${isSelected ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`}>
+                        <div
+                          className={`size-10 rounded-xl flex items-center justify-center font-black text-sm shrink-0 ${isSelected ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"}`}
+                        >
                           {lang.abbrev}
                         </div>
                         <div>
-                          <p className="text-sm font-bold text-foreground">{lang.nativeName}</p>
-                          <p className="text-xs text-muted-foreground">{lang.region}</p>
+                          <p className="text-sm font-bold text-foreground">
+                            {lang.nativeName}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {lang.region}
+                          </p>
                         </div>
                       </div>
                       {isSelected && (
@@ -181,7 +201,9 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                           style={{ backgroundColor: tItem.previewAccent }}
                         />
                       </div>
-                      <p className="text-xs font-bold text-foreground">{t(tItem.nameKey)}</p>
+                      <p className="text-xs font-bold text-foreground">
+                        {t(tItem.nameKey)}
+                      </p>
                       <p className="text-xs text-muted-foreground line-clamp-2 mt-0.5">
                         {tItem.description}
                       </p>
@@ -215,14 +237,20 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                       <MountainSnow className="size-3.5 text-blue-500" />
                       Quechua / Aymara
                     </span>
-                    <span className="text-muted-foreground">Entiende términos andinos como sangrecita, bazo, api y signos de alarma.</span>
+                    <span className="text-muted-foreground">
+                      Entiende términos andinos como sangrecita, bazo, api y
+                      signos de alarma.
+                    </span>
                   </div>
                   <div className="bg-card border rounded-xl p-2.5 text-xs">
                     <span className="font-bold flex items-center gap-1.5 text-foreground mb-1">
                       <AlertTriangle className="size-3.5 text-red-500" />
                       Triaje Clínico
                     </span>
-                    <span className="text-muted-foreground">Detecta urgencias (fiebre, deshidratación) y recomienda atención médica.</span>
+                    <span className="text-muted-foreground">
+                      Detecta urgencias (fiebre, deshidratación) y recomienda
+                      atención médica.
+                    </span>
                   </div>
                 </div>
               </div>
@@ -239,7 +267,8 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                   <span>Tamaño de la Interfaz</span>
                 </div>
                 <p className="text-xs text-muted-foreground leading-relaxed">
-                  Aumenta el tamaño de las letras y botones de toda la aplicación para facilitar la lectura.
+                  Aumenta el tamaño de las letras y botones de toda la
+                  aplicación para facilitar la lectura.
                 </p>
                 <div className="grid grid-cols-3 gap-2">
                   {[
@@ -258,8 +287,12 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                             : "bg-card border-border hover:bg-muted/50 text-foreground"
                         }`}
                       >
-                        <span className="font-bold text-sm">{option.label}</span>
-                        <span className={`text-xs ${isSelected ? "text-primary-foreground/80" : "text-muted-foreground"}`}>
+                        <span className="font-bold text-sm">
+                          {option.label}
+                        </span>
+                        <span
+                          className={`text-xs ${isSelected ? "text-primary-foreground/80" : "text-muted-foreground"}`}
+                        >
                           {option.scale}
                         </span>
                       </button>
@@ -282,8 +315,14 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
                   disabled={isTestingTTS}
                   className="w-full bg-secondary hover:bg-secondary/80 text-secondary-foreground border border-border rounded-xl py-2.5 text-xs font-bold flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
                 >
-                  <Volume2 className={`size-4 ${isTestingTTS ? "animate-pulse text-accent" : ""}`} />
-                  <span>{isTestingTTS ? "Reproduciendo audio..." : "Probar Síntesis de Voz"}</span>
+                  <Volume2
+                    className={`size-4 ${isTestingTTS ? "animate-pulse text-accent" : ""}`}
+                  />
+                  <span>
+                    {isTestingTTS
+                      ? "Reproduciendo audio..."
+                      : "Probar Síntesis de Voz"}
+                  </span>
                 </button>
               </div>
             </div>
@@ -293,7 +332,8 @@ export function SettingsModal({ isOpen, onClose }: SettingsModalProps) {
         {/* Footer */}
         <div className="bg-muted/10 border-t border-border/50 px-4 sm:px-6 py-4 flex justify-between items-center backdrop-blur-sm">
           <span className="text-xs text-muted-foreground flex items-center gap-1">
-            <Sparkles className="size-3 text-primary" /> Yanapiri Multilingüe v1.2
+            <Sparkles className="size-3 text-primary" /> Yanapiri Multilingüe
+            v1.2
           </span>
           <button
             onClick={onClose}

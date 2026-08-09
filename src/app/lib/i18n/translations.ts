@@ -9,10 +9,34 @@ export interface LanguageInfo {
 }
 
 export const SUPPORTED_LANGUAGES: LanguageInfo[] = [
-  { code: "es", name: "Español", nativeName: "Español", abbrev: "ES", region: "Perú / Internacional" },
-  { code: "qu", name: "Quechua", nativeName: "Runasimi (Qhichwa)", abbrev: "QU", region: "Huancavelica / Sierra Central y Sur" },
-  { code: "ay", name: "Aymara", nativeName: "Aymar aru", abbrev: "AY", region: "Puno / Altiplano" },
-  { code: "en", name: "Inglés", nativeName: "English", abbrev: "EN", region: "Global / Health Research" },
+  {
+    code: "es",
+    name: "Español",
+    nativeName: "Español",
+    abbrev: "ES",
+    region: "Perú / Internacional",
+  },
+  {
+    code: "qu",
+    name: "Quechua",
+    nativeName: "Runasimi (Qhichwa)",
+    abbrev: "QU",
+    region: "Huancavelica / Sierra Central y Sur",
+  },
+  {
+    code: "ay",
+    name: "Aymara",
+    nativeName: "Aymar aru",
+    abbrev: "AY",
+    region: "Puno / Altiplano",
+  },
+  {
+    code: "en",
+    name: "Inglés",
+    nativeName: "English",
+    abbrev: "EN",
+    region: "Global / Health Research",
+  },
 ];
 
 export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
@@ -49,9 +73,11 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     "settings.theme_andean": "Andino Esmeralda",
     "settings.theme_sunset": "Cálido Atardecer",
     "settings.nlu_title": "Asistente Inteligente (NLU)",
-    "settings.nlu_desc": "Comprensión automática de dudas y triaje en lenguas originarias",
+    "settings.nlu_desc":
+      "Comprensión automática de dudas y triaje en lenguas originarias",
     "settings.tts_title": "Apoyo Auditivo (Texto a Voz)",
-    "settings.tts_desc": "Reproduce en voz alta las guías paso a paso para facilitar la medición en campo",
+    "settings.tts_desc":
+      "Reproduce en voz alta las guías paso a paso para facilitar la medición en campo",
     "settings.close": "Guardar y Cerrar",
 
     // Family View
@@ -79,9 +105,11 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     "wizard.confirm": "Confirmar medición",
     "wizard.success_title": "¡Medición Registrada!",
     "wizard.normal_growth": "Crecimiento Normal",
-    "wizard.normal_growth_desc": "La medición está dentro de las referencias saludables de la OMS. ¡Sigue así!",
+    "wizard.normal_growth_desc":
+      "La medición está dentro de las referencias saludables de la OMS. ¡Sigue así!",
     "wizard.alert_signal": "Señal de seguimiento identificada",
-    "wizard.disclaimer": "Esta alerta no es un diagnóstico médico. Es una herramienta de priorización clínica.",
+    "wizard.disclaimer":
+      "Esta alerta no es un diagnóstico médico. Es una herramienta de priorización clínica.",
     "wizard.understand": "Entendido",
 
     // Status Alerts
@@ -91,11 +119,13 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
 
     // Chatbot NLU
     "chat.title": "Yanapiri Mikhuy (Asistente Nutricional)",
-    "chat.welcome": "¡Hola! Soy el asistente de nutrición Yanapiri Mikhuy. Pregúntame sobre alimentos ricos en hierro, papillas según edad o signos de alarma.",
+    "chat.welcome":
+      "¡Hola! Soy el asistente de nutrición Yanapiri Mikhuy. Pregúntame sobre alimentos ricos en hierro, papillas según edad o signos de alarma.",
     "chat.placeholder": "Escribe tu duda sobre alimentación o salud...",
     "chat.send": "Enviar",
     "chat.triage_alert": "Alerta de Triaje Detectada:",
-    "chat.triage_desc": "Hemos detectado posibles signos de alarma. Te sugerimos acudir de inmediato al Centro de Salud.",
+    "chat.triage_desc":
+      "Hemos detectado posibles signos de alarma. Te sugerimos acudir de inmediato al Centro de Salud.",
 
     // Login
     "login.title": "Yanapiri Wawa",
@@ -168,9 +198,11 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     "wizard.confirm": "Tupusqata takyachiy",
     "wizard.success_title": "¡Tupuy allin qillqasqa!",
     "wizard.normal_growth": "Allin Wiñay",
-    "wizard.normal_growth_desc": "Wawachaqa OMS allin wiñayninman hinam kachkan. Chaynata kawsachiy!",
+    "wizard.normal_growth_desc":
+      "Wawachaqa OMS allin wiñayninman hinam kachkan. Chaynata kawsachiy!",
     "wizard.alert_signal": "Qhawanapaq señal rikurin",
-    "wizard.disclaimer": "Kay willakuyqa manam hampiqpa rimayninpunichu. Aswanqa utqaylla qhawanapaqmi.",
+    "wizard.disclaimer":
+      "Kay willakuyqa manam hampiqpa rimayninpunichu. Aswanqa utqaylla qhawanapaqmi.",
     "wizard.understand": "Allinmi, hamut'ani",
 
     // Status Alerts
@@ -180,11 +212,13 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
 
     // Chatbot NLU
     "chat.title": "Yanapiri Mikhuy (Mikhunapaq Yanapaq)",
-    "chat.welcome": "Allillanchu! Yanapiri Mikhuy kani. Tapuway yawar jallch'anapaq (sangrecita, bazo), wawapa mikhuyninmanta icha unquykunamanta.",
+    "chat.welcome":
+      "Allillanchu! Yanapiri Mikhuy kani. Tapuway yawar jallch'anapaq (sangrecita, bazo), wawapa mikhuyninmanta icha unquykunamanta.",
     "chat.placeholder": "Mikhuykunamanta icha qhali kaymanta tapukuy...",
     "chat.send": "Apachiy",
     "chat.triage_alert": "Hatun Unquy Rikurisqa:",
-    "chat.triage_desc": "Wawacha unqusqatam rikurichkan. Utqaylla Hampi Wasiman pusay.",
+    "chat.triage_desc":
+      "Wawacha unqusqatam rikurichkan. Utqaylla Hampi Wasiman pusay.",
 
     // Login
     "login.title": "Yanapiri Wawa",
@@ -257,9 +291,11 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     "wizard.confirm": "Tupuña iyaw saña",
     "wizard.success_title": "¡Tupuña sum qillqataxiwa!",
     "wizard.normal_growth": "Suma Jilawi",
-    "wizard.normal_growth_desc": "Wawaxa OMS suma jilawi kankiw. Ukham ch'amachaskakiñani!",
+    "wizard.normal_growth_desc":
+      "Wawaxa OMS suma jilawi kankiw. Ukham ch'amachaskakiñani!",
     "wizard.alert_signal": "Uñjañataki unanchatawa",
-    "wizard.disclaimer": "Aka yatiyawi janiw qulliripan aruparjamakiti. Janiw jach'a usunaka utjañapataki uñt'atawa.",
+    "wizard.disclaimer":
+      "Aka yatiyawi janiw qulliripan aruparjamakiti. Janiw jach'a usunaka utjañapataki uñt'atawa.",
     "wizard.understand": "Amuyt'twa",
 
     // Status Alerts
@@ -269,11 +305,13 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
 
     // Chatbot NLU
     "chat.title": "Yanapiri Mikhuy (Manq'añataki Yanapiri)",
-    "chat.welcome": "Kamisaki! Yanapiri Mikhuy satäthwa. Wilanchañataki (sangrecita, bazo), wawanak manq'añapatak jiskt'itasma.",
+    "chat.welcome":
+      "Kamisaki! Yanapiri Mikhuy satäthwa. Wilanchañataki (sangrecita, bazo), wawanak manq'añapatak jiskt'itasma.",
     "chat.placeholder": "Manq'awinakats usunakats jiskt'asim...",
     "chat.send": "Apayaña",
     "chat.triage_alert": "Jach'a Usunaka Uñstatawa:",
-    "chat.triage_desc": "Wawaxa usutat uñjasiwa. Jank'aki Qullañ Utaru irpañawa.",
+    "chat.triage_desc":
+      "Wawaxa usutat uñjasiwa. Jank'aki Qullañ Utaru irpañawa.",
 
     // Login
     "login.title": "Yanapiri Wawa",
@@ -308,17 +346,21 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     // Settings
     "settings.title": "System Settings",
     "settings.language": "App Language",
-    "settings.language_desc": "Choose your primary language or native Andean tongue",
+    "settings.language_desc":
+      "Choose your primary language or native Andean tongue",
     "settings.theme": "Color Theme",
-    "settings.theme_desc": "Select visual palette adapted to your working environment",
+    "settings.theme_desc":
+      "Select visual palette adapted to your working environment",
     "settings.theme_light": "Yanapiri Classic",
     "settings.theme_dark": "Dark View-Saver",
     "settings.theme_andean": "Andean Emerald",
     "settings.theme_sunset": "Warm Sunset",
     "settings.nlu_title": "Intelligent Assistant (NLU)",
-    "settings.nlu_desc": "Natural Language Understanding for multilingual nutrition triage",
+    "settings.nlu_desc":
+      "Natural Language Understanding for multilingual nutrition triage",
     "settings.tts_title": "Audio Support (Text to Speech)",
-    "settings.tts_desc": "Provides spoken audio step-by-step guidance for rural field workers",
+    "settings.tts_desc":
+      "Provides spoken audio step-by-step guidance for rural field workers",
     "settings.close": "Save and Close",
 
     // Family View
@@ -346,9 +388,11 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     "wizard.confirm": "Confirm Measurement",
     "wizard.success_title": "Measurement Registered!",
     "wizard.normal_growth": "Healthy Growth",
-    "wizard.normal_growth_desc": "The child's growth is within the standard WHO references. Keep it up!",
+    "wizard.normal_growth_desc":
+      "The child's growth is within the standard WHO references. Keep it up!",
     "wizard.alert_signal": "Follow-up signal detected",
-    "wizard.disclaimer": "This alert is not a medical diagnosis. It is an algorithmic prioritization tool.",
+    "wizard.disclaimer":
+      "This alert is not a medical diagnosis. It is an algorithmic prioritization tool.",
     "wizard.understand": "Understood",
 
     // Status Alerts
@@ -358,11 +402,13 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
 
     // Chatbot NLU
     "chat.title": "Yanapiri Mikhuy (Nutrition Assistant)",
-    "chat.welcome": "Hello! I am Yanapiri Mikhuy. Ask me about iron-rich foods, baby feeding stages or alarm symptoms.",
+    "chat.welcome":
+      "Hello! I am Yanapiri Mikhuy. Ask me about iron-rich foods, baby feeding stages or alarm symptoms.",
     "chat.placeholder": "Type your nutrition or child health question...",
     "chat.send": "Send",
     "chat.triage_alert": "Clinical Triage Alert:",
-    "chat.triage_desc": "Alarm signs detected. We recommend visiting your nearest Community Health Center immediately.",
+    "chat.triage_desc":
+      "Alarm signs detected. We recommend visiting your nearest Community Health Center immediately.",
 
     // Login
     "login.title": "Yanapiri Wawa",

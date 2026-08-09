@@ -45,7 +45,7 @@ function authHeaders(): HeadersInit {
  */
 async function apiFetch<T>(
   path: string,
-  options: RequestInit = {}
+  options: RequestInit = {},
 ): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
     ...options,
@@ -75,7 +75,7 @@ async function apiFetch<T>(
  */
 export async function loginApi(
   username: string,
-  password: string
+  password: string,
 ): Promise<LoginResponse> {
   const form = new URLSearchParams();
   form.append("username", username);
@@ -105,7 +105,7 @@ const TTL_MS = 1000 * 60 * 60 * 24 * 365; // Prácticamente infinito para modo o
 
 export async function fetchChildren(role?: string): Promise<ChildProfile[]> {
   const cacheKey = `cache_children_${role || "all"}`;
-  
+
   // Offline / Cache Check (Stale-While-Revalidate)
   const cachedData = localStorage.getItem(cacheKey);
   if (cachedData) {
@@ -123,13 +123,16 @@ export async function fetchChildren(role?: string): Promise<ChildProfile[]> {
 
   try {
     const res = await apiFetch<ChildProfile[]>("/children");
-    
+
     // Save to cache
-    localStorage.setItem(cacheKey, JSON.stringify({
-      timestamp: Date.now(),
-      data: res
-    }));
-    
+    localStorage.setItem(
+      cacheKey,
+      JSON.stringify({
+        timestamp: Date.now(),
+        data: res,
+      }),
+    );
+
     return res;
   } catch (err) {
     if (cachedData) {
@@ -140,7 +143,9 @@ export async function fetchChildren(role?: string): Promise<ChildProfile[]> {
   }
 }
 
-export async function fetchMeasurements(childId: number): Promise<Measurement[]> {
+export async function fetchMeasurements(
+  childId: number,
+): Promise<Measurement[]> {
   return apiFetch<Measurement[]>(`/children/${childId}/measurements`);
 }
 
@@ -153,7 +158,7 @@ export async function fetchMeasurements(childId: number): Promise<Measurement[]>
  */
 export async function postMeasurement(
   childId: number,
-  payload: { type: string; value: number; unit: string; method: string }
+  payload: { type: string; value: number; unit: string; method: string },
 ): Promise<Measurement> {
   return apiFetch<Measurement>(`/children/${childId}/measurements`, {
     method: "POST",
@@ -204,7 +209,7 @@ export async function fetchAdminUsers(): Promise<AdminUser[]> {
 
 export async function patchUserStatus(
   userId: number,
-  status: "active" | "inactive"
+  status: "active" | "inactive",
 ): Promise<AdminUser> {
   return apiFetch<AdminUser>(`/admin/users/${userId}/status`, {
     method: "PATCH",
@@ -218,7 +223,7 @@ export async function fetchAdminStats(): Promise<AdminStats> {
 
 export async function assignAgentChild(
   agentId: number,
-  childId: number
+  childId: number,
 ): Promise<unknown> {
   return apiFetch<unknown>("/admin/assign/agent-child", {
     method: "POST",
@@ -228,11 +233,14 @@ export async function assignAgentChild(
 
 export async function assignProfessionalChild(
   professionalId: number,
-  childId: number
+  childId: number,
 ): Promise<unknown> {
   return apiFetch<unknown>("/admin/assign/professional-child", {
     method: "POST",
-    body: JSON.stringify({ professional_id: professionalId, child_id: childId }),
+    body: JSON.stringify({
+      professional_id: professionalId,
+      child_id: childId,
+    }),
   });
 }
 
@@ -245,7 +253,7 @@ export async function assignProfessionalChild(
 export async function getDemoToken(
   username: string,
   password: string,
-  cacheKey: string
+  cacheKey: string,
 ): Promise<string> {
   const cached = sessionStorage.getItem(cacheKey);
   if (cached) return cached;
@@ -268,13 +276,13 @@ export async function getDemoToken(
 export function formatAge(ageMonths: number): string {
   const yrs = Math.floor(ageMonths / 12);
   const mths = ageMonths % 12;
-  
+
   if (yrs === 0) {
-    return `${mths} ${mths === 1 ? 'mes' : 'meses'}`;
+    return `${mths} ${mths === 1 ? "mes" : "meses"}`;
   }
-  const yrStr = `${yrs} ${yrs === 1 ? 'año' : 'años'}`;
+  const yrStr = `${yrs} ${yrs === 1 ? "año" : "años"}`;
   if (mths === 0) return yrStr;
-  return `${yrStr}, ${mths} ${mths === 1 ? 'mes' : 'meses'}`;
+  return `${yrStr}, ${mths} ${mths === 1 ? "mes" : "meses"}`;
 }
 
 export function mapRawChild(raw: Record<string, unknown>): Child {
@@ -286,7 +294,7 @@ export function mapRawChild(raw: Record<string, unknown>): Child {
   const ageMonths = Math.floor(diffMs / (30.4 * 24 * 60 * 60 * 1000));
   const ageStr = formatAge(ageMonths);
 
-  const status = (c.status_alerta as string) as Child["status"];
+  const status = c.status_alerta as string as Child["status"];
 
   return {
     id: String(c.id),
@@ -306,8 +314,8 @@ export function mapRawChild(raw: Record<string, unknown>): Child {
       status === "urgent"
         ? "Evaluación médica prioritaria"
         : status === "follow-up"
-        ? "Visita domiciliaria"
-        : "Control regular",
+          ? "Visita domiciliaria"
+          : "Control regular",
     district: c.district as string,
     community: c.community as string,
   };
@@ -317,12 +325,16 @@ export function mapRawChild(raw: Record<string, unknown>): Child {
 /**
  * Guarda una acción de modificación (POST/PATCH) en la cola local si no hay internet.
  */
-export function enqueueOfflineAction(action: { endpoint: string, method: string, payload: any }) {
+export function enqueueOfflineAction(action: {
+  endpoint: string;
+  method: string;
+  payload: any;
+}) {
   const queue = JSON.parse(localStorage.getItem("yanapiri_sync_queue") || "[]");
   queue.push({
     ...action,
     timestamp: Date.now(),
-    id: Math.random().toString(36).substring(7)
+    id: Math.random().toString(36).substring(7),
   });
   localStorage.setItem("yanapiri_sync_queue", JSON.stringify(queue));
   console.log("Acción guardada en cola offline:", action.endpoint);
@@ -344,7 +356,7 @@ export async function syncOfflineQueue(): Promise<number> {
     try {
       // Simulate API call for sync
       console.log(`Syncing ${item.method} to ${item.endpoint}...`);
-      await new Promise(r => setTimeout(r, 500)); // Fake network delay
+      await new Promise((r) => setTimeout(r, 500)); // Fake network delay
       successCount++;
     } catch (err) {
       console.error("Fallo al sincronizar item, se mantendrá en cola", err);

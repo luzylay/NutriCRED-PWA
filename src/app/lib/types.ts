@@ -3,7 +3,8 @@
 export type AlertLevel = "normal" | "follow-up" | "urgent";
 export type AppView = "family" | "professional" | "agent" | "admin";
 export type MeasureType = "weight" | "height" | "muac";
-export type UserRole = "CAREGIVER" | "PROFESSIONAL" | "COMMUNITY_AGENT" | "ADMIN";
+export type UserRole =
+  "CAREGIVER" | "PROFESSIONAL" | "COMMUNITY_AGENT" | "ADMIN";
 export type UserStatus = "active" | "inactive";
 
 // ─── AUTH ────────────────────────────────────────────────────────────────────

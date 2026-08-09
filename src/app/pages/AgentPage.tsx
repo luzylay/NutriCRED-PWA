@@ -60,7 +60,10 @@ export default function AgentPage() {
 
   return (
     <>
-      <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
+      <SettingsModal
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+      />
       <div className="min-h-screen bg-gradient-flow relative">
         {/* Background container to prevent scrollbars from blobs */}
         <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
@@ -77,9 +80,7 @@ export default function AgentPage() {
                 <span className="text-xs text-muted-foreground font-bold uppercase tracking-wider block">
                   Yanapiri Wawa
                 </span>
-                <span
-                  className="font-extrabold text-foreground font-nunito"
-                >
+                <span className="font-extrabold text-foreground font-nunito">
                   Visitas del Actor Social
                 </span>
               </div>
@@ -103,12 +104,33 @@ export default function AgentPage() {
           {/* KPIs */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
             {[
-              { label: "Niños Asignados", value: children.length, color: "text-foreground", bg: "bg-card" },
-              { label: "Visitas de Alerta", value: pending.length, color: "text-amber-600 dark:text-amber-400", bg: "bg-amber-50 dark:bg-amber-950/20" },
-              { label: "Monitoreo Normal", value: ok.length, color: "text-emerald-600 dark:text-emerald-400", bg: "bg-emerald-50 dark:bg-emerald-950/20" },
+              {
+                label: "Niños Asignados",
+                value: children.length,
+                color: "text-foreground",
+                bg: "bg-card",
+              },
+              {
+                label: "Visitas de Alerta",
+                value: pending.length,
+                color: "text-amber-600 dark:text-amber-400",
+                bg: "bg-amber-50 dark:bg-amber-950/20",
+              },
+              {
+                label: "Monitoreo Normal",
+                value: ok.length,
+                color: "text-emerald-600 dark:text-emerald-400",
+                bg: "bg-emerald-50 dark:bg-emerald-950/20",
+              },
             ].map((k) => (
-              <div key={k.label} className={`${k.bg} border border-border rounded-2xl p-4 shadow-sm`}>
-                <p className={`text-3xl font-extrabold ${k.color}`} style={{ fontFamily: "Nunito, sans-serif" }}>
+              <div
+                key={k.label}
+                className={`${k.bg} border border-border rounded-2xl p-4 shadow-sm`}
+              >
+                <p
+                  className={`text-3xl font-extrabold ${k.color}`}
+                  style={{ fontFamily: "Nunito, sans-serif" }}
+                >
                   {k.value}
                 </p>
                 <p className="text-xs text-muted-foreground font-bold uppercase tracking-wider mt-0.5 leading-tight">
@@ -135,8 +157,12 @@ export default function AgentPage() {
                   <div className="size-12 bg-muted rounded-full flex items-center justify-center mx-auto mb-3">
                     <CheckCircle className="size-6 text-muted-foreground" />
                   </div>
-                  <p className="text-sm font-bold text-foreground">No hay alertas pendientes</p>
-                  <p className="text-xs text-muted-foreground mt-1">¡Excelente trabajo! Todos los niños están estables.</p>
+                  <p className="text-sm font-bold text-foreground">
+                    No hay alertas pendientes
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    ¡Excelente trabajo! Todos los niños están estables.
+                  </p>
                 </div>
               )}
               {pending.map((child) => {
@@ -148,37 +174,59 @@ export default function AgentPage() {
                       className={`w-full text-left px-5 py-4 flex items-center gap-3.5 hover:bg-muted/15 transition-colors ${isOpen ? "bg-muted/10" : ""}`}
                       onClick={() => setOpenId(isOpen ? null : child.id)}
                     >
-                      <span className={`size-2.5 rounded-full shrink-0 ${ALERT_CFG[child.status].dotClass}`} />
+                      <span
+                        className={`size-2.5 rounded-full shrink-0 ${ALERT_CFG[child.status].dotClass}`}
+                      />
                       <div className="flex-1 min-w-0">
-                        <p className="font-bold text-foreground text-sm">{child.name}</p>
+                        <p className="font-bold text-foreground text-sm">
+                          {child.name}
+                        </p>
                         <p className="text-xs text-muted-foreground truncate">
                           Apoderada: {child.caregiver} · {child.community}
                         </p>
                       </div>
                       <AlertBadge level={child.status} />
-                      <ChevronRight className={`size-4 text-muted-foreground transition-transform ${isOpen ? "rotate-90" : ""}`} />
+                      <ChevronRight
+                        className={`size-4 text-muted-foreground transition-transform ${isOpen ? "rotate-90" : ""}`}
+                      />
                     </button>
 
                     {isOpen && !isReporting && (
                       <div className="px-5 pb-5 pt-2 space-y-4 bg-muted/5 divide-y">
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
                           <div className="bg-card border rounded-xl p-2.5 text-center">
-                            <p className="text-sm font-mono font-bold text-foreground">{child.weight} kg</p>
-                            <span className="text-xs text-muted-foreground uppercase">Último Peso</span>
+                            <p className="text-sm font-mono font-bold text-foreground">
+                              {child.weight} kg
+                            </p>
+                            <span className="text-xs text-muted-foreground uppercase">
+                              Último Peso
+                            </span>
                           </div>
                           <div className="bg-card border rounded-xl p-2.5 text-center">
-                            <p className="text-sm font-mono font-bold text-foreground">{child.height} cm</p>
-                            <span className="text-xs text-muted-foreground uppercase">Talla</span>
+                            <p className="text-sm font-mono font-bold text-foreground">
+                              {child.height} cm
+                            </p>
+                            <span className="text-xs text-muted-foreground uppercase">
+                              Talla
+                            </span>
                           </div>
                           <div className="bg-card border rounded-xl p-2.5 text-center">
-                            <p className="text-sm font-mono font-bold text-foreground">Z = {child.zScore}</p>
-                            <span className="text-xs text-muted-foreground uppercase">WHO Z-score</span>
+                            <p className="text-sm font-mono font-bold text-foreground">
+                              Z = {child.zScore}
+                            </p>
+                            <span className="text-xs text-muted-foreground uppercase">
+                              WHO Z-score
+                            </span>
                           </div>
                         </div>
 
                         <div className="pt-3 space-y-1.5">
-                          <p className="text-xs font-bold text-primary uppercase tracking-wider">Acción sugerida</p>
-                          <p className="text-xs font-semibold text-foreground">{child.nextAction}</p>
+                          <p className="text-xs font-bold text-primary uppercase tracking-wider">
+                            Acción sugerida
+                          </p>
+                          <p className="text-xs font-semibold text-foreground">
+                            {child.nextAction}
+                          </p>
                         </div>
 
                         <div className="pt-3 flex gap-2">
@@ -203,7 +251,10 @@ export default function AgentPage() {
                           <span className="text-xs font-bold text-foreground">
                             Nueva Visita a {child.shortName}
                           </span>
-                          <button onClick={() => setReportingId(null)} className="text-muted-foreground hover:text-foreground">
+                          <button
+                            onClick={() => setReportingId(null)}
+                            className="text-muted-foreground hover:text-foreground"
+                          >
                             <X className="size-4" />
                           </button>
                         </div>
@@ -211,7 +262,9 @@ export default function AgentPage() {
                         <div className="space-y-2">
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                             <div>
-                              <label className="text-xs font-bold text-muted-foreground uppercase">Tipo de Visita</label>
+                              <label className="text-xs font-bold text-muted-foreground uppercase">
+                                Tipo de Visita
+                              </label>
                               <select
                                 value={visitType}
                                 onChange={(e) => setVisitType(e.target.value)}
@@ -223,7 +276,9 @@ export default function AgentPage() {
                               </select>
                             </div>
                             <div>
-                              <label className="text-xs font-bold text-muted-foreground uppercase">Signos de Alarma</label>
+                              <label className="text-xs font-bold text-muted-foreground uppercase">
+                                Signos de Alarma
+                              </label>
                               <select
                                 value={alarmSigns}
                                 onChange={(e) => setAlarmSigns(e.target.value)}
@@ -257,7 +312,9 @@ export default function AgentPage() {
                           disabled={loading || !notes.trim()}
                           className="w-full bg-primary text-primary-foreground text-xs font-bold py-3 rounded-xl hover:opacity-90 active:scale-95 disabled:opacity-40 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                         >
-                          {loading ? "Guardando..." : "Guardar Visita Domiciliaria"}
+                          {loading
+                            ? "Guardando..."
+                            : "Guardar Visita Domiciliaria"}
                         </button>
                       </div>
                     )}
@@ -277,16 +334,25 @@ export default function AgentPage() {
             <div className="divide-y divide-border">
               {ok.length === 0 && (
                 <div className="px-5 py-6 text-center">
-                  <p className="text-sm font-bold text-foreground">No hay familias en estado normal</p>
-                  <p className="text-xs text-muted-foreground mt-1">Todas las familias asignadas requieren atención.</p>
+                  <p className="text-sm font-bold text-foreground">
+                    No hay familias en estado normal
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Todas las familias asignadas requieren atención.
+                  </p>
                 </div>
               )}
               {ok.map((child) => (
-                <div key={child.id} className="px-5 py-4 flex items-center justify-between gap-3">
+                <div
+                  key={child.id}
+                  className="px-5 py-4 flex items-center justify-between gap-3"
+                >
                   <div className="flex items-center gap-3">
                     <span className="size-2.5 rounded-full bg-emerald-500 shrink-0" />
                     <div>
-                      <p className="font-bold text-foreground text-sm">{child.name}</p>
+                      <p className="font-bold text-foreground text-sm">
+                        {child.name}
+                      </p>
                       <p className="text-xs text-muted-foreground">
                         Apoderada: {child.caregiver} · {child.community}
                       </p>

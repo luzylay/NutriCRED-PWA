@@ -57,17 +57,21 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
       if (params) {
         Object.entries(params).forEach(([paramKey, paramVal]) => {
-          text = text.replace(new RegExp(`\\{${paramKey}\\}`, "g"), String(paramVal));
+          text = text.replace(
+            new RegExp(`\\{${paramKey}\\}`, "g"),
+            String(paramVal),
+          );
         });
       }
 
       return text;
     },
-    [language]
+    [language],
   );
 
   const languageInfo =
-    SUPPORTED_LANGUAGES.find((l) => l.code === language) || SUPPORTED_LANGUAGES[0];
+    SUPPORTED_LANGUAGES.find((l) => l.code === language) ||
+    SUPPORTED_LANGUAGES[0];
 
   return (
     <LanguageContext.Provider
@@ -86,6 +90,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
 export function useTranslation(): LanguageContextValue {
   const ctx = useContext(LanguageContext);
-  if (!ctx) throw new Error("useTranslation must be used within <LanguageProvider>");
+  if (!ctx)
+    throw new Error("useTranslation must be used within <LanguageProvider>");
   return ctx;
 }

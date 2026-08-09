@@ -2,6 +2,7 @@ from pydantic import BaseModel, ConfigDict
 from datetime import datetime
 from typing import Optional, List
 
+
 # Token Schemas
 class Token(BaseModel):
     access_token: str
@@ -9,20 +10,23 @@ class Token(BaseModel):
     role: str
     username: str
 
+
 class TokenData(BaseModel):
     username: Optional[str] = None
     role: Optional[str] = None
+
 
 # User Schemas
 class UserLogin(BaseModel):
     username: str
     password: str
 
+
 class UserCreate(BaseModel):
     username: str
     email_or_phone: str
     password: str
-    role: str # ADMIN, PROFESSIONAL, COMMUNITY_AGENT, CAREGIVER
+    role: str  # ADMIN, PROFESSIONAL, COMMUNITY_AGENT, CAREGIVER
     # Optional profile info depending on role
     name: str
     lastname: str
@@ -34,6 +38,7 @@ class UserCreate(BaseModel):
     establishment: Optional[str] = ""
     colegiatura_code: Optional[str] = ""
 
+
 class UserResponse(BaseModel):
     id: int
     username: str
@@ -44,14 +49,16 @@ class UserResponse(BaseModel):
 
     model_config = ConfigDict(from_attributes=True)
 
+
 # Child Schemas
 class ChildCreate(BaseModel):
     name: str
-    sex: str # M or F
+    sex: str  # M or F
     date_of_birth: datetime
     district: str
     community: str
-    relationship: str # e.g. Mother, Father (used for Caregiver link)
+    relationship: str  # e.g. Mother, Father (used for Caregiver link)
+
 
 class ChildResponse(BaseModel):
     id: int
@@ -61,16 +68,18 @@ class ChildResponse(BaseModel):
     district: str
     community: str
     zscore_actual: float
-    status_alerta: str # normal, follow-up, urgent
+    status_alerta: str  # normal, follow-up, urgent
 
     model_config = ConfigDict(from_attributes=True)
 
+
 # Measurement Schemas
 class MeasurementCreate(BaseModel):
-    type: str # weight, height, muac
+    type: str  # weight, height, muac
     value: float
-    unit: str # kg, cm
-    method: str = "self" # self, agent, professional
+    unit: str  # kg, cm
+    method: str = "self"  # self, agent, professional
+
 
 class MeasurementResponse(BaseModel):
     id: int
@@ -84,6 +93,7 @@ class MeasurementResponse(BaseModel):
     sync_status: str
 
     model_config = ConfigDict(from_attributes=True)
+
 
 # Alert Schemas
 class AlertResponse(BaseModel):
@@ -99,10 +109,12 @@ class AlertResponse(BaseModel):
 
     model_config = ConfigDict(from_attributes=True)
 
+
 # Observation & Visit Schemas
 class ObservationCreate(BaseModel):
     qualitative_notes: str
     alarm_signs: Optional[str] = None
+
 
 class ObservationResponse(BaseModel):
     id: int
@@ -111,10 +123,12 @@ class ObservationResponse(BaseModel):
 
     model_config = ConfigDict(from_attributes=True)
 
+
 class VisitCreate(BaseModel):
     child_id: int
     visit_type: str
     observations: ObservationCreate
+
 
 class VisitResponse(BaseModel):
     id: int
@@ -125,6 +139,7 @@ class VisitResponse(BaseModel):
     observations: List[ObservationResponse] = []
 
     model_config = ConfigDict(from_attributes=True)
+
 
 # Audit Log Schemas
 class AuditLogResponse(BaseModel):
@@ -137,12 +152,14 @@ class AuditLogResponse(BaseModel):
 
     model_config = ConfigDict(from_attributes=True)
 
+
 # Dashboard Schemas
 class DashboardSummary(BaseModel):
     total_children: int
     normal_count: int
     follow_up_count: int
     urgent_count: int
+
 
 class DashboardPriorityChild(BaseModel):
     id: int
@@ -159,6 +176,7 @@ class DashboardPriorityChild(BaseModel):
     community: str
     caregiver: str
 
+
 # Guidance & Sources
 class GuidanceResponse(BaseModel):
     id: int
@@ -169,6 +187,7 @@ class GuidanceResponse(BaseModel):
     source_institution: str
 
     model_config = ConfigDict(from_attributes=True)
+
 
 # Admin Schemas
 class AdminStats(BaseModel):
@@ -182,6 +201,7 @@ class AdminStats(BaseModel):
     normal_children: int
     follow_up_children: int
     urgent_children: int
+
 
 class UserStatusUpdate(BaseModel):
     status: str  # active or inactive

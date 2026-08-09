@@ -19,7 +19,9 @@ class TTSHelper {
 
   public speak(text: string, options: SpeakOptions = {}): boolean {
     if (!this.isSupported()) {
-      console.warn("SpeechSynthesis API not supported in this browser environment.");
+      console.warn(
+        "SpeechSynthesis API not supported in this browser environment.",
+      );
       return false;
     }
 

@@ -13,9 +13,14 @@ import type { GrowthPoint } from "../../lib/types";
 interface GrowthChartProps {
   data: GrowthPoint[];
   height?: number;
+  unit?: string;
 }
 
-export function GrowthChart({ data, height = 180 }: GrowthChartProps) {
+export function GrowthChart({
+  data,
+  height = 180,
+  unit = "kg",
+}: GrowthChartProps) {
   if (!data || data.length === 0) {
     return (
       <div
@@ -31,7 +36,10 @@ export function GrowthChart({ data, height = 180 }: GrowthChartProps) {
 
   return (
     <ResponsiveContainer width="100%" height={height}>
-      <ComposedChart data={data} margin={{ top: 8, right: 4, bottom: 0, left: -20 }}>
+      <ComposedChart
+        data={data}
+        margin={{ top: 8, right: 4, bottom: 0, left: -20 }}
+      >
         <CartesianGrid
           strokeDasharray="3 3"
           stroke="currentColor"
@@ -68,13 +76,15 @@ export function GrowthChart({ data, height = 180 }: GrowthChartProps) {
                 <p style={{ color: "var(--primary)" }}>
                   Valor:{" "}
                   <span className="font-mono font-semibold">
-                    {valEntry.value} kg
+                    {valEntry.value} {unit}
                   </span>
                 </p>
                 {p50Entry && (
                   <p className="opacity-60">
                     P50 OMS:{" "}
-                    <span className="font-mono">{p50Entry.value} kg</span>
+                    <span className="font-mono">
+                      {p50Entry.value} {unit}
+                    </span>
                   </p>
                 )}
               </div>
@@ -115,7 +125,12 @@ export function GrowthChart({ data, height = 180 }: GrowthChartProps) {
           dataKey="value"
           stroke="var(--primary)"
           strokeWidth={2.5}
-          dot={{ r: 4, fill: "var(--primary)", strokeWidth: 2.5, stroke: "var(--background)" }}
+          dot={{
+            r: 4,
+            fill: "var(--primary)",
+            strokeWidth: 2.5,
+            stroke: "var(--background)",
+          }}
           isAnimationActive={true}
         />
       </ComposedChart>

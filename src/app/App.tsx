@@ -15,6 +15,10 @@ const FamilyPage = lazy(() => import("./pages/FamilyPage"));
 const ProfessionalPage = lazy(() => import("./pages/ProfessionalPage"));
 const AgentPage = lazy(() => import("./pages/AgentPage"));
 const AdminPage = lazy(() => import("./pages/AdminPage"));
+const NutritionPage = lazy(() => import("./pages/NutritionPage"));
+const VaccinesPage = lazy(() => import("./pages/VaccinesPage"));
+const WhatsAppDemoPage = lazy(() => import("./pages/WhatsAppDemoPage"));
+const WellnessPage = lazy(() => import("./pages/WellnessPage"));
 
 // ─── LOADING FALLBACK ─────────────────────────────────────────────────────────
 function PageLoader() {
@@ -59,6 +63,46 @@ function AppShell() {
             element={
               <ProtectedRoute allowedRoles={["PROFESSIONAL"]}>
                 <ProfessionalPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/nutricion"
+            element={
+              <ProtectedRoute
+                allowedRoles={["CAREGIVER", "PROFESSIONAL", "COMMUNITY_AGENT"]}
+              >
+                <NutritionPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/vacunas"
+            element={
+              <ProtectedRoute
+                allowedRoles={["CAREGIVER", "PROFESSIONAL", "COMMUNITY_AGENT"]}
+              >
+                <VaccinesPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/whatsapp-demo"
+            element={
+              <ProtectedRoute
+                allowedRoles={["CAREGIVER", "PROFESSIONAL", "COMMUNITY_AGENT"]}
+              >
+                <WhatsAppDemoPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/bienestar"
+            element={
+              <ProtectedRoute
+                allowedRoles={["CAREGIVER", "PROFESSIONAL", "COMMUNITY_AGENT"]}
+              >
+                <WellnessPage />
               </ProtectedRoute>
             }
           />

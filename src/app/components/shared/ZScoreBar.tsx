@@ -4,8 +4,7 @@ interface ZScoreBarProps {
 
 export function ZScoreBar({ zscore }: ZScoreBarProps) {
   const pct = Math.max(0, Math.min(100, ((zscore + 3) / 6) * 100));
-  const color =
-    zscore < -2 ? "#ef4444" : zscore < -1 ? "#f59e0b" : "#22c55e";
+  const color = zscore < -2 ? "#ef4444" : zscore < -1 ? "#f59e0b" : "#22c55e";
 
   return (
     <div className="space-y-1.5">

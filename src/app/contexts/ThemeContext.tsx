@@ -94,20 +94,30 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     return "normal";
   });
 
-  const applyThemeClasses = useCallback((newTheme: ThemeId, newScale: TextScale) => {
-    const root = document.documentElement;
-    root.classList.remove("dark", "theme-andean", "theme-sunset", "text-scale-normal", "text-scale-large", "text-scale-xlarge");
+  const applyThemeClasses = useCallback(
+    (newTheme: ThemeId, newScale: TextScale) => {
+      const root = document.documentElement;
+      root.classList.remove(
+        "dark",
+        "theme-andean",
+        "theme-sunset",
+        "text-scale-normal",
+        "text-scale-large",
+        "text-scale-xlarge",
+      );
 
-    if (newTheme === "dark") {
-      root.classList.add("dark");
-    } else if (newTheme === "andean") {
-      root.classList.add("theme-andean");
-    } else if (newTheme === "sunset") {
-      root.classList.add("theme-sunset");
-    }
-    
-    root.classList.add(`text-scale-${newScale}`);
-  }, []);
+      if (newTheme === "dark") {
+        root.classList.add("dark");
+      } else if (newTheme === "andean") {
+        root.classList.add("theme-andean");
+      } else if (newTheme === "sunset") {
+        root.classList.add("theme-sunset");
+      }
+
+      root.classList.add(`text-scale-${newScale}`);
+    },
+    [],
+  );
 
   const setTheme = useCallback(
     (newTheme: ThemeId) => {
@@ -119,7 +129,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       }
       applyThemeClasses(newTheme, textScale);
     },
-    [applyThemeClasses, textScale]
+    [applyThemeClasses, textScale],
   );
 
   const setTextScale = useCallback(
@@ -132,7 +142,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       }
       applyThemeClasses(theme, newScale);
     },
-    [applyThemeClasses, theme]
+    [applyThemeClasses, theme],
   );
 
   useEffect(() => {
@@ -140,7 +150,15 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   }, [theme, textScale, applyThemeClasses]);
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme, themes: THEME_OPTIONS, textScale, setTextScale }}>
+    <ThemeContext.Provider
+      value={{
+        theme,
+        setTheme,
+        themes: THEME_OPTIONS,
+        textScale,
+        setTextScale,
+      }}
+    >
       {children}
     </ThemeContext.Provider>
   );

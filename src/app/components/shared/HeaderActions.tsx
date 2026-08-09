@@ -1,5 +1,13 @@
 import { useState, useRef, useEffect } from "react";
-import { Menu, RefreshCw, LogOut, Settings, X, Wifi, WifiOff } from "lucide-react";
+import {
+  Menu,
+  RefreshCw,
+  LogOut,
+  Settings,
+  X,
+  Wifi,
+  WifiOff,
+} from "lucide-react";
 import { useTranslation } from "../../contexts/LanguageContext";
 
 interface HeaderActionsProps {
@@ -63,7 +71,9 @@ export function HeaderActions({
             disabled={isRefreshing}
             className="bg-primary/10 hover:bg-primary/20 text-primary px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer"
           >
-            <RefreshCw className={`size-3.5 ${isRefreshing ? "animate-spin" : ""}`} />
+            <RefreshCw
+              className={`size-3.5 ${isRefreshing ? "animate-spin" : ""}`}
+            />
             Sincronizar
           </button>
         )}
@@ -78,8 +88,12 @@ export function HeaderActions({
 
       {/* Mobile Hamburger Button */}
       <div className="sm:hidden flex items-center gap-2">
-        {!isOnline && <WifiOff className="size-4 text-amber-500 animate-pulse" />}
-        {hasOfflineData && isOnline && <div className="size-2 rounded-full bg-amber-500"></div>}
+        {!isOnline && (
+          <WifiOff className="size-4 text-amber-500 animate-pulse" />
+        )}
+        {hasOfflineData && isOnline && (
+          <div className="size-2 rounded-full bg-amber-500"></div>
+        )}
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="bg-muted hover:bg-muted/80 text-foreground p-2 rounded-xl transition-all border border-border cursor-pointer"
@@ -111,7 +125,9 @@ export function HeaderActions({
                 disabled={isRefreshing}
                 className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-primary/10 text-sm font-bold text-primary text-left transition-colors"
               >
-                <RefreshCw className={`size-4 ${isRefreshing ? "animate-spin" : ""}`} />
+                <RefreshCw
+                  className={`size-4 ${isRefreshing ? "animate-spin" : ""}`}
+                />
                 Sincronizar Datos
               </button>
             )}

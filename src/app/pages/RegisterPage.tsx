@@ -11,7 +11,7 @@ export default function RegisterPage() {
   const { registerCaregiver, isLoggedIn, user } = useAuth();
   const { t } = useTranslation();
   const navigate = useNavigate();
-  
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -34,7 +34,14 @@ export default function RegisterPage() {
     setLoading(true);
 
     try {
-      if (!caregiverName || !dni || !childName || !birthDate || !weight || !height) {
+      if (
+        !caregiverName ||
+        !dni ||
+        !childName ||
+        !birthDate ||
+        !weight ||
+        !height
+      ) {
         throw new Error("Por favor completa todos los campos.");
       }
 
@@ -51,7 +58,7 @@ export default function RegisterPage() {
       const heightNum = parseFloat(height);
       const [median, sd] = getWHORef(ageMonths, sex);
       const zScore = parseFloat(((weightNum - median) / sd).toFixed(2));
-      
+
       let status: "normal" | "follow-up" | "urgent" = "normal";
       if (zScore < -3) status = "urgent";
       else if (zScore < -2) status = "follow-up";
@@ -67,10 +74,9 @@ export default function RegisterPage() {
           childWeight: weightNum,
           childHeight: heightNum,
           childZScore: zScore,
-          childStatus: status
+          childStatus: status,
         });
       }
-
     } catch (err: any) {
       setError(err.message || "Error al registrar. Intenta de nuevo.");
       setLoading(false);
@@ -81,9 +87,9 @@ export default function RegisterPage() {
     <div className="min-h-screen bg-gradient-flow flex flex-col items-center py-6 px-4 relative overflow-hidden">
       {/* Animated background blobs */}
       <div className="absolute top-0 left-0 w-72 h-72 bg-primary/20 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob"></div>
-      
+
       <div className="w-full max-w-md mx-auto relative z-10 animate-in fade-in duration-500">
-        <button 
+        <button
           onClick={() => navigate("/")}
           className="flex items-center gap-1.5 text-xs font-bold text-muted-foreground hover:text-foreground mb-4 transition-colors"
         >
@@ -100,7 +106,8 @@ export default function RegisterPage() {
               Registro Familiar
             </h1>
             <p className="text-xs text-muted-foreground leading-relaxed">
-              Únete a Yanapiri Wawa y comienza a monitorear el crecimiento saludable de tu niño(a).
+              Únete a Yanapiri Wawa y comienza a monitorear el crecimiento
+              saludable de tu niño(a).
             </p>
           </div>
 
@@ -110,10 +117,12 @@ export default function RegisterPage() {
               <h3 className="text-xs font-bold text-primary uppercase tracking-wider border-b border-primary/20 pb-1">
                 Tus Datos (Apoderado)
               </h3>
-              
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold uppercase text-muted-foreground">Nombre Completo</label>
+                  <label className="text-xs font-bold uppercase text-muted-foreground">
+                    Nombre Completo
+                  </label>
                   <input
                     type="text"
                     value={caregiverName}
@@ -124,7 +133,9 @@ export default function RegisterPage() {
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold uppercase text-muted-foreground">DNI</label>
+                  <label className="text-xs font-bold uppercase text-muted-foreground">
+                    DNI
+                  </label>
                   <input
                     type="number"
                     value={dni}
@@ -142,9 +153,11 @@ export default function RegisterPage() {
               <h3 className="text-xs font-bold text-accent uppercase tracking-wider border-b border-accent/20 pb-1 flex items-center gap-1.5">
                 <Baby className="size-3.5" /> Datos del Niño/a
               </h3>
-              
+
               <div className="space-y-1.5">
-                <label className="text-xs font-bold uppercase text-muted-foreground">Nombre del Niño(a)</label>
+                <label className="text-xs font-bold uppercase text-muted-foreground">
+                  Nombre del Niño(a)
+                </label>
                 <input
                   type="text"
                   value={childName}
@@ -157,7 +170,9 @@ export default function RegisterPage() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold uppercase text-muted-foreground">Sexo</label>
+                  <label className="text-xs font-bold uppercase text-muted-foreground">
+                    Sexo
+                  </label>
                   <select
                     value={sex}
                     onChange={(e) => setSex(e.target.value as "M" | "F")}
@@ -168,7 +183,9 @@ export default function RegisterPage() {
                   </select>
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold uppercase text-muted-foreground">F. Nacimiento</label>
+                  <label className="text-xs font-bold uppercase text-muted-foreground">
+                    F. Nacimiento
+                  </label>
                   <input
                     type="date"
                     value={birthDate}
@@ -181,7 +198,9 @@ export default function RegisterPage() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold uppercase text-muted-foreground">Peso Actual (kg)</label>
+                  <label className="text-xs font-bold uppercase text-muted-foreground">
+                    Peso Actual (kg)
+                  </label>
                   <input
                     type="number"
                     step="0.1"
@@ -193,7 +212,9 @@ export default function RegisterPage() {
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold uppercase text-muted-foreground">Talla (cm)</label>
+                  <label className="text-xs font-bold uppercase text-muted-foreground">
+                    Talla (cm)
+                  </label>
                   <input
                     type="number"
                     step="0.1"
@@ -222,9 +243,11 @@ export default function RegisterPage() {
                 {loading ? "Creando tu cuenta..." : "Comenzar a Monitorear"}
               </button>
             </div>
-            
+
             <p className="text-center text-xs text-muted-foreground mt-4">
-              Al registrarte, aceptas que Yanapiri Wawa procese los datos de crecimiento de tu niño(a) con fines de salud pública (Ley N.º 29733).
+              Al registrarte, aceptas que Yanapiri Wawa procese los datos de
+              crecimiento de tu niño(a) con fines de salud pública (Ley N.º
+              29733).
             </p>
           </form>
         </div>

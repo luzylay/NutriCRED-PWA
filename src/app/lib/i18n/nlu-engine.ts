@@ -25,64 +25,297 @@ export interface NLUEvaluationResult {
 
 const INTENT_PATTERNS: Record<NLUIntent, Record<LanguageCode, string[]>> = {
   emergency_alarm_signs: {
-    es: ["fiebre", "calentura", "diarrea", "vomita", "no come nada", "letargo", "no reacciona", "convulsion", "ahogo", "sangre", "desmayo", "grave", "emergencia", "muy enfermo"],
-    qu: ["rupariy", "q'icha", "kutipakuy", "mana mikhunchu", "mana kuyunchu", "wichari", "sinchi unqusqa", "llakipayay"],
-    ay: ["t'unqu", "q'icha", "kutiy", "janiw manq'kiti", "wali usu", "ch'amap tukusita", "usutawa"],
-    en: ["fever", "diarrhea", "vomiting", "refuses to eat", "lethargic", "convulsion", "choking", "blood", "severe", "emergency", "fainting"],
+    es: [
+      "fiebre",
+      "calentura",
+      "diarrea",
+      "vomita",
+      "no come nada",
+      "letargo",
+      "no reacciona",
+      "convulsion",
+      "ahogo",
+      "sangre",
+      "desmayo",
+      "grave",
+      "emergencia",
+      "muy enfermo",
+    ],
+    qu: [
+      "rupariy",
+      "q'icha",
+      "kutipakuy",
+      "mana mikhunchu",
+      "mana kuyunchu",
+      "wichari",
+      "sinchi unqusqa",
+      "llakipayay",
+    ],
+    ay: [
+      "t'unqu",
+      "q'icha",
+      "kutiy",
+      "janiw manq'kiti",
+      "wali usu",
+      "ch'amap tukusita",
+      "usutawa",
+    ],
+    en: [
+      "fever",
+      "diarrhea",
+      "vomiting",
+      "refuses to eat",
+      "lethargic",
+      "convulsion",
+      "choking",
+      "blood",
+      "severe",
+      "emergency",
+      "fainting",
+    ],
   },
   nutrition_6_8_months: {
-    es: ["6 a 8 meses", "6 meses", "7 meses", "8 meses", "primeras papillas", "iniciar comida", "semisolido", "pure"],
-    qu: ["6 killa", "7 killa", "8 killa", "suqta killa", "ñawpaq mikhuna", "api", "lluklla"],
-    ay: ["6 phaxsi", "7 phaxsi", "8 phaxsi", "suxta phaxsi", "nayrïr manq'awi", "api"],
-    en: ["6 to 8 months", "6 months", "7 months", "8 months", "first purees", "complementary feeding starting"],
+    es: [
+      "6 a 8 meses",
+      "6 meses",
+      "7 meses",
+      "8 meses",
+      "primeras papillas",
+      "iniciar comida",
+      "semisolido",
+      "pure",
+    ],
+    qu: [
+      "6 killa",
+      "7 killa",
+      "8 killa",
+      "suqta killa",
+      "ñawpaq mikhuna",
+      "api",
+      "lluklla",
+    ],
+    ay: [
+      "6 phaxsi",
+      "7 phaxsi",
+      "8 phaxsi",
+      "suxta phaxsi",
+      "nayrïr manq'awi",
+      "api",
+    ],
+    en: [
+      "6 to 8 months",
+      "6 months",
+      "7 months",
+      "8 months",
+      "first purees",
+      "complementary feeding starting",
+    ],
   },
   nutrition_9_11_months: {
-    es: ["9 a 11 meses", "9 meses", "10 meses", "11 meses", "comida picada", "picadito", "medio plato"],
-    qu: ["9 killa", "10 killa", "11 killa", "isqun killa", "kuchusqa mikhuy", "kuskan plato"],
-    ay: ["9 phaxsi", "10 phaxsi", "11 phaxsi", "llätunka phaxsi", "kuchut manq'a", "chika plato"],
-    en: ["9 to 11 months", "9 months", "10 months", "11 months", "finely chopped foods", "half plate"],
+    es: [
+      "9 a 11 meses",
+      "9 meses",
+      "10 meses",
+      "11 meses",
+      "comida picada",
+      "picadito",
+      "medio plato",
+    ],
+    qu: [
+      "9 killa",
+      "10 killa",
+      "11 killa",
+      "isqun killa",
+      "kuchusqa mikhuy",
+      "kuskan plato",
+    ],
+    ay: [
+      "9 phaxsi",
+      "10 phaxsi",
+      "11 phaxsi",
+      "llätunka phaxsi",
+      "kuchut manq'a",
+      "chika plato",
+    ],
+    en: [
+      "9 to 11 months",
+      "9 months",
+      "10 months",
+      "11 months",
+      "finely chopped foods",
+      "half plate",
+    ],
   },
   nutrition_12_24_months: {
-    es: ["12 a 24 meses", "1 año", "2 años", "12 meses", "comida de la olla", "plato completo", "segundo"],
-    qu: ["huk wata", "iskay wata", "12 killa", "ayllupa mikhunan", "hunt'a plato"],
-    ay: ["maya mara", "paya mara", "12 phaxsi", "utanjam manq'a", "phuqhat plato"],
-    en: ["12 to 24 months", "1 year", "2 years", "12 months", "family meal", "solid food"],
+    es: [
+      "12 a 24 meses",
+      "1 año",
+      "2 años",
+      "12 meses",
+      "comida de la olla",
+      "plato completo",
+      "segundo",
+    ],
+    qu: [
+      "huk wata",
+      "iskay wata",
+      "12 killa",
+      "ayllupa mikhunan",
+      "hunt'a plato",
+    ],
+    ay: [
+      "maya mara",
+      "paya mara",
+      "12 phaxsi",
+      "utanjam manq'a",
+      "phuqhat plato",
+    ],
+    en: [
+      "12 to 24 months",
+      "1 year",
+      "2 years",
+      "12 months",
+      "family meal",
+      "solid food",
+    ],
   },
   anemia_iron_prevention: {
-    es: ["anemia", "hierro", "sangrecita", "bazo", "higado", "chispitas", "gotas de hierro", "palido", "pálido"],
-    qu: ["yawar pisiyay", "sangrecita", "bazo", "kuku", "yawar jallch'ay", "q'illuyay"],
-    ay: ["wila pisi", "sangrecita", "bazo", "k'ipcha", "wila ch'allxtay", "q'illu"],
-    en: ["anemia", "iron", "chicken blood", "spleen", "liver", "iron drops", "pale"],
+    es: [
+      "anemia",
+      "hierro",
+      "sangrecita",
+      "bazo",
+      "higado",
+      "chispitas",
+      "gotas de hierro",
+      "palido",
+      "pálido",
+    ],
+    qu: [
+      "yawar pisiyay",
+      "sangrecita",
+      "bazo",
+      "kuku",
+      "yawar jallch'ay",
+      "q'illuyay",
+    ],
+    ay: [
+      "wila pisi",
+      "sangrecita",
+      "bazo",
+      "k'ipcha",
+      "wila ch'allxtay",
+      "q'illu",
+    ],
+    en: [
+      "anemia",
+      "iron",
+      "chicken blood",
+      "spleen",
+      "liver",
+      "iron drops",
+      "pale",
+    ],
   },
   muac_information: {
-    es: ["muac", "cinta", "perimetro braquial", "perímetro braquial", "brazo", "cinta de colores", "rojo amarillo verde"],
+    es: [
+      "muac",
+      "cinta",
+      "perimetro braquial",
+      "perímetro braquial",
+      "brazo",
+      "cinta de colores",
+      "rojo amarillo verde",
+    ],
     qu: ["marq'a tupu", "muac", "marq'a", "rikra cinta", "puka q'ellu q'omer"],
-    ay: ["ampar tupu", "muac", "ampara", "cinta saminaka", "wila q'illu ch'uxña"],
-    en: ["muac", "mid-upper arm circumference", "arm tape", "color tape", "malnutrition tape"],
+    ay: [
+      "ampar tupu",
+      "muac",
+      "ampara",
+      "cinta saminaka",
+      "wila q'illu ch'uxña",
+    ],
+    en: [
+      "muac",
+      "mid-upper arm circumference",
+      "arm tape",
+      "color tape",
+      "malnutrition tape",
+    ],
   },
   cred_checkup_info: {
-    es: ["cred", "control", "cita", "vacuna", "centro de salud", "posta", "cuando llevarlo"],
-    qu: ["cred qhaway", "hampi wasi", "vacuna", "hampina cita", "mayk'aq pusana"],
+    es: [
+      "cred",
+      "control",
+      "cita",
+      "vacuna",
+      "centro de salud",
+      "posta",
+      "cuando llevarlo",
+    ],
+    qu: [
+      "cred qhaway",
+      "hampi wasi",
+      "vacuna",
+      "hampina cita",
+      "mayk'aq pusana",
+    ],
     ay: ["cred uñjawi", "qullañ uta", "vacuna", "kunapach irpaña"],
-    en: ["cred", "checkup", "well child visit", "vaccine", "health center", "appointment"],
+    en: [
+      "cred",
+      "checkup",
+      "well child visit",
+      "vaccine",
+      "health center",
+      "appointment",
+    ],
   },
   breastfeeding_guidance: {
-    es: ["pecho", "lactancia", "leche materna", "tetita", "amamantar", "dar de lactar", "exclusiva"],
+    es: [
+      "pecho",
+      "lactancia",
+      "leche materna",
+      "tetita",
+      "amamantar",
+      "dar de lactar",
+      "exclusiva",
+    ],
     qu: ["ñuñu", "ñuñuchiy", "mamanpa lichin", "chunka suqtayuq killa"],
     ay: ["ñuñu", "ñuñuyaña", "taykan lichipa"],
     en: ["breastfeeding", "breast milk", "nursing", "exclusive breastfeeding"],
   },
   general_nutrition: {
-    es: ["comer", "nutricion", "alimento", "peso", "verdura", "fruta", "huevo", "agua"],
+    es: [
+      "comer",
+      "nutricion",
+      "alimento",
+      "peso",
+      "verdura",
+      "fruta",
+      "huevo",
+      "agua",
+    ],
     qu: ["mikhuy", "mikhuna", "llullu", "runtu", "yaku", "ch'aki mikhuy"],
     ay: ["manq'a", "manq'awi", "k'awnap", "uma"],
-    en: ["food", "nutrition", "eat", "weight", "vegetables", "fruits", "egg", "water"],
+    en: [
+      "food",
+      "nutrition",
+      "eat",
+      "weight",
+      "vegetables",
+      "fruits",
+      "egg",
+      "water",
+    ],
   },
 };
 
 // ─── RESPONSES KNOWLEDGE BASE ────────────────────────────────────────────────
 
-const KNOWLEDGE_RESPONSES: Record<NLUIntent, Record<LanguageCode, { text: string; source: string; action?: string }>> = {
+const KNOWLEDGE_RESPONSES: Record<
+  NLUIntent,
+  Record<LanguageCode, { text: string; source: string; action?: string }>
+> = {
   emergency_alarm_signs: {
     es: {
       text: "ATENCIÓN: Los síntomas mencionados (como fiebre, diarrea persistente o inapetencia crítica) son señales de alerta clínica. Por favor, acude DE INMEDIATO al Centro de Salud más cercano para evaluación médica presencial.",
@@ -255,10 +488,16 @@ const KNOWLEDGE_RESPONSES: Record<NLUIntent, Record<LanguageCode, { text: string
 
 export function evaluateNLUQuery(
   rawInput: string,
-  preferredLanguage: LanguageCode = "es"
+  preferredLanguage: LanguageCode = "es",
 ): NLUEvaluationResult {
   const normalized = rawInput.toLowerCase().trim();
-  const languagesToScan: LanguageCode[] = [preferredLanguage, "es", "qu", "ay", "en"];
+  const languagesToScan: LanguageCode[] = [
+    preferredLanguage,
+    "es",
+    "qu",
+    "ay",
+    "en",
+  ];
 
   // 1. Check emergency alarm signs first (Priority Triage)
   for (const lang of languagesToScan) {
@@ -310,8 +549,11 @@ export function evaluateNLUQuery(
     }
   }
 
-  const confidence = maxMatches > 0 ? Math.min(0.95, 0.6 + maxMatches * 0.1) : 0.5;
-  const replyObj = KNOWLEDGE_RESPONSES[bestIntent][preferredLanguage] || KNOWLEDGE_RESPONSES[bestIntent].es;
+  const confidence =
+    maxMatches > 0 ? Math.min(0.95, 0.6 + maxMatches * 0.1) : 0.5;
+  const replyObj =
+    KNOWLEDGE_RESPONSES[bestIntent][preferredLanguage] ||
+    KNOWLEDGE_RESPONSES[bestIntent].es;
 
   return {
     intent: bestIntent,

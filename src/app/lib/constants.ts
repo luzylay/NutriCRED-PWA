@@ -36,8 +36,7 @@ export const ALERT_CFG: Record<
     textClass: "text-red-700 dark:text-red-400",
     bgClass: "bg-red-50 dark:bg-red-950/30",
     borderClass: "border-red-200 dark:border-red-800",
-    badgeClass:
-      "bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300",
+    badgeClass: "bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300",
     dotClass: "bg-red-500 animate-pulse",
   },
 } as const;

@@ -31,7 +31,12 @@ import { HeaderActions } from "../components/shared/HeaderActions";
 import { ALERT_CFG } from "../lib/constants";
 import { getWHORef } from "../lib/who-refs";
 import { postMeasurement, fetchAlerts } from "../lib/api";
-import type { MeasureType, MeasurementResult, Child, GrowthPoint } from "../lib/types";
+import type {
+  MeasureType,
+  MeasurementResult,
+  Child,
+  GrowthPoint,
+} from "../lib/types";
 
 type FamilyTab = "home" | "history" | "help";
 
@@ -73,7 +78,9 @@ export default function FamilyPage() {
   // Build growth chart from measurements
   useEffect(() => {
     if (!child) return;
-    const childMeasurements = measurements.filter((m) => m.child_id === parseInt(child.id));
+    const childMeasurements = measurements.filter(
+      (m) => m.child_id === parseInt(child.id),
+    );
     const weightMeasures = childMeasurements.filter((m) => m.type === "weight");
     const mapped = weightMeasures.slice(-6).map((m) => {
       const date = new Date(m.measurement_date);
@@ -95,7 +102,7 @@ export default function FamilyPage() {
 
   const handleAddMeasurement = async (
     type: MeasureType,
-    val: number
+    val: number,
   ): Promise<MeasurementResult> => {
     if (!child) throw new Error("No child selected");
     const childId = parseInt(child.id);
@@ -185,7 +192,10 @@ export default function FamilyPage() {
 
   return (
     <>
-      <SettingsModal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
+      <SettingsModal
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+      />
 
       {isAddChildOpen && (
         <AddChildModal
@@ -224,9 +234,7 @@ export default function FamilyPage() {
                 <p className="text-xs text-muted-foreground font-bold uppercase tracking-wider leading-none">
                   Yanapiri Wawa
                 </p>
-                <p
-                  className="text-sm font-bold text-foreground leading-tight font-nunito"
-                >
+                <p className="text-sm font-bold text-foreground leading-tight font-nunito">
                   {t("app.caregiver")}
                 </p>
               </div>
@@ -254,15 +262,19 @@ export default function FamilyPage() {
                     <span className="capitalize">{today}</span>
                   </div>
                   <h1 className="text-3xl font-black text-foreground font-nunito tracking-tight flex items-center gap-3">
-                    {t("family.greeting", { name: child ? child.caregiver.split(" ")[0] : (user?.username ?? "") })}
+                    {t("family.greeting", {
+                      name: child
+                        ? child.caregiver.split(" ")[0]
+                        : (user?.username ?? ""),
+                    })}
                     <Hand className="size-8 text-amber-500 animate-in fade-in zoom-in duration-500" />
                   </h1>
                 </div>
 
                 {/* Child Selector (only if multiple or adding) */}
-                {(children.length > 0) && (
+                {children.length > 0 && (
                   <div className="flex gap-2 overflow-x-auto pb-1 hide-scrollbar">
-                    {children.map(c => (
+                    {children.map((c) => (
                       <button
                         key={c.id}
                         onClick={() => setSelectedChildId(c.id)}
@@ -272,16 +284,24 @@ export default function FamilyPage() {
                             : "border-border bg-card/60 hover:bg-muted/80 backdrop-blur-md"
                         }`}
                       >
-                        <div className={`size-9 rounded-xl flex items-center justify-center font-extrabold text-sm shadow-sm ${
-                          child?.id === c.id ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
-                        }`}>
+                        <div
+                          className={`size-9 rounded-xl flex items-center justify-center font-extrabold text-sm shadow-sm ${
+                            child?.id === c.id
+                              ? "bg-primary text-primary-foreground"
+                              : "bg-muted text-muted-foreground"
+                          }`}
+                        >
                           {c.name[0]}
                         </div>
                         <div className="text-left">
-                          <p className={`text-sm font-bold leading-tight ${child?.id === c.id ? "text-primary font-nunito" : "text-foreground"}`}>
+                          <p
+                            className={`text-sm font-bold leading-tight ${child?.id === c.id ? "text-primary font-nunito" : "text-foreground"}`}
+                          >
                             {c.shortName}
                           </p>
-                          <p className="text-xs text-muted-foreground font-semibold">{c.age}</p>
+                          <p className="text-xs text-muted-foreground font-semibold">
+                            {c.age}
+                          </p>
                         </div>
                       </button>
                     ))}
@@ -293,8 +313,12 @@ export default function FamilyPage() {
                         <Plus className="size-5" />
                       </div>
                       <div className="text-left">
-                        <p className="text-sm font-bold leading-tight font-nunito">Añadir</p>
-                        <p className="text-xs opacity-80 font-semibold">Nuevo Bebé</p>
+                        <p className="text-sm font-bold leading-tight font-nunito">
+                          Añadir
+                        </p>
+                        <p className="text-xs opacity-80 font-semibold">
+                          Nuevo Bebé
+                        </p>
                       </div>
                     </button>
                   </div>
@@ -307,8 +331,13 @@ export default function FamilyPage() {
                       <Baby className="size-8" />
                     </div>
                     <div>
-                      <h2 className="text-xl font-extrabold text-foreground font-nunito">Bienvenida a Yanapiri Wawa</h2>
-                      <p className="text-sm text-muted-foreground mt-2">Para comenzar a monitorear el crecimiento y recibir orientación, registra a tu primer hijo/a.</p>
+                      <h2 className="text-xl font-extrabold text-foreground font-nunito">
+                        Bienvenida a Yanapiri Wawa
+                      </h2>
+                      <p className="text-sm text-muted-foreground mt-2">
+                        Para comenzar a monitorear el crecimiento y recibir
+                        orientación, registra a tu primer hijo/a.
+                      </p>
                     </div>
                     <button
                       onClick={() => setIsAddChildOpen(true)}
@@ -325,7 +354,11 @@ export default function FamilyPage() {
                     >
                       {/* Emotive Icon Background */}
                       <div className="absolute -right-6 -bottom-6 opacity-[0.03] pointer-events-none transform rotate-12 scale-110">
-                        {child.status === "normal" ? <ShieldCheck className="size-48" /> : <ShieldAlert className="size-48" />}
+                        {child.status === "normal" ? (
+                          <ShieldCheck className="size-48" />
+                        ) : (
+                          <ShieldAlert className="size-48" />
+                        )}
                       </div>
 
                       <div className="flex items-start justify-between gap-3 relative z-10">
@@ -338,106 +371,141 @@ export default function FamilyPage() {
                               {child.shortName}
                             </p>
                             <p className="text-[13px] text-muted-foreground font-bold mt-1 tracking-tight">
-                              {child.age} · {child.weight} kg · {child.height} cm
+                              {child.age} · {child.weight} kg · {child.height}{" "}
+                              cm
                             </p>
                           </div>
                         </div>
                       </div>
 
                       <div className="bg-white/60 dark:bg-black/30 backdrop-blur-xl rounded-2xl p-4 flex gap-3.5 items-start relative z-10 shadow-sm border border-white/30">
-                        <div className={`p-2.5 rounded-xl shrink-0 shadow-inner ${child.status === "normal" ? "bg-emerald-500/20 text-emerald-700 dark:text-emerald-300" : child.status === "follow-up" ? "bg-amber-500/20 text-amber-700 dark:text-amber-300" : "bg-red-500/20 text-red-700 dark:text-red-300"}`}>
-                          {child.status === "normal" ? <HeartPulse className="size-6" /> : <ShieldAlert className="size-6" />}
+                        <div
+                          className={`p-2.5 rounded-xl shrink-0 shadow-inner ${child.status === "normal" ? "bg-emerald-500/20 text-emerald-700 dark:text-emerald-300" : child.status === "follow-up" ? "bg-amber-500/20 text-amber-700 dark:text-amber-300" : "bg-red-500/20 text-red-700 dark:text-red-300"}`}
+                        >
+                          {child.status === "normal" ? (
+                            <HeartPulse className="size-6" />
+                          ) : (
+                            <ShieldAlert className="size-6" />
+                          )}
                         </div>
                         <div className="pt-0.5">
                           <p className="font-black text-sm text-foreground mb-1 tracking-tight">
-                            {child.status === "normal" ? "¡Creciendo fuerte y sano!" : child.status === "follow-up" ? "Atención al crecimiento" : "Requiere Atención Médica"}
+                            {child.status === "normal"
+                              ? "¡Creciendo fuerte y sano!"
+                              : child.status === "follow-up"
+                                ? "Atención al crecimiento"
+                                : "Requiere Atención Médica"}
                           </p>
                           <p className="text-[13px] text-foreground/80 leading-relaxed font-medium">
                             {child.status === "urgent"
                               ? "Hemos identificado una señal importante. Por favor, visita la posta médica más cercana."
                               : child.status === "follow-up"
-                              ? "Su ganancia de peso es un poco baja. Un actor social coordinará una visita pronto."
-                              : "El peso y talla de tu bebé están perfectos según la Organización Mundial de la Salud."}
+                                ? "Su ganancia de peso es un poco baja. Un actor social coordinará una visita pronto."
+                                : "El peso y talla de tu bebé están perfectos según la Organización Mundial de la Salud."}
                           </p>
                         </div>
                       </div>
                     </div>
 
-                {/* Quick actions */}
-                <div className="space-y-3 mt-2">
-                  <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider pl-1">
-                    {t("family.quick_actions")}
-                  </p>
-                  <div className="flex flex-col gap-3">
-                    {[
-                      { id: "weight" as MeasureType, label: t("family.weight"), desc: "Sube a tu bebé a la balanza para ver cómo crece.", icon: Scale, bg: "bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-500/20" },
-                      { id: "height" as MeasureType, label: t("family.height"), desc: "Mide su alturita acostado o de pie.", icon: Ruler, bg: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20" },
-                      { id: "muac" as MeasureType, label: t("family.muac"), desc: "Cinta especial de nutrición.", icon: Activity, bg: "bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20" },
-                    ].map((act) => (
-                      <button
-                        key={act.id}
-                        onClick={() => setWizardType(act.id)}
-                        className="group bg-card/60 hover:bg-card backdrop-blur-md border border-border hover:border-primary/50 p-4 rounded-3xl flex items-center gap-4 transition-all duration-300 hover:shadow-md active:scale-[0.98] cursor-pointer"
-                      >
-                        <div className={`p-3.5 rounded-[1.25rem] border ${act.bg} shadow-sm shrink-0 bg-white dark:bg-black/20 group-hover:scale-105 transition-transform duration-300`}>
-                          <act.icon className="size-6" />
-                        </div>
-                        <div className="text-left flex-1">
-                          <span className="text-base font-black text-foreground block font-nunito tracking-tight">
-                            {act.label}
-                          </span>
-                          <span className="text-sm text-muted-foreground block mt-0.5 leading-snug font-medium pr-2 group-hover:text-foreground/70 transition-colors">
-                            {act.desc}
-                          </span>
-                        </div>
-                        <div className="text-muted-foreground/30 pr-1 group-hover:text-primary transition-colors transform group-hover:translate-x-1 duration-300">
-                          <ChevronRight className="size-6" />
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                </div>
+                    {/* Quick actions */}
+                    <div className="space-y-3 mt-2">
+                      <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider pl-1">
+                        {t("family.quick_actions")}
+                      </p>
+                      <div className="flex flex-col gap-3">
+                        {[
+                          {
+                            id: "weight" as MeasureType,
+                            label: t("family.weight"),
+                            desc: "Sube a tu bebé a la balanza para ver cómo crece.",
+                            icon: Scale,
+                            bg: "bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-500/20",
+                          },
+                          {
+                            id: "height" as MeasureType,
+                            label: t("family.height"),
+                            desc: "Mide su alturita acostado o de pie.",
+                            icon: Ruler,
+                            bg: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
+                          },
+                          {
+                            id: "muac" as MeasureType,
+                            label: t("family.muac"),
+                            desc: "Cinta especial de nutrición.",
+                            icon: Activity,
+                            bg: "bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20",
+                          },
+                        ].map((act) => (
+                          <button
+                            key={act.id}
+                            onClick={() => setWizardType(act.id)}
+                            className="group bg-card/60 hover:bg-card backdrop-blur-md border border-border hover:border-primary/50 p-4 rounded-3xl flex items-center gap-4 transition-all duration-300 hover:shadow-md active:scale-[0.98] cursor-pointer"
+                          >
+                            <div
+                              className={`p-3.5 rounded-[1.25rem] border ${act.bg} shadow-sm shrink-0 bg-white dark:bg-black/20 group-hover:scale-105 transition-transform duration-300`}
+                            >
+                              <act.icon className="size-6" />
+                            </div>
+                            <div className="text-left flex-1">
+                              <span className="text-base font-black text-foreground block font-nunito tracking-tight">
+                                {act.label}
+                              </span>
+                              <span className="text-sm text-muted-foreground block mt-0.5 leading-snug font-medium pr-2 group-hover:text-foreground/70 transition-colors">
+                                {act.desc}
+                              </span>
+                            </div>
+                            <div className="text-muted-foreground/30 pr-1 group-hover:text-primary transition-colors transform group-hover:translate-x-1 duration-300">
+                              <ChevronRight className="size-6" />
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
 
-                {/* Growth chart */}
-                <div className="bg-card/60 backdrop-blur-md border border-border rounded-3xl p-4 space-y-2 shadow-sm transition-all hover:shadow-md">
-                  <div className="flex items-center justify-between">
-                    <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
-                      {t("family.growth_evolution")}
-                    </p>
-                    <span className="text-xs bg-primary/10 text-primary font-bold px-2 py-0.5 rounded-full">
-                      {t("family.who_reference")}
-                    </span>
-                  </div>
-                  <div className="pt-2 min-w-0">
-                    <GrowthChart data={chartData} height={130} />
-                  </div>
-                </div>
+                    {/* Growth chart */}
+                    <div className="bg-card/60 backdrop-blur-md border border-border rounded-3xl p-4 space-y-2 shadow-sm transition-all hover:shadow-md">
+                      <div className="flex items-center justify-between">
+                        <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
+                          {t("family.growth_evolution")}
+                        </p>
+                        <span className="text-xs bg-primary/10 text-primary font-bold px-2 py-0.5 rounded-full">
+                          {t("family.who_reference")}
+                        </span>
+                      </div>
+                      <div className="pt-2 min-w-0">
+                        <GrowthChart data={chartData} height={130} />
+                      </div>
+                    </div>
 
-                {/* Next CRED visit */}
-                <div className="relative overflow-hidden flex items-center gap-4 bg-gradient-to-r from-primary/10 to-transparent border border-primary/20 rounded-3xl p-5 shadow-sm mt-2">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
-                  <div className="size-12 bg-white dark:bg-black/40 rounded-[1.25rem] flex items-center justify-center shrink-0 shadow-sm border border-primary/10">
-                    <Calendar className="size-6 text-primary" />
-                  </div>
-                  <div className="relative z-10 flex-1">
-                    <p className="text-sm font-black text-foreground tracking-tight">
-                      {t("family.next_cred")}
-                    </p>
-                    <p className="text-xs text-muted-foreground font-medium mt-0.5">
-                      {t("family.cred_desc")}
-                    </p>
-                  </div>
-                </div>
+                    {/* Next CRED visit */}
+                    <div className="relative overflow-hidden flex items-center gap-4 bg-gradient-to-r from-primary/10 to-transparent border border-primary/20 rounded-3xl p-5 shadow-sm mt-2">
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
+                      <div className="size-12 bg-white dark:bg-black/40 rounded-[1.25rem] flex items-center justify-center shrink-0 shadow-sm border border-primary/10">
+                        <Calendar className="size-6 text-primary" />
+                      </div>
+                      <div className="relative z-10 flex-1">
+                        <p className="text-sm font-black text-foreground tracking-tight">
+                          {t("family.next_cred")}
+                        </p>
+                        <p className="text-xs text-muted-foreground font-medium mt-0.5">
+                          {t("family.cred_desc")}
+                        </p>
+                      </div>
+                    </div>
 
-                {/* Medical Disclaimer */}
-                <div className="bg-card/40 border border-border rounded-2xl p-4 mt-4 flex items-start gap-3 shadow-sm">
-                  <div className="p-1.5 bg-muted rounded-lg shrink-0">
-                    <ShieldAlert className="size-4 text-muted-foreground" />
-                  </div>
-                  <p className="text-[11px] text-muted-foreground font-medium leading-relaxed">
-                    <strong className="text-foreground">Importante:</strong> Yanapiri Wawa es una herramienta complementaria de prevención. Los estados nutricionales mostrados no reemplazan el diagnóstico clínico presencial de su Centro de Salud.
-                  </p>
-                </div>
+                    {/* Medical Disclaimer */}
+                    <div className="bg-card/40 border border-border rounded-2xl p-4 mt-4 flex items-start gap-3 shadow-sm">
+                      <div className="p-1.5 bg-muted rounded-lg shrink-0">
+                        <ShieldAlert className="size-4 text-muted-foreground" />
+                      </div>
+                      <p className="text-[11px] text-muted-foreground font-medium leading-relaxed">
+                        <strong className="text-foreground">Importante:</strong>{" "}
+                        Yanapiri Wawa es una herramienta complementaria de
+                        prevención. Los estados nutricionales mostrados no
+                        reemplazan el diagnóstico clínico presencial de su
+                        Centro de Salud.
+                      </p>
+                    </div>
                   </>
                 )}
               </>
@@ -449,9 +517,7 @@ export default function FamilyPage() {
                   <div className="size-10 bg-gradient-to-br from-primary to-accent rounded-xl flex items-center justify-center shadow-lg text-white">
                     <Activity className="size-5" />
                   </div>
-                  <h2
-                    className="text-2xl font-black text-foreground font-nunito tracking-tight"
-                  >
+                  <h2 className="text-2xl font-black text-foreground font-nunito tracking-tight">
                     {t("family.history_title")}
                   </h2>
                 </div>
@@ -460,17 +526,28 @@ export default function FamilyPage() {
                   <div className="absolute left-[1.15rem] top-4 bottom-4 w-px bg-border" />
 
                   <div className="space-y-4">
-                    {child && measurements.filter((m) => m.child_id === parseInt(child.id)).length > 0 ? (
+                    {child &&
+                    measurements.filter(
+                      (m) => m.child_id === parseInt(child.id),
+                    ).length > 0 ? (
                       measurements
                         .filter((m) => m.child_id === parseInt(child.id))
                         .slice()
                         .reverse()
                         .map((m, idx) => {
-                          const date = new Date(m.measurement_date).toLocaleDateString(
-                            "es-PE",
-                            { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }
-                          );
-                          const iconMap = { weight: Scale, height: Ruler, muac: Activity };
+                          const date = new Date(
+                            m.measurement_date,
+                          ).toLocaleDateString("es-PE", {
+                            day: "numeric",
+                            month: "short",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          });
+                          const iconMap = {
+                            weight: Scale,
+                            height: Ruler,
+                            muac: Activity,
+                          };
                           const Icon = iconMap[m.type as MeasureType] ?? Scale;
                           const isSynced = m.sync_status === "synced";
 
@@ -490,15 +567,20 @@ export default function FamilyPage() {
                                     {m.type === "weight"
                                       ? t("family.weight")
                                       : m.type === "height"
-                                      ? t("family.height")
-                                      : t("family.muac")}
+                                        ? t("family.height")
+                                        : t("family.muac")}
                                   </p>
-                                  <p className="text-[11px] font-bold text-muted-foreground mt-0.5">{date}</p>
+                                  <p className="text-[11px] font-bold text-muted-foreground mt-0.5">
+                                    {date}
+                                  </p>
                                 </div>
                               </div>
                               <div className="text-right flex flex-col items-end gap-1.5">
                                 <p className="text-lg font-mono font-black text-foreground">
-                                  {m.value} <span className="text-sm text-muted-foreground font-semibold">{m.unit}</span>
+                                  {m.value}{" "}
+                                  <span className="text-sm text-muted-foreground font-semibold">
+                                    {m.unit}
+                                  </span>
                                 </p>
                                 <span
                                   className={`flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${
@@ -507,8 +589,12 @@ export default function FamilyPage() {
                                       : "bg-amber-500/10 text-amber-600 border-amber-500/20"
                                   }`}
                                 >
-                                  <span className={`size-1.5 rounded-full ${isSynced ? "bg-emerald-500" : "bg-amber-500 animate-pulse"}`} />
-                                  {isSynced ? t("family.synced") : t("family.pending_sync")}
+                                  <span
+                                    className={`size-1.5 rounded-full ${isSynced ? "bg-emerald-500" : "bg-amber-500 animate-pulse"}`}
+                                  />
+                                  {isSynced
+                                    ? t("family.synced")
+                                    : t("family.pending_sync")}
                                 </span>
                               </div>
                             </div>
@@ -517,8 +603,13 @@ export default function FamilyPage() {
                     ) : (
                       <div className="bg-card/40 border border-border border-dashed rounded-2xl p-8 text-center ml-4 mt-4">
                         <Activity className="size-8 text-muted-foreground mx-auto mb-2 opacity-50" />
-                        <p className="text-sm font-bold text-muted-foreground">No hay registros todavía</p>
-                        <p className="text-xs text-muted-foreground mt-1">Realiza tu primera medición usando las acciones rápidas del inicio.</p>
+                        <p className="text-sm font-bold text-muted-foreground">
+                          No hay registros todavía
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          Realiza tu primera medición usando las acciones
+                          rápidas del inicio.
+                        </p>
                       </div>
                     )}
                   </div>
@@ -533,9 +624,7 @@ export default function FamilyPage() {
                     <HeartPulse className="size-5" />
                   </div>
                   <div>
-                    <h2
-                      className="text-2xl font-black text-foreground font-nunito tracking-tight"
-                    >
+                    <h2 className="text-2xl font-black text-foreground font-nunito tracking-tight">
                       {t("family.guidelines_title")}
                     </h2>
                     <p className="text-sm font-medium text-muted-foreground mt-0.5">
@@ -553,8 +642,16 @@ export default function FamilyPage() {
             <div className="grid grid-cols-3 max-w-lg mx-auto">
               {[
                 { id: "home" as FamilyTab, Icon: Home, labelKey: "nav.home" },
-                { id: "history" as FamilyTab, Icon: Activity, labelKey: "nav.history" },
-                { id: "help" as FamilyTab, Icon: MessageSquare, labelKey: "nav.nutrition" },
+                {
+                  id: "history" as FamilyTab,
+                  Icon: Activity,
+                  labelKey: "nav.history",
+                },
+                {
+                  id: "help" as FamilyTab,
+                  Icon: MessageSquare,
+                  labelKey: "nav.nutrition",
+                },
               ].map((tab) => (
                 <button
                   key={tab.id}

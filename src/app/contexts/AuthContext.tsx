@@ -34,7 +34,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const token = sessionStorage.getItem("active_token");
     const role = sessionStorage.getItem("active_role") as UserRole | null;
     const username = sessionStorage.getItem("active_username");
-    
+
     if (token && role && username) {
       return { username, role, token };
     }
@@ -74,10 +74,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           luisa: "luisa123",
           admin: "admin123",
         };
-        if (
-          offlineMap[username] &&
-          offlinePwd[username] === password
-        ) {
+        if (offlineMap[username] && offlinePwd[username] === password) {
           const role = offlineMap[username];
           const authUser: AuthUser = { username, role, token: "" };
           setUser(authUser);
@@ -91,7 +88,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return false;
       }
     },
-    [navigate]
+    [navigate],
   );
 
   const enterDemo = useCallback(() => {
@@ -100,29 +97,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     navigate("/familia");
   }, [navigate]);
 
-  const registerCaregiver = useCallback(async (data: any): Promise<boolean> => {
-    // FAKE REGISTRATION: Save newly registered family to LocalStorage so DataContext can pick it up
-    try {
-      const newFamily = {
-        ...data,
-        id: `reg-${Date.now()}`,
-        registrationDate: new Date().toISOString()
-      };
-      
-      const existing = JSON.parse(localStorage.getItem("yanapiri_new_families") ?? "[]");
-      existing.push(newFamily);
-      localStorage.setItem("yanapiri_new_families", JSON.stringify(existing));
+  const registerCaregiver = useCallback(
+    async (data: any): Promise<boolean> => {
+      // FAKE REGISTRATION: Save newly registered family to LocalStorage so DataContext can pick it up
+      try {
+        const newFamily = {
+          ...data,
+          id: `reg-${Date.now()}`,
+          registrationDate: new Date().toISOString(),
+        };
 
-      // Auto login as CAREGIVER
-      setUser({ username: data.caregiverDni, role: "CAREGIVER", token: "" });
-      setIsDemoMode(false);
-      navigate("/familia");
-      return true;
-    } catch (err) {
-      console.error(err);
-      return false;
-    }
-  }, [navigate]);
+        const existing = JSON.parse(
+          localStorage.getItem("yanapiri_new_families") ?? "[]",
+        );
+        existing.push(newFamily);
+        localStorage.setItem("yanapiri_new_families", JSON.stringify(existing));
+
+        // Auto login as CAREGIVER
+        setUser({ username: data.caregiverDni, role: "CAREGIVER", token: "" });
+        setIsDemoMode(false);
+        navigate("/familia");
+        return true;
+      } catch (err) {
+        console.error(err);
+        return false;
+      }
+    },
+    [navigate],
+  );
 
   const logout = useCallback(() => {
     sessionStorage.removeItem("active_token");

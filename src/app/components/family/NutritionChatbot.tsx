@@ -9,7 +9,10 @@ import {
   BookOpen,
 } from "lucide-react";
 import { useTranslation } from "../../contexts/LanguageContext";
-import { evaluateNLUQuery, type NLUEvaluationResult } from "../../lib/i18n/nlu-engine";
+import {
+  evaluateNLUQuery,
+  type NLUEvaluationResult,
+} from "../../lib/i18n/nlu-engine";
 import { tts } from "../../lib/i18n/tts-helper";
 import type { LanguageCode } from "../../lib/i18n/translations";
 
@@ -59,7 +62,9 @@ export function NutritionChatbot() {
     },
   ]);
   const [input, setInput] = useState("");
-  const [speakingMessageId, setSpeakingMessageId] = useState<string | null>(null);
+  const [speakingMessageId, setSpeakingMessageId] = useState<string | null>(
+    null,
+  );
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
 
   useEffect(() => {
@@ -107,18 +112,18 @@ export function NutritionChatbot() {
       try {
         const token = sessionStorage.getItem("active_token");
         const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
-        
+
         const response = await fetch(`${API_URL}/api/chat`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ message: text, language })
+          body: JSON.stringify({ message: text, language }),
         });
-        
+
         if (!response.ok) throw new Error("LLM offline");
-        
+
         const data = await response.json();
         const botMsg: ChatMessage = {
           id: `bot-${Date.now()}`,
@@ -130,7 +135,7 @@ export function NutritionChatbot() {
             detectedLanguage: language,
             isEmergencyTriage: false,
             replyText: data.reply,
-            sourceRef: data.source || "IA (GPT)"
+            sourceRef: data.source || "IA (GPT)",
           },
           timestamp: new Date(),
         };
@@ -148,7 +153,7 @@ export function NutritionChatbot() {
         setMessages((prev) => [...prev, botMsg]);
       }
     };
-    
+
     processMessage();
   };
 
@@ -172,7 +177,7 @@ export function NutritionChatbot() {
           </div>
         </div>
       </div>
-      
+
       {/* Offline Alert Banner */}
       {isOffline && (
         <div className="bg-amber-500 text-white text-xs font-bold px-4 py-2 flex items-center justify-center gap-2">
@@ -198,8 +203,8 @@ export function NutritionChatbot() {
                   m.sender === "user"
                     ? "bg-primary text-primary-foreground rounded-br-sm ml-auto"
                     : isEmergency
-                    ? "bg-red-500/10 border border-red-500/20 text-red-700 dark:text-red-200 rounded-bl-sm"
-                    : "bg-white/80 dark:bg-black/40 backdrop-blur-md border border-white/20 text-foreground rounded-bl-sm"
+                      ? "bg-red-500/10 border border-red-500/20 text-red-700 dark:text-red-200 rounded-bl-sm"
+                      : "bg-white/80 dark:bg-black/40 backdrop-blur-md border border-white/20 text-foreground rounded-bl-sm"
                 }`}
               >
                 {/* Emergency Triage Badge */}
@@ -221,21 +226,34 @@ export function NutritionChatbot() {
                     </span>
                     <button
                       onClick={() => handleSpeech(m.id, m.text)}
-                      title={isPlayingThis ? t("app.audio_stop") : t("app.audio_read")}
+                      title={
+                        isPlayingThis
+                          ? t("app.audio_stop")
+                          : t("app.audio_read")
+                      }
                       className={`ml-2 p-1 rounded-lg transition-colors flex items-center gap-1 shrink-0 font-semibold ${
                         isPlayingThis
                           ? "bg-accent text-white animate-pulse"
                           : "bg-muted hover:bg-muted/80 text-foreground"
                       }`}
                     >
-                      {isPlayingThis ? <VolumeX className="size-3" /> : <Volume2 className="size-3" />}
-                      <span className="text-xs">{isPlayingThis ? "Detener" : "Escuchar"}</span>
+                      {isPlayingThis ? (
+                        <VolumeX className="size-3" />
+                      ) : (
+                        <Volume2 className="size-3" />
+                      )}
+                      <span className="text-xs">
+                        {isPlayingThis ? "Detener" : "Escuchar"}
+                      </span>
                     </button>
                   </div>
                 )}
               </div>
               <span className="text-xs text-muted-foreground/60 px-1 mt-0.5 font-mono">
-                {m.timestamp.toLocaleTimeString("es-PE", { hour: "2-digit", minute: "2-digit" })}
+                {m.timestamp.toLocaleTimeString("es-PE", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
               </span>
             </div>
           );

@@ -4,17 +4,39 @@
 
 /** [median, standard_deviation] indexed by age in months */
 const BOYS_WEIGHT_REF: Record<number, [number, number]> = {
-  0: [3.3, 0.4], 3: [6.4, 0.7], 6: [7.9, 0.8], 9: [8.9, 0.9], 12: [9.6, 1.0],
-  15: [10.3, 1.1], 18: [10.9, 1.1], 21: [11.5, 1.2], 24: [12.2, 1.2],
-  30: [13.3, 1.4], 36: [14.3, 1.5], 42: [15.3, 1.7], 48: [16.3, 1.8],
-  54: [17.3, 2.0], 60: [18.3, 2.1],
+  0: [3.3, 0.4],
+  3: [6.4, 0.7],
+  6: [7.9, 0.8],
+  9: [8.9, 0.9],
+  12: [9.6, 1.0],
+  15: [10.3, 1.1],
+  18: [10.9, 1.1],
+  21: [11.5, 1.2],
+  24: [12.2, 1.2],
+  30: [13.3, 1.4],
+  36: [14.3, 1.5],
+  42: [15.3, 1.7],
+  48: [16.3, 1.8],
+  54: [17.3, 2.0],
+  60: [18.3, 2.1],
 };
 
 const GIRLS_WEIGHT_REF: Record<number, [number, number]> = {
-  0: [3.2, 0.4], 3: [5.8, 0.6], 6: [7.3, 0.8], 9: [8.2, 0.9], 12: [8.9, 1.0],
-  15: [9.5, 1.0], 18: [10.2, 1.1], 21: [10.9, 1.1], 24: [11.5, 1.2],
-  30: [12.7, 1.3], 36: [13.9, 1.5], 42: [15.0, 1.6], 48: [15.5, 1.8],
-  54: [16.8, 1.9], 60: [18.2, 2.1],
+  0: [3.2, 0.4],
+  3: [5.8, 0.6],
+  6: [7.3, 0.8],
+  9: [8.2, 0.9],
+  12: [8.9, 1.0],
+  15: [9.5, 1.0],
+  18: [10.2, 1.1],
+  21: [10.9, 1.1],
+  24: [11.5, 1.2],
+  30: [12.7, 1.3],
+  36: [13.9, 1.5],
+  42: [15.0, 1.6],
+  48: [15.5, 1.8],
+  54: [16.8, 1.9],
+  60: [18.2, 2.1],
 };
 
 /**
@@ -53,7 +75,7 @@ export function getWHORef(ageMonths: number, sex: "M" | "F"): [number, number] {
 export function calculateZScore(
   weight: number,
   ageMonths: number,
-  sex: "M" | "F"
+  sex: "M" | "F",
 ): number {
   const [median, sd] = getWHORef(ageMonths, sex);
   return parseFloat(((weight - median) / sd).toFixed(2));
@@ -62,7 +84,9 @@ export function calculateZScore(
 /**
  * Classify alert level from a Z-score value.
  */
-export function classifyZScore(zscore: number): "normal" | "follow-up" | "urgent" {
+export function classifyZScore(
+  zscore: number,
+): "normal" | "follow-up" | "urgent" {
   if (zscore < -3) return "urgent";
   if (zscore < -2) return "follow-up";
   return "normal";

@@ -9,16 +9,14 @@ if ("serviceWorker" in navigator && import.meta.env.PROD) {
     navigator.serviceWorker
       .register("/pwa-sw.js")
       .then((reg) =>
-        console.log("[Service Worker] Registrado con éxito:", reg.scope)
+        console.log("[Service Worker] Registrado con éxito:", reg.scope),
       )
-      .catch((err) =>
-        console.error("[Service Worker] Registro fallido:", err)
-      );
+      .catch((err) => console.error("[Service Worker] Registro fallido:", err));
   });
 }
 
 createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
     <App />
-  </BrowserRouter>
+  </BrowserRouter>,
 );
