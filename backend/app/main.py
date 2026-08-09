@@ -599,6 +599,45 @@ def list_rules(db: Session = Depends(get_db)):
         })
     return result
 
+# --- AI CHATBOT HYBRID ENDPOINT ---
+
+from pydantic import BaseModel
+class ChatRequest(BaseModel):
+    message: str
+    language: str = "es"
+
+@app.post("/api/chat", tags=["AI"])
+def chat_with_ai(request: ChatRequest, current_user: models.User = Depends(auth.get_current_user)):
+    """
+    Hybrid LLM Chatbot endpoint. Connects to OpenAI if key is present.
+    If no key or connection fails, it returns 503 so frontend can fallback to local NLU.
+    """
+    api_key = os.environ.get("OPENAI_API_KEY")
+    if not api_key:
+        raise HTTPException(status_code=503, detail="AI Service offline (No API Key). Fallback to local NLU.")
+    
+    try:
+        from openai import OpenAI
+        client = OpenAI(api_key=api_key)
+        
+        system_prompt = "Eres Yanapiri Wawa, un experto en nutrición infantil y pediatría comunitaria de Perú. Responde de forma empática, breve y precisa. Usa lenguaje claro para padres."
+        
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": request.message}
+            ],
+            max_tokens=250,
+            temperature=0.5
+        )
+        
+        reply = response.choices[0].message.content
+        return {"reply": reply, "source": "IA (GPT)"}
+    except Exception as e:
+        print(f"LLM Error: {e}")
+        raise HTTPException(status_code=503, detail="AI Service offline. Fallback to local NLU.")
+
 # --- AUDIT ENDPOINT ---
 
 @app.get("/audit", response_model=List[schemas.AuditLogResponse])

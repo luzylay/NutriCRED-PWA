@@ -90,18 +90,54 @@ export function NutritionChatbot() {
     setMessages((prev) => [...prev, userMsg]);
     setInput("");
 
-    // Process query using NLU Engine
-    setTimeout(() => {
-      const nluResult = evaluateNLUQuery(text, language);
-      const botMsg: ChatMessage = {
-        id: `bot-${Date.now()}`,
-        sender: "bot",
-        text: nluResult.replyText,
-        nlu: nluResult,
-        timestamp: new Date(),
-      };
-      setMessages((prev) => [...prev, botMsg]);
-    }, 400);
+    // Process query using LLM with NLU Fallback
+    const processMessage = async () => {
+      try {
+        const token = sessionStorage.getItem("active_token");
+        const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+        
+        const response = await fetch(`${API_URL}/api/chat`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify({ message: text, language })
+        });
+        
+        if (!response.ok) throw new Error("LLM offline");
+        
+        const data = await response.json();
+        const botMsg: ChatMessage = {
+          id: `bot-${Date.now()}`,
+          sender: "bot",
+          text: data.reply,
+          nlu: {
+            intent: "general_nutrition",
+            confidence: 0.99,
+            detectedLanguage: language,
+            isEmergencyTriage: false,
+            replyText: data.reply,
+            sourceRef: data.source || "IA (GPT)"
+          },
+          timestamp: new Date(),
+        };
+        setMessages((prev) => [...prev, botMsg]);
+      } catch (err) {
+        // Fallback to local NLU
+        const nluResult = evaluateNLUQuery(text, language);
+        const botMsg: ChatMessage = {
+          id: `bot-${Date.now()}`,
+          sender: "bot",
+          text: nluResult.replyText,
+          nlu: nluResult,
+          timestamp: new Date(),
+        };
+        setMessages((prev) => [...prev, botMsg]);
+      }
+    };
+    
+    processMessage();
   };
 
   return (
