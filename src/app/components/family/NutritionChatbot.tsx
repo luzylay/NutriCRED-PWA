@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   MessageSquare,
   Send,
@@ -60,6 +60,18 @@ export function NutritionChatbot() {
   ]);
   const [input, setInput] = useState("");
   const [speakingMessageId, setSpeakingMessageId] = useState<string | null>(null);
+  const [isOffline, setIsOffline] = useState(!navigator.onLine);
+
+  useEffect(() => {
+    const handleOnline = () => setIsOffline(false);
+    const handleOffline = () => setIsOffline(true);
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, []);
 
   const prompts = QUICK_PROMPTS[language] || QUICK_PROMPTS.es;
 
@@ -160,6 +172,14 @@ export function NutritionChatbot() {
           </div>
         </div>
       </div>
+      
+      {/* Offline Alert Banner */}
+      {isOffline && (
+        <div className="bg-amber-500 text-white text-xs font-bold px-4 py-2 flex items-center justify-center gap-2">
+          <AlertTriangle className="size-3.5" />
+          Sin conexión: Respuestas limitadas a la base local. Usa La Despensa.
+        </div>
+      )}
 
       {/* Messages area */}
       <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-muted/15">
