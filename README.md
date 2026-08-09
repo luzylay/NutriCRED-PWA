@@ -1,4 +1,10 @@
-# Yanapiri Wawa (Ayudante del Bebé)
+# Yanapiri Wawa (Ayudante del Bebé) 👶🏽🍼
+
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Producci%C3%B3n-success?style=for-the-badge)
 
 Yanapiri Wawa es una plataforma web y PWA diseñada para el seguimiento nutricional y de crecimiento infantil en entornos comunitarios. Este software conecta el monitoreo realizado por los cuidadores (padres/madres) en sus hogares con las acciones de priorización del personal de salud (médicos/enfermeros) y las visitas de campo de los actores sociales comunitarios.
 
