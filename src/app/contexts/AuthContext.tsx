@@ -30,7 +30,16 @@ const AuthContext = createContext<AuthContextValue | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
-  const [user, setUser] = useState<AuthUser | null>(null);
+  const [user, setUser] = useState<AuthUser | null>(() => {
+    const token = sessionStorage.getItem("active_token");
+    const role = sessionStorage.getItem("active_role") as UserRole | null;
+    const username = sessionStorage.getItem("active_username");
+    
+    if (token && role && username) {
+      return { username, role, token };
+    }
+    return null;
+  });
   const [isDemoMode, setIsDemoMode] = useState(false);
 
   const login = useCallback(
@@ -44,6 +53,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         };
         sessionStorage.setItem("active_token", data.access_token);
         sessionStorage.setItem("active_role", data.role);
+        sessionStorage.setItem("active_username", data.username);
         setUser(authUser);
         setIsDemoMode(false);
 
@@ -71,6 +81,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           const role = offlineMap[username];
           const authUser: AuthUser = { username, role, token: "" };
           setUser(authUser);
+          sessionStorage.setItem("active_token", "");
+          sessionStorage.setItem("active_role", role);
+          sessionStorage.setItem("active_username", username);
           setIsDemoMode(false);
           navigate(ROLE_TO_ROUTE[role]);
           return true;
@@ -114,6 +127,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = useCallback(() => {
     sessionStorage.removeItem("active_token");
     sessionStorage.removeItem("active_role");
+    sessionStorage.removeItem("active_username");
     setUser(null);
     setIsDemoMode(false);
     navigate("/");

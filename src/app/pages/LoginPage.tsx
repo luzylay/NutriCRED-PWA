@@ -3,9 +3,11 @@ import { Baby, Settings, User, Lock, ArrowRight, Info, ShieldCheck, HeartPulse }
 import { useAuth } from "../contexts/AuthContext";
 import { useTranslation } from "../contexts/LanguageContext";
 import { SettingsModal } from "../components/shared/SettingsModal";
+import { Navigate } from "react-router";
+import { ROLE_TO_ROUTE } from "../lib/constants";
 
 export default function LoginPage() {
-  const { login, enterDemo } = useAuth();
+  const { login, enterDemo, isLoggedIn, user } = useAuth();
   const { t, languageInfo } = useTranslation();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -13,6 +15,10 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [showCredentials, setShowCredentials] = useState(false);
+
+  if (isLoggedIn && user) {
+    return <Navigate to={ROLE_TO_ROUTE[user.role] ?? "/familia"} replace />;
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

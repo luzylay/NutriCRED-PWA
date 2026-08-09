@@ -4,14 +4,20 @@ import { Baby, UserPlus, ArrowLeft } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { useTranslation } from "../contexts/LanguageContext";
 import { getWHORef } from "../lib/who-refs";
+import { Navigate } from "react-router";
+import { ROLE_TO_ROUTE } from "../lib/constants";
 
 export default function RegisterPage() {
-  const { registerCaregiver } = useAuth();
+  const { registerCaregiver, isLoggedIn, user } = useAuth();
   const { t } = useTranslation();
   const navigate = useNavigate();
   
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  if (isLoggedIn && user) {
+    return <Navigate to={ROLE_TO_ROUTE[user.role] ?? "/familia"} replace />;
+  }
 
   // Form state
   const [caregiverName, setCaregiverName] = useState("");
