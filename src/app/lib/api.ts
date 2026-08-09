@@ -101,8 +101,42 @@ export async function loginApi(
  *
  * @returns {Promise<unknown[]>} Promesa con un array de registros de niños sin procesar.
  */
-export async function fetchChildrenRaw(): Promise<unknown[]> {
-  return apiFetch<unknown[]>("/children");
+const TTL_MS = 1000 * 60 * 60 * 24; // 24 hours cache TTL
+
+export async function fetchChildren(role?: string): Promise<ChildProfile[]> {
+  const cacheKey = `cache_children_${role || "all"}`;
+  
+  // Offline / Cache Check
+  const cachedData = localStorage.getItem(cacheKey);
+  if (cachedData) {
+    try {
+      const parsed = JSON.parse(cachedData);
+      if (Date.now() - parsed.timestamp < TTL_MS) {
+        console.log("Serving children from cache (offline-first)");
+        return parsed.data;
+      }
+    } catch (e) {
+      console.warn("Cache parsing error", e);
+    }
+  }
+
+  try {
+    const res = await apiFetch<ChildProfile[]>("/children");
+    
+    // Save to cache
+    localStorage.setItem(cacheKey, JSON.stringify({
+      timestamp: Date.now(),
+      data: res
+    }));
+    
+    return res;
+  } catch (err) {
+    if (cachedData) {
+      console.log("Network error, serving stale cache");
+      return JSON.parse(cachedData).data;
+    }
+    throw err;
+  }
 }
 
 export async function fetchMeasurements(childId: number): Promise<Measurement[]> {

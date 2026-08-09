@@ -74,6 +74,7 @@ const NUTRIENTS_DB = {
   primary: {
     title: "Bioelementos Primarios (Proteínas)",
     color: "bg-blue-500",
+    image: "/assets/images/nutrient_protein.png",
     desc: "Son los cimientos principales del cuerpo. Actúan como los ladrillos que construyen los músculos, el cerebro y todos los órganos de tu bebé.",
     deficiency: "Su falta causa desnutrición crónica (stunting), retraso en el crecimiento y debilidad muscular.",
     foods: "Encuéntralos en la Quinua, Cañihua, Tarwi, carnes y huevos."
@@ -81,6 +82,7 @@ const NUTRIENTS_DB = {
   secondary: {
     title: "Bioelementos Secundarios (Calcio)",
     color: "bg-amber-500",
+    image: "/assets/images/nutrient_calcium.png",
     desc: "Acompañan a los primarios. Son como el cemento que endurece los huesos y permite que los nervios y músculos se comuniquen.",
     deficiency: "Su falta puede causar huesos frágiles, problemas dentales y calambres.",
     foods: "Encuéntralos en la Leche, Tarwi, Quesos y vegetales de hojas muy verdes."
@@ -88,6 +90,7 @@ const NUTRIENTS_DB = {
   oligo: {
     title: "Oligoelementos (Hierro y Zinc)",
     color: "bg-red-500",
+    image: "/assets/images/nutrient_iron.png",
     desc: "Se necesitan en porciones pequeñas, pero son vitales como escudos mágicos. El hierro transporta el oxígeno al cerebro y el zinc defiende de virus.",
     deficiency: "Su falta causa ANEMIA, cansancio excesivo, palidez y daño irreversible al desarrollo intelectual.",
     foods: "Encuéntralos en abundancia en la Sangrecita, Hígado, Bazo y pescados oscuros."
@@ -325,6 +328,14 @@ export default function NutritionPage() {
               <h3 className="text-xl font-black">{NUTRIENTS_DB[selectedNutrient].title}</h3>
             </div>
             
+            <div className="bg-muted/10 flex justify-center p-4 border-b border-border">
+              <img 
+                src={NUTRIENTS_DB[selectedNutrient].image} 
+                alt={NUTRIENTS_DB[selectedNutrient].title} 
+                className="w-32 h-32 object-contain drop-shadow-md hover:scale-105 transition-transform"
+              />
+            </div>
+
             <div className="p-6 space-y-5">
               <div>
                 <h4 className="text-xs uppercase font-bold text-muted-foreground mb-1">¿Qué son?</h4>
