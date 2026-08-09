@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BookOpen, Droplet, ChefHat, Activity, Library, Zap, ShieldPlus } from "lucide-react";
+import { BookOpen, Droplet, ChefHat, Activity, Library, Zap, ShieldPlus, Info, X, MessageCircle } from "lucide-react";
 import { HeaderActions } from "../components/shared/HeaderActions";
 
 const RECIPES = [
@@ -70,9 +70,34 @@ const SUPERFOODS = [
   }
 ];
 
+const NUTRIENTS_DB = {
+  primary: {
+    title: "Bioelementos Primarios (Proteínas)",
+    color: "bg-blue-500",
+    desc: "Son los cimientos principales del cuerpo. Actúan como los ladrillos que construyen los músculos, el cerebro y todos los órganos de tu bebé.",
+    deficiency: "Su falta causa desnutrición crónica (stunting), retraso en el crecimiento y debilidad muscular.",
+    foods: "Encuéntralos en la Quinua, Cañihua, Tarwi, carnes y huevos."
+  },
+  secondary: {
+    title: "Bioelementos Secundarios (Calcio)",
+    color: "bg-amber-500",
+    desc: "Acompañan a los primarios. Son como el cemento que endurece los huesos y permite que los nervios y músculos se comuniquen.",
+    deficiency: "Su falta puede causar huesos frágiles, problemas dentales y calambres.",
+    foods: "Encuéntralos en la Leche, Tarwi, Quesos y vegetales de hojas muy verdes."
+  },
+  oligo: {
+    title: "Oligoelementos (Hierro y Zinc)",
+    color: "bg-red-500",
+    desc: "Se necesitan en porciones pequeñas, pero son vitales como escudos mágicos. El hierro transporta el oxígeno al cerebro y el zinc defiende de virus.",
+    deficiency: "Su falta causa ANEMIA, cansancio excesivo, palidez y daño irreversible al desarrollo intelectual.",
+    foods: "Encuéntralos en abundancia en la Sangrecita, Hígado, Bazo y pescados oscuros."
+  }
+};
+
 export default function NutritionPage() {
   const [activeTab, setActiveTab] = useState<"recetas" | "despensa">("recetas");
   const [selectedAge, setSelectedAge] = useState<string>("Todas");
+  const [selectedNutrient, setSelectedNutrient] = useState<keyof typeof NUTRIENTS_DB | null>(null);
 
   const filteredRecipes = selectedAge === "Todas" ? RECIPES : RECIPES.filter(r => r.age === selectedAge);
 
@@ -192,17 +217,29 @@ export default function NutritionPage() {
               </p>
             </div>
 
-            {/* Cápsula Educativa: Lenguaje Objetivo y Directo */}
-            <div className="bg-blue-50/50 dark:bg-blue-900/10 border-l-4 border-blue-500 p-4 rounded-r-2xl mb-6">
-              <h4 className="text-sm font-bold text-foreground mb-2">Nutrientes Esenciales para tu Bebé</h4>
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                Para crecer sano y fuerte, el cuerpo de tu bebé necesita tres tipos de nutrientes (bioelementos):
+            {/* Glosario Interactivo (Retención de Usuario) */}
+            <div className="bg-muted/30 border border-border p-4 rounded-3xl mb-6">
+              <h4 className="text-sm font-bold text-foreground mb-3 flex items-center gap-2">
+                <Info className="size-4 text-blue-500" /> Glosario: Nutrientes Esenciales
+              </h4>
+              <p className="text-xs text-muted-foreground leading-relaxed mb-4">
+                Toca cualquier nutriente para entender profundamente por qué es vital para tu bebé, sin salir de la aplicación.
               </p>
-              <ul className="text-xs text-muted-foreground mt-2 space-y-1.5 ml-1">
-                <li><strong className="text-foreground">1. Bioelementos Primarios (Proteínas):</strong> Presentes en la quinua o cañihua. Sirven para desarrollar los músculos y el cerebro.</li>
-                <li><strong className="text-foreground">2. Bioelementos Secundarios (Calcio):</strong> Presentes en la leche o el tarwi. Sirven para endurecer y fortalecer los huesos.</li>
-                <li><strong className="text-foreground">3. Oligoelementos (Hierro y Zinc):</strong> Presentes en la sangrecita. Sirven para prevenir la anemia y darle defensas contra enfermedades.</li>
-              </ul>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <button onClick={() => setSelectedNutrient("primary")} className="bg-card border border-border p-3 rounded-2xl flex items-center justify-between hover:border-blue-300 hover:shadow-md transition-all text-left">
+                  <span className="text-xs font-bold text-foreground">1. Primarios (Proteínas)</span>
+                  <span className="size-6 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 text-xs">→</span>
+                </button>
+                <button onClick={() => setSelectedNutrient("secondary")} className="bg-card border border-border p-3 rounded-2xl flex items-center justify-between hover:border-amber-300 hover:shadow-md transition-all text-left">
+                  <span className="text-xs font-bold text-foreground">2. Secundarios (Calcio)</span>
+                  <span className="size-6 bg-amber-100 rounded-full flex items-center justify-center text-amber-600 text-xs">→</span>
+                </button>
+                <button onClick={() => setSelectedNutrient("oligo")} className="bg-card border border-border p-3 rounded-2xl flex items-center justify-between hover:border-red-300 hover:shadow-md transition-all text-left">
+                  <span className="text-xs font-bold text-foreground">3. Oligoelementos (Hierro)</span>
+                  <span className="size-6 bg-red-100 rounded-full flex items-center justify-center text-red-600 text-xs">→</span>
+                </button>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -262,6 +299,55 @@ export default function NutritionPage() {
           </p>
         </div>
       </div>
+
+      {/* BANNER CHATBOT (Retención In-App) */}
+      <div className="fixed bottom-20 right-4 md:right-8 z-40 animate-bounce">
+        <button 
+          onClick={() => alert("Abriendo Chatbot de Yanapiri...")}
+          className="bg-primary hover:bg-primary/90 text-primary-foreground p-4 rounded-full shadow-lg flex items-center justify-center gap-2 group transition-all"
+        >
+          <MessageCircle className="size-6" />
+          <span className="hidden group-hover:inline font-bold text-sm pr-2">¿Dudas? Pregúntale a Yanapiri</span>
+        </button>
+      </div>
+
+      {/* MODAL DEL GLOSARIO (Retención In-App) */}
+      {selectedNutrient && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm">
+          <div className="bg-card w-full max-w-md rounded-[2rem] shadow-2xl border border-border overflow-hidden animate-in fade-in zoom-in duration-200">
+            <div className={`${NUTRIENTS_DB[selectedNutrient].color} p-6 text-white relative`}>
+              <button 
+                onClick={() => setSelectedNutrient(null)}
+                className="absolute top-4 right-4 bg-black/20 hover:bg-black/40 p-2 rounded-full transition-colors"
+              >
+                <X className="size-4" />
+              </button>
+              <h3 className="text-xl font-black">{NUTRIENTS_DB[selectedNutrient].title}</h3>
+            </div>
+            
+            <div className="p-6 space-y-5">
+              <div>
+                <h4 className="text-xs uppercase font-bold text-muted-foreground mb-1">¿Qué son?</h4>
+                <p className="text-sm text-foreground leading-relaxed">{NUTRIENTS_DB[selectedNutrient].desc}</p>
+              </div>
+              
+              <div className="bg-red-50/50 dark:bg-red-900/10 border border-red-100 dark:border-red-900/30 p-4 rounded-2xl">
+                <h4 className="text-xs uppercase font-bold text-red-600 dark:text-red-400 mb-1">⚠️ ¿Qué pasa si le falta?</h4>
+                <p className="text-sm text-foreground leading-relaxed">{NUTRIENTS_DB[selectedNutrient].deficiency}</p>
+              </div>
+
+              <div>
+                <h4 className="text-xs uppercase font-bold text-green-600 dark:text-green-500 mb-1">¿Dónde los encuentro?</h4>
+                <p className="text-sm text-foreground leading-relaxed font-medium">{NUTRIENTS_DB[selectedNutrient].foods}</p>
+              </div>
+              
+              <button onClick={() => setSelectedNutrient(null)} className="w-full bg-muted hover:bg-muted/80 text-foreground font-bold py-3 rounded-full transition-colors mt-2 text-sm">
+                Entendido, volver a la despensa
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
