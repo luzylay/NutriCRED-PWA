@@ -44,3 +44,16 @@ yanapiriwawa.db
 Thumbs.db
 ehthumbs.db
 Desktop.ini
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs and Caches
+.eslintcache
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
