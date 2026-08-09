@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App name shown in launcher and Play Store -->
+    <string name="app_name">Yanapiri Wawa</string>
+
+    <!-- The URL of the PWA to load in the TWA -->
+    <!-- CHANGE THIS to your production domain before release -->
+    <string name="launchUrl">https://familia.yanapiriwawa.pe/familia</string>
+
+    <!-- Digital Asset Links for TWA verification -->
+    <string name="asset_statements">
+        [{
+            \"relation\": [\"delegate_permission/common.handle_all_urls\"],
+            \"target\": {
+                \"namespace\": \"web\",
+                \"site\": \"https://familia.yanapiriwawa.pe\"
+            }
+        }]
+    </string>
+</resources>

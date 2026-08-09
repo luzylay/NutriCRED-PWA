@@ -1,0 +1,17 @@
+{
+  "name": "Yanapiri Wawa",
+  "short_name": "Yanapiri",
+  "description": "Aplicación de seguimiento domiciliario infantil y priorización de atenciones en salud.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAFAFA",
+  "theme_color": "#12B1E7",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64",
+      "type": "image/x-icon"
+    }
+  ]
+}

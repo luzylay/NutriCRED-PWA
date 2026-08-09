@@ -1,0 +1,46 @@
+# Node / Frontend Dependency Directories
+node_modules/
+jspm_packages/
+web_drivers/
+
+# Build outputs
+dist/
+tmp/
+out/
+.vite/
+
+# Local Environment Variables and Secrets
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+
+# Python / Backend virtual environments
+.venv/
+venv/
+ENV/
+env/
+dist/
+build/
+*.egg-info/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Test caches and databases
+.pytest_cache/
+.coverage
+htmlcov/
+*.db
+*.sqlite3
+test_yanapiri.db
+yanapiriwawa.db
+
+# OS Files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
