@@ -8,7 +8,8 @@ from sqlalchemy.orm import Session
 from .database import get_db
 from . import models
 
-SECRET_KEY = os.getenv("SECRET_KEY", "yanapiri-wawa-hackathon-super-secret-key-998877")
+import secrets
+SECRET_KEY = os.getenv("SECRET_KEY", secrets.token_urlsafe(32)) # Seguridad Cero-Trust: Si no hay .env, se auto-genera una llave única.
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 120
 
