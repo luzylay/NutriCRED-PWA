@@ -52,13 +52,13 @@ export default function VaccinesPage() {
       </div>
 
       <div className="px-5 -mt-8 relative z-20 space-y-6">
-        <div className="bg-card rounded-[2rem] p-5 shadow-lg border border-border flex gap-4 items-center">
-          <div className="size-12 rounded-2xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center shrink-0">
-            <AlertCircle className="size-6 text-blue-600 dark:text-blue-400" />
+        <div className="bg-amber-50/50 dark:bg-amber-900/10 rounded-[2rem] p-5 shadow-lg border border-amber-200 dark:border-amber-900/30 flex gap-4 items-center">
+          <div className="size-12 rounded-2xl bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center shrink-0">
+            <AlertCircle className="size-6 text-amber-600 dark:text-amber-400" />
           </div>
           <div>
-            <h3 className="font-bold text-foreground">Alerta Próxima Vacuna</h3>
-            <p className="text-xs text-muted-foreground mt-1">
+            <h3 className="font-bold text-amber-800 dark:text-amber-300">Recordatorio Preventivo</h3>
+            <p className="text-xs text-amber-700/80 dark:text-amber-400/80 mt-1">
               Faltan 14 días para el control de 2 meses. Ubica tu posta más cercana a tiempo.
             </p>
           </div>

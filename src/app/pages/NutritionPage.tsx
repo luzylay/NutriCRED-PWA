@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BookOpen, Droplet, ChefHat, Activity } from "lucide-react";
+import { BookOpen, Droplet, ChefHat, Activity, Library, Zap, ShieldPlus } from "lucide-react";
 import { HeaderActions } from "../components/shared/HeaderActions";
 
 const RECIPES = [
@@ -33,6 +33,7 @@ const RECIPES = [
 ];
 
 export default function NutritionPage() {
+  const [activeTab, setActiveTab] = useState<"recetas" | "despensa">("recetas");
   const [selectedAge, setSelectedAge] = useState<string>("Todas");
 
   const filteredRecipes = selectedAge === "Todas" ? RECIPES : RECIPES.filter(r => r.age === selectedAge);
@@ -71,61 +72,116 @@ export default function NutritionPage() {
           </div>
         </div>
 
-        {/* Filters */}
-        <div>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
-              <ChefHat className="size-5 text-primary" /> Recetario Local
-            </h2>
-          </div>
-          <div className="flex gap-2 overflow-x-auto hide-scrollbar pb-2">
-            {["Todas", "6 a 8 meses", "9 a 11 meses", "12 a 24 meses"].map(age => (
-              <button
-                key={age}
-                onClick={() => setSelectedAge(age)}
-                className={`px-4 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all ${
-                  selectedAge === age 
-                  ? "bg-primary text-primary-foreground shadow-md" 
-                  : "bg-card text-muted-foreground border border-border hover:bg-muted"
-                }`}
-              >
-                {age}
-              </button>
-            ))}
-          </div>
+        {/* Main Tabs */}
+        <div className="flex gap-4 border-b border-border mb-6">
+          <button 
+            onClick={() => setActiveTab("recetas")}
+            className={`pb-3 text-sm font-bold transition-all border-b-2 ${activeTab === "recetas" ? "border-primary text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"}`}
+          >
+            <span className="flex items-center gap-2"><ChefHat className="size-4" /> Recetario Local</span>
+          </button>
+          <button 
+            onClick={() => setActiveTab("despensa")}
+            className={`pb-3 text-sm font-bold transition-all border-b-2 ${activeTab === "despensa" ? "border-primary text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"}`}
+          >
+            <span className="flex items-center gap-2"><Library className="size-4" /> La Despensa</span>
+          </button>
         </div>
 
-        {/* Recipes Grid */}
-        <div className="grid gap-4">
-          {filteredRecipes.map(recipe => (
-            <div key={recipe.id} className="bg-card border border-border rounded-3xl p-5 shadow-sm hover:shadow-md transition-shadow">
-              <div className="flex justify-between items-start mb-3">
-                <span className="bg-accent/10 text-accent text-xs font-black uppercase tracking-wider px-2.5 py-1 rounded-lg">
-                  {recipe.age}
-                </span>
-                <span className="flex items-center gap-1 text-xs font-bold text-red-500">
-                  <Activity className="size-3" /> Hierro: {recipe.iron}
-                </span>
-              </div>
-              <h3 className="font-bold text-lg leading-tight mb-2 text-foreground">{recipe.title}</h3>
-              <p className="text-sm text-muted-foreground mb-4">{recipe.description}</p>
-              
-              <div className="bg-muted/40 rounded-2xl p-4">
-                <h4 className="text-xs font-bold uppercase text-muted-foreground mb-2 flex items-center gap-1.5">
-                  <BookOpen className="size-3.5" /> Ingredientes
-                </h4>
-                <ul className="space-y-1.5">
-                  {recipe.ingredients.map((ing, idx) => (
-                    <li key={idx} className="text-sm flex items-start gap-2">
-                      <div className="size-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
-                      <span className="text-foreground">{ing}</span>
-                    </li>
-                  ))}
-                </ul>
+        {activeTab === "recetas" && (
+          <>
+            {/* Filters */}
+            <div>
+              <div className="flex gap-2 overflow-x-auto hide-scrollbar pb-2">
+                {["Todas", "6 a 8 meses", "9 a 11 meses", "12 a 24 meses"].map(age => (
+                  <button
+                    key={age}
+                    onClick={() => setSelectedAge(age)}
+                    className={`px-4 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all ${
+                      selectedAge === age 
+                      ? "bg-primary text-primary-foreground shadow-md" 
+                      : "bg-card text-muted-foreground border border-border hover:bg-muted"
+                    }`}
+                  >
+                    {age}
+                  </button>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
+
+            {/* Recipes Grid */}
+            <div className="grid gap-4">
+              {filteredRecipes.map(recipe => (
+                <div key={recipe.id} className="bg-card border border-border rounded-3xl p-5 shadow-sm hover:shadow-md transition-shadow">
+                  <div className="flex justify-between items-start mb-3">
+                    <span className="bg-accent/10 text-accent text-xs font-black uppercase tracking-wider px-2.5 py-1 rounded-lg">
+                      {recipe.age}
+                    </span>
+                    <span className="flex items-center gap-1 text-xs font-bold text-red-500">
+                      <Activity className="size-3" /> Hierro: {recipe.iron}
+                    </span>
+                  </div>
+                  <h3 className="font-bold text-lg leading-tight mb-2 text-foreground">{recipe.title}</h3>
+                  <p className="text-sm text-muted-foreground mb-4">{recipe.description}</p>
+                  
+                  <div className="bg-muted/40 rounded-2xl p-4">
+                    <h4 className="text-xs font-bold uppercase text-muted-foreground mb-2 flex items-center gap-1.5">
+                      <BookOpen className="size-3.5" /> Ingredientes
+                    </h4>
+                    <ul className="space-y-1.5">
+                      {recipe.ingredients.map((ing, idx) => (
+                        <li key={idx} className="text-sm flex items-start gap-2">
+                          <div className="size-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
+                          <span className="text-foreground">{ing}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+        {activeTab === "despensa" && (
+          <div className="space-y-4">
+            <div className="bg-card border border-border rounded-3xl p-5 shadow-sm">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="size-8 rounded-full bg-red-100 flex items-center justify-center">
+                  <Droplet className="size-4 text-red-600" />
+                </div>
+                <h3 className="font-bold text-foreground">Metabolismo del Hierro</h3>
+              </div>
+              <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+                El cuerpo humano absorbe el <strong>Hierro Hemo</strong> (sangrecita, hígado, bazo) de forma rápida y directa (hasta un 30%). Por el contrario, el <strong>Hierro No Hemo</strong> (lentejas, espinacas) se absorbe muy poco (apenas 2% a 10%). ¡Por eso las carnes oscuras son el mejor aliado contra la anemia infantil!
+              </p>
+            </div>
+
+            <div className="bg-card border border-border rounded-3xl p-5 shadow-sm">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="size-8 rounded-full bg-amber-100 flex items-center justify-center">
+                  <Zap className="size-4 text-amber-600" />
+                </div>
+                <h3 className="font-bold text-foreground">Vitamina C: El Gran Potenciador</h3>
+              </div>
+              <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+                ¿Sabías que un chorrito de limón o acompañar la comida con jugo de naranja aumenta la absorción del hierro vegetal hasta en un 300%? La <strong>Vitamina C</strong> actúa como una "llave" que ayuda a que el hierro entre al cuerpo.
+              </p>
+            </div>
+
+            <div className="bg-card border border-border rounded-3xl p-5 shadow-sm">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="size-8 rounded-full bg-blue-100 flex items-center justify-center">
+                  <ShieldPlus className="size-4 text-blue-600" />
+                </div>
+                <h3 className="font-bold text-foreground">Zinc y Vitamina A</h3>
+              </div>
+              <p className="text-sm text-muted-foreground leading-relaxed mb-3">
+                Presentes en semillas (como el Tarwi) y vegetales naranjas (Zanahoria, Zapallo Macre). Mientras el Zinc construye tejidos y fomenta el crecimiento en talla, la Vitamina A blinda el sistema inmunológico contra infecciones.
+              </p>
+            </div>
+          </div>
+        )}
         
         {/* Referencias y Disclaimer */}
         <div className="mt-8 border-t border-border pt-6 pb-4 text-center">
