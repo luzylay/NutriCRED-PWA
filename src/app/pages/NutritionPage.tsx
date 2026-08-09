@@ -192,12 +192,17 @@ export default function NutritionPage() {
               </p>
             </div>
 
-            {/* Cápsula Educativa sobre Bioelementos */}
+            {/* Cápsula Educativa: Lenguaje Inclusivo y Sencillo */}
             <div className="bg-blue-50/50 dark:bg-blue-900/10 border-l-4 border-blue-500 p-4 rounded-r-2xl mb-6">
-              <h4 className="text-sm font-bold text-foreground mb-1">🧬 Los Bloques de Vida de tu Wawa (Bioelementos)</h4>
+              <h4 className="text-sm font-bold text-foreground mb-2">🧱 Los Ladrillos que Construyen a tu Bebé</h4>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Para crecer, tu bebé necesita <strong>Bioelementos Primarios</strong> (como el Nitrógeno y Carbono presentes en las Proteínas de la Cañihua o Tarwi) que construyen sus músculos y cerebro. También requiere <strong>Bioelementos Secundarios</strong> (como el Calcio para sus huesos) y <em>Oligoelementos</em> vitales (como el Hierro y el Zinc) que previenen la anemia y refuerzan sus defensas.
+                Imagina que el cuerpito de tu wawa es una casita en construcción. Para hacerla fuerte, necesita tres materiales especiales (que los médicos llaman <em>bioelementos</em>):
               </p>
+              <ul className="text-xs text-muted-foreground mt-2 space-y-1.5 ml-1">
+                <li><strong className="text-foreground">1. Los Ladrillos (Primarios):</strong> Son las <em>proteínas</em> de la quinua o cañihua. Hacen crecer sus bracitos y su cerebro.</li>
+                <li><strong className="text-foreground">2. El Cemento (Secundarios):</strong> Es el <em>calcio</em> del tarwi o la leche. Pega los ladrillos y hace sus huesos duros.</li>
+                <li><strong className="text-foreground">3. El Escudo Protector (Oligoelementos):</strong> Es el <em>hierro</em> de la sangrecita. Aunque se necesita poquito, es mágico: combate la anemia y le da defensas para no enfermar.</li>
+              </ul>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
