@@ -73,8 +73,8 @@ export function QRScannerModal({ isOpen, onClose, onScanSuccess }: QRScannerModa
               <QrCode className="size-5" />
             </div>
             <div>
-              <h3 className="font-black text-foreground text-lg leading-tight font-nunito">Escáner de Carnet CRED / DNI</h3>
-              <p className="text-xs font-semibold text-muted-foreground">Vincular ficha de salud por cámara</p>
+              <h3 className="font-black text-foreground text-lg leading-tight font-nunito">Búsqueda Rápida por Código QR</h3>
+              <p className="text-xs font-semibold text-muted-foreground">Carnet CRED o DNI del menor</p>
             </div>
           </div>
 
@@ -92,7 +92,7 @@ export function QRScannerModal({ isOpen, onClose, onScanSuccess }: QRScannerModa
             <div className="text-center p-6 space-y-3">
               <Camera className="size-10 text-muted-foreground mx-auto" />
               <p className="text-xs font-medium text-muted-foreground">
-                Cámara en vivo activa para lectura instantánea de código QR.
+                Cámara en vivo activa para lectura instantánea de carnet o DNI.
               </p>
             </div>
           ) : (
@@ -126,13 +126,14 @@ export function QRScannerModal({ isOpen, onClose, onScanSuccess }: QRScannerModa
             className="w-full py-3.5 px-4 rounded-2xl bg-primary text-primary-foreground font-black text-sm shadow-md hover:opacity-90 transition-all flex items-center justify-center gap-2 cursor-pointer"
           >
             <QrCode className="size-4" />
-            <span>Escanear Código QR CRED / DNI</span>
+            <span>Escanear Carnet Físico o DNI</span>
           </button>
           
           <p className="text-[11px] text-center text-muted-foreground font-medium">
-            💡 Apunta la cámara al código QR impreso en el carnet CRED o DNI del menor para vincular su ficha médica.
+            💡 Escanea el carnet físico para acceder directamente al perfil de crecimiento y vacunas del bebé.
           </p>
         </div>
+
 
 
       </div>

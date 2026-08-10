@@ -272,7 +272,8 @@ export default function FamilyPage() {
               <button
                 onClick={() => setIsQRModalOpen(true)}
                 className="size-9 rounded-xl bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 flex items-center justify-center transition-all cursor-pointer"
-                title="Escanear Carnet CRED o DNI por QR"
+                title="Búsqueda Rápida por Código QR"
+
               >
 
                 <QrCode className="size-4" />
