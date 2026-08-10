@@ -30,7 +30,7 @@ async function main() {
   const agentPassword = await bcrypt.hash('agent123', salt);
   const mamaPassword = await bcrypt.hash('mama123', salt);
 
-  const adminUser = await prisma.user.create({
+  await prisma.user.create({
     data: {
       username: 'admin',
       email: 'admin@yanapiriwawa.org',
@@ -39,6 +39,7 @@ async function main() {
       role: 'ADMIN',
     },
   });
+
 
   const docUser = await prisma.user.create({
     data: {
@@ -127,7 +128,7 @@ async function main() {
     },
   });
 
-  const child3 = await prisma.child.create({
+  await prisma.child.create({
     data: {
       name: 'Sofia Huamán',
       sex: 'F',
@@ -140,6 +141,7 @@ async function main() {
       professionalId: docUser.professional?.id,
     },
   });
+
 
   console.log('✅ Niños creados: Liam, Mateo, Sofía');
 
