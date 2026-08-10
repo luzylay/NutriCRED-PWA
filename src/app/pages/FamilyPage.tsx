@@ -698,7 +698,7 @@ export default function FamilyPage() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex flex-col items-center gap-1 py-3 text-[11px] font-bold transition-colors cursor-pointer ${
+                  className={`flex flex-col items-center gap-1 py-3 text-xs font-bold transition-colors cursor-pointer ${
                     activeTab === tab.id
                       ? "text-primary border-t-2 border-primary"
                       : "text-muted-foreground hover:text-foreground"

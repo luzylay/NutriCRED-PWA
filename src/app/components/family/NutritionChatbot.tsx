@@ -261,16 +261,20 @@ export function NutritionChatbot() {
       </div>
 
       {/* Suggested chips in active language */}
-      <div className="px-4 py-3 flex gap-2 overflow-x-auto border-t border-border bg-card/80 backdrop-blur-sm hide-scrollbar">
-        {prompts.map((p, i) => (
-          <button
-            key={i}
-            onClick={() => handleSendMessage(p)}
-            className="text-xs bg-card hover:bg-primary hover:text-primary-foreground text-primary font-bold px-4 py-2 rounded-full shrink-0 border border-primary/20 transition-all shadow-sm active:scale-95 cursor-pointer"
-          >
-            {p}
-          </button>
-        ))}
+      <div className="relative border-t border-border bg-card/80 backdrop-blur-sm">
+        {/* Right fade indicator for scrollability */}
+        <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-card/80 to-transparent pointer-events-none z-10" />
+        <div className="px-4 py-3 flex gap-2 overflow-x-auto hide-scrollbar relative">
+          {prompts.map((p, i) => (
+            <button
+              key={i}
+              onClick={() => handleSendMessage(p)}
+              className="text-xs bg-card hover:bg-primary hover:text-primary-foreground text-primary font-bold px-4 py-2 rounded-full shrink-0 border border-primary/20 transition-all shadow-sm active:scale-95 cursor-pointer"
+            >
+              {p}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Chat input */}
