@@ -29,29 +29,34 @@ export class MeasurementsService {
     let severity = 'VERDE';
     let alertMessage = '';
 
-    // Evaluar reglas MUAC (Perímetro Braquial)
+    // ─── 1. EVALUACIÓN PERÍMETRO BRAQUIAL / MUAC (Norma Técnica MINSA NTS N° 137 / WHO SAM Guidelines) ───
     if (data.muac !== undefined && data.muac !== null) {
       if (data.muac < 11.5) {
+        // MUAC < 11.5 cm (115 mm): Criterio internacional OMS para Desnutrición Aguda Severa (DAS)
         alertTriggered = 'urgent';
         severity = 'ROJO';
-        alertMessage = `Alerta Crítica: MUAC extremadamente bajo (${data.muac} cm). Riesgo alto de desnutrición aguda severa.`;
+        alertMessage = `Alerta Crítica: MUAC extremadamente bajo (${data.muac} cm). Riesgo alto de desnutrición aguda severa (OMS / MINSA).`;
       } else if (data.muac < 12.5) {
+        // 11.5 cm <= MUAC < 12.5 cm: Criterio para Desnutrición Aguda Moderada (DAM)
         alertTriggered = 'follow-up';
         severity = 'AMARILLO';
-        alertMessage = `Atención: MUAC en rango de riesgo (${data.muac} cm). Requiere seguimiento nutricional.`;
+        alertMessage = `Atención: MUAC en rango de riesgo (${data.muac} cm). Requiere seguimiento nutricional en centro CRED.`;
       }
     }
 
-    // Evaluar reglas Z-Score
+    // ─── 2. EVALUACIÓN DESVIACIÓN ESTÁNDAR Z-SCORE (WHO Child Growth Standards 2006) ───
     if (zscore < -2.0) {
+      // Z < -2.0 DE: Desnutrición Severa / Moderada según curvas antropométricas de la OMS
       alertTriggered = 'urgent';
       severity = 'ROJO';
       alertMessage = alertMessage || `Alerta Crítica: Desviación Z-Score de peso/talla crítica (${zscore}).`;
     } else if (zscore < -1.0 && alertTriggered === 'normal') {
+      // -2.0 DE <= Z < -1.0 DE: Riesgo nutricional / Bajo Peso
       alertTriggered = 'follow-up';
       severity = 'AMARILLO';
-      alertMessage = `Atención: Z-Score bajo (${zscore}). Monitoreo recomendado.`;
+      alertMessage = `Atención: Z-Score bajo (${zscore}). Monitoreo preventivo recomendado.`;
     }
+
 
     // Crear la medición
     const measurement = await this.prisma.measurement.create({
