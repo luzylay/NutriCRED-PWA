@@ -23,11 +23,13 @@ import { useData } from "../contexts/DataContext";
 import { useTranslation } from "../contexts/LanguageContext";
 import { MeasurementWizard } from "../components/family/MeasurementWizard";
 import { NutritionChatbot } from "../components/family/NutritionChatbot";
+import { NutritionalTrivia } from "../components/family/NutritionalTrivia";
 import { AddChildModal } from "../components/family/AddChildModal";
 import { AlertBadge } from "../components/shared/AlertBadge";
 import { GrowthChart } from "../components/shared/GrowthChart";
 import { SettingsModal } from "../components/shared/SettingsModal";
 import { HeaderActions } from "../components/shared/HeaderActions";
+import confetti from "canvas-confetti";
 import { ALERT_CFG } from "../lib/constants";
 import { getWHORef } from "../lib/who-refs";
 import { postMeasurement, fetchAlerts } from "../lib/api";
@@ -38,7 +40,7 @@ import type {
   GrowthPoint,
 } from "../lib/types";
 
-type FamilyTab = "home" | "history" | "help";
+type FamilyTab = "home" | "history" | "help" | "play";
 
 export default function FamilyPage() {
   const { user, logout } = useAuth();
@@ -166,6 +168,17 @@ export default function FamilyPage() {
         }
       } catch {
         /* ignore */
+      }
+
+      // UX: Gamificación Sensorial (Confeti) si el bebé está sano
+      if (level === "normal") {
+        confetti({
+          particleCount: 100,
+          spread: 80,
+          origin: { y: 0.5 },
+          colors: ["#10b981", "#3b82f6", "#f59e0b", "#ec4899"],
+          zIndex: 100,
+        });
       }
 
       return { success: true, level, message };
@@ -417,45 +430,50 @@ export default function FamilyPage() {
                           {
                             id: "weight" as MeasureType,
                             label: t("family.weight"),
-                            desc: "Sube a tu bebé a la balanza para ver cómo crece.",
+                            desc: "Sube a tu bebé a la balanza",
                             icon: Scale,
-                            bg: "bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-500/20",
+                            bg: "from-cyan-500/20 to-blue-500/10 text-cyan-700 dark:text-cyan-300 border-cyan-500/30",
+                            iconBg: "bg-cyan-500",
                           },
                           {
                             id: "height" as MeasureType,
                             label: t("family.height"),
-                            desc: "Mide su alturita acostado o de pie.",
+                            desc: "Mide su alturita acostado",
                             icon: Ruler,
-                            bg: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20",
+                            bg: "from-emerald-500/20 to-teal-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/30",
+                            iconBg: "bg-emerald-500",
                           },
                           {
                             id: "muac" as MeasureType,
                             label: t("family.muac"),
-                            desc: "Cinta especial de nutrición.",
+                            desc: "Cinta especial del bracito",
                             icon: Activity,
-                            bg: "bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20",
+                            bg: "from-rose-500/20 to-pink-500/10 text-rose-700 dark:text-rose-300 border-rose-500/30",
+                            iconBg: "bg-rose-500",
                           },
                         ].map((act) => (
                           <button
                             key={act.id}
                             onClick={() => setWizardType(act.id)}
-                            className="group bg-card/60 hover:bg-card backdrop-blur-md border border-border hover:border-primary/50 p-4 rounded-3xl flex items-center gap-4 transition-all duration-300 hover:shadow-md active:scale-[0.98] cursor-pointer"
+                            className={`group relative overflow-hidden bg-gradient-to-br ${act.bg} backdrop-blur-xl border p-4 rounded-[2rem] flex items-center gap-4 transition-all duration-300 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-white/5 active:scale-[0.98] cursor-pointer`}
                           >
+                            <div className="absolute top-0 right-0 w-24 h-24 bg-white/20 blur-2xl rounded-full -mr-8 -mt-8 pointer-events-none group-hover:scale-150 transition-transform duration-500"></div>
+                            
                             <div
-                              className={`p-3.5 rounded-[1.25rem] border ${act.bg} shadow-sm shrink-0 bg-white dark:bg-black/20 group-hover:scale-105 transition-transform duration-300`}
+                              className={`p-3.5 rounded-2xl shadow-md shrink-0 ${act.iconBg} text-white group-hover:scale-110 transition-transform duration-300 relative z-10`}
                             >
-                              <act.icon className="size-6" />
+                              <act.icon className="size-6 drop-shadow-sm" />
                             </div>
-                            <div className="text-left flex-1">
-                              <span className="text-base font-black text-foreground block font-nunito tracking-tight">
+                            <div className="text-left flex-1 relative z-10">
+                              <span className="text-lg font-black text-foreground block font-nunito tracking-tight drop-shadow-sm">
                                 {act.label}
                               </span>
-                              <span className="text-sm text-muted-foreground block mt-0.5 leading-snug font-medium pr-2 group-hover:text-foreground/70 transition-colors">
+                              <span className="text-sm font-bold opacity-80 block mt-0.5 leading-snug group-hover:opacity-100 transition-opacity">
                                 {act.desc}
                               </span>
                             </div>
-                            <div className="text-muted-foreground/30 pr-1 group-hover:text-primary transition-colors transform group-hover:translate-x-1 duration-300">
-                              <ChevronRight className="size-6" />
+                            <div className="bg-white/40 dark:bg-black/20 p-2 rounded-full relative z-10 text-foreground group-hover:bg-white group-hover:text-black transition-colors transform group-hover:translate-x-1 duration-300 shadow-sm border border-white/30">
+                              <ChevronRight className="size-5" />
                             </div>
                           </button>
                         ))}
@@ -635,17 +653,40 @@ export default function FamilyPage() {
                 <NutritionChatbot />
               </div>
             )}
+            {activeTab === "play" && (
+              <div className="space-y-4">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="size-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-xl flex items-center justify-center shadow-lg text-white">
+                    <Sparkles className="size-5" />
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-black text-foreground font-nunito tracking-tight">
+                      Jugar y Aprender
+                    </h2>
+                    <p className="text-sm font-medium text-muted-foreground mt-0.5">
+                      Gana Puntos Yanapiri respondiendo trivias.
+                    </p>
+                  </div>
+                </div>
+                <NutritionalTrivia />
+              </div>
+            )}
           </div>
 
           {/* Bottom tab bar */}
           <div className="border-t border-border mt-auto bg-card/90 backdrop-blur-md sticky bottom-0 z-20 pb-safe">
-            <div className="grid grid-cols-3 max-w-lg mx-auto">
+            <div className="grid grid-cols-4 max-w-lg mx-auto">
               {[
                 { id: "home" as FamilyTab, Icon: Home, labelKey: "nav.home" },
                 {
                   id: "history" as FamilyTab,
                   Icon: Activity,
                   labelKey: "nav.history",
+                },
+                {
+                  id: "play" as FamilyTab,
+                  Icon: Sparkles,
+                  labelKey: "Jugar", // Hardcoded fallback if translation misses
                 },
                 {
                   id: "help" as FamilyTab,
@@ -656,14 +697,14 @@ export default function FamilyPage() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex flex-col items-center gap-1 py-3 text-xs font-bold transition-colors cursor-pointer ${
+                  className={`flex flex-col items-center gap-1 py-3 text-[11px] font-bold transition-colors cursor-pointer ${
                     activeTab === tab.id
                       ? "text-primary border-t-2 border-primary"
                       : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
-                  <tab.Icon className="size-4.5" />
-                  {t(tab.labelKey)}
+                  <tab.Icon className="size-5" />
+                  {tab.labelKey === "Jugar" ? "Jugar" : t(tab.labelKey)}
                 </button>
               ))}
             </div>
