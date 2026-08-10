@@ -18,6 +18,7 @@ import {
   Hand,
   ChevronRight,
   Sparkles,
+  QrCode,
 } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { useData } from "../contexts/DataContext";
@@ -31,6 +32,8 @@ import { AlertBadge } from "../components/shared/AlertBadge";
 import { GrowthChart } from "../components/shared/GrowthChart";
 import { SettingsModal } from "../components/shared/SettingsModal";
 import { HeaderActions } from "../components/shared/HeaderActions";
+import { QRScannerModal } from "../components/shared/QRScannerModal";
+
 import confetti from "canvas-confetti";
 import { ALERT_CFG } from "../lib/constants";
 import { getWHORef } from "../lib/who-refs";
@@ -212,6 +215,14 @@ export default function FamilyPage() {
         onClose={() => setIsSettingsOpen(false)}
       />
 
+      <QRScannerModal
+        isOpen={isQRModalOpen}
+        onClose={() => setIsQRModalOpen(false)}
+        onScanSuccess={(scanned) => {
+          alert(`Carnet CRED detectado con éxito:\nNiño: ${scanned.childName}\nCódigo: ${scanned.credCode}`);
+        }}
+      />
+
       {isAddChildOpen && (
         <AddChildModal
           onClose={() => setIsAddChildOpen(false)}
@@ -256,6 +267,14 @@ export default function FamilyPage() {
             </div>
 
             <div className="flex items-center gap-2">
+              <button
+                onClick={() => setIsQRModalOpen(true)}
+                className="size-9 rounded-xl bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 flex items-center justify-center transition-all cursor-pointer"
+                title="Escanear Carnet CRED por QR ($0 Costo)"
+              >
+                <QrCode className="size-4" />
+              </button>
+
               <HeaderActions
                 onSettings={() => setIsSettingsOpen(true)}
                 onRefresh={refreshData}

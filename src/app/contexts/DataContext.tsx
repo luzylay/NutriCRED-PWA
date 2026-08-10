@@ -13,6 +13,7 @@ import {
   mapRawChild,
   formatAge,
 } from "../lib/api";
+import { updateAppBadge } from "../lib/pwa-capabilities";
 import { getWHORef } from "../lib/who-refs";
 import type {
   Child,
@@ -23,6 +24,7 @@ import type {
   MeasureType,
   AuthUser,
 } from "../lib/types";
+
 
 // ─── FALLBACK DATA ────────────────────────────────────────────────────────────
 
@@ -254,6 +256,14 @@ export function DataProvider({
       window.removeEventListener("offline", handleOffline);
     };
   }, []);
+
+  // Actualizar App Badging API en el icono del celular ($0 Costo)
+  useEffect(() => {
+    const urgentCount = children.filter((c) => c.status === "urgent").length;
+    const badgeTotal = urgentCount + offlineQueue.length;
+    updateAppBadge(badgeTotal);
+  }, [children, offlineQueue]);
+
 
   const refreshData = useCallback(async () => {
     if (!isLoggedIn) return;

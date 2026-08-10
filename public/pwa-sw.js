@@ -86,3 +86,44 @@ self.addEventListener("fetch", (event) => {
       })
   );
 });
+
+// ─── BACKGROUND SYNC API ($0 Costo) ──────────────────────────────────────────
+self.addEventListener("sync", (event) => {
+  if (event.tag === "sync-yanapiri-measurements") {
+    console.log("[Service Worker] Ejecutando sincronización en segundo plano...");
+    event.waitUntil(
+      self.clients.matchAll().then((clients) => {
+        clients.forEach((client) => {
+          client.postMessage({ type: "BACKGROUND_SYNC_TRIGGERED" });
+        });
+      })
+    );
+  }
+});
+
+// ─── WEB PUSH NOTIFICATIONS API ($0 Costo) ────────────────────────────────────
+self.addEventListener("push", (event) => {
+  const data = event.data ? event.data.json() : { title: "Yanapiri Wawa", body: "Recordatorio de control de crecimiento CRED" };
+  
+  const options = {
+    body: data.body,
+    icon: "/foods/f1.png",
+    badge: "/foods/f1.png",
+    vibrate: [100, 50, 100],
+    data: {
+      url: data.url || "/familia"
+    }
+  };
+
+  event.waitUntil(
+    self.registration.showNotification(data.title, options)
+  );
+});
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  event.waitUntil(
+    clients.openWindow(event.notification.data.url || "/")
+  );
+});
+

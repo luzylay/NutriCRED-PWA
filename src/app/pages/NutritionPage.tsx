@@ -10,8 +10,12 @@ import {
   Info,
   X,
   MessageCircle,
+  Mic,
+  Sparkles,
 } from "lucide-react";
 import { HeaderActions } from "../components/shared/HeaderActions";
+import { VoiceAssistantModal } from "../components/family/VoiceAssistantModal";
+
 
 const RECIPES = [
   {
@@ -142,6 +146,7 @@ const NUTRIENTS_DB = {
 export default function NutritionPage() {
   const [activeTab, setActiveTab] = useState<"recetas" | "despensa">("recetas");
   const [selectedAge, setSelectedAge] = useState<string>("Todas");
+  const [isVoiceModalOpen, setIsVoiceModalOpen] = useState(false);
   const [selectedNutrient, setSelectedNutrient] = useState<
     keyof typeof NUTRIENTS_DB | null
   >(null);
@@ -153,6 +158,11 @@ export default function NutritionPage() {
 
   return (
     <div className="min-h-screen bg-background pb-20">
+      <VoiceAssistantModal
+        isOpen={isVoiceModalOpen}
+        onClose={() => setIsVoiceModalOpen(false)}
+      />
+
       {/* Header */}
       <div className="bg-gradient-to-r from-primary to-accent pt-12 pb-16 px-6 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
@@ -175,6 +185,30 @@ export default function NutritionPage() {
 
       {/* Main Content */}
       <div className="px-5 -mt-8 relative z-20 space-y-6">
+        
+        {/* Banner Asistente de Voz Yanapiri Mikhuy Voice */}
+        <div className="bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-[2rem] p-5 shadow-lg flex items-center justify-between gap-4">
+          <div className="space-y-1">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/20 text-[10px] font-black uppercase tracking-wider">
+              <Sparkles className="size-3" /> Asistente de Voz Nativo ($0 Costo)
+            </div>
+            <h3 className="font-black text-base leading-tight font-nunito">
+              ¿Tienes dudas sobre las papillas?
+            </h3>
+            <p className="text-xs text-white/90 font-medium">
+              Habla por voz con Yanapiri Mikhuy sin escribir.
+            </p>
+          </div>
+
+          <button
+            onClick={() => setIsVoiceModalOpen(true)}
+            className="size-12 rounded-2xl bg-white text-amber-600 font-black shadow-md hover:scale-105 active:scale-95 transition-all flex items-center justify-center shrink-0 cursor-pointer"
+            title="Hablar con Yanapiri Mikhuy"
+          >
+            <Mic className="size-6" />
+          </button>
+        </div>
+
         {/* Info Card */}
         <div className="bg-card rounded-[2rem] p-5 shadow-lg border border-border flex gap-4 items-center">
           <div className="size-12 rounded-2xl bg-red-100 dark:bg-red-900/30 flex items-center justify-center shrink-0">
@@ -190,6 +224,7 @@ export default function NutritionPage() {
             </p>
           </div>
         </div>
+
 
         {/* Main Tabs */}
         <div className="flex gap-4 border-b border-border mb-6">
