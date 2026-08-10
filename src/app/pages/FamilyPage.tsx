@@ -67,7 +67,9 @@ export default function FamilyPage() {
   const [chartData, setChartData] = useState<GrowthPoint[]>([]);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isAddChildOpen, setIsAddChildOpen] = useState(false);
+  const [isQRModalOpen, setIsQRModalOpen] = useState(false);
   const [selectedChildId, setSelectedChildId] = useState<string | null>(null);
+
 
   // The family-view child is always the caregiver's assigned child
   const child: Child | undefined =

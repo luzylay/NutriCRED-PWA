@@ -28,8 +28,10 @@ export class ErrorBoundary extends Component<Props, State> {
 
   private handleReset = () => {
     this.setState({ hasError: false, error: null });
-    window.location.href = "/";
+    // Recargar la ubicación actual para obtener fragmentos de JS actualizados
+    window.location.reload();
   };
+
 
   public render() {
     if (this.state.hasError) {

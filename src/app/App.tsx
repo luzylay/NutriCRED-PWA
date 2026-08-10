@@ -8,20 +8,42 @@ import { ProtectedRoute } from "./components/layout/ProtectedRoute";
 import { DemoSwitcher } from "./components/layout/DemoSwitcher";
 import { useAuth } from "./contexts/AuthContext";
 
+// Helper para reintentar importaciones dinámicas desactualizadas tras despliegues
+function safeLazy<T extends React.ComponentType<any>>(
+  importFn: () => Promise<any>
+) {
+  return lazy(async () => {
+    try {
+      const mod = await importFn();
+      return mod.default ? mod : { default: mod };
+    } catch (err) {
+      console.warn("Módulo desactualizado detectado, reintentando...", err);
+      try {
+        const mod = await importFn();
+        return mod.default ? mod : { default: mod };
+      } catch {
+        window.location.reload();
+        return new Promise<any>(() => {});
+      }
+    }
+  });
+}
+
 // ─── LAZY PAGE IMPORTS ────────────────────────────────────────────────────────
-const LoginPage = lazy(() => import("./pages/LoginPage"));
-const RegisterPage = lazy(() => import("./pages/RegisterPage"));
-const FamilyPage = lazy(() => import("./pages/FamilyPage"));
-const ProfessionalPage = lazy(() => import("./pages/ProfessionalPage"));
-const AgentPage = lazy(() => import("./pages/AgentPage"));
-const AdminPage = lazy(() => import("./pages/AdminPage"));
-const NutritionPage = lazy(() => import("./pages/NutritionPage"));
-const VaccinesPage = lazy(() => import("./pages/VaccinesPage"));
-const WhatsAppDemoPage = lazy(() => import("./pages/WhatsAppDemoPage"));
-const WellnessPage = lazy(() => import("./pages/WellnessPage"));
-const PublicImpactPage = lazy(
-  () => import("./pages/PublicImpactPage").then((m) => ({ default: m.PublicImpactPage }))
+const LoginPage = safeLazy(() => import("./pages/LoginPage"));
+const RegisterPage = safeLazy(() => import("./pages/RegisterPage"));
+const FamilyPage = safeLazy(() => import("./pages/FamilyPage"));
+const ProfessionalPage = safeLazy(() => import("./pages/ProfessionalPage"));
+const AgentPage = safeLazy(() => import("./pages/AgentPage"));
+const AdminPage = safeLazy(() => import("./pages/AdminPage"));
+const NutritionPage = safeLazy(() => import("./pages/NutritionPage"));
+const VaccinesPage = safeLazy(() => import("./pages/VaccinesPage"));
+const WhatsAppDemoPage = safeLazy(() => import("./pages/WhatsAppDemoPage"));
+const WellnessPage = safeLazy(() => import("./pages/WellnessPage"));
+const PublicImpactPage = safeLazy(
+  () => import("./pages/PublicImpactPage").then((m) => m.PublicImpactPage)
 );
+
 
 // ─── LOADING FALLBACK ─────────────────────────────────────────────────────────
 function PageLoader() {
