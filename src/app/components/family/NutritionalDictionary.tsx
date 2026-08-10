@@ -247,7 +247,7 @@ export function NutritionalDictionary() {
                 <img 
                   src={food.imageUrl} 
                   alt={food.name}
-                  className="absolute inset-0 w-full h-full object-cover relative z-10 transition-transform duration-500 group-hover:scale-110"
+                  className="absolute inset-0 w-full h-full object-cover z-10 transition-transform duration-500 group-hover:scale-110"
                   onError={(e) => {
                     // Escudo anticaídas: Si la imagen externa falla o la bloquean, la ocultamos y queda el ícono gris de fondo.
                     e.currentTarget.style.display = 'none';
