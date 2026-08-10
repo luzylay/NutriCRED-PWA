@@ -5,6 +5,7 @@ import {
   BarChart2,
   Users,
   ShieldCheck,
+  Globe,
   Wifi,
   WifiOff,
   Settings,
@@ -14,7 +15,8 @@ import { useData } from "../../contexts/DataContext";
 import { useTranslation } from "../../contexts/LanguageContext";
 import { SettingsModal } from "../shared/SettingsModal";
 
-type DemoView = "family" | "professional" | "agent" | "admin";
+type DemoView = "family" | "professional" | "agent" | "admin" | "transparency";
+
 
 interface DemoTab {
   id: DemoView;
@@ -53,7 +55,15 @@ const DEMO_TABS: DemoTab[] = [
     labelKey: "nav.admin",
     sub: "Sistema",
   },
+  {
+    id: "transparency",
+    path: "/transparencia",
+    Icon: Globe,
+    labelKey: "Transparencia",
+    sub: "Impacto Live",
+  },
 ];
+
 
 export function DemoSwitcher() {
   const navigate = useNavigate();

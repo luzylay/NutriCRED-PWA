@@ -19,6 +19,9 @@ const NutritionPage = lazy(() => import("./pages/NutritionPage"));
 const VaccinesPage = lazy(() => import("./pages/VaccinesPage"));
 const WhatsAppDemoPage = lazy(() => import("./pages/WhatsAppDemoPage"));
 const WellnessPage = lazy(() => import("./pages/WellnessPage"));
+const PublicImpactPage = lazy(
+  () => import("./pages/PublicImpactPage").then((m) => ({ default: m.PublicImpactPage }))
+);
 
 // ─── LOADING FALLBACK ─────────────────────────────────────────────────────────
 function PageLoader() {
@@ -48,6 +51,9 @@ function AppShell() {
           {/* Public routes */}
           <Route path="/" element={<LoginPage />} />
           <Route path="/registro" element={<RegisterPage />} />
+          <Route path="/transparencia" element={<PublicImpactPage />} />
+          <Route path="/impacto" element={<PublicImpactPage />} />
+
 
           {/* Protected routes */}
           <Route
