@@ -10,9 +10,11 @@ import {
   fetchChildren,
   fetchMeasurements,
   fetchAuditLogs,
+  postMeasurement,
   mapRawChild,
   formatAge,
 } from "../lib/api";
+
 import { updateAppBadge } from "../lib/pwa-capabilities";
 import { getWHORef } from "../lib/who-refs";
 import type {
@@ -404,9 +406,9 @@ export function DataProvider({
 
   const syncOfflineQueue = useCallback(async () => {
     if (offlineQueue.length === 0) return;
-    const { postMeasurement } = await import("../lib/api");
 
     const remaining: OfflineMeasurement[] = [];
+
     for (const item of offlineQueue) {
       try {
         await postMeasurement(item.childId, {
