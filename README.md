@@ -1,4 +1,4 @@
-# Yanapiri Wawa (Ayudante del Bebé) 👶🏽🍼
+# Yanapiri Wawa (Ayudante del Bebé)
 
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
@@ -11,7 +11,8 @@ Yanapiri Wawa es una plataforma web progresiva (PWA) y API REST diseñada para l
 
 ---
 
-## 📋 Propuesta de Valor y Principio Clínico
+## Propuesta de Valor y Principio Clínico
+
 
 El proyecto busca acortar la brecha entre los controles asistenciales presenciales (CRED) y el seguimiento del menor en el hogar mediante el registro guiado de **Peso, Talla y Perímetro Braquial (MUAC)**. Las mediciones registradas son procesadas por un motor de reglas (OMS / Z-Score) que clasifica el nivel de riesgo en tiempo real y genera alertas estructuradas.
 
@@ -19,7 +20,7 @@ El proyecto busca acortar la brecha entre los controles asistenciales presencial
 
 ---
 
-## 👥 Roles del Sistema
+## Roles del Sistema
 
 1. **Cuidador (Familia):** Interfaz PWA con diseño accesible para móviles. Permite registrar mediciones paso a paso, consultar gráficas de crecimiento infantil y acceder al diccionario nutricional de superalimentos regionales (*Yanapiri Mikhuy*).
 2. **Actor Social (Agente Comunitario):** Panel móvil para gestión de visitas domiciliarias priorizadas por nivel de riesgo, registro de observaciones en campo y seguimiento cualitativo.
@@ -27,7 +28,7 @@ El proyecto busca acortar la brecha entre los controles asistenciales presencial
 
 ---
 
-## 🛠️ Stack Tecnológico
+## Stack Tecnológico
 
 ### Frontend
 - **Framework & Lenguaje:** React 19, TypeScript, Vite 6.
@@ -48,7 +49,7 @@ El proyecto busca acortar la brecha entre los controles asistenciales presencial
 
 ---
 
-## 📁 Estructura del Proyecto
+## Estructura del Proyecto
 
 ```text
 Yanapiriwawa-Crecer-Mejor/
@@ -82,7 +83,7 @@ Yanapiriwawa-Crecer-Mejor/
 
 ---
 
-## 💻 Instalación y Ejecución
+## Instalación y Ejecución
 
 ### Requisitos Previos
 - **Node.js:** v18.0.0 o superior.
@@ -128,7 +129,7 @@ Yanapiriwawa-Crecer-Mejor/
 
 ---
 
-## 🧪 Pruebas Automatizadas
+## Pruebas Automatizadas
 
 ### Pruebas del Backend NestJS
 Para ejecutar la suite de pruebas unitarias con Jest:
@@ -144,6 +145,6 @@ npm run build
 
 ---
 
-## 📄 Licencia
+## Licencia
 
 Este proyecto está distribuido bajo la licencia **MIT**. Consulte el archivo [LICENSE](LICENSE) para más detalles.
