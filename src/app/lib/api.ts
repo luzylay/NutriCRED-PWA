@@ -328,8 +328,9 @@ export function mapRawChild(raw: Record<string, unknown>): Child {
 export function enqueueOfflineAction(action: {
   endpoint: string;
   method: string;
-  payload: any;
+  payload: Record<string, unknown> | unknown;
 }) {
+
   const queue = JSON.parse(localStorage.getItem("yanapiri_sync_queue") || "[]");
   queue.push({
     ...action,

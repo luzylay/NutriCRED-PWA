@@ -569,8 +569,9 @@ const UsersPanel = memo(function UsersPanel() {
 
   const ROLE_CONFIG: Record<
     string,
-    { label: string; icon: any; badgeStyle: string; gradient: string }
+    { label: string; icon: React.ComponentType<{ className?: string }>; badgeStyle: string; gradient: string }
   > = {
+
     ADMIN: {
       label: "Administrador",
       icon: ShieldCheck,

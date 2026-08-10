@@ -76,7 +76,7 @@ export function startSpeechRecognition(
   recognition.continuous = false;
   recognition.interimResults = true;
 
-  recognition.onresult = (event: any) => {
+  recognition.onresult = (event: { resultIndex: number; results: Array<Array<{ transcript: string }> & { isFinal?: boolean }> }) => {
     let transcript = "";
     let isFinal = false;
 
@@ -90,9 +90,10 @@ export function startSpeechRecognition(
     onResult({ transcript, isFinal });
   };
 
-  recognition.onerror = (event: any) => {
+  recognition.onerror = (event: { error?: string }) => {
     onError(event.error || "Error al escuchar la voz.");
   };
+
 
   if (onEnd) {
     recognition.onend = onEnd;

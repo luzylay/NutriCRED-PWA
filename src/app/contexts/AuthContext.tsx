@@ -12,15 +12,32 @@ import type { AuthUser, UserRole } from "../lib/types";
 
 // ─── TYPES ───────────────────────────────────────────────────────────────────
 
+export interface CaregiverRegisterData {
+  username?: string;
+  password?: string;
+  caregiverName: string;
+  caregiverDni?: string;
+  caregiverPhone?: string;
+  caregiverAddress?: string;
+  childName: string;
+  childSex: "M" | "F";
+  childBirthDate?: string;
+  childAgeMonths: number;
+  childWeight: number;
+  childHeight: number;
+  childMuac?: number;
+}
+
 interface AuthContextValue {
   user: AuthUser | null;
   isDemoMode: boolean;
   isLoggedIn: boolean;
   login: (username: string, password: string) => Promise<boolean>;
-  registerCaregiver: (data: any) => Promise<boolean>;
+  registerCaregiver: (data: CaregiverRegisterData) => Promise<boolean>;
   enterDemo: () => void;
   logout: () => void;
 }
+
 
 // ─── CONTEXT ─────────────────────────────────────────────────────────────────
 
@@ -98,7 +115,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [navigate]);
 
   const registerCaregiver = useCallback(
-    async (data: any): Promise<boolean> => {
+    async (data: CaregiverRegisterData): Promise<boolean> => {
+
       // FAKE REGISTRATION: Save newly registered family to LocalStorage so DataContext can pick it up
       try {
         const newFamily = {

@@ -77,10 +77,12 @@ export default function RegisterPage() {
           childStatus: status,
         });
       }
-    } catch (err: any) {
-      setError(err.message || "Error al registrar. Intenta de nuevo.");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Error al registrar. Intenta de nuevo.";
+      setError(msg);
       setLoading(false);
     }
+
   };
 
   return (

@@ -303,10 +303,20 @@ export function DataProvider({
       let localMeasurements: Measurement[] = [];
 
       try {
-        const newFamilies = JSON.parse(
-          localStorage.getItem("yanapiri_new_families") ?? "[]",
-        );
-        newFamilies.forEach((f: any) => {
+        interface NewFamilyData {
+          id: string;
+          childName: string;
+          childAgeMonths: number;
+          childSex: "M" | "F";
+          caregiverName: string;
+          caregiverDni?: string;
+          childStatus: "normal" | "follow-up" | "urgent";
+          childWeight: number;
+          childHeight: number;
+        }
+
+        newFamilies.forEach((f: NewFamilyData) => {
+
           localChildren.push({
             id: f.id,
             name: f.childName,
