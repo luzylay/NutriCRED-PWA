@@ -132,7 +132,7 @@ const FOOD_CATALOG: FoodItem[] = [
     category: "Cereal/Grano",
     mainVitamin: "Proteína",
     description: "Grano andino sagrado. Excelente reemplazo del arroz para darle mucha más fuerza y nutrición a las papillas.",
-    imageUrl: baseUrl + "foods/p4.png"
+    imageUrl: "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&q=80&w=600"
   },
   {
     id: "p5",
@@ -140,7 +140,7 @@ const FOOD_CATALOG: FoodItem[] = [
     category: "Origen Animal",
     mainVitamin: "Proteína",
     description: "Pescados tradicionales de nuestra Selva peruana, excelentes fuentes de proteína de alta calidad.",
-    imageUrl: "https://images.unsplash.com/photo-1534482421-64566f976cfa?q=80&w=400"
+    imageUrl: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&q=80&w=600"
   },
 
   // --- CALCIO ---
@@ -150,7 +150,7 @@ const FOOD_CATALOG: FoodItem[] = [
     category: "Origen Animal",
     mainVitamin: "Calcio",
     description: "Muy tradicional en nuestra Sierra. El calcio forma los huesitos del bebé para que gane buena talla.",
-    imageUrl: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?q=80&w=400"
+    imageUrl: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&q=80&w=600"
   },
   {
     id: "ca2",
@@ -158,7 +158,7 @@ const FOOD_CATALOG: FoodItem[] = [
     category: "Origen Animal",
     mainVitamin: "Calcio",
     description: "El pescado más abundante y humilde de la Costa. Al comerse con espinas pequeñas, da muchísimo calcio.",
-    imageUrl: "https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?q=80&w=400"
+    imageUrl: "https://images.unsplash.com/photo-1534482421-64566f976cfa?auto=format&fit=crop&q=80&w=600"
   },
   {
     id: "ca3",
@@ -166,7 +166,7 @@ const FOOD_CATALOG: FoodItem[] = [
     category: "Vegetal",
     mainVitamin: "Calcio",
     description: "Raíz andina económica. Además de dar mucha energía, contiene altos niveles de calcio natural.",
-    imageUrl: "https://images.unsplash.com/photo-1596646503903-8d076d3330aa?q=80&w=400"
+    imageUrl: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=600"
   },
   {
     id: "ca4",
@@ -174,7 +174,7 @@ const FOOD_CATALOG: FoodItem[] = [
     category: "Vegetal",
     mainVitamin: "Calcio",
     description: "Las hojas de nabo, rábano o acelga son baratas y muy ricas en calcio vegetal para las familias más humildes.",
-    imageUrl: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?q=80&w=400"
+    imageUrl: "https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&q=80&w=600"
   },
   {
     id: "ca5",
@@ -182,7 +182,7 @@ const FOOD_CATALOG: FoodItem[] = [
     category: "Origen Animal",
     mainVitamin: "Calcio",
     description: "La leche materna es gratis y es el mejor calcio. Si ya no lacta, la leche de vaca complementa su dieta.",
-    imageUrl: "https://images.unsplash.com/photo-1550583724-b2692b85b150?q=80&w=400"
+    imageUrl: "https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&q=80&w=600"
   }
 ];
 

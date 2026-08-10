@@ -1,38 +1,131 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// Prisma Schema para Yanapiri Wawa (NestJS Backend)
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
 }
 
-model Organization {
-  id        String   @id @default(uuid())
-  name      String
-  email     String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  users     User[]
-}
 
 model User {
-  id             String       @id @default(uuid())
-  email          String       @unique
-  passwordHash   String
-  name           String
-  role           Role         @default(PROFESSIONAL)
-  organization   Organization @relation(fields: [organizationId], references: [id])
-  organizationId String
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
+  id           String   @id @default(uuid())
+  username     String   @unique
+  email        String?  @unique
+  passwordHash String
+  name         String
+  role         String   @default("PROFESSIONAL") // ADMIN, PROFESSIONAL, COMMUNITY_AGENT, CAREGIVER
+  status       String   @default("active")      // active, inactive
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  caregiver    Caregiver?
+  professional HealthProfessional?
+  agent        CommunityAgent?
+  auditLogs    AuditLog[]
 }
 
-enum Role {
-  ADMIN
-  PROFESSIONAL
-  EXTERNAL_SYSTEM
+model Caregiver {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  phone     String
+  address   String?
+  district  String
+  community String
+  children  Child[]
 }
+
+model HealthProfessional {
+  id              String   @id @default(uuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  specialty       String
+  establishment   String
+  colegiaturaCode String
+  children        Child[]
+}
+
+model CommunityAgent {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  district  String
+  community String
+  phone     String
+  children  Child[]
+  visits    Visit[]
+}
+
+model Child {
+  id            String   @id @default(uuid())
+  name          String
+  sex           String   // M, F
+  dateOfBirth   DateTime
+  district      String
+  community     String
+  zscoreActual  Float    @default(0.0)
+  statusAlerta  String   @default("normal") // normal, follow-up, urgent
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  caregiverId    String?
+  caregiver      Caregiver?          @relation(fields: [caregiverId], references: [id])
+  professionalId String?
+  professional   HealthProfessional? @relation(fields: [professionalId], references: [id])
+  agentId        String?
+  agent          CommunityAgent?     @relation(fields: [agentId], references: [id])
+
+  measurements Measurement[]
+  alerts       Alert[]
+  visits       Visit[]
+}
+
+model Measurement {
+  id             String   @id @default(uuid())
+  childId        String
+  child          Child    @relation(fields: [childId], references: [id], onDelete: Cascade)
+  date           DateTime @default(now())
+  weight         Float
+  height         Float
+  muac           Float?
+  zscore         Float
+  registeredBy   String   // userId o rol
+  alertTriggered String?  // normal, follow-up, urgent
+
+  createdAt      DateTime @default(now())
+}
+
+model Alert {
+  id        String   @id @default(uuid())
+  childId   String
+  child     Child    @relation(fields: [childId], references: [id], onDelete: Cascade)
+  type      String   // MUAC_BAJO, ZSCORE_CRITICO, CONTROL_PENDIENTE
+  severity  String   // ROJO, AMARILLO, VERDE
+  message   String
+  status    String   @default("pending") // pending, resolved, dismissed
+  createdAt DateTime @default(now())
+}
+
+model Visit {
+  id        String   @id @default(uuid())
+  childId   String
+  child     Child    @relation(fields: [childId], references: [id], onDelete: Cascade)
+  agentId   String
+  agent     CommunityAgent @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  date      DateTime @default(now())
+  status    String   @default("scheduled") // scheduled, completed, cancelled
+  notes     String?
+  createdAt DateTime @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action    String
+  details   String?
+  timestamp DateTime @default(now())
+}
+

@@ -8,6 +8,9 @@ dist/
 tmp/
 out/
 .vite/
+.gradle/
+buildOutputCleanup/
+
 
 # Local Environment Variables and Secrets
 .env

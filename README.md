@@ -2,35 +2,49 @@
 
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=for-the-badge&logo=nestjs&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)
-![Status](https://img.shields.io/badge/Status-Producci%C3%B3n-success?style=for-the-badge)
 
-Yanapiri Wawa es una plataforma web y PWA diseñada para el seguimiento nutricional y de crecimiento infantil en entornos comunitarios. Este software conecta el monitoreo realizado por los cuidadores (padres/madres) en sus hogares con las acciones de priorización del personal de salud (médicos/enfermeros) y las visitas de campo de los actores sociales comunitarios.
-
----
-
-## 🚀 Problema y Propuesta de Valor
-
-Existe una gran brecha entre los controles CRED (Crecimiento y Desarrollo) presenciales y el día a día de un menor en su domicilio. Yanapiri Wawa resuelve esto facilitando el registro asistido de mediciones de **Peso, Talla y Perímetro Braquial (MUAC)** en casa, y convirtiendo esta información en alertas estructuradas basadas en reglas oficiales para que el personal clínico pueda priorizar su atención.
-
-> ⚠️ **Principio Clínico Fundamental:** Yanapiri Wawa **NO realiza diagnósticos médicos** de anemia o desnutrición. El sistema identifica señales de desviación en las curvas de crecimiento y sugiere derivaciones a profesionales de salud para su respectivo diagnóstico y tratamiento.
+Yanapiri Wawa es una plataforma web progresiva (PWA) y API REST diseñada para la asistencia en el monitoreo nutricional y de crecimiento infantil en comunidades urbanas y rurales. El sistema conecta el registro antropométrico realizado en el hogar por los cuidadores con la triaje y priorización del personal de salud (CRED) y las visitas de campo de los agentes comunitarios de salud.
 
 ---
 
-## 👥 Usuarios del Sistema
+## 📋 Propuesta de Valor y Principio Clínico
 
-1. **Cuidador (Familia):** PWA móvil con botones grandes y lenguaje accesible. Registra el crecimiento del niño mediante un asistente visual paso a paso, consulta el historial gráfico y recibe recomendaciones nutricionales mediante un chatbot interactivo (*Yanapiri Mikhuy*).
-2. **Actor Social (Agente Comunitario):** Panel móvil con visitas priorizadas de menores en riesgo, permitiéndole registrar visitas presenciales e ingresar observaciones cualitativas.
-3. **Profesional de Salud (Personal CRED):** Dashboard web clínico para el médico o enfermero. Permite visualizar pacientes asignados, ordenarlos según nivel de riesgo (Rojo/Amarillo/Verde), revisar gráficas de percentiles de la OMS y consultar la auditoría.
+El proyecto busca acortar la brecha entre los controles asistenciales presenciales (CRED) y el seguimiento del menor en el hogar mediante el registro guiado de **Peso, Talla y Perímetro Braquial (MUAC)**. Las mediciones registradas son procesadas por un motor de reglas (OMS / Z-Score) que clasifica el nivel de riesgo en tiempo real y genera alertas estructuradas.
+
+> ⚠️ **Guardarraíl Clínico:** Yanapiri Wawa **no emite diagnósticos médicos** de anemia ni desnutrición. El sistema detecta desviaciones en las curvas de crecimiento infantil y sugiere derivaciones oportunas a profesionales de la salud capacitados.
+
+---
+
+## 👥 Roles del Sistema
+
+1. **Cuidador (Familia):** Interfaz PWA con diseño accesible para móviles. Permite registrar mediciones paso a paso, consultar gráficas de crecimiento infantil y acceder al diccionario nutricional de superalimentos regionales (*Yanapiri Mikhuy*).
+2. **Actor Social (Agente Comunitario):** Panel móvil para gestión de visitas domiciliarias priorizadas por nivel de riesgo, registro de observaciones en campo y seguimiento cualitativo.
+3. **Profesional de Salud (Personal CRED):** Dashboard clínico web para profesionales de la salud. Permite ordenar menores asignados según prioridad de riesgo (Rojo / Amarillo / Verde), revisar curvas de percentiles OMS y auditar registros.
 
 ---
 
 ## 🛠️ Stack Tecnológico
 
-- **Frontend:** React, TypeScript, Vite, Tailwind CSS, Recharts para curvas OMS, IndexedDB/LocalStorage para funcionamiento offline.
-- **Backend:** Python, FastAPI, SQLAlchemy ORM, SQLite (para demostración local) y soporte PostgreSQL, PyJWT para autenticación de seguridad.
-- **Testing:** Pytest para backend y Vitest para frontend.
+### Frontend
+- **Framework & Lenguaje:** React 19, TypeScript, Vite 6.
+- **Estilos & UI:** Tailwind CSS v4, Lucide Icons, componentes accesibles.
+- **Visualización de Datos:** Recharts para curvas de percentiles OMS.
+- **Soporte Offline & PWA:** Service Worker para caché de activos y almacenamiento local.
+
+### Backend (NestJS + Prisma)
+- **Framework:** NestJS 11 (Node.js).
+- **ORM & Persistencia:** Prisma ORM 7 con soporte para SQLite (`dev.db`) y PostgreSQL.
+- **Autenticación & Seguridad:** JSON Web Tokens (`@nestjs/jwt`), Hashing de contraseñas con `bcryptjs`, habilitación de CORS.
+- **Testing:** Jest para pruebas unitarias de controladores y servicios.
+
+### Backend (Python FastAPI - Arquitectura Complementaria)
+- **Framework:** FastAPI (Python 3.12).
+- **ORM & Validación:** SQLAlchemy, esquemas Pydantic.
+- **Testing:** Pytest.
 
 ---
 
@@ -38,27 +52,31 @@ Existe una gran brecha entre los controles CRED (Crecimiento y Desarrollo) prese
 
 ```text
 Yanapiriwawa-Crecer-Mejor/
-├── backend/                  # Código del Servidor FastAPI
-│   ├── app/
-│   │   ├── auth.py           # Seguridad JWT y permisos RBAC
-│   │   ├── database.py       # Configuración de base de datos
-│   │   ├── main.py           # Enrutadores y Endpoints REST API
-│   │   ├── models.py         # 22 Modelos relacionales SQLAlchemy
-│   │   ├── rules.py          # Motor de Reglas (Z-Score y MUAC)
-│   │   ├── schemas.py        # Esquemas de validación Pydantic
-│   │   ├── seed.py           # Generador de datos semilla para la demo
-│   │   └── tests/            # Pruebas unitarias de API y reglas
-│   ├── run.py                # Script de arranque del backend
-│   └── requirements.txt      # Dependencias Python
+├── backend/                  # Servidor Principal NestJS & API REST
+│   ├── prisma/
+│   │   ├── schema.prisma     # Esquema relacional de base de datos
+│   │   └── seed.ts           # Script de datos semilla (Usuarios, Niños, Mediciones)
+│   ├── src/
+│   │   ├── auth/             # Autenticación JWT y Login/Registro
+│   │   ├── patients/         # Gestión de Niños/Pacientes
+│   │   ├── measurements/     # Registro antropométrico y motor de alertas OMS
+│   │   ├── prisma/           # Servicio e inyección global de Prisma Client
+│   │   ├── app.module.ts     # Módulo principal NestJS
+│   │   └── main.ts           # Punto de entrada y configuración de CORS
+│   ├── app/                  # Implementación complementaria FastAPI (Python)
+│   └── package.json          # Dependencias y scripts de backend NestJS
 ├── public/
-│   └── pwa-sw.js             # Service Worker para caché offline
+│   ├── foods/                # Catálogo de imágenes de superalimentos (Macro Close-up)
+│   └── pwa-sw.js             # Service Worker para funcionamiento offline
 ├── src/
 │   ├── app/
-│   │   ├── App.tsx           # Componente React principal (Vistas integradas)
-│   │   └── components/       # Componentes visuales Shadcn y UI
-│   ├── styles/               # Estilos globales y paletas accesibles
-│   └── main.tsx              # Punto de entrada React y registro PWA
-├── package.json              # Dependencias del Frontend
+│   │   ├── components/       # Componentes de UI (Diccionario, Curvas OMS, Paneles)
+│   │   ├── contexts/         # Contextos de React (Auth, Data, State)
+│   │   ├── lib/              # Cliente API y utilidades
+│   │   └── pages/            # Páginas por rol (Familia, Agente, Profesional, Admin)
+│   ├── main.tsx              # Punto de entrada React
+│   └── index.css             # Estilos globales y Tailwind CSS
+├── package.json              # Dependencias de Frontend
 └── vite.config.ts            # Configuración de empaquetado Vite
 ```
 
@@ -67,78 +85,65 @@ Yanapiriwawa-Crecer-Mejor/
 ## 💻 Instalación y Ejecución
 
 ### Requisitos Previos
-
-- Python 3.12 o superior instalado.
-- Node.js v18 o superior instalado.
-- npm (o pnpm).
+- **Node.js:** v18.0.0 o superior.
+- **npm:** v9.0.0 o superior.
+- *(Opcional)* **Python:** 3.12+ para el backend FastAPI complementario.
 
 ---
 
-### Paso 1: Configurar y Ejecutar el Backend
+### Paso 1: Configurar y Ejecutar el Backend NestJS
 
 1. Dirígete a la carpeta del backend:
    ```bash
    cd backend
    ```
-2. Crea el entorno virtual de Python:
-   ```bash
-   python -m venv .venv
-   ```
-3. Activa el entorno virtual:
-   - **En Windows (PowerShell):**
-     ```powershell
-     .venv\Scripts\Activate.ps1
-     ```
-   - **En Linux/macOS:**
-     ```bash
-     source .venv/bin/activate
-     ```
-4. Instala las dependencias:
-   ```bash
-   pip install -r requirements.txt
-   ```
-5. Carga los datos semilla (Demo Hackathon):
-   ```bash
-   python -m app.seed
-   ```
-6. Inicia el servidor FastAPI:
-   ```bash
-   python run.py
-   ```
-   El backend estará disponible en `http://127.0.0.1:8000` con documentación interactiva en `http://127.0.0.1:8000/docs`.
-
----
-
-### Paso 2: Configurar y Ejecutar el Frontend
-
-1. Vuelve a la raíz del proyecto e instala las dependencias npm:
+2. Instala las dependencias del servidor:
    ```bash
    npm install
    ```
-2. Inicia el servidor de desarrollo:
+3. Genera el cliente de Prisma e inicializa la base de datos SQLite con datos semilla:
    ```bash
-   npm run dev
+   npx prisma db push
+   npx prisma db seed
    ```
-   La aplicación se abrirá en `http://localhost:5173`. Puedes abrir el modo móvil en el navegador para simular el comportamiento de PWA.
+4. Inicia el servidor de desarrollo NestJS:
+   ```bash
+   npm run start:dev
+   ```
+   El backend estará ejecutándose en `http://localhost:3000`.
 
 ---
 
-## 🧪 Pruebas Unitarias (Testing)
+### Paso 2: Configurar y Ejecutar el Frontend React
 
-Ejecuta las pruebas automatizadas del backend para verificar el cálculo de Z-score y las validaciones de acceso (RBAC):
+1. Desde la raíz del proyecto, instala las dependencias:
+   ```bash
+   npm install
+   ```
+2. Inicia el servidor de desarrollo Vite:
+   ```bash
+   npm run dev
+   ```
+   La interfaz gráfica estará disponible en `http://localhost:5173`.
+
+---
+
+## 🧪 Pruebas Automatizadas
+
+### Pruebas del Backend NestJS
+Para ejecutar la suite de pruebas unitarias con Jest:
 ```bash
-cd backend
-.venv\Scripts\python -m pytest app/tests/
+npm test --prefix backend
+```
+
+### Pruebas de Compilación del Frontend
+Para validar la compilación y tipado estático del frontend:
+```bash
+npm run build
 ```
 
 ---
 
-## 🛡️ Demo Walkthrough (Hackathon)
+## 📄 Licencia
 
-Para comprobar el flujo completo del sistema integrado:
-1. Abre la PWA móvil en el rol **Familia** (se autenticará automáticamente como María).
-2. Agrega una medición de peso para el niño Juan utilizando el asistente paso a paso.
-3. El sistema evaluará el peso ingresado contra las tablas de la OMS. Si el peso indica una caída moderada/crítica, se generará una alerta `follow-up` o `urgent` que se enviará al servidor.
-4. Desconecta tu internet (activa modo offline en tu navegador), registra otra medición y verifica cómo se guarda en la cola IndexedDB. Conéctalo de nuevo y dale clic al botón **Sincronizar** para subir la cola.
-5. Cambia al rol de **Profesional** en la barra superior. Verás que Juan Quispe aparece al inicio de la lista de prioridad clínica junto a sus curvas dinámicas de percentiles OMS.
-6. Cambia al rol de **Actor Social**. Verás la visita prioritaria asignada a Juan y podrás registrar su bitácora de visita cualitativa en el campo.
+Este proyecto está distribuido bajo la licencia **MIT**. Consulte el archivo [LICENSE](LICENSE) para más detalles.
