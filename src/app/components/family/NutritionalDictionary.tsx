@@ -218,22 +218,30 @@ export function NutritionalDictionary() {
           </div>
         </div>
 
-        {/* Filters */}
-        <div className="flex gap-2 overflow-x-auto pb-1 hide-scrollbar">
-          {["Todos", "Hierro", "Vitamina C", "Proteína", "Calcio"].map((f) => (
+        {/* Filters Bar - Optimizado para pantallas pequeñas de celulares */}
+        <div className="flex gap-1.5 overflow-x-auto pb-1 pt-0.5 hide-scrollbar touch-pan-x -mx-1 px-1">
+          {[
+            { id: "Todos", label: "Todos", icon: Sparkles },
+            { id: "Hierro", label: "Hierro", icon: Droplet },
+            { id: "Vitamina C", label: "Vitamina C", icon: Sun },
+            { id: "Proteína", label: "Proteína", icon: Dumbbell },
+            { id: "Calcio", label: "Calcio", icon: ShieldCheck },
+          ].map(({ id, label, icon: Icon }) => (
             <button
-              key={f}
-              onClick={() => setFilter(f as any)}
-              className={`px-4 py-2 rounded-xl text-sm font-bold whitespace-nowrap transition-all shadow-sm cursor-pointer ${
-                filter === f 
-                  ? "bg-primary text-primary-foreground scale-105" 
-                  : "bg-white/50 dark:bg-black/20 border border-white/20 text-muted-foreground hover:bg-white/80 dark:hover:bg-black/40"
+              key={id}
+              onClick={() => setFilter(id as VitaminType | "Todos")}
+              className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all shadow-sm shrink-0 cursor-pointer flex items-center gap-1.5 ${
+                filter === id
+                  ? "bg-primary text-primary-foreground scale-105 shadow-md"
+                  : "bg-muted/60 hover:bg-muted text-muted-foreground hover:text-foreground border border-border/50"
               }`}
             >
-              {f}
+              <Icon className={`size-3.5 ${filter === id ? "text-primary-foreground" : "text-primary/70"}`} />
+              <span>{label}</span>
             </button>
           ))}
         </div>
+
       </div>
 
       {/* Dictionary Grid */}

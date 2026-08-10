@@ -190,8 +190,9 @@ export default function NutritionPage() {
         <div className="bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-[2rem] p-5 shadow-lg flex items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/20 text-[10px] font-black uppercase tracking-wider">
-              <Sparkles className="size-3" /> Asistente de Voz Nativo ($0 Costo)
+              <Sparkles className="size-3" /> Asistente de Voz Inteligente
             </div>
+
             <h3 className="font-black text-base leading-tight font-nunito">
               ¿Tienes dudas sobre las papillas?
             </h3>

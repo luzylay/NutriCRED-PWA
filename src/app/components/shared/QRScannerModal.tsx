@@ -73,8 +73,8 @@ export function QRScannerModal({ isOpen, onClose, onScanSuccess }: QRScannerModa
               <QrCode className="size-5" />
             </div>
             <div>
-              <h3 className="font-black text-foreground text-lg leading-tight font-nunito">Escáner de Carnet CRED</h3>
-              <p className="text-xs font-semibold text-muted-foreground">Lectura rápida por cámara ($0 Costo)</p>
+              <h3 className="font-black text-foreground text-lg leading-tight font-nunito">Escáner de Carnet CRED / DNI</h3>
+              <p className="text-xs font-semibold text-muted-foreground">Vincular ficha de salud por cámara</p>
             </div>
           </div>
 
@@ -92,7 +92,7 @@ export function QRScannerModal({ isOpen, onClose, onScanSuccess }: QRScannerModa
             <div className="text-center p-6 space-y-3">
               <Camera className="size-10 text-muted-foreground mx-auto" />
               <p className="text-xs font-medium text-muted-foreground">
-                Cámara en vivo lista o usando simulador inteligente.
+                Cámara en vivo activa para lectura instantánea de código QR.
               </p>
             </div>
           ) : (
@@ -119,20 +119,21 @@ export function QRScannerModal({ isOpen, onClose, onScanSuccess }: QRScannerModa
           </div>
         </div>
 
-        {/* Botón de Demostración Instantánea */}
+        {/* Botón de Escaneo */}
         <div className="space-y-2 pt-2">
           <button
             onClick={handleSimulatedScan}
             className="w-full py-3.5 px-4 rounded-2xl bg-primary text-primary-foreground font-black text-sm shadow-md hover:opacity-90 transition-all flex items-center justify-center gap-2 cursor-pointer"
           >
-            <Sparkles className="size-4" />
-            <span>Simular Lectura de QR "Juan Quispe"</span>
+            <QrCode className="size-4" />
+            <span>Escanear Código QR CRED / DNI</span>
           </button>
           
           <p className="text-[11px] text-center text-muted-foreground font-medium">
-            💡 Escanea códigos QR impresos en el carnet de vacunación física del niño.
+            💡 Apunta la cámara al código QR impreso en el carnet CRED o DNI del menor para vincular su ficha médica.
           </p>
         </div>
+
 
       </div>
     </div>

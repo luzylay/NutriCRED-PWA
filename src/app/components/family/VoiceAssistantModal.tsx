@@ -121,7 +121,8 @@ export function VoiceAssistantModal({ isOpen, onClose }: VoiceAssistantModalProp
               <h3 className="font-black text-foreground text-lg leading-tight font-nunito flex items-center gap-2">
                 Yanapiri Mikhuy Voice <Sparkles className="size-4 text-amber-500" />
               </h3>
-              <p className="text-xs font-semibold text-muted-foreground">Asistente de Voz Nativo ($0 Costo)</p>
+              <p className="text-xs font-semibold text-muted-foreground">Asistente de Voz Inteligente en Español</p>
+
             </div>
           </div>
 
