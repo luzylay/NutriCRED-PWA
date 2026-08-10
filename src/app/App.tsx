@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router";
 import { AuthProvider } from "./contexts/AuthContext";
 import { DataProvider } from "./contexts/DataContext";
@@ -63,7 +63,29 @@ function PageLoader() {
 function AppShell() {
   const { isLoggedIn, user } = useAuth();
 
+  // Precarga inteligente en segundo plano durante tiempo de inactividad (0ms latency!)
+  useEffect(() => {
+    const prefetchRoutes = () => {
+      import("./pages/FamilyPage");
+      import("./pages/NutritionPage");
+      import("./pages/VaccinesPage");
+      import("./pages/ProfessionalPage");
+      import("./pages/AgentPage");
+      import("./pages/AdminPage");
+      import("./pages/PublicImpactPage");
+    };
+
+    if ("requestIdleCallback" in window) {
+      const handle = (window as any).requestIdleCallback(prefetchRoutes);
+      return () => (window as any).cancelIdleCallback(handle);
+    } else {
+      const timer = setTimeout(prefetchRoutes, 200);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
   return (
+
     <DataProvider isLoggedIn={isLoggedIn} user={user}>
       {/* DemoSwitcher is only rendered when isDemoMode=true (handled internally) */}
       <DemoSwitcher />

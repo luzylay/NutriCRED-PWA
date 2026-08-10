@@ -321,7 +321,22 @@
     box-shadow: var(--glass-shadow);
   }
 
+  .gpu-accelerate {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
   .bg-gradient-flow {
+
     background-image: var(--gradient-background);
     background-size: 400% 400%;
     animation: gradientFlow 15s ease infinite;
