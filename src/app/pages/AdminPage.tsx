@@ -2059,25 +2059,25 @@ export default function AdminPage() {
 
         {/* Main Content Container */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 w-full flex-1 relative z-10">
-          {/* Navigation Bar */}
-          <div className="flex gap-1.5 bg-muted/60 p-1.5 rounded-3xl mb-6 overflow-x-auto border border-border/50 backdrop-blur-sm">
+          {/* Navigation Bar - Optimizado para excelente diseño responsive en celulares */}
+          <div className="flex gap-1.5 bg-card/80 dark:bg-card/40 p-1.5 rounded-3xl mb-6 overflow-x-auto hide-scrollbar touch-pan-x -mx-1 px-1.5 border border-border/60 backdrop-blur-xl shadow-xs">
             {TABS.map(({ id, icon: Icon, label, badge }) => (
               <button
                 key={id}
                 onClick={() => setActiveTab(id)}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-bold transition-all whitespace-nowrap flex-1 justify-center cursor-pointer ${
+                className={`flex items-center gap-2 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-2xl text-xs font-bold transition-all whitespace-nowrap shrink-0 sm:flex-1 justify-center cursor-pointer touch-manipulation ${
                   activeTab === id
-                    ? "bg-card text-foreground shadow-md border border-border/60"
-                    : "text-muted-foreground hover:text-foreground hover:bg-card/40"
+                    ? "bg-primary text-primary-foreground shadow-md scale-[1.02]"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
                 }`}
               >
-                <Icon className={`size-4 shrink-0 ${activeTab === id ? "text-primary" : ""}`} />
+                <Icon className={`size-4 shrink-0 ${activeTab === id ? "text-primary-foreground" : "text-primary/70"}`} />
                 <span>{label}</span>
                 {badge !== undefined && badge !== null && (
                   <span
                     className={`ml-1 text-[10px] px-2 py-0.5 rounded-full font-extrabold ${
                       activeTab === id
-                        ? "bg-primary/15 text-primary"
+                        ? "bg-white/20 text-white"
                         : "bg-muted-foreground/15 text-muted-foreground"
                     }`}
                   >
@@ -2087,6 +2087,7 @@ export default function AdminPage() {
               </button>
             ))}
           </div>
+
 
           {/* Active Tab Panel Render */}
           {activeTab === "overview" && (

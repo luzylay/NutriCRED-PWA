@@ -186,7 +186,8 @@ export default function ProfessionalPage() {
                 <h2 className="font-extrabold text-foreground font-nunito">
                   Filtro de Casos
                 </h2>
-                <div className="flex gap-1 bg-muted p-1 rounded-xl">
+                <div className="flex gap-1 bg-muted/70 p-1 rounded-xl overflow-x-auto hide-scrollbar touch-pan-x max-w-full -mx-1 px-1">
+
                   {[
                     { id: "all" as const, label: "Todos", icon: null },
                     {
