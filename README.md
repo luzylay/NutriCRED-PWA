@@ -7,22 +7,43 @@
 ![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)
 
-Yanapiri Wawa es una plataforma web progresiva (PWA) y API REST diseñada para la asistencia en el monitoreo nutricional y de crecimiento infantil en comunidades urbanas y rurales. El sistema conecta el registro antropométrico realizado en el hogar por los cuidadores con la triaje y priorización del personal de salud (CRED) y las visitas de campo de los agentes comunitarios de salud.
+Yanapiri Wawa es una plataforma web progresiva (PWA) de alto rendimiento y API REST en NestJS para la asistencia en el monitoreo nutricional y crecimiento infantil en entornos comunitarios urbanos y rurales. Conecta el registro asistido en el hogar por los cuidadores con la triaje y priorización del personal de salud (CRED) y las visitas de campo de los actores sociales comunitarios.
 
 ---
 
 ## Propuesta de Valor y Principio Clínico
 
+El proyecto resuelve la brecha entre los controles presenciales asistenciales (CRED) y el día a día del menor en el hogar mediante el registro guiado de **Peso, Talla y Perímetro Braquial (MUAC)**. Las mediciones son evaluadas en tiempo real por un motor de reglas basado en los estándares de la OMS (Z-Scores) para generar alertas de prioridad clínica (Rojo, Amarillo, Verde).
 
-El proyecto busca acortar la brecha entre los controles asistenciales presenciales (CRED) y el seguimiento del menor en el hogar mediante el registro guiado de **Peso, Talla y Perímetro Braquial (MUAC)**. Las mediciones registradas son procesadas por un motor de reglas (OMS / Z-Score) que clasifica el nivel de riesgo en tiempo real y genera alertas estructuradas.
+> ⚠️ **Guardarraíl Clínico:** Yanapiri Wawa **no realiza diagnósticos médicos** de anemia ni desnutrición. El sistema actúa como una herramienta de triaje y alerta temprana que sugiere derivaciones oportunas a profesionales de la salud capacitados.
 
-> ⚠️ **Guardarraíl Clínico:** Yanapiri Wawa **no emite diagnósticos médicos** de anemia ni desnutrición. El sistema detecta desviaciones en las curvas de crecimiento infantil y sugiere derivaciones oportunas a profesionales de la salud capacitados.
+---
+
+## Pilares Tecnológicos e Innovaciones ($0 Costo de Infraestructura)
+
+1. **PWA de Ultra Baja Latencia (< 500 KB):**
+   - Diseñada para maximizar la retención en mercados emergentes y zonas rurales de Perú con baja conectividad.
+   - Posesión de capacidades nativas completas sin requerir descargas pesadas de tiendas de aplicaciones.
+
+2. **Capacidades Nativas Web (Proyecto Fugu W3C):**
+   - **App Badging API (`navigator.setAppBadge`):** Muestra un contador de notificaciones de alertas prioritarias directamente sobre el icono de la PWA instalada en el dispositivo (Android y iOS 16.4+).
+   - **Workbox Background Sync:** Sincronización automática de datos en segundo plano al recuperar cobertura de red sin intervención manual.
+   - **Escáner QR Nativo de Carnet CRED:** Lectura acelerada mediante cámara nativa sin librerías ni servicios de pago de terceros.
+   - **Web Push Notifications:** Notificaciones y recordatorios nativos de controles asistenciales.
+
+3. **Asistente Conversacional por Voz (*Yanapiri Mikhuy Voice*):**
+   - Integración nativa de `SpeechRecognition` y `SpeechSynthesis` del navegador/SO. Permite a las madres y cuidadores interactuar por voz de manera bidireccional y sin costo de procesamiento en la nube.
+
+4. **Portal Público de Transparencia e Impacto Social (First-Party Analytics & Privacy by Design):**
+   - Dashboard de impacto en tiempo real sin cookies de terceros ni rastreadores comerciales.
+   - Recálculo en caché de 15 minutos (< 5ms de respuesta) con feed de actividad comunitaria anonimizada y distribución territorial por regiones de Perú.
+   - Cumplimiento estricto con la Ley N° 29733 de Protección de Datos Personales.
 
 ---
 
 ## Roles del Sistema
 
-1. **Cuidador (Familia):** Interfaz PWA con diseño accesible para móviles. Permite registrar mediciones paso a paso, consultar gráficas de crecimiento infantil y acceder al diccionario nutricional de superalimentos regionales (*Yanapiri Mikhuy*).
+1. **Cuidador (Familia):** PWA móvil con diseño accesible. Permite registrar mediciones paso a paso, consultar gráficas de crecimiento infantil (Recharts) y acceder al diccionario nutricional de superalimentos regionales con fotografía macro culinaria.
 2. **Actor Social (Agente Comunitario):** Panel móvil para gestión de visitas domiciliarias priorizadas por nivel de riesgo, registro de observaciones en campo y seguimiento cualitativo.
 3. **Profesional de Salud (Personal CRED):** Dashboard clínico web para profesionales de la salud. Permite ordenar menores asignados según prioridad de riesgo (Rojo / Amarillo / Verde), revisar curvas de percentiles OMS y auditar registros.
 
@@ -34,12 +55,12 @@ El proyecto busca acortar la brecha entre los controles asistenciales presencial
 - **Framework & Lenguaje:** React 19, TypeScript, Vite 6.
 - **Estilos & UI:** Tailwind CSS v4, Lucide Icons, componentes accesibles.
 - **Visualización de Datos:** Recharts para curvas de percentiles OMS.
-- **Soporte Offline & PWA:** Service Worker para caché de activos y almacenamiento local.
+- **PWA & Offline:** Service Worker con caché dinámico, IndexedDB y Workbox.
 
 ### Backend (NestJS + Prisma)
 - **Framework:** NestJS 11 (Node.js).
-- **ORM & Persistencia:** Prisma ORM 7 con soporte para SQLite (`dev.db`) y PostgreSQL.
-- **Autenticación & Seguridad:** JSON Web Tokens (`@nestjs/jwt`), Hashing de contraseñas con `bcryptjs`, habilitación de CORS.
+- **ORM & Persistencia:** Prisma ORM 7 con conector de alto rendimiento SQLite (`@prisma/adapter-better-sqlite3`) y soporte para PostgreSQL.
+- **Autenticación & Seguridad:** JSON Web Tokens (`@nestjs/jwt`), Hashing de contraseñas con `bcryptjs`, CORS habilitado.
 - **Testing:** Jest para pruebas unitarias de controladores y servicios.
 
 ### Backend (Python FastAPI - Arquitectura Complementaria)
@@ -61,6 +82,7 @@ Yanapiriwawa-Crecer-Mejor/
 │   │   ├── auth/             # Autenticación JWT y Login/Registro
 │   │   ├── patients/         # Gestión de Niños/Pacientes
 │   │   ├── measurements/     # Registro antropométrico y motor de alertas OMS
+│   │   ├── public-impact/    # Portal Público de Transparencia de Impacto
 │   │   ├── prisma/           # Servicio e inyección global de Prisma Client
 │   │   ├── app.module.ts     # Módulo principal NestJS
 │   │   └── main.ts           # Punto de entrada y configuración de CORS
@@ -68,13 +90,13 @@ Yanapiriwawa-Crecer-Mejor/
 │   └── package.json          # Dependencias y scripts de backend NestJS
 ├── public/
 │   ├── foods/                # Catálogo de imágenes de superalimentos (Macro Close-up)
-│   └── pwa-sw.js             # Service Worker para funcionamiento offline
+│   └── pwa-sw.js             # Service Worker con Background Sync & Push
 ├── src/
 │   ├── app/
-│   │   ├── components/       # Componentes de UI (Diccionario, Curvas OMS, Paneles)
-│   │   ├── contexts/         # Contextos de React (Auth, Data, State)
-│   │   ├── lib/              # Cliente API y utilidades
-│   │   └── pages/            # Páginas por rol (Familia, Agente, Profesional, Admin)
+│   │   ├── components/       # Componentes UI (Diccionario, Curvas OMS, Paneles, Modales QR/Voz)
+│   │   ├── contexts/         # Contextos React (Auth, Data, State)
+│   │   ├── lib/              # Cliente API, pwa-capabilities y utilidades
+│   │   └── pages/            # Páginas por rol (Familia, Agente, Profesional, Admin, Transparencia)
 │   ├── main.tsx              # Punto de entrada React
 │   └── index.css             # Estilos globales y Tailwind CSS
 ├── package.json              # Dependencias de Frontend
@@ -125,7 +147,7 @@ Yanapiriwawa-Crecer-Mejor/
    ```bash
    npm run dev
    ```
-   La interfaz gráfica estará disponible en `http://localhost:5173`.
+   La interfaz gráfica estará disponible en `http://localhost:5173`. Puedes acceder al portal de transparencia en `http://localhost:5173/transparencia`.
 
 ---
 
