@@ -43,6 +43,9 @@ const WellnessPage = safeLazy(() => import("./pages/WellnessPage"));
 const PublicImpactPage = safeLazy(
   () => import("./pages/PublicImpactPage").then((m) => m.PublicImpactPage)
 );
+const NotFoundPage = safeLazy(() => import("./pages/NotFoundPage"));
+const ForbiddenPage = safeLazy(() => import("./pages/ForbiddenPage"));
+
 
 
 // ─── LOADING FALLBACK ─────────────────────────────────────────────────────────
@@ -173,10 +176,15 @@ function AppShell() {
             }
           />
 
-          {/* Catch-all redirect */}
-          <Route path="*" element={<Navigate to="/" replace />} />
+          {/* Error HTTP Routes */}
+          <Route path="/403" element={<ForbiddenPage />} />
+          <Route path="/404" element={<NotFoundPage />} />
+
+          {/* Catch-all 404 Route */}
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Suspense>
+
     </DataProvider>
   );
 }
