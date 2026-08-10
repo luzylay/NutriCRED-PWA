@@ -7,7 +7,7 @@ import "./styles/index.css";
 if ("serviceWorker" in navigator && import.meta.env.PROD) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
-      .register("/pwa-sw.js")
+      .register(`${import.meta.env.BASE_URL}pwa-sw.js`)
       .then((reg) =>
         console.log("[Service Worker] Registrado con éxito:", reg.scope),
       )
@@ -16,7 +16,7 @@ if ("serviceWorker" in navigator && import.meta.env.PROD) {
 }
 
 createRoot(document.getElementById("root")!).render(
-  <BrowserRouter>
+  <BrowserRouter basename={import.meta.env.BASE_URL}>
     <App />
   </BrowserRouter>,
 );
