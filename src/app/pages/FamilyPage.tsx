@@ -17,6 +17,7 @@ import {
   ShieldCheck,
   Hand,
   ChevronRight,
+  Sparkles,
 } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { useData } from "../contexts/DataContext";
