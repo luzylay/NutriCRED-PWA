@@ -7,7 +7,7 @@
 ![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)
 
-Yanapiri Wawa es una plataforma web progresiva (PWA) de alto rendimiento y API REST en NestJS para la asistencia en el monitoreo nutricional y crecimiento infantil en entornos comunitarios urbanos y rurales. Conecta el registro asistido en el hogar por los cuidadores con la triaje y priorización del personal de salud (CRED) y las visitas de campo de los actores sociales comunitarios.
+Yanapiri Wawa es una plataforma web progresiva (PWA) de alto rendimiento y API REST en NestJS diseñada para la asistencia en el monitoreo nutricional y de crecimiento infantil en entornos comunitarios urbanos y rurales. Conecta el registro asistido en el hogar realizado por los cuidadores con la triaje y priorización del personal de salud (CRED) y las visitas de campo de los actores sociales comunitarios.
 
 ---
 
@@ -19,33 +19,51 @@ El proyecto resuelve la brecha entre los controles presenciales asistenciales (C
 
 ---
 
-## Pilares Tecnológicos e Innovaciones ($0 Costo de Infraestructura)
+## Análisis Multi-Beneficio por Perfil de Usuario
 
-1. **PWA de Ultra Baja Latencia (< 500 KB):**
-   - Diseñada para maximizar la retención en mercados emergentes y zonas rurales de Perú con baja conectividad.
-   - Posesión de capacidades nativas completas sin requerir descargas pesadas de tiendas de aplicaciones.
+Yanapiri Wawa ha sido diseñado analizando de manera exhaustiva las necesidades operativas de cada uno de los 4 actores del ecosistema de salud infantil:
 
-2. **Capacidades Nativas Web (Proyecto Fugu W3C):**
-   - **App Badging API (`navigator.setAppBadge`):** Muestra un contador de notificaciones de alertas prioritarias directamente sobre el icono de la PWA instalada en el dispositivo (Android y iOS 16.4+).
-   - **Workbox Background Sync:** Sincronización automática de datos en segundo plano al recuperar cobertura de red sin intervención manual.
-   - **Escáner QR Nativo de Carnet CRED:** Lectura acelerada mediante cámara nativa sin librerías ni servicios de pago de terceros.
-   - **Web Push Notifications:** Notificaciones y recordatorios nativos de controles asistenciales.
+### 1. Cuidador / Familia (Madre / Padre)
+- **Prevención Temprana de Anemia y Desnutrición:** Permite detectar caídas o desviaciones en la curva de peso, talla y perímetro braquial (MUAC) en el propio hogar antes de que se conviertan en cuadros clínicos severos.
+- **Educación Nutricional Accesible por Voz (*Yanapiri Mikhuy Voice*):** Permite a madres o cuidadores con dificultades de lectura consultar recetas y recomendaciones nutricionales mediante conversación de voz hablada nativa a **costo $0**.
+- **Cero Gasto de Datos y Almacenamiento:** PWA ultra ligera (< 500 KB) que funciona 100% offline sin consumir datos móviles ni espacio en teléfonos Android antiguos de gama baja.
+- **Recordatorios Asistenciales Oportunos:** Notificaciones Push nativas y contador Badge en el icono de la pantalla de inicio sobre fechas de vacunas y controles CRED pendientes.
 
-3. **Asistente Conversacional por Voz (*Yanapiri Mikhuy Voice*):**
-   - Integración nativa de `SpeechRecognition` y `SpeechSynthesis` del navegador/SO. Permite a las madres y cuidadores interactuar por voz de manera bidireccional y sin costo de procesamiento en la nube.
+### 2. Actor Social / Agente Comunitario (Visitas en Campo)
+- **Priorización Eficiente de Visitas en Campo:** Mapa y lista inteligente de visitas domiciliarias ordenadas automáticamente por semáforo de riesgo (Rojo, Amarillo, Verde), optimizando tiempos de caminata en comunidades rurales dispersas.
+- **Operatividad 100% Offline en Selva y Sierra:** Permite registrar la bitácora de visita y observaciones cualitativas sin señal de internet; los datos se sincronizan solos (Background Sync) al regresar a la posta médica o zona con Wi-Fi.
+- **Sustitución del Cuaderno Físico por Registro Digital:** Reemplaza fichas de papel manuscritas por registros digitales estructurados con fecha, hora y coordenadas generales.
+- **Escaneo Rápido de Carnet CRED por QR:** Identificación instantánea del carnet físico del niño mediante la cámara del teléfono sin necesidad de tipear códigos largos.
 
-4. **Portal Público de Transparencia e Impacto Social (First-Party Analytics & Privacy by Design):**
-   - Dashboard de impacto en tiempo real sin cookies de terceros ni rastreadores comerciales.
-   - Recálculo en caché de 15 minutos (< 5ms de respuesta) con feed de actividad comunitaria anonimizada y distribución territorial por regiones de Perú.
-   - Cumplimiento estricto con la Ley N° 29733 de Protección de Datos Personales.
+### 3. Profesional de Salud / Personal CRED (Médico / Enfermero)
+- **Triaje Clínico Automatizado (Z-Score OMS):** Clasificación automática del nivel de riesgo nutricional reduciendo el tiempo de cálculo manual en consulta presencial.
+- **Continuidad de Cuidado Casa - Centro de Salud:** Vincula directamente las mediciones tomadas en casa por los padres con la historia clínica del establecimiento de salud.
+- **Visualización Gráfica Interactiva de Percentiles:** Curvas dinámicas de crecimiento (Peso/Edad, Talla/Edad, Peso/Talla) con gráficos interactivos Recharts para evaluación de tendencias.
+- **Soberanía y Protección de Datos Médicos (Edge Computing):** Los datos pueden almacenarse en el servidor local de la posta médica (SQLite / NestJS Edge) garantizando privacidad médica al 100% sin dependencia de suscripciones en la nube.
+
+### 4. Administrador / Coordinador Regional
+- **Toma de Decisiones basada en Datos Reales:** Reportes consolidados y gráficos de tendencias regionales (Costa, Sierra, Selva) y efectividad de derivaciones en tiempo real.
+- **Transparencia e Integridad de Datos:** Portal Público de Impacto con analítica de primera parte y recálculo automático cada 15 minutos sin cookies de terceros ni rastreadores comerciales.
+- **Trazabilidad y Auditoría Completa (Audit Logs):** Registro detallado de quién ingresó, modificó o atendió cada alerta clínica para cumplimiento normativo.
+- **Sostenibilidad Económica ($0 Costo de Infraestructura):** Ejecución en hardware reciclado (PCs/laptops usadas en postas) con costo de licencias de $0.
 
 ---
 
-## Roles del Sistema
+## Arquitectura de Servidor de Borde (Edge Server) a Costo $0
 
-1. **Cuidador (Familia):** PWA móvil con diseño accesible. Permite registrar mediciones paso a paso, consultar gráficas de crecimiento infantil (Recharts) y acceder al diccionario nutricional de superalimentos regionales con fotografía macro culinaria.
-2. **Actor Social (Agente Comunitario):** Panel móvil para gestión de visitas domiciliarias priorizadas por nivel de riesgo, registro de observaciones en campo y seguimiento cualitativo.
-3. **Profesional de Salud (Personal CRED):** Dashboard clínico web para profesionales de la salud. Permite ordenar menores asignados según prioridad de riesgo (Rojo / Amarillo / Verde), revisar curvas de percentiles OMS y auditar registros.
+Para garantizar que Yanapiri Wawa funcione en las postas médicas más aisladas del Perú (donde no hay conexión a internet estable ni presupuesto para servidores en la nube):
+
+```text
+ [ Celular Antiguo 2016 ]  ── (Wi-Fi Local sin Internet) ──>  [ PC Reciclada en Posta Médica ]
+ (Termux + WhatsApp Bot)                                      (NestJS + Prisma SQLite Edge Server)
+            │                                                                  │
+            ▼                                                                  ▼
+ [ Madres / Agentes ]  <─── (Respuesta Local en < 0.2s) ───  [ Almacenamiento Local 100% Privado ]
+```
+
+- **Soberanía de Datos:** Ningún dato médico sensible sale del establecimiento de salud local.
+- **Cumplimiento Normativo:** Cumple estrictamente con la **Ley N° 29733 (Ley de Protección de Datos Personales de Perú)**.
+- **Resiliencia ante Apagones o Caídas de Red:** La posta médica continúa operando y atendiendo a la comunidad en todo momento.
 
 ---
 
@@ -55,18 +73,13 @@ El proyecto resuelve la brecha entre los controles presenciales asistenciales (C
 - **Framework & Lenguaje:** React 19, TypeScript, Vite 6.
 - **Estilos & UI:** Tailwind CSS v4, Lucide Icons, componentes accesibles.
 - **Visualización de Datos:** Recharts para curvas de percentiles OMS.
-- **PWA & Offline:** Service Worker con caché dinámico, IndexedDB y Workbox.
+- **PWA & Offline:** Service Worker con caché dinámico, IndexedDB, Workbox Background Sync y App Badging API.
 
 ### Backend (NestJS + Prisma)
 - **Framework:** NestJS 11 (Node.js).
-- **ORM & Persistencia:** Prisma ORM 7 con conector de alto rendimiento SQLite (`@prisma/adapter-better-sqlite3`) y soporte para PostgreSQL.
+- **ORM & Persistencia:** Prisma ORM 7 con conector SQLite (`@prisma/adapter-better-sqlite3`) y soporte listo para PostgreSQL.
 - **Autenticación & Seguridad:** JSON Web Tokens (`@nestjs/jwt`), Hashing de contraseñas con `bcryptjs`, CORS habilitado.
 - **Testing:** Jest para pruebas unitarias de controladores y servicios.
-
-### Backend (Python FastAPI - Arquitectura Complementaria)
-- **Framework:** FastAPI (Python 3.12).
-- **ORM & Validación:** SQLAlchemy, esquemas Pydantic.
-- **Testing:** Pytest.
 
 ---
 
@@ -86,8 +99,9 @@ Yanapiriwawa-Crecer-Mejor/
 │   │   ├── prisma/           # Servicio e inyección global de Prisma Client
 │   │   ├── app.module.ts     # Módulo principal NestJS
 │   │   └── main.ts           # Punto de entrada y configuración de CORS
-│   ├── app/                  # Implementación complementaria FastAPI (Python)
 │   └── package.json          # Dependencias y scripts de backend NestJS
+├── docs/                     # Documentación técnica de arquitectura
+│   └── ARCHITECTURE.md       # Diagramas y flujos de arquitectura Edge Server
 ├── public/
 │   ├── foods/                # Catálogo de imágenes de superalimentos (Macro Close-up)
 │   └── pwa-sw.js             # Service Worker con Background Sync & Push
@@ -110,7 +124,6 @@ Yanapiriwawa-Crecer-Mejor/
 ### Requisitos Previos
 - **Node.js:** v18.0.0 o superior.
 - **npm:** v9.0.0 o superior.
-- *(Opcional)* **Python:** 3.12+ para el backend FastAPI complementario.
 
 ---
 

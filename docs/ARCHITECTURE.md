@@ -1,90 +1,76 @@
 # Arquitectura del Sistema - Yanapiri Wawa
 
-Este documento detalla el diseño arquitectónico y las decisiones de software tomadas para el MVP de **Yanapiri Wawa**.
+Este documento especifica la arquitectura técnica, los patrones de diseño y los flujos de datos del sistema **Yanapiri Wawa**, diseñado para operar con máxima resiliencia en entornos de baja conectividad a costo $0 de infraestructura.
 
 ---
 
-## 1. Patrón General: Monolito Modular Orientado a Servicios
-
-Se ha optado por una arquitectura de **Monolito Modular** desacoplado en el backend y una SPA responsive con capacidades de PWA en el frontend. Esta estructura minimiza la sobreingeniería inicial y permite la portabilidad durante el despliegue local (adecuado para demostraciones o hackathons), pero con separación de capas para facilitar la migración futura a microservicios si fuera necesario.
-
-```mermaid
-graph TD
-    subgraph Frontend [Capa de Presentación PWA]
-        Views[Vistas React: Familia / Clínico / Agente]
-        State[Manejador de Estado local]
-        SyncQ[Cola Local IndexedDB / LocalStorage]
-        SW[Service Worker]
-    end
-
-    subgraph API [Capa de Entrada API]
-        Router[FastAPI Routing & Middleware]
-        JWT[Seguridad JWT & RBAC]
-    end
-
-    subgraph Core [Capa de Negocio y Reglas]
-        Engine[Rules Engine: Z-score & MUAC]
-        Audit[Bitácora de Auditoría Clínica]
-        Notif[Mock Notificaciones WhatsApp]
-    end
-
-    subgraph Data [Capa de Datos Relacional]
-        Session[SQLAlchemy Engine / Sessions]
-        DB[(SQLite / PostgreSQL)]
-    end
-
-    Views <-->|Lectura/Escritura Local| State
-    State <-->|Offline Cache| SyncQ
-    Views -.->|Descarga Estáticos| SW
-    State -->|Fetch JWT Auth| API
-    Router --> JWT
-    Router --> Engine
-    Router --> Audit
-    Router --> Notif
-    Session --> DB
-    API <--> Session
-```
-
----
-
-## 2. Descripción de Componentes Clave
-
-### 2.1 PWA (Frontend Offline-First)
-- **Service Worker (`pwa-sw.js`):** Registra e intercepta las peticiones `GET` del navegador para servir los recursos estáticos desde la caché del navegador en caso de corte de señal. Excluye deliberadamente los endpoints `/api` para evitar colisiones de datos.
-- **Cola de Sincronización Local:** Almacena peticiones pendientes en una cola JSON inmutable en el LocalStorage si el navegador detecta que `navigator.onLine === false` o si las llamadas Fetch fallan por latencia. Al detectar que la conexión ha retornado, la PWA hace un barrido enviando las mediciones al backend respetando la inmutabilidad y orden temporal de inserción.
-
-### 2.2 Rules Engine (Motor de Reglas Clínicas)
-- Encapsulado en `backend/app/rules.py` de forma aislada.
-- No utiliza IA generativa para la toma de decisiones clínicas para evitar alucinaciones críticas de salud.
-- **Peso-para-Edad:** Utiliza tablas de percentiles oficiales de la OMS para niños y niñas (0 a 60 meses), realizando una **interpolación lineal continua** para calcular el Z-score exacto según la edad en meses y sexo del niño.
-- **MUAC:** Evalúa el perímetro braquial en base a umbrales UNICEF (Urgente < 11.5 cm, Seguimiento < 12.5 cm, Normal >= 12.5 cm).
-- Asocia cada alerta a la versión específica de la regla y la fuente oficial de procedencia (ej. "Norma Técnica de Salud CRED MINSA NTS 137").
-
-### 2.3 Sistema de Notificaciones (WhatsApp)
-- Desacoplado mediante el servicio `NotificationService`. El backend cuenta con un mock adapter que simula la conexión con la API de WhatsApp Business.
-- Por seguridad de datos personales, el servicio **no envía datos clínicos sensibles** en los mensajes de texto (ej. "Riesgo de desnutrición"). En su lugar, envía un enlace de acceso seguro: *"Hay una actualización importante sobre el seguimiento de Juan. Ingrese a Yanapiri Wawa para revisarla."*
-
----
-
-## 3. Flujo de Datos para Mediciones Domiciliarias
-
-El ciclo de vida de una medición sigue el siguiente flujo de validación y control:
+## 1. Visión General de la Arquitectura
 
 ```text
-Cuidador ingresa Peso (Wizard)
-       │
-       ▼
-Validación de Límites en Frontend (Filtra errores de tipeo absurdos)
-       │
-       ▼
-¿Hay Internet?
- ├─► NO: Guardar en cola local (Estado: "Pendiente")
- └─► SÍ: Enviar POST a /children/{id}/measurements
-             │
-             ├─► API valida JWT y permisos del rol (RBAC)
-             ├─► API calcula diferencia con última medición (Validación de cambios bruscos >30%)
-             ├─► Motor calcula Z-score y define Alerta (normal/follow-up/urgent)
-             ├─► Se registra Log de Auditoría (Trazabilidad clínica inmutable)
-             ├─► Se almacena en Base de Datos
-             └─► Retorna respuesta a la PWA (Sincroniza UI)
+┌─────────────────────────────────────────────────────────────────────────┐
+│                          CAPA DE CLIENTE (PWA)                          │
+│                                                                         │
+│  ┌──────────────────┐  ┌──────────────────┐  ┌───────────────────────┐  │
+│  │ Rol Cuidador     │  │ Rol Actor Social │  │ Rol Profesional CRED  │  │
+│  │ (Familia PWA)    │  │ (Agente Campo)   │  │ (Dashboard Clínico)   │  │
+│  └────────┬─────────┘  └────────┬─────────┘  └───────────┬───────────┘  │
+│           │                     │                        │              │
+│           └─────────────────────┼────────────────────────┘              │
+│                                 ▼                                       │
+│                [ Service Worker + Workbox Sync ]                        │
+│                [ App Badging API & Web Speech  ]                        │
+└─────────────────────────────────┬───────────────────────────────────────┘
+                                  │ (HTTP / JSON / Wi-Fi Local)
+                                  ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    CAPA DE SERVIDOR (NESTJS EDGE)                       │
+│                                                                         │
+│  ┌──────────────────┐  ┌──────────────────┐  ┌───────────────────────┐  │
+│  │ AuthModule       │  │ PatientsModule   │  │ MeasurementsModule    │  │
+│  │ (JWT / Bcrypt)   │  │ (/children)      │  │ (OMS Z-Score Engine)  │  │
+│  └──────────────────┘  └──────────────────┘  └───────────────────────┘  │
+│  ┌───────────────────────────────────────────────────────────────────┐  │
+│  │ PublicImpactModule (/public/stats - Cache 15 min)                 │  │
+│  └───────────────────────────────────────────────────────────────────┘  │
+│                                 │                                       │
+│                                 ▼                                       │
+│                    [ Prisma ORM Client v7 ]                             │
+│                    [ SQLite / @prisma/adapter-better-sqlite3 ]          │
+└─────────────────────────────────┬───────────────────────────────────────┘
+                                  │
+                                  ▼
+┌─────────────────────────────────────────────────────────────────────────┐
+│                   BASE DE DATOS LOCAL Y SOBERANÍA                       │
+│                   (dev.db - 100% Soberanía en Posta)                     │
+└─────────────────────────────────────────────────────────────────────────┘
 ```
+
+---
+
+## 2. Componentes Principales
+
+### A. Capa de Cliente (PWA)
+- **Tecnología:** React 19 + TypeScript + Vite 6 + Tailwind CSS v4.
+- **Sintetizador & Reconocimiento de Voz (*Yanapiri Mikhuy Voice*):** Integración nativa de `SpeechRecognition` y `SpeechSynthesis` que operan de manera local en el procesador del dispositivo a costo $0.
+- **Escáner QR Nativo:** Captura directa por cámara usando HTML5 Canvas para lectura instantánea de carnets CRED.
+- **Sincronización Offline:** Service Worker con Workbox para encolamiento de mediciones en `IndexedDB` y `LocalStorage` cuando el dispositivo se encuentra sin señal.
+
+### B. Capa de Servidor (NestJS Edge Server)
+- **Tecnología:** NestJS 11 (Node.js) + TypeScript.
+- **Motor de Reglas OMS (Z-Score & MUAC):**
+  - **MUAC < 11.5 cm:** Alerta Crítica (Rojo - Desnutrición Aguda Severa).
+  - **11.5 cm <= MUAC < 12.5 cm:** Alerta Preventiva (Amarillo - Riesgo de Desnutrición).
+  - **Z-Score < -2.0:** Alerta Crítica (Rojo).
+- **Módulo de Transparencia de Impacto Público:** Generación de métricas agregadas anonimizadas con almacenamiento en caché en memoria (TTL de 15 minutos) para consumo rápido (< 5ms).
+
+### C. Capa de Datos & Persistencia
+- **Tecnología:** Prisma ORM 7 + SQLite.
+- **Modelo Relacional:** `User`, `Caregiver`, `HealthProfessional`, `CommunityAgent`, `Child`, `Measurement`, `Alert`, `Visit`, `AuditLog`.
+
+---
+
+## 3. Principios de Seguridad y Privacidad (Ley N° 29733)
+
+1. **Anonimización Estricta:** Las estadísticas públicas expuestas por `GET /public/stats` omiten cualquier identificador personal (Cero nombres, DNIs o coordenadas privadas).
+2. **Soberanía Local (Edge Server):** Los datos almacenados en el servidor local de la posta médica no se comparten con terceros ni requieren servidores comerciales en la nube.
+3. **Auditoría de Operaciones:** Cada cambio o estado de alerta genera un registro en la tabla `AuditLog` detallando el usuario y timestamp de la acción.
