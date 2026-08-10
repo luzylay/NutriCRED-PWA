@@ -1,6 +1,7 @@
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router";
 import App from "./app/App.tsx";
+import { ErrorBoundary } from "./app/components/shared/ErrorBoundary";
 import "./styles/index.css";
 
 // Register PWA Service Worker ONLY in production to prevent dev caching issues
@@ -16,7 +17,9 @@ if ("serviceWorker" in navigator && import.meta.env.PROD) {
 }
 
 createRoot(document.getElementById("root")!).render(
-  <BrowserRouter basename={import.meta.env.BASE_URL}>
-    <App />
-  </BrowserRouter>,
+  <ErrorBoundary>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
+      <App />
+    </BrowserRouter>
+  </ErrorBoundary>,
 );

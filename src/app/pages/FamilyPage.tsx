@@ -277,7 +277,7 @@ export default function FamilyPage() {
                   </div>
                   <h1 className="text-3xl font-black text-foreground font-nunito tracking-tight flex items-center gap-3">
                     {t("family.greeting", {
-                      name: child
+                      name: child?.caregiver
                         ? child.caregiver.split(" ")[0]
                         : (user?.username ?? ""),
                     })}
@@ -305,7 +305,7 @@ export default function FamilyPage() {
                               : "bg-muted text-muted-foreground"
                           }`}
                         >
-                          {c.name[0]}
+                          {c.name?.charAt(0) ?? "?"}
                         </div>
                         <div className="text-left">
                           <p
@@ -378,11 +378,11 @@ export default function FamilyPage() {
                       <div className="flex items-start justify-between gap-3 relative z-10">
                         <div className="flex items-center gap-4">
                           <div className="size-14 bg-white/90 dark:bg-black/50 rounded-2xl flex items-center justify-center font-black text-foreground text-2xl shadow-md border border-white/20">
-                            {child.name[0]}
+                            {child.name?.charAt(0) ?? "?"}
                           </div>
                           <div>
                             <p className="font-black text-foreground text-xl font-nunito leading-tight">
-                              {child.shortName}
+                              {child.shortName ?? "Bebé"}
                             </p>
                             <p className="text-[13px] text-muted-foreground font-bold mt-1 tracking-tight">
                               {child.age} · {child.weight} kg · {child.height}{" "}
