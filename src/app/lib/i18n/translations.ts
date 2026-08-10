@@ -44,7 +44,9 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
     // General
     "app.name": "Yanapiri Wawa",
     "app.subtitle": "Seguimiento y priorización de crecimiento infantil",
+    "app.hero_pitch": "Yanapiri Wawa es la plataforma inteligente de monitoreo nutricional infantil que acompaña el crecimiento de tu bebé, combate la anemia y conecta tu hogar con el centro de salud en el Perú.",
     "app.caregiver": "Cuidador Familiar",
+
     "app.online": "En Línea",
     "app.offline": "Sin Conexión",
     "app.sync": "sync",

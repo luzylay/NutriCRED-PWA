@@ -94,10 +94,14 @@ export default function LoginPage() {
               <h1 className="text-3xl font-black text-foreground font-nunito tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
                 {t("login.title")}
               </h1>
-              <p className="text-sm text-muted-foreground font-medium mt-1">
+              <p className="text-xs text-muted-foreground font-bold uppercase tracking-wider mt-1">
                 {t("app.subtitle")}
               </p>
+              <div className="mt-3 p-3.5 bg-primary/10 border border-primary/20 rounded-2xl text-xs font-semibold text-foreground/90 leading-relaxed text-balance">
+                {t("app.hero_pitch")}
+              </div>
             </div>
+
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">

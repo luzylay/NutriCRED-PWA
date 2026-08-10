@@ -1,43 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    
+    <!-- Primary Meta Tags -->
+    <title>Yanapiri Wawa | Monitoreo Nutricional Infantil y Triaje Preventivo en Perú</title>
+    <meta name="title" content="Yanapiri Wawa | Monitoreo Nutricional Infantil y Triaje Preventivo en Perú" />
+    <meta name="description" content="Yanapiri Wawa es la plataforma comunitaria e inteligente de monitoreo nutricional infantil que acompaña el crecimiento de los niños, combate la anemia y conecta los hogares con los centros de salud." />
+    <meta name="keywords" content="Yanapiri Wawa, Yanapiriwawa, nutricion infantil Peru, combate anemia, CRED MINSA, superalimentos peruanos, Z-Score OMS, salud comunitaria" />
+    <meta name="author" content="Yanapiri Wawa Team" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href="https://luzylay.github.io/Yanapiri-Wawa/" />
 
-  <!DOCTYPE html>
-  <html lang="en">
-    <head>
-      
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-      <title>Yanapiri Wawa - Cuidado Infantil</title>
-      <meta name="description" content="Aplicación de seguimiento domiciliario infantil y priorización de atenciones en salud." />
-      
-      <!-- PWA Meta Tags -->
-      <link rel="manifest" href="/manifest.json" />
-      <meta name="theme-color" content="#12B1E7" />
-      <meta name="apple-mobile-web-app-capable" content="yes" />
-      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-      <meta name="apple-mobile-web-app-title" content="Yanapiri Wawa" />
-      
-      <style>html, body { height: 100%; margin: 0; } #root { height: 100%; }</style>
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://luzylay.github.io/Yanapiri-Wawa/" />
+    <meta property="og:title" content="Yanapiri Wawa | Monitoreo Nutricional Infantil y Triaje Preventivo" />
+    <meta property="og:description" content="Yanapiri Wawa es la plataforma comunitaria e inteligente de monitoreo nutricional infantil que acompaña el crecimiento de los niños, combate la anemia y conecta los hogares con los centros de salud." />
+    <meta property="og:image" content="https://luzylay.github.io/Yanapiri-Wawa/foods/f1.png" />
+    <meta property="og:site_name" content="Yanapiri Wawa" />
+    <meta property="og:locale" content="es_PE" />
 
-      <!-- GitHub Pages SPA Redirect Handler -->
-      <script>
-        (function(l) {
-          if (l.search[1] === '/' ) {
-            var decoded = l.search.slice(1).split('&').map(function(s) { 
-              return s.replace(/~and~/g, '&')
-            }).join('?');
-            window.history.replaceState(null, null,
-                l.pathname.slice(0, -1) + decoded + l.hash
-            );
-          }
-        }(window.location));
-      </script>
-    </head>
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://luzylay.github.io/Yanapiri-Wawa/" />
+    <meta name="twitter:title" content="Yanapiri Wawa | Monitoreo Nutricional Infantil" />
+    <meta name="twitter:description" content="Plataforma comunitaria e inteligente que combate la anemia infantil y prioriza atenciones médicas en el Perú." />
+    <meta name="twitter:image" content="https://luzylay.github.io/Yanapiri-Wawa/foods/f1.png" />
 
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#12B1E7" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Yanapiri Wawa" />
 
-    <body>
-      
-      <div id="root"></div>
-      <script type="module" src="/src/main.tsx"></script>
-      
-    </body>
-  </html>
-  
+    <!-- Schema.org JSON-LD Structured Data for Google Rich Snippets -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Yanapiri Wawa",
+      "alternateName": "Yanapiriwawa",
+      "url": "https://luzylay.github.io/Yanapiri-Wawa/",
+      "description": "Plataforma comunitaria e inteligente de monitoreo nutricional infantil que acompaña el crecimiento de los niños, combate la anemia y conecta los hogares con los centros de salud en el Perú.",
+      "applicationCategory": "HealthApplication",
+      "operatingSystem": "Web, Android, iOS, Windows",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "Yanapiri Wawa"
+      },
+      "featureList": [
+        "Monitoreo Z-Score OMS",
+        "Asistente de Voz Nativo Yanapiri Mikhuy",
+        "Diccionario Nutricional de Superalimentos Peruanos",
+        "Escáner QR de Carnet CRED",
+        "Sincronización Offline en Segundo Plano",
+        "Portal Público de Transparencia de Impacto"
+      ]
+    }
+    </script>
+    
+    <style>html, body { height: 100%; margin: 0; } #root { height: 100%; }</style>
+
+    <!-- GitHub Pages SPA Redirect Handler -->
+    <script>
+      (function(l) {
+        if (l.search[1] === '/' ) {
+          var decoded = l.search.slice(1).split('&').map(function(s) { 
+            return s.replace(/~and~/g, '&')
+          }).join('?');
+          window.history.replaceState(null, null,
+              l.pathname.slice(0, -1) + decoded + l.hash
+          );
+        }
+      }(window.location));
+    </script>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

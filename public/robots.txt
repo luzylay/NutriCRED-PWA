@@ -1,0 +1,5 @@
+# robots.txt para Yanapiri Wawa
+User-agent: *
+Allow: /
+
+Sitemap: https://luzylay.github.io/Yanapiri-Wawa/sitemap.xml
