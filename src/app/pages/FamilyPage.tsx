@@ -25,6 +25,7 @@ import { useTranslation } from "../contexts/LanguageContext";
 import { MeasurementWizard } from "../components/family/MeasurementWizard";
 import { NutritionChatbot } from "../components/family/NutritionChatbot";
 import { NutritionalTrivia } from "../components/family/NutritionalTrivia";
+import { NutritionalDictionary } from "../components/family/NutritionalDictionary";
 import { AddChildModal } from "../components/family/AddChildModal";
 import { AlertBadge } from "../components/shared/AlertBadge";
 import { GrowthChart } from "../components/shared/GrowthChart";
@@ -673,7 +674,14 @@ export default function FamilyPage() {
                     </p>
                   </div>
                 </div>
+                
+                {/* 1. Trivia de Nutrición */}
                 <NutritionalTrivia />
+
+                <div className="h-px w-full bg-border my-6"></div>
+
+                {/* 2. Diccionario de Alimentos (Pokédex Nutricional) */}
+                <NutritionalDictionary />
               </div>
             )}
           </div>
