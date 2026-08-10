@@ -21,7 +21,7 @@ const FOOD_CATALOG: FoodItem[] = [
     category: "Origen Animal",
     mainVitamin: "Hierro",
     description: "Muy económica y la mejor fuente de hierro para curar la anemia. Ideal en todo el Perú (Costa, Sierra y Selva).",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Morcilla_de_Burgos.jpg/640px-Morcilla_de_Burgos.jpg"
+    imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/Morcilla_de_Burgos.jpg?width=400"
   },
   {
     id: "f2",
@@ -29,7 +29,7 @@ const FOOD_CATALOG: FoodItem[] = [
     category: "Origen Animal",
     mainVitamin: "Hierro",
     description: "De pollo o res, es barato y se encuentra en cualquier mercado. Perfecto para papillas desde los 6 meses.",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Chicken_livers_raw.jpg/640px-Chicken_livers_raw.jpg"
+    imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/Chicken_livers_raw.jpg?width=400"
   },
   {
     id: "f3",
@@ -37,7 +37,7 @@ const FOOD_CATALOG: FoodItem[] = [
     category: "Origen Animal",
     mainVitamin: "Hierro",
     description: "Un secreto muy económico de los mercados peruanos. Riquísimo en hierro; se puede raspar para papillas.",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Beef_spleen.jpg/640px-Beef_spleen.jpg"
+    imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/Beef_cuts.jpg?width=400"
   },
   {
     id: "f4",
@@ -45,7 +45,7 @@ const FOOD_CATALOG: FoodItem[] = [
     category: "Origen Animal",
     mainVitamin: "Hierro",
     description: "Carne seca tradicional de nuestra Sierra. Gran fuente de hierro, ideal para sopas espesas.",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Charqui_-_Cusco_market.jpg/640px-Charqui_-_Cusco_market.jpg"
+    imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/Charqui_-_Cusco_market.jpg?width=400"
   },
   {
     id: "f5",
@@ -53,7 +53,7 @@ const FOOD_CATALOG: FoodItem[] = [
     category: "Cereal/Grano",
     mainVitamin: "Hierro",
     description: "El hierro vegetal más humilde y rendidor. Acompañar SIEMPRE con limonada para que el cuerpo absorba el hierro.",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Red_lentils.jpg/640px-Red_lentils.jpg"
+    imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/Red_lentils.jpg?width=400"
   },
 
   // --- VITAMINA C ---
@@ -63,7 +63,7 @@ const FOOD_CATALOG: FoodItem[] = [
     category: "Fruta",
     mainVitamin: "Vitamina C",
     description: "Económico y presente en todos los hogares. Unas gotitas en las menestras duplican la absorción del hierro.",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Lemon.jpg/640px-Lemon.jpg"
+    imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/Lemon.jpg?width=400"
   },
   {
     id: "c2",
@@ -71,7 +71,7 @@ const FOOD_CATALOG: FoodItem[] = [
     category: "Fruta",
     mainVitamin: "Vitamina C",
     description: "El orgullo de nuestra Selva. Tiene 40 veces más vitamina C que el limón. Excelente para refrescos.",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Myrciaria_dubia.jpg/640px-Myrciaria_dubia.jpg"
+    imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/Myrciaria_dubia.jpg?width=400"
   },
   {
     id: "c3",
@@ -79,7 +79,7 @@ const FOOD_CATALOG: FoodItem[] = [
     category: "Fruta",
     mainVitamin: "Vitamina C",
     description: "Fruta silvestre de la Sierra, muy accesible en temporada. Refuerza las defensas del bebé.",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Physalis_peruviana.jpg/640px-Physalis_peruviana.jpg"
+    imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/Physalis_peruviana.jpg?width=400"
   },
   {
     id: "c4",
@@ -87,7 +87,7 @@ const FOOD_CATALOG: FoodItem[] = [
     category: "Fruta",
     mainVitamin: "Vitamina C",
     description: "Fruta andina muy económica. Ideal para refrescos cítricos que acompañen los platos ricos en hierro.",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Passiflora_tarminiana_%28Banana_Passion_Fruit%29.jpg/640px-Passiflora_tarminiana_%28Banana_Passion_Fruit%29.jpg"
+    imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/Passiflora_tarminiana.jpg?width=400"
   },
   {
     id: "c5",
@@ -95,7 +95,7 @@ const FOOD_CATALOG: FoodItem[] = [
     category: "Fruta",
     mainVitamin: "Vitamina C",
     description: "Frutas de estación muy baratas en Costa y Selva. Ideales de postre tras un plato de sangrecita.",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Orange-Fruit-Pieces.jpg/640px-Orange-Fruit-Pieces.jpg"
+    imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/Orange-Fruit-Pieces.jpg?width=400"
   },
 
   // --- PROTEÍNA ---
@@ -105,7 +105,7 @@ const FOOD_CATALOG: FoodItem[] = [
     category: "Origen Animal",
     mainVitamin: "Proteína",
     description: "La proteína más barata y completa del mundo. Ideal para el desarrollo cerebral (colina) y muscular del bebé.",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Chicken_egg_2009-06-04.jpg/640px-Chicken_egg_2009-06-04.jpg"
+    imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/Chicken_egg_2009-06-04.jpg?width=400"
   },
   {
     id: "p2",
@@ -113,7 +113,7 @@ const FOOD_CATALOG: FoodItem[] = [
     category: "Origen Animal",
     mainVitamin: "Proteína",
     description: "En la Costa son los pescados oscuros más económicos y ricos en Omega 3 para la inteligencia del niño.",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Jurel_pescado.jpg/640px-Jurel_pescado.jpg"
+    imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/Jurel_pescado.jpg?width=400"
   },
   {
     id: "p3",
@@ -121,7 +121,7 @@ const FOOD_CATALOG: FoodItem[] = [
     category: "Cereal/Grano",
     mainVitamin: "Proteína",
     description: "El supergrano de la Sierra. Tiene más proteína que la carne y es sumamente económico.",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Lupinus_mutabilis_seeds.jpg/640px-Lupinus_mutabilis_seeds.jpg"
+    imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/Lupinus_mutabilis_seeds.jpg?width=400"
   },
   {
     id: "p4",
@@ -129,7 +129,7 @@ const FOOD_CATALOG: FoodItem[] = [
     category: "Cereal/Grano",
     mainVitamin: "Proteína",
     description: "Grano andino sagrado. Excelente reemplazo del arroz para darle mucha más fuerza y nutrición a las papillas.",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Quinoa_closeup.jpg/640px-Quinoa_closeup.jpg"
+    imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/Quinoa_closeup.jpg?width=400"
   },
   {
     id: "p5",
@@ -137,7 +137,7 @@ const FOOD_CATALOG: FoodItem[] = [
     category: "Origen Animal",
     mainVitamin: "Proteína",
     description: "Pescados tradicionales de nuestra Selva peruana, excelentes fuentes de proteína de alta calidad.",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Arapaima_gigas_Aquarium_tropical_du_Palais_de_la_Porte_Dor%C3%A9e_11042014_1.jpg/640px-Arapaima_gigas_Aquarium_tropical_du_Palais_de_la_Porte_Dor%C3%A9e_11042014_1.jpg"
+    imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/Arapaima_gigas_Aquarium_tropical_du_Palais_de_la_Porte_Dor%C3%A9e_11042014_1.jpg?width=400"
   },
 
   // --- CALCIO ---
@@ -147,7 +147,7 @@ const FOOD_CATALOG: FoodItem[] = [
     category: "Origen Animal",
     mainVitamin: "Calcio",
     description: "Muy tradicional en nuestra Sierra. El calcio forma los huesitos del bebé para que gane buena talla.",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Queso_fresco.jpg/640px-Queso_fresco.jpg"
+    imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/Queso_fresco.jpg?width=400"
   },
   {
     id: "ca2",
@@ -155,7 +155,7 @@ const FOOD_CATALOG: FoodItem[] = [
     category: "Origen Animal",
     mainVitamin: "Calcio",
     description: "El pescado más abundante y humilde de la Costa. Al comerse con espinas pequeñas, da muchísimo calcio.",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Engraulis_ringens.jpeg/640px-Engraulis_ringens.jpeg"
+    imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/Engraulis_ringens.jpeg?width=400"
   },
   {
     id: "ca3",
@@ -163,7 +163,7 @@ const FOOD_CATALOG: FoodItem[] = [
     category: "Vegetal",
     mainVitamin: "Calcio",
     description: "Raíz andina económica. Además de dar mucha energía, contiene altos niveles de calcio natural.",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Maca_roots.jpg/640px-Maca_roots.jpg"
+    imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/Maca_roots.jpg?width=400"
   },
   {
     id: "ca4",
@@ -171,7 +171,7 @@ const FOOD_CATALOG: FoodItem[] = [
     category: "Vegetal",
     mainVitamin: "Calcio",
     description: "Las hojas de nabo, rábano o acelga son baratas y muy ricas en calcio vegetal para las familias más humildes.",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Chard.jpg/640px-Chard.jpg"
+    imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/Chard.jpg?width=400"
   },
   {
     id: "ca5",
@@ -179,7 +179,7 @@ const FOOD_CATALOG: FoodItem[] = [
     category: "Origen Animal",
     mainVitamin: "Calcio",
     description: "La leche materna es gratis y es el mejor calcio. Si ya no lacta, la leche de vaca complementa su dieta.",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Glass_of_milk.jpg/640px-Glass_of_milk.jpg"
+    imageUrl: "https://commons.wikimedia.org/wiki/Special:FilePath/Glass_of_milk.jpg?width=400"
   }
 ];
 
