@@ -2,22 +2,22 @@
 
 :root {
   --font-size: 16px;
-  /* Yanapiri Wawa — Identidad Principal */
-  --background: #fafafa;
-  --foreground: #27257b;
+  /* Yanapiri Wawa — Identidad Principal (Ajustada para Accesibilidad Premium) */
+  --background: #f8fafc;
+  --foreground: #1e1b4b;
   --card: #ffffff;
-  --card-foreground: #27257b;
+  --card-foreground: #1e1b4b;
   --popover: #ffffff;
-  --popover-foreground: #27257b;
-  --primary: #12b1e7;
+  --popover-foreground: #1e1b4b;
+  --primary: #0284c7; /* Sky 600 - Excelente contraste con blanco */
   --primary-foreground: #ffffff;
-  --secondary: #eef5fc;
-  --secondary-foreground: #27257b;
-  --muted: #eef1f8;
-  --muted-foreground: #6b6fa8;
-  --accent: #ec2088;
+  --secondary: #f0f9ff;
+  --secondary-foreground: #1e1b4b;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --accent: #db2777; /* Pink 600 - Premium y legible */
   --accent-foreground: #ffffff;
-  --destructive: #dc2626;
+  --destructive: #ef4444;
   --destructive-foreground: #ffffff;
   --border: rgba(39, 37, 123, 0.1);
   --input: transparent;
@@ -44,8 +44,8 @@
   --glass-bg: rgba(255, 255, 255, 0.6);
   --glass-border: rgba(255, 255, 255, 0.4);
   --glass-shadow: 0 8px 32px 0 rgba(39, 37, 123, 0.15);
-  --gradient-background: linear-gradient(135deg, #f0f3fa 0%, #fafafa 100%);
-  --gradient-primary: linear-gradient(135deg, #12b1e7 0%, #0d96c4 100%);
+  --gradient-background: linear-gradient(135deg, #f0f9ff 0%, #f8fafc 100%);
+  --gradient-primary: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
 }
 
 .dark {
