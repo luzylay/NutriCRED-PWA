@@ -10,6 +10,7 @@ import {
   RefreshCw,
   UserCheck,
   UserX,
+  UserPlus,
   ChevronRight,
   ChevronLeft,
   AlertCircle,
@@ -31,6 +32,18 @@ import {
   Check,
   X,
   Database,
+  Grid,
+  List,
+  Mail,
+  Phone,
+  Calendar,
+  Stethoscope,
+  Heart,
+  Eye,
+  Key,
+  Lock,
+  MoreVertical,
+  Plus,
 } from "lucide-react";
 import {
   PieChart,
@@ -65,7 +78,7 @@ interface CacheEntry<T> {
   timestamp: number;
 }
 
-const CACHE_TTL_MS = 45000; // 45 segundos de tiempo de vida en memoria (Zero Memory Leak)
+const CACHE_TTL_MS = 45000;
 
 const adminMemoryCache: {
   users?: CacheEntry<AdminUser[]>;
@@ -103,7 +116,7 @@ type AdminTab =
   | "rules"
   | "audit";
 
-// ─── OVERVIEW PANEL (MEMOIZED) ────────────────────────────────────────────────
+// ─── OVERVIEW PANEL ───────────────────────────────────────────────────────────
 
 const OverviewPanel = memo(function OverviewPanel({
   stats,
@@ -127,16 +140,16 @@ const OverviewPanel = memo(function OverviewPanel({
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
           {
-            label: "Total Niños",
+            label: "Total Niños Monitoreados",
             value: stats.total_children,
-            sub: "+12% este mes",
+            sub: "Costa, Sierra y Selva",
             icon: Baby,
             color: "text-emerald-500 dark:text-emerald-400",
             bg: "bg-emerald-500/10",
             border: "border-emerald-500/20",
           },
           {
-            label: "Usuarios Activos",
+            label: "Usuarios en Plataforma",
             value: stats.total_users,
             sub: "Cuidadores y Médicos",
             icon: Users,
@@ -145,18 +158,18 @@ const OverviewPanel = memo(function OverviewPanel({
             border: "border-indigo-500/20",
           },
           {
-            label: "Alertas Activas",
+            label: "Alertas Clínicas Activas",
             value: stats.active_alerts,
-            sub: "Atención prioritaria",
+            sub: "Atención prioritaria OMS",
             icon: AlertCircle,
             color: "text-rose-500 dark:text-rose-400",
             bg: "bg-rose-500/10",
             border: "border-rose-500/20",
           },
           {
-            label: "Visitas del Mes",
+            label: "Monitoreos del Mes",
             value: stats.visits_this_month,
-            sub: "Monitoreo en campo",
+            sub: "Visitas en comunidad",
             icon: TrendingUp,
             color: "text-cyan-500 dark:text-cyan-400",
             bg: "bg-cyan-500/10",
@@ -372,7 +385,7 @@ const OverviewPanel = memo(function OverviewPanel({
   );
 });
 
-// ─── USERS PANEL (MEMOIZED WITH SEARCH & PAGINATION) ─────────────────────────
+// ─── UPGRADED USERS PANEL (GRID CARDS & TABLE TOGGLE + USER DETAIL MODAL) ────
 
 const UsersPanel = memo(function UsersPanel() {
   const [adminUsers, setAdminUsers] = useState<AdminUser[]>([]);
@@ -381,9 +394,15 @@ const UsersPanel = memo(function UsersPanel() {
   const [searchTerm, setSearchTerm] = useState("");
   const [roleFilter, setRoleFilter] = useState<string>("ALL");
   const [statusFilter, setStatusFilter] = useState<string>("ALL");
+  const [viewMode, setViewMode] = useState<"cards" | "table">("cards");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  const [selectedUser, setSelectedUser] = useState<AdminUser | null>(null);
+  const [isAddUserOpen, setIsAddUserOpen] = useState(false);
+  const [newUsername, setNewUsername] = useState("");
+  const [newContact, setNewContact] = useState("");
+  const [newRole, setNewRole] = useState("CAREGIVER");
 
+  const itemsPerPage = 6;
   const isMounted = useRef(true);
 
   const loadUsers = useCallback(async (forceRefresh = false) => {
@@ -404,11 +423,10 @@ const UsersPanel = memo(function UsersPanel() {
         setCachedData("users", users);
       }
     } catch {
-      // Mock Fallback Users
       const mockUsers: AdminUser[] = [
         {
           id: 1,
-          username: "maria_quispe",
+          username: "María Quispe Huamán",
           email_or_phone: "maria.quispe@yanapiri.pe",
           role: "CAREGIVER",
           status: "active",
@@ -416,7 +434,7 @@ const UsersPanel = memo(function UsersPanel() {
         },
         {
           id: 2,
-          username: "dr_carlos_mendoza",
+          username: "Dr. Carlos Mendoza",
           email_or_phone: "cmendoza@minsa.gob.pe",
           role: "PROFESSIONAL",
           status: "active",
@@ -424,7 +442,7 @@ const UsersPanel = memo(function UsersPanel() {
         },
         {
           id: 3,
-          username: "luisa_social_actor",
+          username: "Luisa Mamani (Actor Social)",
           email_or_phone: "luisa.actor@comunidad.pe",
           role: "COMMUNITY_AGENT",
           status: "active",
@@ -432,7 +450,7 @@ const UsersPanel = memo(function UsersPanel() {
         },
         {
           id: 4,
-          username: "admin_super",
+          username: "Admin General (Yanapiri)",
           email_or_phone: "admin@yanapiri.pe",
           role: "ADMIN",
           status: "active",
@@ -440,15 +458,15 @@ const UsersPanel = memo(function UsersPanel() {
         },
         {
           id: 5,
-          username: "carlos_inactivo",
-          email_or_phone: "carlos.inactivo@ejemplo.pe",
+          username: "Carlos Sánchez",
+          email_or_phone: "carlos.sanchez@ejemplo.pe",
           role: "CAREGIVER",
           status: "inactive",
           created_at: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
         },
         {
           id: 6,
-          username: "lic_ana_flores",
+          username: "Lic. Ana Flores CRED",
           email_or_phone: "aflores@cred.gob.pe",
           role: "PROFESSIONAL",
           status: "active",
@@ -483,7 +501,6 @@ const UsersPanel = memo(function UsersPanel() {
         return next;
       });
     } catch {
-      // Optimistic update
       setAdminUsers((prev) => {
         const next = prev.map((u) => (u.id === user.id ? { ...u, status: newStatus } : u));
         setCachedData("users", next);
@@ -494,7 +511,33 @@ const UsersPanel = memo(function UsersPanel() {
     }
   }, []);
 
-  // Filtered & Paginated memoized data
+  const handleCreateUser = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      if (!newUsername || !newContact) return;
+
+      const newUserObj: AdminUser = {
+        id: Date.now(),
+        username: newUsername,
+        email_or_phone: newContact,
+        role: newRole as any,
+        status: "active",
+        created_at: new Date().toISOString(),
+      };
+
+      setAdminUsers((prev) => {
+        const next = [newUserObj, ...prev];
+        setCachedData("users", next);
+        return next;
+      });
+
+      setNewUsername("");
+      setNewContact("");
+      setIsAddUserOpen(false);
+    },
+    [newUsername, newContact, newRole]
+  );
+
   const filteredUsers = useMemo(() => {
     return adminUsers.filter((u) => {
       const matchesSearch =
@@ -512,19 +555,38 @@ const UsersPanel = memo(function UsersPanel() {
     return filteredUsers.slice(start, start + itemsPerPage);
   }, [filteredUsers, currentPage]);
 
-  const ROLE_LABELS: Record<string, string> = {
-    ADMIN: "Administrador",
-    PROFESSIONAL: "Profesional CRED",
-    COMMUNITY_AGENT: "Actor Social",
-    CAREGIVER: "Cuidador/a",
+  const ROLE_CONFIG: Record<
+    string,
+    { label: string; icon: any; badgeStyle: string; gradient: string }
+  > = {
+    ADMIN: {
+      label: "Administrador",
+      icon: ShieldCheck,
+      badgeStyle: "bg-purple-500/10 text-purple-600 dark:text-purple-300 border-purple-500/20",
+      gradient: "from-purple-600 to-indigo-600",
+    },
+    PROFESSIONAL: {
+      label: "Profesional CRED",
+      icon: Stethoscope,
+      badgeStyle: "bg-primary/10 text-primary border-primary/20",
+      gradient: "from-primary to-cyan-600",
+    },
+    COMMUNITY_AGENT: {
+      label: "Actor Social",
+      icon: Users,
+      badgeStyle: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
+      gradient: "from-amber-500 to-orange-500",
+    },
+    CAREGIVER: {
+      label: "Cuidador/a",
+      icon: Heart,
+      badgeStyle: "bg-pink-500/10 text-pink-600 dark:text-pink-400 border-pink-500/20",
+      gradient: "from-pink-500 to-rose-500",
+    },
   };
 
-  const ROLE_COLORS: Record<string, string> = {
-    ADMIN: "bg-purple-500/10 text-purple-600 dark:text-purple-300 border-purple-500/20",
-    PROFESSIONAL: "bg-primary/10 text-primary border-primary/20",
-    COMMUNITY_AGENT: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
-    CAREGIVER: "bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-500/20",
-  };
+  const activeCount = adminUsers.filter((u) => u.status === "active").length;
+  const inactiveCount = adminUsers.filter((u) => u.status === "inactive").length;
 
   if (loading) {
     return (
@@ -536,7 +598,51 @@ const UsersPanel = memo(function UsersPanel() {
   }
 
   return (
-    <div className="space-y-4 animate-in fade-in duration-300">
+    <div className="space-y-6 animate-in fade-in duration-300">
+      {/* Top Banner Stats */}
+      <div className="bg-card border border-border rounded-3xl p-6 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
+        <div>
+          <h3 className="text-lg font-extrabold text-foreground font-nunito flex items-center gap-2">
+            <Users className="size-5 text-primary" />
+            Gestión Inteligente de Usuarios
+          </h3>
+          <p className="text-xs text-muted-foreground mt-0.5">
+            Administra credenciales, roles y permisos de acceso para todo el personal de salud y apoderados
+          </p>
+        </div>
+
+        <div className="flex items-center gap-3 w-full md:w-auto justify-end">
+          <div className="flex items-center gap-2 bg-muted/50 p-1 rounded-2xl border border-border">
+            <button
+              onClick={() => setViewMode("cards")}
+              className={`p-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                viewMode === "cards" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"
+              }`}
+            >
+              <Grid className="size-3.5" />
+              <span className="hidden sm:inline">Tarjetas</span>
+            </button>
+            <button
+              onClick={() => setViewMode("table")}
+              className={`p-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                viewMode === "table" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"
+              }`}
+            >
+              <List className="size-3.5" />
+              <span className="hidden sm:inline">Tabla</span>
+            </button>
+          </div>
+
+          <button
+            onClick={() => setIsAddUserOpen(true)}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-gradient-to-r from-primary to-indigo-600 hover:opacity-95 text-white font-bold text-xs shadow-md shadow-primary/20 transition-all cursor-pointer"
+          >
+            <UserPlus className="size-4" />
+            <span>Nuevo Usuario</span>
+          </button>
+        </div>
+      </div>
+
       {/* Search & Filter Toolbar */}
       <div className="bg-card border border-border rounded-3xl p-4 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="relative w-full md:w-80">
@@ -562,7 +668,6 @@ const UsersPanel = memo(function UsersPanel() {
         </div>
 
         <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
-          <Filter className="size-4 text-muted-foreground shrink-0 hidden sm:block" />
           <select
             value={roleFilter}
             onChange={(e) => {
@@ -571,11 +676,11 @@ const UsersPanel = memo(function UsersPanel() {
             }}
             className="bg-muted/40 border border-border rounded-2xl text-xs font-semibold px-3 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary/40"
           >
-            <option value="ALL">Todos los Roles</option>
+            <option value="ALL">Todos los Roles ({adminUsers.length})</option>
             <option value="ADMIN">Administradores</option>
             <option value="PROFESSIONAL">Profesionales CRED</option>
             <option value="COMMUNITY_AGENT">Actores Sociales</option>
-            <option value="CAREGIVER">Cuidadores</option>
+            <option value="CAREGIVER">Cuidadores/as</option>
           </select>
 
           <select
@@ -587,8 +692,8 @@ const UsersPanel = memo(function UsersPanel() {
             className="bg-muted/40 border border-border rounded-2xl text-xs font-semibold px-3 py-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary/40"
           >
             <option value="ALL">Todos los Estados</option>
-            <option value="active">Activos</option>
-            <option value="inactive">Inactivos</option>
+            <option value="active">Activos ({activeCount})</option>
+            <option value="inactive">Inactivos ({inactiveCount})</option>
           </select>
 
           <button
@@ -601,131 +706,376 @@ const UsersPanel = memo(function UsersPanel() {
         </div>
       </div>
 
-      {/* Users Table */}
-      <div className="bg-card border border-border rounded-3xl overflow-hidden shadow-sm">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse min-w-[650px]">
-            <thead>
-              <tr className="border-b border-border text-[11px] uppercase font-extrabold text-muted-foreground bg-muted/30">
-                <th className="px-5 py-3.5">Usuario</th>
-                <th className="px-5 py-3.5">Contacto</th>
-                <th className="px-5 py-3.5">Rol de Sistema</th>
-                <th className="px-5 py-3.5 hidden md:table-cell">Fecha Registro</th>
-                <th className="px-5 py-3.5">Estado</th>
-                <th className="px-5 py-3.5 text-right">Acciones</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border text-xs">
-              {paginatedUsers.map((u) => (
-                <tr
-                  key={u.id}
-                  className={`hover:bg-muted/20 transition-colors ${u.status === "inactive" ? "opacity-60 bg-muted/10" : ""}`}
-                >
-                  <td className="px-5 py-3.5">
+      {/* RENDER VIEW MODE: CARDS GRID */}
+      {viewMode === "cards" && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {paginatedUsers.map((u) => {
+            const roleInfo = ROLE_CONFIG[u.role] || ROLE_CONFIG.CAREGIVER;
+            const RoleIcon = roleInfo.icon;
+            const isActive = u.status === "active";
+
+            return (
+              <div
+                key={u.id}
+                className={`bg-card border border-border rounded-3xl p-5 shadow-sm hover:shadow-md transition-all relative overflow-hidden flex flex-col justify-between group ${
+                  !isActive ? "opacity-75 bg-muted/20" : ""
+                }`}
+              >
+                <div>
+                  <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center gap-3">
-                      <div className="size-9 rounded-2xl bg-gradient-to-br from-indigo-500/20 to-primary/20 border border-primary/20 flex items-center justify-center font-bold text-primary text-sm shadow-sm">
+                      <div
+                        className={`size-12 rounded-2xl bg-gradient-to-br ${roleInfo.gradient} text-white flex items-center justify-center font-extrabold text-lg shadow-md shadow-primary/10 transition-transform group-hover:scale-105`}
+                      >
                         {u.username[0].toUpperCase()}
                       </div>
                       <div>
-                        <p className="font-extrabold text-foreground font-nunito">{u.username}</p>
-                        <p className="text-[10px] text-muted-foreground font-mono">ID: usr_{u.id}</p>
+                        <h4 className="font-extrabold text-foreground font-nunito text-sm leading-tight">
+                          {u.username}
+                        </h4>
+                        <p className="text-[11px] text-muted-foreground flex items-center gap-1 mt-0.5">
+                          <Mail className="size-3 text-muted-foreground shrink-0" />
+                          <span className="truncate max-w-[160px]">{u.email_or_phone}</span>
+                        </p>
                       </div>
                     </div>
-                  </td>
-                  <td className="px-5 py-3.5 text-muted-foreground font-medium">
-                    {u.email_or_phone}
-                  </td>
-                  <td className="px-5 py-3.5">
-                    <span
-                      className={`px-3 py-1 rounded-full text-[11px] font-bold border ${ROLE_COLORS[u.role] ?? "bg-muted text-muted-foreground"}`}
+
+                    <button
+                      onClick={() => setSelectedUser(u)}
+                      className="p-1.5 rounded-xl hover:bg-muted text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                      title="Ver detalles"
                     >
-                      {ROLE_LABELS[u.role] ?? u.role}
+                      <Eye className="size-4" />
+                    </button>
+                  </div>
+
+                  <div className="flex items-center justify-between pt-3 border-t border-border/50 text-xs">
+                    <span
+                      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold border ${roleInfo.badgeStyle}`}
+                    >
+                      <RoleIcon className="size-3" />
+                      {roleInfo.label}
                     </span>
-                  </td>
-                  <td className="px-5 py-3.5 hidden md:table-cell text-muted-foreground font-mono text-[11px]">
-                    {new Date(u.created_at).toLocaleDateString("es-PE")}
-                  </td>
-                  <td className="px-5 py-3.5">
+
                     <span
                       className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold ${
-                        u.status === "active"
+                        isActive
                           ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20"
                           : "bg-muted text-muted-foreground border border-border"
                       }`}
                     >
                       <span
-                        className={`size-1.5 rounded-full ${u.status === "active" ? "bg-emerald-500 animate-pulse" : "bg-gray-400"}`}
+                        className={`size-1.5 rounded-full ${isActive ? "bg-emerald-500 animate-pulse" : "bg-gray-400"}`}
                       />
-                      {u.status === "active" ? "Activo" : "Inactivo"}
+                      {isActive ? "Activo" : "Inactivo"}
                     </span>
-                  </td>
-                  <td className="px-5 py-3.5 text-right">
-                    {u.role !== "ADMIN" ? (
-                      <button
-                        onClick={() => toggleStatus(u)}
-                        disabled={updating === u.id}
-                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all disabled:opacity-50 cursor-pointer ${
-                          u.status === "active"
-                            ? "bg-rose-500/10 text-rose-600 hover:bg-rose-500/20 dark:text-rose-400 border border-rose-500/20"
-                            : "bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500/20 dark:text-emerald-400 border border-emerald-500/20"
-                        }`}
-                      >
-                        {updating === u.id ? (
-                          <RefreshCw className="size-3 animate-spin" />
-                        ) : u.status === "active" ? (
-                          <UserX className="size-3" />
-                        ) : (
-                          <UserCheck className="size-3" />
-                        )}
-                        {u.status === "active" ? "Desactivar" : "Activar"}
-                      </button>
-                    ) : (
-                      <span className="text-[11px] font-bold text-purple-600 dark:text-purple-400 bg-purple-500/10 px-2.5 py-1 rounded-full border border-purple-500/20">
-                        SuperAdmin
-                      </span>
-                    )}
-                  </td>
-                </tr>
-              ))}
-              {paginatedUsers.length === 0 && (
-                <tr>
-                  <td colSpan={6} className="px-5 py-10 text-center text-muted-foreground text-xs">
-                    No se encontraron usuarios que coincidan con la búsqueda.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+                  </div>
+                </div>
+
+                <div className="mt-5 pt-3 border-t border-border/50 flex items-center justify-between text-xs">
+                  <span className="text-[11px] text-muted-foreground font-mono flex items-center gap-1">
+                    <Calendar className="size-3" />
+                    {new Date(u.created_at).toLocaleDateString("es-PE")}
+                  </span>
+
+                  {u.role !== "ADMIN" ? (
+                    <button
+                      onClick={() => toggleStatus(u)}
+                      disabled={updating === u.id}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all disabled:opacity-50 cursor-pointer ${
+                        isActive
+                          ? "bg-rose-500/10 text-rose-600 hover:bg-rose-500/20 dark:text-rose-400 border border-rose-500/20"
+                          : "bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500/20 dark:text-emerald-400 border border-emerald-500/20"
+                      }`}
+                    >
+                      {updating === u.id ? (
+                        <RefreshCw className="size-3 animate-spin" />
+                      ) : isActive ? (
+                        <UserX className="size-3" />
+                      ) : (
+                        <UserCheck className="size-3" />
+                      )}
+                      {isActive ? "Desactivar" : "Activar"}
+                    </button>
+                  ) : (
+                    <span className="text-[11px] font-bold text-purple-600 dark:text-purple-400 bg-purple-500/10 px-2.5 py-1 rounded-full border border-purple-500/20">
+                      SuperAdmin
+                    </span>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+          {paginatedUsers.length === 0 && (
+            <div className="col-span-full bg-card border border-border rounded-3xl py-12 text-center text-muted-foreground text-xs">
+              No se encontraron usuarios coincidentes con los filtros aplicados.
+            </div>
+          )}
         </div>
+      )}
 
-        {/* Pagination Footer */}
-        <div className="px-5 py-3.5 border-t border-border flex items-center justify-between text-xs text-muted-foreground bg-muted/20">
-          <span>
-            Mostrando {filteredUsers.length === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1} -{" "}
-            {Math.min(currentPage * itemsPerPage, filteredUsers.length)} de {filteredUsers.length} usuarios
-          </span>
-
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-              disabled={currentPage === 1}
-              className="p-1.5 rounded-xl border border-border hover:bg-muted disabled:opacity-40 transition-colors cursor-pointer"
-            >
-              <ChevronLeft className="size-4" />
-            </button>
-            <span className="font-bold font-mono text-foreground px-2">
-              {currentPage} / {totalPages}
-            </span>
-            <button
-              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-              disabled={currentPage === totalPages}
-              className="p-1.5 rounded-xl border border-border hover:bg-muted disabled:opacity-40 transition-colors cursor-pointer"
-            >
-              <ChevronRight className="size-4" />
-            </button>
+      {/* RENDER VIEW MODE: TABLE */}
+      {viewMode === "table" && (
+        <div className="bg-card border border-border rounded-3xl overflow-hidden shadow-sm">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse min-w-[650px]">
+              <thead>
+                <tr className="border-b border-border text-[11px] uppercase font-extrabold text-muted-foreground bg-muted/30">
+                  <th className="px-5 py-3.5">Usuario</th>
+                  <th className="px-5 py-3.5">Contacto</th>
+                  <th className="px-5 py-3.5">Rol de Sistema</th>
+                  <th className="px-5 py-3.5 hidden md:table-cell">Fecha Registro</th>
+                  <th className="px-5 py-3.5">Estado</th>
+                  <th className="px-5 py-3.5 text-right">Acciones</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border text-xs">
+                {paginatedUsers.map((u) => {
+                  const roleInfo = ROLE_CONFIG[u.role] || ROLE_CONFIG.CAREGIVER;
+                  const isActive = u.status === "active";
+                  return (
+                    <tr
+                      key={u.id}
+                      className={`hover:bg-muted/20 transition-colors ${!isActive ? "opacity-60 bg-muted/10" : ""}`}
+                    >
+                      <td className="px-5 py-3.5">
+                        <div className="flex items-center gap-3">
+                          <div
+                            className={`size-9 rounded-2xl bg-gradient-to-br ${roleInfo.gradient} text-white flex items-center justify-center font-bold text-sm shadow-sm`}
+                          >
+                            {u.username[0].toUpperCase()}
+                          </div>
+                          <div>
+                            <p className="font-extrabold text-foreground font-nunito">{u.username}</p>
+                            <p className="text-[10px] text-muted-foreground font-mono">ID: usr_{u.id}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-5 py-3.5 text-muted-foreground font-medium">
+                        {u.email_or_phone}
+                      </td>
+                      <td className="px-5 py-3.5">
+                        <span
+                          className={`px-3 py-1 rounded-full text-[11px] font-bold border ${roleInfo.badgeStyle}`}
+                        >
+                          {roleInfo.label}
+                        </span>
+                      </td>
+                      <td className="px-5 py-3.5 hidden md:table-cell text-muted-foreground font-mono text-[11px]">
+                        {new Date(u.created_at).toLocaleDateString("es-PE")}
+                      </td>
+                      <td className="px-5 py-3.5">
+                        <span
+                          className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold ${
+                            isActive
+                              ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20"
+                              : "bg-muted text-muted-foreground border border-border"
+                          }`}
+                        >
+                          <span
+                            className={`size-1.5 rounded-full ${isActive ? "bg-emerald-500 animate-pulse" : "bg-gray-400"}`}
+                          />
+                          {isActive ? "Activo" : "Inactivo"}
+                        </span>
+                      </td>
+                      <td className="px-5 py-3.5 text-right">
+                        {u.role !== "ADMIN" ? (
+                          <button
+                            onClick={() => toggleStatus(u)}
+                            disabled={updating === u.id}
+                            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all disabled:opacity-50 cursor-pointer ${
+                              isActive
+                                ? "bg-rose-500/10 text-rose-600 hover:bg-rose-500/20 dark:text-rose-400 border border-rose-500/20"
+                                : "bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500/20 dark:text-emerald-400 border border-emerald-500/20"
+                            }`}
+                          >
+                            {updating === u.id ? (
+                              <RefreshCw className="size-3 animate-spin" />
+                            ) : isActive ? (
+                              <UserX className="size-3" />
+                            ) : (
+                              <UserCheck className="size-3" />
+                            )}
+                            {isActive ? "Desactivar" : "Activar"}
+                          </button>
+                        ) : (
+                          <span className="text-[11px] font-bold text-purple-600 dark:text-purple-400 bg-purple-500/10 px-2.5 py-1 rounded-full border border-purple-500/20">
+                            SuperAdmin
+                          </span>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
         </div>
+      )}
+
+      {/* Pagination Footer */}
+      <div className="px-5 py-3.5 border-t border-border flex items-center justify-between text-xs text-muted-foreground bg-card rounded-3xl border shadow-sm">
+        <span>
+          Mostrando {filteredUsers.length === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1} -{" "}
+          {Math.min(currentPage * itemsPerPage, filteredUsers.length)} de {filteredUsers.length} usuarios
+        </span>
+
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+            disabled={currentPage === 1}
+            className="p-1.5 rounded-xl border border-border hover:bg-muted disabled:opacity-40 transition-colors cursor-pointer"
+          >
+            <ChevronLeft className="size-4" />
+          </button>
+          <span className="font-bold font-mono text-foreground px-2">
+            {currentPage} / {totalPages}
+          </span>
+          <button
+            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+            disabled={currentPage === totalPages}
+            className="p-1.5 rounded-xl border border-border hover:bg-muted disabled:opacity-40 transition-colors cursor-pointer"
+          >
+            <ChevronRight className="size-4" />
+          </button>
+        </div>
       </div>
+
+      {/* MODAL: VER DETALLE DE USUARIO */}
+      {selectedUser && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-in fade-in duration-200">
+          <div className="bg-card border border-border rounded-3xl p-6 max-w-md w-full shadow-2xl relative">
+            <button
+              onClick={() => setSelectedUser(null)}
+              className="absolute right-4 top-4 text-muted-foreground hover:text-foreground p-1 rounded-xl hover:bg-muted"
+            >
+              <X className="size-5" />
+            </button>
+
+            <div className="text-center mb-6">
+              <div className="size-16 rounded-3xl bg-gradient-to-br from-primary to-indigo-600 text-white flex items-center justify-center font-extrabold text-2xl mx-auto shadow-lg shadow-primary/20 mb-3">
+                {selectedUser.username[0].toUpperCase()}
+              </div>
+              <h3 className="text-lg font-extrabold text-foreground font-nunito">
+                {selectedUser.username}
+              </h3>
+              <p className="text-xs text-muted-foreground font-mono mt-0.5">{selectedUser.email_or_phone}</p>
+            </div>
+
+            <div className="space-y-3 bg-muted/30 p-4 rounded-2xl border border-border/50 text-xs mb-6">
+              <div className="flex justify-between">
+                <span className="text-muted-foreground font-medium">ID del Sistema:</span>
+                <span className="font-mono font-bold text-foreground">usr_{selectedUser.id}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground font-medium">Rol Asignado:</span>
+                <span className="font-bold text-primary">{selectedUser.role}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground font-medium">Estado de Cuenta:</span>
+                <span className={`font-bold ${selectedUser.status === "active" ? "text-emerald-500" : "text-gray-400"}`}>
+                  {selectedUser.status.toUpperCase()}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground font-medium">Fecha de Registro:</span>
+                <span className="font-mono text-foreground">{new Date(selectedUser.created_at).toLocaleString("es-PE")}</span>
+              </div>
+            </div>
+
+            <div className="flex gap-2">
+              <button
+                onClick={() => setSelectedUser(null)}
+                className="w-full py-2.5 rounded-2xl border border-border hover:bg-muted font-bold text-xs text-foreground transition-colors cursor-pointer"
+              >
+                Cerrar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: NUEVO USUARIO */}
+      {isAddUserOpen && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-in fade-in duration-200">
+          <div className="bg-card border border-border rounded-3xl p-6 max-w-md w-full shadow-2xl relative">
+            <button
+              onClick={() => setIsAddUserOpen(false)}
+              className="absolute right-4 top-4 text-muted-foreground hover:text-foreground p-1 rounded-xl hover:bg-muted"
+            >
+              <X className="size-5" />
+            </button>
+
+            <div className="flex items-center gap-2 mb-4">
+              <div className="p-2 rounded-xl bg-primary/10 text-primary">
+                <UserPlus className="size-5" />
+              </div>
+              <div>
+                <h3 className="text-base font-extrabold text-foreground font-nunito">
+                  Registrar Nuevo Usuario
+                </h3>
+                <p className="text-xs text-muted-foreground">Añade personal de salud o cuidadores</p>
+              </div>
+            </div>
+
+            <form onSubmit={handleCreateUser} className="space-y-4 text-xs">
+              <div>
+                <label className="block font-bold text-foreground mb-1">Nombre Completo</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="Ej: Lic. Rosa Morales"
+                  value={newUsername}
+                  onChange={(e) => setNewUsername(e.target.value)}
+                  className="w-full px-3.5 py-2.5 bg-muted/40 border border-border rounded-2xl text-foreground focus:ring-2 focus:ring-primary/40 font-medium"
+                />
+              </div>
+
+              <div>
+                <label className="block font-bold text-foreground mb-1">Correo Electrónico / Teléfono</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="rosamorales@minsa.gob.pe"
+                  value={newContact}
+                  onChange={(e) => setNewContact(e.target.value)}
+                  className="w-full px-3.5 py-2.5 bg-muted/40 border border-border rounded-2xl text-foreground focus:ring-2 focus:ring-primary/40 font-medium"
+                />
+              </div>
+
+              <div>
+                <label className="block font-bold text-foreground mb-1">Rol en la Plataforma</label>
+                <select
+                  value={newRole}
+                  onChange={(e) => setNewRole(e.target.value)}
+                  className="w-full px-3.5 py-2.5 bg-muted/40 border border-border rounded-2xl text-foreground focus:ring-2 focus:ring-primary/40 font-bold"
+                >
+                  <option value="CAREGIVER">Cuidador/a de Familia</option>
+                  <option value="PROFESSIONAL">Profesional CRED (Salud)</option>
+                  <option value="COMMUNITY_AGENT">Actor Social / Promotor</option>
+                  <option value="ADMIN">Administrador de Sistema</option>
+                </select>
+              </div>
+
+              <div className="flex gap-2 pt-3">
+                <button
+                  type="button"
+                  onClick={() => setIsAddUserOpen(false)}
+                  className="w-full py-2.5 rounded-2xl border border-border hover:bg-muted font-bold text-foreground transition-colors cursor-pointer"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="w-full py-2.5 rounded-2xl bg-primary hover:opacity-95 text-white font-bold transition-all shadow-md shadow-primary/20 cursor-pointer"
+                >
+                  Guardar Usuario
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 });
@@ -1081,7 +1431,6 @@ const AuditPanel = memo(function AuditPanel({ auditLogs }: { auditLogs: AuditLog
     return filteredLogs.slice(start, start + itemsPerPage);
   }, [filteredLogs, currentPage]);
 
-  // Export to CSV
   const exportCSV = useCallback(() => {
     if (auditLogs.length === 0) return;
     const headers = ["Timestamp", "User_ID", "Action", "Table_Affected", "Record_ID", "IP_Address"];
@@ -1103,7 +1452,6 @@ const AuditPanel = memo(function AuditPanel({ auditLogs }: { auditLogs: AuditLog
     document.body.removeChild(link);
   }, [auditLogs]);
 
-  // Export to JSON
   const exportJSON = useCallback(() => {
     if (auditLogs.length === 0) return;
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(auditLogs, null, 2));
@@ -1117,7 +1465,6 @@ const AuditPanel = memo(function AuditPanel({ auditLogs }: { auditLogs: AuditLog
 
   return (
     <div className="space-y-4 animate-in fade-in duration-300">
-      {/* Header & Export Bar */}
       <div className="bg-card border border-border rounded-3xl p-4 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="relative w-full md:w-80">
           <Search className="size-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
@@ -1161,7 +1508,6 @@ const AuditPanel = memo(function AuditPanel({ auditLogs }: { auditLogs: AuditLog
         </div>
       </div>
 
-      {/* Table */}
       <div className="bg-card border border-border rounded-3xl overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse min-w-[700px]">
@@ -1215,7 +1561,6 @@ const AuditPanel = memo(function AuditPanel({ auditLogs }: { auditLogs: AuditLog
           </table>
         </div>
 
-        {/* Footer */}
         <div className="px-5 py-3.5 border-t border-border flex items-center justify-between text-xs text-muted-foreground bg-muted/20">
           <span className="flex items-center gap-1.5">
             <ShieldCheck className="size-3.5 text-emerald-500" />
@@ -1246,7 +1591,7 @@ const AuditPanel = memo(function AuditPanel({ auditLogs }: { auditLogs: AuditLog
   );
 });
 
-// ─── INVESTOR METRICS PANEL (MEMOIZED WITH RECHARTS) ──────────────────────────
+// ─── INVESTOR METRICS PANEL ────────────────────────────────────────────────────
 
 function useInvestorMetrics() {
   const { children } = useData();
@@ -1317,7 +1662,6 @@ const InvestorMetricsPanel = memo(function InvestorMetricsPanel() {
 
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
-      {/* Top KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {[
           {
@@ -1372,7 +1716,6 @@ const InvestorMetricsPanel = memo(function InvestorMetricsPanel() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Demographics Donut */}
         <div className="bg-card border border-border rounded-3xl p-6 shadow-sm">
           <h3 className="text-base font-extrabold text-foreground mb-4 font-nunito flex items-center gap-2">
             <Baby className="size-5 text-pink-500" />
@@ -1417,7 +1760,6 @@ const InvestorMetricsPanel = memo(function InvestorMetricsPanel() {
           </p>
         </div>
 
-        {/* Technology Bar Chart */}
         <div className="bg-card border border-border rounded-3xl p-6 shadow-sm">
           <h3 className="text-base font-extrabold text-foreground mb-4 font-nunito flex items-center gap-2">
             <Smartphone className="size-5 text-emerald-500" />
@@ -1451,7 +1793,6 @@ const InvestorMetricsPanel = memo(function InvestorMetricsPanel() {
         </div>
       </div>
 
-      {/* Region Bar Chart */}
       <div className="bg-card border border-border rounded-3xl p-6 shadow-sm">
         <h3 className="text-base font-extrabold text-foreground mb-4 font-nunito flex items-center gap-2">
           <Globe className="size-5 text-indigo-500" />
@@ -1521,7 +1862,6 @@ export default function AdminPage() {
       setStats(s);
       setCachedData("stats", s);
     } catch {
-      // Fallback stats derived from context data
       const mockStats: AdminStats = {
         total_children: 6,
         total_users: 5,
@@ -1574,13 +1914,13 @@ export default function AdminPage() {
       />
 
       <div className="min-h-screen bg-gradient-flow relative flex flex-col">
-        {/* Background Ambient Glows */}
+        {/* Ambient background glows */}
         <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
           <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-primary/10 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob" />
           <div className="absolute bottom-1/4 left-0 w-[600px] h-[600px] bg-indigo-500/10 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-2000" />
         </div>
 
-        {/* Admin Top Header */}
+        {/* Top Header */}
         <header className="bg-card/90 backdrop-blur-md border-b border-border px-6 py-4 sticky top-0 z-30 shadow-sm">
           <div className="max-w-7xl mx-auto flex items-center justify-between flex-wrap gap-4">
             <div className="flex items-center gap-3">
@@ -1612,9 +1952,9 @@ export default function AdminPage() {
           </div>
         </header>
 
-        {/* Content Container */}
+        {/* Main Content Container */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 w-full flex-1 relative z-10">
-          {/* Tab Navigation Pill Bar */}
+          {/* Navigation Bar */}
           <div className="flex gap-1.5 bg-muted/60 p-1.5 rounded-3xl mb-6 overflow-x-auto border border-border/50 backdrop-blur-sm">
             {TABS.map(({ id, icon: Icon, label, badge }) => (
               <button
