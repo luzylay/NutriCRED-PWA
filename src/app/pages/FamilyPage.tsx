@@ -237,7 +237,7 @@ export default function FamilyPage() {
         </div>
 
         {/* PWA Main Container */}
-        <div className="w-full max-w-md mx-auto flex-1 flex flex-col relative z-10 animate-in fade-in duration-500 bg-background/40 dark:bg-background/20 backdrop-blur-3xl shadow-2xl border-x border-white/10">
+        <div className="w-full max-w-5xl mx-auto flex-1 flex flex-col relative z-10 animate-in fade-in duration-500 bg-background/40 dark:bg-background/20 backdrop-blur-3xl shadow-2xl xl:border-x border-white/10">
           {/* App Header */}
           <div className="px-5 pt-6 pb-3 flex items-center justify-between bg-card/95 backdrop-blur-xl border-b border-border shadow-sm sticky top-0 z-30">
             <div className="flex items-center gap-2.5">
@@ -361,8 +361,9 @@ export default function FamilyPage() {
                     </button>
                   </div>
                 ) : (
-                  <>
-                    {/* Child status card */}
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start mt-2">
+                    <div className="lg:col-span-7 space-y-4">
+                      {/* Child status card */}
                     <div
                       className={`rounded-[2rem] border p-6 space-y-5 shadow-lg relative overflow-hidden transition-all duration-500 hover:shadow-xl ${cfg.bgClass} ${cfg.borderClass}`}
                     >
@@ -480,8 +481,10 @@ export default function FamilyPage() {
                         ))}
                       </div>
                     </div>
+                    </div>
 
-                    {/* Growth chart */}
+                    <div className="lg:col-span-5 space-y-4">
+                      {/* Growth chart */}
                     <div className="bg-card/60 backdrop-blur-md border border-border rounded-3xl p-4 space-y-2 shadow-sm transition-all hover:shadow-md">
                       <div className="flex items-center justify-between">
                         <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
@@ -525,13 +528,14 @@ export default function FamilyPage() {
                         Centro de Salud.
                       </p>
                     </div>
-                  </>
+                    </div>
+                  </div>
                 )}
               </>
             )}
 
             {activeTab === "history" && (
-              <div className="space-y-6">
+              <div className="space-y-6 max-w-2xl mx-auto w-full">
                 <div className="flex items-center gap-3">
                   <div className="size-10 bg-gradient-to-br from-primary to-accent rounded-xl flex items-center justify-center shadow-lg text-white">
                     <Activity className="size-5" />
@@ -637,7 +641,7 @@ export default function FamilyPage() {
             )}
 
             {activeTab === "help" && (
-              <div className="space-y-4">
+              <div className="space-y-4 max-w-2xl mx-auto w-full">
                 <div className="flex items-center gap-3 mb-2">
                   <div className="size-10 bg-gradient-to-br from-primary to-accent rounded-xl flex items-center justify-center shadow-lg text-white">
                     <HeartPulse className="size-5" />
@@ -655,7 +659,7 @@ export default function FamilyPage() {
               </div>
             )}
             {activeTab === "play" && (
-              <div className="space-y-4">
+              <div className="space-y-4 max-w-2xl mx-auto w-full">
                 <div className="flex items-center gap-3 mb-2">
                   <div className="size-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-xl flex items-center justify-center shadow-lg text-white">
                     <Sparkles className="size-5" />
