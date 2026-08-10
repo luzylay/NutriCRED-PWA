@@ -12,55 +12,174 @@ interface FoodItem {
   imageUrl: string;
 }
 
-// Catálogo de superalimentos con enlaces directos a Wikimedia Commons
+// Catálogo de superalimentos regionales y económicos (Costa, Sierra, Selva)
 const FOOD_CATALOG: FoodItem[] = [
+  // --- HIERRO ---
   {
     id: "f1",
-    name: "Sangrecita",
+    name: "Sangrecita de Pollo",
     category: "Origen Animal",
     mainVitamin: "Hierro",
-    description: "El superalimento número uno para combatir la anemia infantil. Tiene altísimas concentraciones de hierro hem (el que mejor absorbe el cuerpo).",
+    description: "Muy económica y la mejor fuente de hierro para curar la anemia. Ideal en todo el Perú (Costa, Sierra y Selva).",
     imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Morcilla_de_Burgos.jpg/640px-Morcilla_de_Burgos.jpg"
   },
   {
     id: "f2",
-    name: "Hígado de Pollo",
+    name: "Hígado",
     category: "Origen Animal",
     mainVitamin: "Hierro",
-    description: "Muy rico en hierro y vitamina A. Ideal para preparar en papillas desde los 6 meses para prevenir la anemia.",
+    description: "De pollo o res, es barato y se encuentra en cualquier mercado. Perfecto para papillas desde los 6 meses.",
     imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Chicken_livers_raw.jpg/640px-Chicken_livers_raw.jpg"
   },
   {
     id: "f3",
-    name: "Lentejas",
-    category: "Cereal/Grano",
+    name: "Bazo de Res",
+    category: "Origen Animal",
     mainVitamin: "Hierro",
-    description: "Buena fuente de hierro vegetal. Para que el bebé absorba su hierro, siempre acompáñalo con jugo de naranja o limón.",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Red_lentils.jpg/640px-Red_lentils.jpg"
+    description: "Un secreto muy económico de los mercados peruanos. Riquísimo en hierro; se puede raspar para papillas.",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Beef_spleen.jpg/640px-Beef_spleen.jpg"
   },
   {
     id: "f4",
-    name: "Naranja",
-    category: "Fruta",
-    mainVitamin: "Vitamina C",
-    description: "La vitamina C ayuda a que el cuerpo absorba el hierro vegetal (como el de las lentejas y espinacas). Dale de postre o refresco natural.",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Orange-Fruit-Pieces.jpg/640px-Orange-Fruit-Pieces.jpg"
+    name: "Charqui o Chalona",
+    category: "Origen Animal",
+    mainVitamin: "Hierro",
+    description: "Carne seca tradicional de nuestra Sierra. Gran fuente de hierro, ideal para sopas espesas.",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Charqui_-_Cusco_market.jpg/640px-Charqui_-_Cusco_market.jpg"
   },
   {
     id: "f5",
+    name: "Lentejas y Frijoles",
+    category: "Cereal/Grano",
+    mainVitamin: "Hierro",
+    description: "El hierro vegetal más humilde y rendidor. Acompañar SIEMPRE con limonada para que el cuerpo absorba el hierro.",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Red_lentils.jpg/640px-Red_lentils.jpg"
+  },
+
+  // --- VITAMINA C ---
+  {
+    id: "c1",
+    name: "Limón",
+    category: "Fruta",
+    mainVitamin: "Vitamina C",
+    description: "Económico y presente en todos los hogares. Unas gotitas en las menestras duplican la absorción del hierro.",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Lemon.jpg/640px-Lemon.jpg"
+  },
+  {
+    id: "c2",
+    name: "Camu Camu",
+    category: "Fruta",
+    mainVitamin: "Vitamina C",
+    description: "El orgullo de nuestra Selva. Tiene 40 veces más vitamina C que el limón. Excelente para refrescos.",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Myrciaria_dubia.jpg/640px-Myrciaria_dubia.jpg"
+  },
+  {
+    id: "c3",
+    name: "Aguaymanto",
+    category: "Fruta",
+    mainVitamin: "Vitamina C",
+    description: "Fruta silvestre de la Sierra, muy accesible en temporada. Refuerza las defensas del bebé.",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Physalis_peruviana.jpg/640px-Physalis_peruviana.jpg"
+  },
+  {
+    id: "c4",
+    name: "Tumbo",
+    category: "Fruta",
+    mainVitamin: "Vitamina C",
+    description: "Fruta andina muy económica. Ideal para refrescos cítricos que acompañen los platos ricos en hierro.",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Passiflora_tarminiana_%28Banana_Passion_Fruit%29.jpg/640px-Passiflora_tarminiana_%28Banana_Passion_Fruit%29.jpg"
+  },
+  {
+    id: "c5",
+    name: "Naranja o Mandarina",
+    category: "Fruta",
+    mainVitamin: "Vitamina C",
+    description: "Frutas de estación muy baratas en Costa y Selva. Ideales de postre tras un plato de sangrecita.",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Orange-Fruit-Pieces.jpg/640px-Orange-Fruit-Pieces.jpg"
+  },
+
+  // --- PROTEÍNA ---
+  {
+    id: "p1",
+    name: "Huevo",
+    category: "Origen Animal",
+    mainVitamin: "Proteína",
+    description: "La proteína más barata y completa del mundo. Ideal para el desarrollo cerebral (colina) y muscular del bebé.",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Chicken_egg_2009-06-04.jpg/640px-Chicken_egg_2009-06-04.jpg"
+  },
+  {
+    id: "p2",
+    name: "Pescado (Bonito o Jurel)",
+    category: "Origen Animal",
+    mainVitamin: "Proteína",
+    description: "En la Costa son los pescados oscuros más económicos y ricos en Omega 3 para la inteligencia del niño.",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Jurel_pescado.jpg/640px-Jurel_pescado.jpg"
+  },
+  {
+    id: "p3",
+    name: "Tarwi o Chocho",
+    category: "Cereal/Grano",
+    mainVitamin: "Proteína",
+    description: "El supergrano de la Sierra. Tiene más proteína que la carne y es sumamente económico.",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Lupinus_mutabilis_seeds.jpg/640px-Lupinus_mutabilis_seeds.jpg"
+  },
+  {
+    id: "p4",
     name: "Quinua",
     category: "Cereal/Grano",
     mainVitamin: "Proteína",
-    description: "Un grano andino milenario, excelente fuente de proteínas para el desarrollo de los músculos y cerebro del bebé.",
+    description: "Grano andino sagrado. Excelente reemplazo del arroz para darle mucha más fuerza y nutrición a las papillas.",
     imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Quinoa_closeup.jpg/640px-Quinoa_closeup.jpg"
   },
   {
-    id: "f6",
-    name: "Brócoli",
+    id: "p5",
+    name: "Paiche o Doncella",
+    category: "Origen Animal",
+    mainVitamin: "Proteína",
+    description: "Pescados tradicionales de nuestra Selva peruana, excelentes fuentes de proteína de alta calidad.",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Arapaima_gigas_Aquarium_tropical_du_Palais_de_la_Porte_Dor%C3%A9e_11042014_1.jpg/640px-Arapaima_gigas_Aquarium_tropical_du_Palais_de_la_Porte_Dor%C3%A9e_11042014_1.jpg"
+  },
+
+  // --- CALCIO ---
+  {
+    id: "ca1",
+    name: "Queso Fresco",
+    category: "Origen Animal",
+    mainVitamin: "Calcio",
+    description: "Muy tradicional en nuestra Sierra. El calcio forma los huesitos del bebé para que gane buena talla.",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Queso_fresco.jpg/640px-Queso_fresco.jpg"
+  },
+  {
+    id: "ca2",
+    name: "Anchoveta",
+    category: "Origen Animal",
+    mainVitamin: "Calcio",
+    description: "El pescado más abundante y humilde de la Costa. Al comerse con espinas pequeñas, da muchísimo calcio.",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Engraulis_ringens.jpeg/640px-Engraulis_ringens.jpeg"
+  },
+  {
+    id: "ca3",
+    name: "Maca",
     category: "Vegetal",
     mainVitamin: "Calcio",
-    description: "Además de vitaminas y fibra, contiene calcio para huesos fuertes. Excelente para que el bebé lo agarre con sus manitos (Baby-led weaning).",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Broccoli_and_cross_section_edit.jpg/640px-Broccoli_and_cross_section_edit.jpg"
+    description: "Raíz andina económica. Además de dar mucha energía, contiene altos niveles de calcio natural.",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Maca_roots.jpg/640px-Maca_roots.jpg"
+  },
+  {
+    id: "ca4",
+    name: "Hojas Verde Oscuro (Acelga)",
+    category: "Vegetal",
+    mainVitamin: "Calcio",
+    description: "Las hojas de nabo, rábano o acelga son baratas y muy ricas en calcio vegetal para las familias más humildes.",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Chard.jpg/640px-Chard.jpg"
+  },
+  {
+    id: "ca5",
+    name: "Leche Evaporada o Materna",
+    category: "Origen Animal",
+    mainVitamin: "Calcio",
+    description: "La leche materna es gratis y es el mejor calcio. Si ya no lacta, la leche de vaca complementa su dieta.",
+    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Glass_of_milk.jpg/640px-Glass_of_milk.jpg"
   }
 ];
 
