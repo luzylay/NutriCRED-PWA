@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { BookOpen, Search, Droplet, Sun, Dumbbell, ShieldCheck } from "lucide-react";
+import { BookOpen, Search, Droplet, Sun, Dumbbell, ShieldCheck, Sparkles } from "lucide-react";
+
+
 
 type VitaminType = "Hierro" | "Vitamina C" | "Proteína" | "Calcio";
 
