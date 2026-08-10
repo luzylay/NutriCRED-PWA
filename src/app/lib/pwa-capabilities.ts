@@ -4,6 +4,11 @@
 
 // ─── 1. APP BADGING API ────────────────────────────────────────────────────────
 
+interface NavigatorWithBadging extends Navigator {
+  setAppBadge?: (count?: number) => Promise<void>;
+  clearAppBadge?: () => Promise<void>;
+}
+
 /**
  * Actualiza el contador de notificación (Badge) en el icono instalado de la PWA.
  * Soportado en iOS 16.4+, Android Chrome, Edge y Desktop.
@@ -12,10 +17,11 @@
 export async function updateAppBadge(count: number): Promise<void> {
   if (typeof navigator !== "undefined" && "setAppBadge" in navigator) {
     try {
-      if (count > 0) {
-        await (navigator as any).setAppBadge(count);
-      } else {
-        await (navigator as any).clearAppBadge();
+      const nav = navigator as NavigatorWithBadging;
+      if (count > 0 && nav.setAppBadge) {
+        await nav.setAppBadge(count);
+      } else if (nav.clearAppBadge) {
+        await nav.clearAppBadge();
       }
     } catch (err) {
       console.warn("App Badging no soportado o denegado:", err);
@@ -29,12 +35,16 @@ export async function updateAppBadge(count: number): Promise<void> {
 export async function clearAppBadge(): Promise<void> {
   if (typeof navigator !== "undefined" && "clearAppBadge" in navigator) {
     try {
-      await (navigator as any).clearAppBadge();
+      const nav = navigator as NavigatorWithBadging;
+      if (nav.clearAppBadge) {
+        await nav.clearAppBadge();
+      }
     } catch (err) {
       console.warn("Fallo al limpiar App Badge:", err);
     }
   }
 }
+
 
 // ─── 2. SPEECH RECOGNITION (VOZ A TEXTO) ───────────────────────────────────────
 

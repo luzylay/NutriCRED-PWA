@@ -21,4 +21,3 @@ import { PublicImpactModule } from './public-impact/public-impact.module';
   providers: [AppService],
 })
 export class AppModule {}
-

@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  
+
   // Habilitar CORS para permitir peticiones desde el frontend React
   app.enableCors({
     origin: '*',
@@ -15,4 +15,6 @@ async function bootstrap() {
   await app.listen(port);
   console.log(`🚀 NestJS Backend ejecutándose en http://localhost:${port}`);
 }
-bootstrap();
+void bootstrap().catch((err: unknown) =>
+  console.error('Error al iniciar NestJS:', err),
+);

@@ -30,17 +30,21 @@ export class PatientsService {
       community: c.community,
       zscore_actual: c.zscoreActual,
       status_alerta: c.statusAlerta,
-      caregiver: c.caregiver ? {
-        id: c.caregiver.id,
-        name: c.caregiver.user?.name || 'Cuidador',
-        phone: c.caregiver.phone,
-      } : null,
-      agent: c.agent ? {
-        id: c.agent.id,
-        name: c.agent.user?.name || 'Agente Comunitario',
-        phone: c.agent.phone,
-      } : null,
-      measurements: c.measurements.map(m => ({
+      caregiver: c.caregiver
+        ? {
+            id: c.caregiver.id,
+            name: c.caregiver.user?.name || 'Cuidador',
+            phone: c.caregiver.phone,
+          }
+        : null,
+      agent: c.agent
+        ? {
+            id: c.agent.id,
+            name: c.agent.user?.name || 'Agente Comunitario',
+            phone: c.agent.phone,
+          }
+        : null,
+      measurements: c.measurements.map((m) => ({
         id: m.id,
         date: m.date.toISOString(),
         weight: m.weight,
@@ -83,17 +87,21 @@ export class PatientsService {
       community: child.community,
       zscore_actual: child.zscoreActual,
       status_alerta: child.statusAlerta,
-      caregiver: child.caregiver ? {
-        id: child.caregiver.id,
-        name: child.caregiver.user?.name,
-        phone: child.caregiver.phone,
-      } : null,
-      agent: child.agent ? {
-        id: child.agent.id,
-        name: child.agent.user?.name,
-        phone: child.agent.phone,
-      } : null,
-      measurements: child.measurements.map(m => ({
+      caregiver: child.caregiver
+        ? {
+            id: child.caregiver.id,
+            name: child.caregiver.user?.name,
+            phone: child.caregiver.phone,
+          }
+        : null,
+      agent: child.agent
+        ? {
+            id: child.agent.id,
+            name: child.agent.user?.name,
+            phone: child.agent.phone,
+          }
+        : null,
+      measurements: child.measurements.map((m) => ({
         id: m.id,
         date: m.date.toISOString(),
         weight: m.weight,

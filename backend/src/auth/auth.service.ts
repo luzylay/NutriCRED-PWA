@@ -13,10 +13,7 @@ export class AuthService {
   async login(usernameOrEmail: string, password: string) {
     const user = await this.prisma.user.findFirst({
       where: {
-        OR: [
-          { username: usernameOrEmail },
-          { email: usernameOrEmail },
-        ],
+        OR: [{ username: usernameOrEmail }, { email: usernameOrEmail }],
       },
       include: {
         caregiver: true,

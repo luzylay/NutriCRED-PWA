@@ -17,7 +17,9 @@ export class MeasurementsService {
     });
 
     if (!child) {
-      throw new NotFoundException(`Niño con ID ${data.child_id} no encontrado.`);
+      throw new NotFoundException(
+        `Niño con ID ${data.child_id} no encontrado.`,
+      );
     }
 
     // Cálculo aproximado de Z-Score (Peso/Talla simplificado para demo)
@@ -49,14 +51,15 @@ export class MeasurementsService {
       // Z < -2.0 DE: Desnutrición Severa / Moderada según curvas antropométricas de la OMS
       alertTriggered = 'urgent';
       severity = 'ROJO';
-      alertMessage = alertMessage || `Alerta Crítica: Desviación Z-Score de peso/talla crítica (${zscore}).`;
+      alertMessage =
+        alertMessage ||
+        `Alerta Crítica: Desviación Z-Score de peso/talla crítica (${zscore}).`;
     } else if (zscore < -1.0 && alertTriggered === 'normal') {
       // -2.0 DE <= Z < -1.0 DE: Riesgo nutricional / Bajo Peso
       alertTriggered = 'follow-up';
       severity = 'AMARILLO';
       alertMessage = `Atención: Z-Score bajo (${zscore}). Monitoreo preventivo recomendado.`;
     }
-
 
     // Crear la medición
     const measurement = await this.prisma.measurement.create({
