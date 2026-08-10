@@ -191,7 +191,7 @@ export function NutritionalTrivia() {
             <div className={`p-4 rounded-2xl border text-sm font-medium leading-relaxed flex items-start gap-3 shadow-inner ${
               selectedOption === question.correctAnswer 
                 ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-800 dark:text-emerald-200" 
-                : "bg-primary/10 border-primary/30 text-primary-foreground/90 dark:text-primary-foreground"
+                : "bg-primary/10 border-primary/30 text-foreground"
             }`}>
               <div className="shrink-0 mt-0.5">
                 {selectedOption === question.correctAnswer ? (

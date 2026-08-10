@@ -239,7 +239,7 @@ export default function FamilyPage() {
         {/* PWA Main Container */}
         <div className="w-full max-w-md mx-auto flex-1 flex flex-col relative z-10 animate-in fade-in duration-500 bg-background/40 dark:bg-background/20 backdrop-blur-3xl shadow-2xl border-x border-white/10">
           {/* App Header */}
-          <div className="px-5 pt-6 pb-3 flex items-center justify-between bg-card/60 backdrop-blur-md border-b border-border shadow-sm sticky top-0 z-30">
+          <div className="px-5 pt-6 pb-3 flex items-center justify-between bg-card/95 backdrop-blur-xl border-b border-border shadow-sm sticky top-0 z-30">
             <div className="flex items-center gap-2.5">
               <div className="size-9 rounded-xl bg-primary flex items-center justify-center shadow-sm">
                 <Baby className="size-5 text-white" />
