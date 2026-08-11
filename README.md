@@ -17,88 +17,23 @@ El proyecto resuelve la brecha entre los controles presenciales asistenciales (C
 
 > ⚠️ **Guardarraíl Clínico:** Yanapiri Wawa **no realiza diagnósticos médicos** de anemia ni desnutrición. El sistema actúa como una herramienta de triaje y alerta temprana que sugiere derivaciones oportunas a profesionales de la salud capacitados.
 
-### 🌟 Nuevas Funcionalidades Principales
-- **Asistente NLU Multilingüe (Yanapiri Mikhuy):** Chatbot inteligente con reconocimiento de intenciones (NLU) integrado y soporte Text-to-Speech (TTS). Entiende consultas en Español, Quechua y Aymara, y está conectado directamente al ecosistema.
-
-```mermaid
-sequenceDiagram
-    participant U as 👩🏽‍🍼 Usuario
-    participant S as 💰 Simulador de Costos
-    participant NLU as 🧠 Yanapiri Mikhuy (NLU)
-    participant LLM as ☁️ AI / Local Heuristics
-    
-    U->>S: Arma ticket semanal (Ej. Selva, S/ 15)
-    U->>S: Click en "🪄 Consultar Reemplazos"
-    S->>NLU: Inyecta Contexto (Presupuesto, Región, Ticket)
-    NLU-->>U: ¡Hola! Veo que vienes del Simulador...
-    U->>NLU: "Mi bebé es alérgico al pescado, ¿qué compro?"
-    NLU->>LLM: Analiza intención (ticket_replacement)
-    LLM-->>NLU: Sugiere Hígado o Sangrecita (Mismo costo)
-    NLU-->>U: Muestra respuesta + Lee en voz alta (TTS)
-```
-
-- **Simulador de Costo-Efectividad Nutricional:** Herramienta interactiva que diseña canastas básicas ricas en hierro según el presupuesto y la región de la familia (Costa, Sierra, Selva), generando un "Ticket Semanal" optimizado con alternativas súper económicas como la sangrecita o el bazo.
-- **Aislamiento de Datos por Roles (RBAC):** Privacidad absoluta. Los cuidadores solo ven a sus propios hijos, y los agentes comunitarios solo pueden acceder a su zona jurisdiccional.
+### 🌟 Características Principales
+- **Asistente NLU Multilingüe (Yanapiri Mikhuy):** Chatbot inteligente con reconocimiento de intenciones (NLU) y Text-to-Speech (TTS). Entiende Español, Quechua y Aymara.
+- **Simulador de Costo-Efectividad Nutricional:** Herramienta interactiva que diseña canastas básicas ricas en hierro según el presupuesto y la región (Costa, Sierra, Selva).
+- **Triaje Automático (OMS/MINSA):** Clasificación automática de mediciones antropométricas mediante Z-Score y MUAC, emitiendo alertas tipo Semáforo.
+- **Aislamiento de Datos por Roles (RBAC):** Privacidad absoluta. Los cuidadores solo ven a sus hijos, y los agentes solo a su zona jurisdiccional.
 
 ---
 
-## Reglas de Alerta Clínica Validadas y Fuentes Oficiales
-
-El motor de reglas antropométricas y triaje clínico de Yanapiri Wawa implementa algoritmos de clasificación de riesgo validados por la **Organización Mundial de la Salud (OMS)** y adoptados oficialmente por el **Ministerio de Salud del Perú (MINSA)**.
-
-### Flujo de Decisión Clínica Automática
-
-```mermaid
-graph TD
-    A([📱 Medición por Cuidador]) --> B{Motor Triaje Z-Score/MUAC}
-    B -->|Riesgo Severo| C[🔴 ALERTA ROJA]
-    B -->|Riesgo Moderado| D[🟡 ALERTA AMARILLA]
-    B -->|Saludable| E[🟢 ESTADO VERDE]
-    
-    C --> F((🏥 Notificación Prioritaria a Posta))
-    D --> G((🏃‍♂️ Visita Agente Comunitario))
-    E --> H((📅 Próximo Control Programado))
-    
-    style C fill:#fee2e2,stroke:#ef4444,stroke-width:2px,color:#7f1d1d
-    style D fill:#fef3c7,stroke:#f59e0b,stroke-width:2px,color:#78350f
-    style E fill:#dcfce7,stroke:#22c55e,stroke-width:2px,color:#14532d
-```
-
-### 1. Perímetro Braquial / MUAC (Mid-Upper Arm Circumference)
-Utilizado para la detección rápida de desnutrición aguda en niñas y niños de 6 a 59 meses de edad:
-- **Alerta Crítica (Semáforo ROJO / `urgent`):** `MUAC < 11.5 cm` (< 115 mm).
-  - *Interpretación Clínica:* Indicador de **Desnutrición Aguda Severa (DAS)**. Alto riesgo de mortalidad infantil. Requiere atención médica inmediata y derivación prioritaria.
-- **Alerta de Seguimiento (Semáforo AMARILLO / `follow-up`):** `11.5 cm <= MUAC < 12.5 cm` (115 mm - 124 mm).
-  - *Interpretación Clínica:* Indicador de **Desnutrición Aguda Moderada (DAM)** o riesgo inminente de desnutrición. Requiere visita de campo del agente comunitario y consejería nutricional.
-- **Sin Alerta (Semáforo VERDE / `normal`):** `MUAC >= 12.5 cm` (>= 125 mm).
-  - *Interpretación Clínica:* Perímetro braquial dentro del rango de normalidad nutricional.
-
-### 2. Desviaciones Estándar Z-Score (Curvas OMS 2006)
-Evaluación del indicador antropométrico Peso/Talla (P/T) y Peso/Edad (P/E) expresado en puntuación Z. El sistema calcula la puntuación Z utilizando la fórmula estandarizada LMS de la OMS:
-
-$$
-Z = \frac{\left( \frac{Y}{M} \right)^L - 1}{L \cdot S}
-$$
-
-*Donde $Y$ es la medida observada, $M$ es la mediana de referencia, $L$ es la potencia (asimetría) y $S$ es el coeficiente de variación.*
-
-- **Z-Score < -3.0 DE:** Desnutrición Severa / Emaciación Grave. → **Alerta Crítica (ROJO)**.
-- **-3.0 DE <= Z-Score < -2.0 DE:** Desnutrición Moderada. → **Alerta Crítica (ROJO)**.
-- **-2.0 DE <= Z-Score < -1.0 DE:** Riesgo de Desnutrición / Bajo Peso. → **Alerta de Seguimiento (AMARILLO)**.
-- **-1.0 DE <= Z-Score <= +2.0 DE:** Estado Nutricional Normal / Eutrófico. → **Seguimiento Normal (VERDE)**.
-- **Z-Score > +2.0 DE:** Sobrepeso / Riesgo de Obesidad. → **Alerta de Seguimiento (AMARILLO)**.
-
-### 3. Matriz de Fuentes Oficiales y Normas Técnicas
-
-| Dominio Clínico | Norma / Estándar Oficial | Organismo Emisor | Enlace / Documento de Referencia |
-| :--- | :--- | :--- | :--- |
-| **Estándares de Crecimiento** | Patrones de Crecimiento Infantil de la OMS (2006) | Organización Mundial de la Salud (OMS) | [WHO Child Growth Standards](https://www.who.int/tools/child-growth-standards) |
-| **Evaluación CRED** | NTS N° 137-MINSA/2017/DGIESP | Ministerio de Salud del Perú (MINSA) | RM N° 229-2017/MINSA - Norma Técnica CRED |
-| **Diagnóstico de Desnutrición** | Joint Statement on Severe Acute Malnutrition (MUAC Thresholds) | WHO / UNICEF | [WHO/UNICEF SAM Guidelines](https://www.who.int/publications/i/item/9789241548649) |
-| **Prevención de Anemia** | NTS N° 134-MINSA/2017/DGIESP | Ministerio de Salud del Perú (MINSA) | RM N° 250-2017/MINSA - Manejo de Anemia |
-| **Protección de Datos** | Ley N° 29733 (Ley de Protección de Datos Personales) | Ministerio de Justicia / Congreso del Perú | Ley 29733 y su Reglamento DS 003-2013-JUS |
+## 📚 Documentación Avanzada (Deep Dive)
+Si deseas entender a profundidad la lógica científica y arquitectónica de Yanapiri Wawa, consulta nuestra documentación especializada:
+- [🧠 Arquitectura NLU y Chatbot](docs/AI_NLU_ARCHITECTURE.md): Diagramas de secuencia de la inteligencia artificial.
+- [🏥 Reglas Clínicas OMS/MINSA](docs/CLINICAL_RULES.md): Fórmulas matemáticas (LMS), umbrales MUAC y fuentes oficiales.
+- [⚙️ Arquitectura Edge Server](docs/ARCHITECTURE.md): Sincronización offline, IndexedDB y bases de datos locales.
 
 ---
+
+
 
 
 ## Análisis Multi-Beneficio por Perfil de Usuario
@@ -134,28 +69,9 @@ Yanapiri Wawa ha sido diseñado analizando de manera exhaustiva las necesidades 
 
 ## Arquitectura de Servidor de Borde (Edge Server) a Costo $0
 
-Para garantizar que Yanapiri Wawa funcione en las postas médicas más aisladas del Perú (donde no hay conexión a internet estable ni presupuesto para servidores en la nube), diseñamos una arquitectura resiliente y asíncrona:
+Para garantizar que Yanapiri Wawa funcione en las postas médicas más aisladas del Perú, diseñamos una arquitectura resiliente y asíncrona (Offline-First) que sincroniza datos cuando vuelve la conexión.
 
-```mermaid
-sequenceDiagram
-    participant C as 📱 Celular Android (Familia)
-    participant SW as ⚙️ Service Worker (PWA)
-    participant IDB as 🗄️ IndexedDB (Local)
-    participant E as 💻 PC Posta Médica (Edge Node)
-    
-    C->>SW: Registra medición (Sin Internet)
-    SW->>IDB: Guarda en Cola de Sincronización
-    Note over C,IDB: Operación Offline Completada al 100%
-    
-    C-->>E: Familia llega a posta o zona Wi-Fi
-    SW->>E: Sincronización en 2do plano (Background Sync)
-    E-->>SW: ACKs y Alertas de Retorno
-    E->>E: Actualiza Dashboard de Enfermería (SQLite Local)
-```
-
-- **Soberanía de Datos:** Ningún dato médico sensible sale del establecimiento de salud local.
-- **Cumplimiento Normativo:** Cumple estrictamente con la **Ley N° 29733 (Ley de Protección de Datos Personales de Perú)**.
-- **Resiliencia ante Apagones o Caídas de Red:** La posta médica continúa operando y atendiendo a la comunidad en todo momento.
+[Ver diagrama detallado de la arquitectura de Edge Server ⚙️](docs/ARCHITECTURE.md)
 
 ---
 
