@@ -18,6 +18,7 @@ import { ZScoreBar } from "../components/shared/ZScoreBar";
 import { GrowthChart } from "../components/shared/GrowthChart";
 import { SettingsModal } from "../components/shared/SettingsModal";
 import { HeaderActions } from "../components/shared/HeaderActions";
+import { NutritionalTwinSimulator } from "../components/simulators/NutritionalTwinSimulator";
 import { fetchMeasurements } from "../lib/api";
 import { getWHORef } from "../lib/who-refs";
 import { ALERT_CFG } from "../lib/constants";
@@ -178,8 +179,8 @@ export default function ProfessionalPage() {
             ))}
           </div>
 
-          {/* Workspace split */}
-          <div className="grid lg:grid-cols-[1fr_400px] gap-6">
+          {/* Workspace split — panel lateral sólo en xl, tablet apila */}
+          <div className="grid xl:grid-cols-[1fr_400px] gap-6">
             {/* Priority list */}
             <div className="bg-card border border-border rounded-3xl overflow-hidden shadow-sm flex flex-col">
               <div className="px-5 py-4 border-b border-border flex items-center justify-between flex-wrap gap-3">
@@ -340,6 +341,12 @@ export default function ProfessionalPage() {
                     </div>
                   )}
 
+                  {/* Gemelo Digital */}
+                  <NutritionalTwinSimulator
+                    currentZScore={selectedChild.zScore ?? 0}
+                    childName={selectedChild.shortName ?? selectedChild.name}
+                  />
+
                   <div className="bg-secondary/60 rounded-2xl px-4 py-3 border">
                     <p className="text-xs font-bold text-primary uppercase tracking-wider mb-0.5">
                       Acción sugerida para Actor Social
@@ -365,33 +372,34 @@ export default function ProfessionalPage() {
                 Bitácora de Auditoría Clínica (Ley N.º 29733)
               </h3>
             </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse min-w-[700px]">
+            {/* Scroll horizontal limpio en móvil */}
+            <div className="overflow-x-auto -mx-5 px-5">
+              <table className="w-full text-left border-collapse min-w-[620px]">
                 <thead>
                   <tr className="border-b border-border text-xs uppercase font-bold text-muted-foreground">
-                    <th className="pb-2">Fecha y Hora</th>
-                    <th className="pb-2">Operador ID</th>
-                    <th className="pb-2">Acción Registrada</th>
-                    <th className="pb-2">Tabla Afectada</th>
-                    <th className="pb-2">Registro ID</th>
+                    <th className="pb-2 pr-4">Fecha y Hora</th>
+                    <th className="pb-2 pr-4">Operador</th>
+                    <th className="pb-2 pr-4">Acción</th>
+                    <th className="pb-2 pr-4">Tabla</th>
+                    <th className="pb-2">ID</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border text-xs">
                   {auditLogs.slice(0, 5).map((log, i) => (
                     <tr
                       key={i}
-                      className="text-muted-foreground hover:text-foreground"
+                      className="text-muted-foreground hover:text-foreground transition-colors"
                     >
-                      <td className="py-2.5 font-mono">
+                      <td className="py-2.5 pr-4 font-mono whitespace-nowrap">
                         {new Date(log.timestamp).toLocaleString("es-PE")}
                       </td>
-                      <td className="py-2.5 font-mono">
-                        user_id_{log.user_id}
+                      <td className="py-2.5 pr-4 font-mono">
+                        uid_{log.user_id}
                       </td>
-                      <td className="py-2.5 font-semibold text-foreground">
+                      <td className="py-2.5 pr-4 font-semibold text-foreground">
                         {log.action}
                       </td>
-                      <td className="py-2.5">{log.table_affected ?? "—"}</td>
+                      <td className="py-2.5 pr-4">{log.table_affected ?? "—"}</td>
                       <td className="py-2.5 font-mono">
                         {log.record_id ?? "—"}
                       </td>

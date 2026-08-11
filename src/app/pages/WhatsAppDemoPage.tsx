@@ -8,6 +8,7 @@ import {
   CheckCheck,
 } from "lucide-react";
 import { HeaderActions } from "../components/shared/HeaderActions";
+import { useAuth } from "../contexts/AuthContext";
 
 interface Message {
   id: number;
@@ -17,6 +18,7 @@ interface Message {
 }
 
 export default function WhatsAppDemoPage() {
+  const { logout } = useAuth();
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
@@ -85,7 +87,7 @@ export default function WhatsAppDemoPage() {
               gratis.
             </p>
           </div>
-          <HeaderActions />
+          <HeaderActions onLogout={logout} />
         </div>
       </div>
 

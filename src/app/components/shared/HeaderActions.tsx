@@ -11,19 +11,19 @@ import {
 import { useTranslation } from "../../contexts/LanguageContext";
 
 interface HeaderActionsProps {
-  onSettings: () => void;
+  onSettings?: () => void;
   onRefresh?: () => void;
   isRefreshing?: boolean;
-  onLogout: () => void;
+  onLogout?: () => void;
   hasOfflineData?: boolean;
   isOnline?: boolean;
 }
 
 export function HeaderActions({
-  onSettings,
+  onSettings = () => {},
   onRefresh,
   isRefreshing,
-  onLogout,
+  onLogout = () => {},
   hasOfflineData,
   isOnline = true,
 }: HeaderActionsProps) {

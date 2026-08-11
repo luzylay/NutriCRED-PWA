@@ -28,6 +28,10 @@ import { NutritionChatbot } from "../components/family/NutritionChatbot";
 import { NutritionalTrivia } from "../components/family/NutritionalTrivia";
 import { NutritionalDictionary } from "../components/family/NutritionalDictionary";
 import { AddChildModal } from "../components/family/AddChildModal";
+import { PlateScannerModal } from "../components/family/PlateScannerModal";
+import { LockKeyGameModal } from "../components/family/LockKeyGameModal";
+import { CostEffectivenessSimulator } from "../components/family/CostEffectivenessSimulator";
+import { PublicHealthNews } from "../components/shared/PublicHealthNews";
 import { AlertBadge } from "../components/shared/AlertBadge";
 import { GrowthChart } from "../components/shared/GrowthChart";
 import { SettingsModal } from "../components/shared/SettingsModal";
@@ -69,6 +73,10 @@ export default function FamilyPage() {
   const [isAddChildOpen, setIsAddChildOpen] = useState(false);
   const [isQRModalOpen, setIsQRModalOpen] = useState(false);
   const [selectedChildId, setSelectedChildId] = useState<string | null>(null);
+  const [isPlateScannerOpen, setIsPlateScannerOpen] = useState(false);
+  const [isLockGameOpen, setIsLockGameOpen] = useState(false);
+  const [isNutritionChatbotOpen, setIsNutritionChatbotOpen] = useState(false);
+  const [assistantContext, setAssistantContext] = useState<string | null>(null);
 
 
   // The family-view child is always the caregiver's assigned child
@@ -217,6 +225,25 @@ export default function FamilyPage() {
         onClose={() => setIsSettingsOpen(false)}
       />
 
+      <PlateScannerModal
+        isOpen={isPlateScannerOpen}
+        onClose={() => setIsPlateScannerOpen(false)}
+      />
+
+      <LockKeyGameModal
+        isOpen={isLockGameOpen}
+        onClose={() => setIsLockGameOpen(false)}
+      />
+
+      <NutritionChatbot
+        isOpen={isNutritionChatbotOpen}
+        onClose={() => {
+          setIsNutritionChatbotOpen(false);
+          setAssistantContext(null);
+        }}
+        initialContext={assistantContext}
+      />
+
       <QRScannerModal
         isOpen={isQRModalOpen}
         onClose={() => setIsQRModalOpen(false)}
@@ -308,6 +335,8 @@ export default function FamilyPage() {
                     <Hand className="size-8 text-amber-500 animate-in fade-in zoom-in duration-500" />
                   </h1>
                 </div>
+
+                <PublicHealthNews />
 
                 {/* Child Selector (only if multiple or adding) */}
                 {children.length > 0 && (
@@ -679,7 +708,14 @@ export default function FamilyPage() {
                     </p>
                   </div>
                 </div>
-                <NutritionChatbot />
+                
+
+                {/* 💰 SIMULADOR DE COSTO-EFECTIVIDAD & TICKET DE COMPRA REGIONAL */}
+                <CostEffectivenessSimulator onRequestAssistant={(ctx) => {
+                  setAssistantContext(ctx);
+                  setIsNutritionChatbotOpen(true);
+                }} />
+
               </div>
             )}
             {activeTab === "play" && (

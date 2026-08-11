@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   MessageSquare,
   Send,
@@ -7,6 +7,7 @@ import {
   AlertTriangle,
   Sparkles,
   BookOpen,
+  X,
 } from "lucide-react";
 import { useTranslation } from "../../contexts/LanguageContext";
 import {
@@ -22,6 +23,12 @@ interface ChatMessage {
   text: string;
   nlu?: NLUEvaluationResult;
   timestamp: Date;
+}
+
+interface NutritionChatbotProps {
+  isOpen?: boolean;
+  onClose?: () => void;
+  initialContext?: string | null;
 }
 
 const QUICK_PROMPTS: Record<LanguageCode, string[]> = {
@@ -51,7 +58,7 @@ const QUICK_PROMPTS: Record<LanguageCode, string[]> = {
   ],
 };
 
-export function NutritionChatbot() {
+export function NutritionChatbot({ isOpen = true, onClose, initialContext }: NutritionChatbotProps) {
   const { language, t } = useTranslation();
   const [messages, setMessages] = useState<ChatMessage[]>(() => [
     {
@@ -77,6 +84,31 @@ export function NutritionChatbot() {
       window.removeEventListener("offline", handleOffline);
     };
   }, []);
+
+  const lastProcessedContext = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      if (initialContext && initialContext !== lastProcessedContext.current) {
+        lastProcessedContext.current = initialContext;
+        
+        setMessages(prev => [
+          ...prev,
+          {
+            id: `bot-${Date.now()}`,
+            sender: "bot",
+            text: t("chat.welcome") + "\n\nVeo que vienes del Simulador de Costos. ¿Qué alimento de tu ticket necesitas reemplazar o consultar?",
+            timestamp: new Date(),
+          }
+        ]);
+        
+        // Auto-enviar la consulta inicial generada por el simulador
+        setTimeout(() => handleSendMessage(initialContext), 600);
+      } else if (messages.length === 1 && !initialContext && messages[0].id === "welcome") {
+        // Just keep the welcome message
+      }
+    }
+  }, [isOpen, initialContext, t]);
 
   const prompts = QUICK_PROMPTS[language] || QUICK_PROMPTS.es;
 
@@ -141,6 +173,27 @@ export function NutritionChatbot() {
         };
         setMessages((prev) => [...prev, botMsg]);
       } catch (err) {
+        // REEMPLAZO HEURISTICO (INTEGRACION SIMULADOR)
+        const lower = text.toLowerCase();
+        if (lower.includes("reemplaz") || lower.includes("cambiar") || lower.includes("alergia") || lower.includes("no tengo") || lower.includes("no encuentro") || lower.includes("personalizar")) {
+           const botMsg: ChatMessage = {
+            id: `bot-${Date.now()}`,
+            sender: "bot",
+            text: "¡Claro! Aquí tienes opciones equivalentes para tu ticket:\n- Si no hay Sangrecita, el Hígado de Pollo o Bazo son excelentes y cuestan similar.\n- Si no consigues Tarwi o Menestras, usa Lenteja chica o Garbanzo.\n- Si hay alergia al pescado, enfócate en hígado o sangrecita pura, o en menestras combinadas SIEMPRE con mucho cítrico (limón/naranja) para asegurar la absorción.",
+            nlu: {
+              intent: "ticket_replacement",
+              confidence: 0.95,
+              detectedLanguage: "es",
+              isEmergencyTriage: false,
+              replyText: "",
+              sourceRef: "Guía MINSA 2026",
+            },
+            timestamp: new Date(),
+          };
+          setMessages((prev) => [...prev, botMsg]);
+          return;
+        }
+
         // Fallback to local NLU
         const nluResult = evaluateNLUQuery(text, language);
         const botMsg: ChatMessage = {
@@ -157,26 +210,40 @@ export function NutritionChatbot() {
     processMessage();
   };
 
+  if (!isOpen) return null;
+
   return (
-    <div className="flex flex-col h-[450px] bg-card/60 backdrop-blur-md border border-border rounded-[2rem] overflow-hidden shadow-lg transition-all hover:shadow-xl">
-      {/* Bot Chat Header */}
-      <div className="bg-gradient-to-r from-primary to-accent px-5 py-4 flex items-center justify-between shadow-sm relative overflow-hidden">
-        {/* Animated glow */}
-        <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none animate-pulse"></div>
-        <div className="flex items-center gap-2">
-          <div className="size-7 rounded-lg bg-white/20 flex items-center justify-center">
-            <MessageSquare className="size-4 text-white" />
+    <div className="fixed inset-0 z-50 flex items-center justify-center sm:p-4 bg-black/70 backdrop-blur-md animate-in fade-in duration-300">
+      <div className="bg-card sm:border border-border sm:rounded-[2.5rem] w-full h-full sm:h-[600px] sm:max-h-[90vh] max-w-2xl shadow-2xl flex flex-col relative overflow-hidden">
+        
+        {/* Bot Chat Header */}
+        <div className="bg-gradient-to-r from-primary to-accent px-5 py-4 flex items-center justify-between shadow-sm relative overflow-hidden shrink-0">
+          {/* Animated glow */}
+          <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none animate-pulse"></div>
+          <div className="flex items-center gap-2 relative z-10">
+            <div className="size-7 rounded-lg bg-white/20 flex items-center justify-center">
+              <MessageSquare className="size-4 text-white" />
+            </div>
+            <div>
+              <span className="text-white text-xs font-bold uppercase tracking-wider block">
+                Yanapiri Mikhuy
+              </span>
+              <span className="text-white/75 text-xs flex items-center gap-1">
+                <Sparkles className="size-2.5" /> NLU Multilingüe + Triaje
+              </span>
+            </div>
           </div>
-          <div>
-            <span className="text-white text-xs font-bold uppercase tracking-wider block">
-              Yanapiri Mikhuy
-            </span>
-            <span className="text-white/75 text-xs flex items-center gap-1">
-              <Sparkles className="size-2.5" /> NLU Multilingüe + Triaje
-            </span>
-          </div>
+          
+          {onClose && (
+            <button
+              onClick={onClose}
+              className="size-9 rounded-full bg-black/10 hover:bg-black/20 text-white flex items-center justify-center transition-colors cursor-pointer relative z-10"
+              aria-label="Cerrar chat"
+            >
+              <X className="size-5" />
+            </button>
+          )}
         </div>
-      </div>
 
       {/* Offline Alert Banner */}
       {isOffline && (
@@ -294,6 +361,7 @@ export function NutritionChatbot() {
         >
           <Send className="size-5" />
         </button>
+      </div>
       </div>
     </div>
   );

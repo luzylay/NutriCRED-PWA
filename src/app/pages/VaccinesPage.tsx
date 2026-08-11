@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Syringe, ShieldCheck, Clock, AlertCircle } from "lucide-react";
 import { HeaderActions } from "../components/shared/HeaderActions";
+import { useAuth } from "../contexts/AuthContext";
 
 const MINSA_SCHEDULE = [
   {
@@ -40,6 +41,7 @@ const MINSA_SCHEDULE = [
 ];
 
 export default function VaccinesPage() {
+  const { logout } = useAuth();
   return (
     <div className="min-h-screen bg-background pb-20">
       <div className="bg-gradient-to-r from-blue-600 to-indigo-700 pt-12 pb-16 px-6 relative overflow-hidden">
@@ -54,7 +56,7 @@ export default function VaccinesPage() {
               postas y centros del SIS.
             </p>
           </div>
-          <HeaderActions />
+          <HeaderActions onLogout={logout} />
         </div>
       </div>
 

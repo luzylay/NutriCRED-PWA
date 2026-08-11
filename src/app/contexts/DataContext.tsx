@@ -271,9 +271,31 @@ export function DataProvider({
     if (!isLoggedIn) return;
     setIsLoading(true);
 
+    const applyRbacFilter = (list: Child[]) => {
+      if (!user) return list;
+      if (user.role === "CAREGIVER") {
+        return list.filter(
+          (c) =>
+            (c as any).caregiverDni === user.username ||
+            (c as any).caregiverName === user.username ||
+            (user.username === "maria" && (c.id === "2" || c.id === "5" || c.id === "3")) ||
+            user.username === "demo"
+        );
+      } else if (user.role === "COMMUNITY_AGENT") {
+        const assignedCommunity =
+          user.username === "luisa" ? "Anchonga" : "Ccasapata";
+        return list.filter((c) => c.community === assignedCommunity);
+      }
+      return list;
+    };
+
     try {
       const rawData = await fetchChildren();
-      const mapped = (rawData as Record<string, unknown>[]).map(mapRawChild);
+      let mapped = (rawData as Record<string, unknown>[]).map(mapRawChild);
+      
+      // Aplicar filtro de aislamiento de datos (RBAC)
+      mapped = applyRbacFilter(mapped);
+      
       const sortOrder = { urgent: 0, "follow-up": 1, normal: 2 };
       mapped.sort((a, b) => sortOrder[a.status] - sortOrder[b.status]);
       setChildren(mapped);
@@ -351,29 +373,7 @@ export function DataProvider({
       }
 
       let combinedChildren = [...localChildren, ...FALLBACK_CHILDREN];
-
-      // EXPERT LEVEL RBAC FILTERING (DATA ISOLATION)
-      if (user) {
-        if (user.role === "CAREGIVER") {
-          // Caregivers only see their own children
-          // For demo purposes, "maria" sees child 2 and 5. Registered users see their own.
-          combinedChildren = combinedChildren.filter(
-            (c) =>
-              (c as any).caregiverDni === user.username ||
-              (user.username === "maria" && (c.id === "2" || c.id === "5")) ||
-              user.username === "demo",
-          );
-        } else if (user.role === "COMMUNITY_AGENT") {
-          // Community agents only see children in their assigned community
-          // For demo, "luisa" is assigned to "Anchonga"
-          const assignedCommunity =
-            user.username === "luisa" ? "Anchonga" : "Ccasapata";
-          combinedChildren = combinedChildren.filter(
-            (c) => c.community === assignedCommunity,
-          );
-        }
-        // PROFESSIONAL and ADMIN see everything in their jurisdiction (all mock data)
-      }
+      combinedChildren = applyRbacFilter(combinedChildren);
 
       setChildren(combinedChildren);
       setMeasurements([

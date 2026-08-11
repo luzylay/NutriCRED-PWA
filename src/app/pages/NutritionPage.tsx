@@ -14,7 +14,14 @@ import {
   Sparkles,
 } from "lucide-react";
 import { HeaderActions } from "../components/shared/HeaderActions";
-import { VoiceAssistantModal } from "../components/family/VoiceAssistantModal";
+import { useAuth } from "../contexts/AuthContext";
+import { NutritionChatbot } from "../components/family/NutritionChatbot";
+import { PlateScannerModal } from "../components/family/PlateScannerModal";
+import { LockKeyGameModal } from "../components/family/LockKeyGameModal";
+import { CostEffectivenessSimulator } from "../components/family/CostEffectivenessSimulator";
+import { IronAbsorptionVisualizer } from "../components/simulators/IronAbsorptionVisualizer";
+import { Camera, Key, Calculator } from "lucide-react";
+
 
 
 const RECIPES = [
@@ -144,9 +151,13 @@ const NUTRIENTS_DB = {
 };
 
 export default function NutritionPage() {
+  const { logout } = useAuth();
   const [activeTab, setActiveTab] = useState<"recetas" | "despensa">("recetas");
   const [selectedAge, setSelectedAge] = useState<string>("Todas");
-  const [isVoiceModalOpen, setIsVoiceModalOpen] = useState(false);
+  const [isNutritionChatbotOpen, setIsNutritionChatbotOpen] = useState(false);
+  const [assistantContext, setAssistantContext] = useState<string | null>(null);
+  const [isPlateScannerOpen, setIsPlateScannerOpen] = useState(false);
+  const [isLockGameOpen, setIsLockGameOpen] = useState(false);
   const [selectedNutrient, setSelectedNutrient] = useState<
     keyof typeof NUTRIENTS_DB | null
   >(null);
@@ -158,10 +169,25 @@ export default function NutritionPage() {
 
   return (
     <div className="min-h-screen bg-background pb-20">
-      <VoiceAssistantModal
-        isOpen={isVoiceModalOpen}
-        onClose={() => setIsVoiceModalOpen(false)}
+      <NutritionChatbot
+        isOpen={isNutritionChatbotOpen}
+        onClose={() => {
+          setIsNutritionChatbotOpen(false);
+          setAssistantContext(null);
+        }}
+        initialContext={assistantContext}
       />
+
+      <PlateScannerModal
+        isOpen={isPlateScannerOpen}
+        onClose={() => setIsPlateScannerOpen(false)}
+      />
+
+      <LockKeyGameModal
+        isOpen={isLockGameOpen}
+        onClose={() => setIsLockGameOpen(false)}
+      />
+
 
       {/* Header */}
       <div className="bg-gradient-to-r from-primary to-accent pt-12 pb-16 px-6 relative overflow-hidden">
@@ -179,7 +205,7 @@ export default function NutritionPage() {
               sin anemia.
             </p>
           </div>
-          <HeaderActions />
+          <HeaderActions onLogout={logout} />
         </div>
       </div>
 
@@ -225,6 +251,63 @@ export default function NutritionPage() {
             </p>
           </div>
         </div>
+
+        {/* Visualizador In-Silico (Diseño Molecular) */}
+        <IronAbsorptionVisualizer />
+
+        {/* 🚀 HERRAMIENTAS DISRUPTIVAS: Semáforo del Plato AR & Juego de Llave y Cerradura */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <button
+            onClick={() => setIsPlateScannerOpen(true)}
+            className="p-4 rounded-[2rem] bg-gradient-to-r from-amber-500/15 via-orange-500/10 to-amber-500/5 border border-amber-500/30 hover:border-amber-500/60 transition-all text-left space-y-2 group shadow-sm cursor-pointer"
+          >
+            <div className="flex items-center justify-between">
+              <div className="size-9 rounded-xl bg-amber-500 text-black flex items-center justify-center font-bold shadow-sm">
+                <Camera className="size-5" />
+              </div>
+              <span className="text-[10px] font-black uppercase tracking-wider bg-amber-500 text-black px-2 py-0.5 rounded-full">
+                AR 2D
+              </span>
+            </div>
+            <div>
+              <h4 className="font-black text-foreground text-sm font-nunito group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                Semáforo del Plato 📸
+              </h4>
+              <p className="text-xs text-muted-foreground font-medium">
+                Escanea alimentos y detecta inhibidores (leche/té) vs potenciadores (limón) en tiempo real.
+              </p>
+            </div>
+          </button>
+
+          <button
+            onClick={() => setIsLockGameOpen(true)}
+            className="p-4 rounded-[2rem] bg-gradient-to-r from-primary/15 via-indigo-500/10 to-accent/5 border border-primary/30 hover:border-primary/60 transition-all text-left space-y-2 group shadow-sm cursor-pointer"
+          >
+            <div className="flex items-center justify-between">
+              <div className="size-9 rounded-xl bg-primary text-white flex items-center justify-center font-bold shadow-sm">
+                <Key className="size-5" />
+              </div>
+              <span className="text-[10px] font-black uppercase tracking-wider bg-primary text-white px-2 py-0.5 rounded-full">
+                Juego Táctil
+              </span>
+            </div>
+            <div>
+              <h4 className="font-black text-foreground text-sm font-nunito group-hover:text-primary transition-colors">
+                Llave y Cerradura 🔑
+              </h4>
+              <p className="text-xs text-muted-foreground font-medium">
+                Calcula cuántos días toma revertir la anemia según la combinación de alimentos escogida.
+              </p>
+            </div>
+          </button>
+        </div>
+
+        {/* 💰 SIMULADOR DE COSTO-EFECTIVIDAD & TICKET DE COMPRA REGIONAL */}
+        <CostEffectivenessSimulator onRequestAssistant={(ctx) => {
+          setAssistantContext(ctx);
+          setIsNutritionChatbotOpen(true);
+        }} />
+
 
 
         {/* Main Tabs */}

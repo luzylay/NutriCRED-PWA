@@ -17,6 +17,11 @@ El proyecto resuelve la brecha entre los controles presenciales asistenciales (C
 
 > ⚠️ **Guardarraíl Clínico:** Yanapiri Wawa **no realiza diagnósticos médicos** de anemia ni desnutrición. El sistema actúa como una herramienta de triaje y alerta temprana que sugiere derivaciones oportunas a profesionales de la salud capacitados.
 
+### 🌟 Nuevas Funcionalidades Principales
+- **Asistente NLU Multilingüe (Yanapiri Mikhuy):** Chatbot inteligente con reconocimiento de intenciones (NLU) integrado y soporte Text-to-Speech (TTS). Entiende consultas en Español, Quechua y Aymara, y está conectado directamente al ecosistema.
+- **Simulador de Costo-Efectividad Nutricional:** Herramienta interactiva que diseña canastas básicas ricas en hierro según el presupuesto y la región de la familia (Costa, Sierra, Selva), generando un "Ticket Semanal" optimizado con alternativas súper económicas como la sangrecita o el bazo.
+- **Aislamiento de Datos por Roles (RBAC):** Privacidad absoluta. Los cuidadores solo ven a sus propios hijos, y los agentes comunitarios solo pueden acceder a su zona jurisdiccional.
+
 ---
 
 ## Reglas de Alerta Clínica Validadas y Fuentes Oficiales
@@ -59,7 +64,8 @@ Yanapiri Wawa ha sido diseñado analizando de manera exhaustiva las necesidades 
 
 ### 1. Cuidador / Familia (Madre / Padre)
 - **Prevención Temprana de Anemia y Desnutrición:** Permite detectar caídas o desviaciones en la curva de peso, talla y perímetro braquial (MUAC) en el propio hogar antes de que se conviertan en cuadros clínicos severos.
-- **Educación Nutricional Accesible por Voz (*Yanapiri Mikhuy Voice*):** Permite a madres o cuidadores con dificultades de lectura consultar recetas y recomendaciones nutricionales mediante conversación de voz hablada nativa a **costo $0**.
+- **Educación Nutricional Accesible por Voz (*Yanapiri Mikhuy Voice*):** Permite a madres o cuidadores con dificultades de lectura consultar recetas y reemplazos del ticket de mercado mediante un Chatbot flotante interactivo nativo a **costo $0**.
+- **Personalización Económica:** El Simulador de Costo-Efectividad arma estrategias de alimentación basadas en el presupuesto real de la familia para curar la anemia sin golpear el bolsillo.
 - **Cero Gasto de Datos y Almacenamiento:** PWA ultra ligera (< 500 KB) que funciona 100% offline sin consumir datos móviles ni espacio en teléfonos Android antiguos de gama baja.
 - **Recordatorios Asistenciales Oportunos:** Notificaciones Push nativas y contador Badge en el icono de la pantalla de inicio sobre fechas de vacunas y controles CRED pendientes.
 

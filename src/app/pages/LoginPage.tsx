@@ -12,12 +12,13 @@ import {
 import { useAuth } from "../contexts/AuthContext";
 import { useTranslation } from "../contexts/LanguageContext";
 import { SettingsModal } from "../components/shared/SettingsModal";
-import { Navigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import { ROLE_TO_ROUTE } from "../lib/constants";
 
 export default function LoginPage() {
   const { login, enterDemo, isLoggedIn, user } = useAuth();
   const { t, languageInfo } = useTranslation();
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -160,7 +161,7 @@ export default function LoginPage() {
           {/* Quick Links */}
           <div className="space-y-3 pt-2">
             <button
-              onClick={() => (window.location.href = "/registro")}
+              onClick={() => navigate("/registro")}
               className="w-full bg-card hover:bg-muted/50 text-foreground font-bold py-3.5 rounded-2xl text-xs active:scale-[0.98] transition-all cursor-pointer border border-border shadow-sm flex items-center justify-center gap-2"
             >
               <ShieldCheck className="size-4 text-primary" />

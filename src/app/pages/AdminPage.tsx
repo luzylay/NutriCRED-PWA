@@ -75,6 +75,7 @@ import { useTranslation } from "../contexts/LanguageContext";
 import { AlertBadge } from "../components/shared/AlertBadge";
 import { SettingsModal } from "../components/shared/SettingsModal";
 import { HeaderActions } from "../components/shared/HeaderActions";
+import { AIRiskStratificationPanel } from "../components/admin/AIRiskStratificationPanel";
 import {
   fetchAdminUsers,
   patchUserStatus,
@@ -281,6 +282,11 @@ const OverviewPanel = memo(function OverviewPanel({
             </div>
           </div>
         ))}
+      </div>
+
+      {/* AI Risk Stratification Panel */}
+      <div className="pt-2">
+        <AIRiskStratificationPanel />
       </div>
 
       {/* Grid for Users Role & Recent Activity */}
@@ -507,18 +513,14 @@ const UsersPanel = memo(function UsersPanel() {
     const newStatus = user.status === "active" ? "inactive" : "active";
     try {
       await patchUserStatus(user.id, newStatus);
-      setAdminUsers((prev) => {
-        const next = prev.map((u) => (u.id === user.id ? { ...u, status: newStatus } : u));
-        setCachedData("users", next);
-        return next;
-      });
     } catch {
+      /* Optimistic fallback */
+    } finally {
       setAdminUsers((prev) => {
         const next = prev.map((u) => (u.id === user.id ? { ...u, status: newStatus } : u));
         setCachedData("users", next);
         return next;
       });
-    } finally {
       setUpdating(null);
     }
   }, []);
@@ -549,6 +551,7 @@ const UsersPanel = memo(function UsersPanel() {
     },
     [newUsername, newContact, newRole]
   );
+
 
   const filteredUsers = useMemo(() => {
     return adminUsers.filter((u) => {

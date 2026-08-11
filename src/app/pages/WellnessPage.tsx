@@ -8,6 +8,7 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import { HeaderActions } from "../components/shared/HeaderActions";
+import { useAuth } from "../contexts/AuthContext";
 
 const DAILY_CHALLENGES = [
   {
@@ -25,6 +26,7 @@ const DAILY_CHALLENGES = [
 ];
 
 export default function WellnessPage() {
+  const { logout } = useAuth();
   const [challenges, setChallenges] = useState(DAILY_CHALLENGES);
   const [epdsScore, setEpdsScore] = useState<number | null>(null);
 
@@ -56,7 +58,7 @@ export default function WellnessPage() {
               el cerebro y cuidamos a mamá.
             </p>
           </div>
-          <HeaderActions />
+          <HeaderActions onLogout={logout} />
         </div>
       </div>
 
