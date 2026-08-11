@@ -19,6 +19,24 @@ El proyecto resuelve la brecha entre los controles presenciales asistenciales (C
 
 ### 🌟 Nuevas Funcionalidades Principales
 - **Asistente NLU Multilingüe (Yanapiri Mikhuy):** Chatbot inteligente con reconocimiento de intenciones (NLU) integrado y soporte Text-to-Speech (TTS). Entiende consultas en Español, Quechua y Aymara, y está conectado directamente al ecosistema.
+
+```mermaid
+sequenceDiagram
+    participant U as 👩🏽‍🍼 Usuario
+    participant S as 💰 Simulador de Costos
+    participant NLU as 🧠 Yanapiri Mikhuy (NLU)
+    participant LLM as ☁️ AI / Local Heuristics
+    
+    U->>S: Arma ticket semanal (Ej. Selva, S/ 15)
+    U->>S: Click en "🪄 Consultar Reemplazos"
+    S->>NLU: Inyecta Contexto (Presupuesto, Región, Ticket)
+    NLU-->>U: ¡Hola! Veo que vienes del Simulador...
+    U->>NLU: "Mi bebé es alérgico al pescado, ¿qué compro?"
+    NLU->>LLM: Analiza intención (ticket_replacement)
+    LLM-->>NLU: Sugiere Hígado o Sangrecita (Mismo costo)
+    NLU-->>U: Muestra respuesta + Lee en voz alta (TTS)
+```
+
 - **Simulador de Costo-Efectividad Nutricional:** Herramienta interactiva que diseña canastas básicas ricas en hierro según el presupuesto y la región de la familia (Costa, Sierra, Selva), generando un "Ticket Semanal" optimizado con alternativas súper económicas como la sangrecita o el bazo.
 - **Aislamiento de Datos por Roles (RBAC):** Privacidad absoluta. Los cuidadores solo ven a sus propios hijos, y los agentes comunitarios solo pueden acceder a su zona jurisdiccional.
 
@@ -27,6 +45,24 @@ El proyecto resuelve la brecha entre los controles presenciales asistenciales (C
 ## Reglas de Alerta Clínica Validadas y Fuentes Oficiales
 
 El motor de reglas antropométricas y triaje clínico de Yanapiri Wawa implementa algoritmos de clasificación de riesgo validados por la **Organización Mundial de la Salud (OMS)** y adoptados oficialmente por el **Ministerio de Salud del Perú (MINSA)**.
+
+### Flujo de Decisión Clínica Automática
+
+```mermaid
+graph TD
+    A([📱 Medición por Cuidador]) --> B{Motor Triaje Z-Score/MUAC}
+    B -->|Riesgo Severo| C[🔴 ALERTA ROJA]
+    B -->|Riesgo Moderado| D[🟡 ALERTA AMARILLA]
+    B -->|Saludable| E[🟢 ESTADO VERDE]
+    
+    C --> F((🏥 Notificación Prioritaria a Posta))
+    D --> G((🏃‍♂️ Visita Agente Comunitario))
+    E --> H((📅 Próximo Control Programado))
+    
+    style C fill:#fee2e2,stroke:#ef4444,stroke-width:2px,color:#7f1d1d
+    style D fill:#fef3c7,stroke:#f59e0b,stroke-width:2px,color:#78350f
+    style E fill:#dcfce7,stroke:#22c55e,stroke-width:2px,color:#14532d
+```
 
 ### 1. Perímetro Braquial / MUAC (Mid-Upper Arm Circumference)
 Utilizado para la detección rápida de desnutrición aguda en niñas y niños de 6 a 59 meses de edad:
@@ -38,7 +74,14 @@ Utilizado para la detección rápida de desnutrición aguda en niñas y niños d
   - *Interpretación Clínica:* Perímetro braquial dentro del rango de normalidad nutricional.
 
 ### 2. Desviaciones Estándar Z-Score (Curvas OMS 2006)
-Evaluación del indicador antropométrico Peso/Talla (P/T) y Peso/Edad (P/E) expresado en puntuación Z:
+Evaluación del indicador antropométrico Peso/Talla (P/T) y Peso/Edad (P/E) expresado en puntuación Z. El sistema calcula la puntuación Z utilizando la fórmula estandarizada LMS de la OMS:
+
+$$
+Z = \frac{\left( \frac{Y}{M} \right)^L - 1}{L \cdot S}
+$$
+
+*Donde $Y$ es la medida observada, $M$ es la mediana de referencia, $L$ es la potencia (asimetría) y $S$ es el coeficiente de variación.*
+
 - **Z-Score < -3.0 DE:** Desnutrición Severa / Emaciación Grave. → **Alerta Crítica (ROJO)**.
 - **-3.0 DE <= Z-Score < -2.0 DE:** Desnutrición Moderada. → **Alerta Crítica (ROJO)**.
 - **-2.0 DE <= Z-Score < -1.0 DE:** Riesgo de Desnutrición / Bajo Peso. → **Alerta de Seguimiento (AMARILLO)**.
@@ -91,14 +134,23 @@ Yanapiri Wawa ha sido diseñado analizando de manera exhaustiva las necesidades 
 
 ## Arquitectura de Servidor de Borde (Edge Server) a Costo $0
 
-Para garantizar que Yanapiri Wawa funcione en las postas médicas más aisladas del Perú (donde no hay conexión a internet estable ni presupuesto para servidores en la nube):
+Para garantizar que Yanapiri Wawa funcione en las postas médicas más aisladas del Perú (donde no hay conexión a internet estable ni presupuesto para servidores en la nube), diseñamos una arquitectura resiliente y asíncrona:
 
-```text
- [ Celular Antiguo 2016 ]  ── (Wi-Fi Local sin Internet) ──>  [ PC Reciclada en Posta Médica ]
- (Termux + WhatsApp Bot)                                      (NestJS + Prisma SQLite Edge Server)
-            │                                                                  │
-            ▼                                                                  ▼
- [ Madres / Agentes ]  <─── (Respuesta Local en < 0.2s) ───  [ Almacenamiento Local 100% Privado ]
+```mermaid
+sequenceDiagram
+    participant C as 📱 Celular Android (Familia)
+    participant SW as ⚙️ Service Worker (PWA)
+    participant IDB as 🗄️ IndexedDB (Local)
+    participant E as 💻 PC Posta Médica (Edge Node)
+    
+    C->>SW: Registra medición (Sin Internet)
+    SW->>IDB: Guarda en Cola de Sincronización
+    Note over C,IDB: Operación Offline Completada al 100%
+    
+    C-->>E: Familia llega a posta o zona Wi-Fi
+    SW->>E: Sincronización en 2do plano (Background Sync)
+    E-->>SW: ACKs y Alertas de Retorno
+    E->>E: Actualiza Dashboard de Enfermería (SQLite Local)
 ```
 
 - **Soberanía de Datos:** Ningún dato médico sensible sale del establecimiento de salud local.
