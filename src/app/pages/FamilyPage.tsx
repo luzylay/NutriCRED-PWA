@@ -397,16 +397,16 @@ export default function FamilyPage() {
                     ))}
                     <button
                       onClick={() => setIsAddChildOpen(true)}
-                      className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-2xl border border-dashed border-primary/50 bg-primary/5 hover:bg-primary/10 transition-all shrink-0 cursor-pointer text-primary"
+                      className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-2xl border-2 border-dashed border-primary/70 bg-card hover:bg-muted/40 transition-all shrink-0 cursor-pointer text-foreground shadow-sm"
                     >
-                      <div className="size-9 rounded-xl border border-dashed border-primary/50 flex items-center justify-center shadow-sm bg-white dark:bg-black/20">
+                      <div className="size-9 rounded-xl bg-primary text-primary-foreground flex items-center justify-center shadow-xs shrink-0">
                         <Plus className="size-5" />
                       </div>
                       <div className="text-left">
-                        <p className="text-sm font-bold leading-tight font-nunito">
+                        <p className="text-sm font-black leading-tight font-nunito text-foreground">
                           Añadir
                         </p>
-                        <p className="text-xs opacity-80 font-semibold">
+                        <p className="text-xs text-foreground/80 font-extrabold">
                           Nuevo Bebé
                         </p>
                       </div>
