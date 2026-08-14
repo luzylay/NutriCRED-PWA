@@ -626,31 +626,45 @@ html.text-scale-xlarge {
   }
 }
 
-/* Print optimization for Pediatrician PDF Clinical Report */
+/* Print optimization for Pediatrician PDF Clinical Report (Strict 1-Page Output) */
+@page {
+  size: A4 portrait;
+  margin: 6mm;
+}
+
 @media print {
-  body {
+  html, body {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
     background: #ffffff !important;
     color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
-  body * {
-    visibility: hidden !important;
+
+  /* Completely eliminate all non-print elements from layout calculations */
+  .no-print,
+  body > *:not(#printable-report-wrapper) {
+    display: none !important;
   }
-  #printable-report, #printable-report * {
-    visibility: visible !important;
-  }
+
   #printable-report {
-    position: absolute !important;
+    position: relative !important;
     left: 0 !important;
     top: 0 !important;
     width: 100% !important;
+    max-width: 100% !important;
     margin: 0 !important;
-    padding: 24px !important;
+    padding: 16px !important;
     background: #ffffff !important;
     color: #000000 !important;
     box-shadow: none !important;
     border: none !important;
-  }
-  .no-print {
-    display: none !important;
+    page-break-after: avoid !important;
+    break-after: avoid-page !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
 }
