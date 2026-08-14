@@ -76,6 +76,7 @@ import { AlertBadge } from "../components/shared/AlertBadge";
 import { SettingsModal } from "../components/shared/SettingsModal";
 import { HeaderActions } from "../components/shared/HeaderActions";
 import { AIRiskStratificationPanel } from "../components/admin/AIRiskStratificationPanel";
+import { SocialProgramsPanel } from "../components/admin/SocialProgramsPanel";
 import {
   fetchAdminUsers,
   patchUserStatus,
@@ -289,6 +290,9 @@ const OverviewPanel = memo(function OverviewPanel({
         <AIRiskStratificationPanel />
       </div>
 
+      {/* Social Programs Panel */}
+      <SocialProgramsPanel />
+
       {/* Grid for Users Role & Recent Activity */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Roles Breakdown */}
@@ -317,12 +321,7 @@ const OverviewPanel = memo(function OverviewPanel({
                   pct: Math.round((stats.professionals / (stats.total_users || 1)) * 100),
                   color: "bg-primary",
                 },
-                {
-                  label: "Actores Sociales (Comunidad)",
-                  value: stats.community_agents,
-                  pct: Math.round((stats.community_agents / (stats.total_users || 1)) * 100),
-                  color: "bg-amber-500",
-                },
+
               ].map((r, i) => (
                 <div key={i} className="bg-muted/30 p-3.5 rounded-2xl border border-border/50">
                   <div className="flex justify-between items-center text-xs mb-1.5 font-bold">
@@ -458,14 +457,7 @@ const UsersPanel = memo(function UsersPanel() {
           status: "active",
           created_at: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000).toISOString(),
         },
-        {
-          id: 3,
-          username: "Luisa Mamani (Actor Social)",
-          email_or_phone: "luisa.actor@comunidad.pe",
-          role: "COMMUNITY_AGENT",
-          status: "active",
-          created_at: new Date(Date.now() - 45 * 24 * 60 * 60 * 1000).toISOString(),
-        },
+
         {
           id: 4,
           username: "Admin General (Yanapiri)",
@@ -587,12 +579,6 @@ const UsersPanel = memo(function UsersPanel() {
       badgeStyle: "bg-primary/10 text-primary border-primary/20",
       gradient: "from-primary to-cyan-600",
     },
-    COMMUNITY_AGENT: {
-      label: "Actor Social",
-      icon: Users,
-      badgeStyle: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
-      gradient: "from-amber-500 to-orange-500",
-    },
     CAREGIVER: {
       label: "Cuidador/a",
       icon: Heart,
@@ -695,7 +681,6 @@ const UsersPanel = memo(function UsersPanel() {
             <option value="ALL">Todos los Roles ({adminUsers.length})</option>
             <option value="ADMIN">Administradores</option>
             <option value="PROFESSIONAL">Profesionales CRED</option>
-            <option value="COMMUNITY_AGENT">Actores Sociales</option>
             <option value="CAREGIVER">Cuidadores/as</option>
           </select>
 
@@ -1063,7 +1048,6 @@ const UsersPanel = memo(function UsersPanel() {
                 >
                   <option value="CAREGIVER">Cuidador/a de Familia</option>
                   <option value="PROFESSIONAL">Profesional CRED (Salud)</option>
-                  <option value="COMMUNITY_AGENT">Actor Social / Promotor</option>
                   <option value="ADMIN">Administrador de Sistema</option>
                 </select>
               </div>
@@ -1975,10 +1959,9 @@ export default function AdminPage() {
         total_users: 5,
         active_alerts: 2,
         visits_this_month: 14,
-        caregivers: 2,
-        professionals: 2,
-        community_agents: 1,
-        normal_children: 2,
+        caregivers: 120,
+        professionals: 5,
+        normal_children: 80,
         follow_up_children: 2,
         urgent_children: 2,
       };

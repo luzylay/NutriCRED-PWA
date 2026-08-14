@@ -217,19 +217,19 @@ export function NutritionChatbot({ isOpen = true, onClose, initialContext }: Nut
       <div className="bg-card sm:border border-border sm:rounded-[2.5rem] w-full h-full sm:h-[600px] sm:max-h-[90vh] max-w-2xl shadow-2xl flex flex-col relative overflow-hidden">
         
         {/* Bot Chat Header */}
-        <div className="bg-gradient-to-r from-primary to-accent px-5 py-4 flex items-center justify-between shadow-sm relative overflow-hidden shrink-0">
+        <div className="bg-card border-b border-border px-5 py-4 flex items-center justify-between shadow-sm relative overflow-hidden shrink-0">
           {/* Animated glow */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none animate-pulse"></div>
-          <div className="flex items-center gap-2 relative z-10">
-            <div className="size-7 rounded-lg bg-white/20 flex items-center justify-center">
-              <MessageSquare className="size-4 text-white" />
+          <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none animate-pulse"></div>
+          <div className="flex items-center gap-2.5 relative z-10">
+            <div className="size-8 rounded-xl bg-primary text-primary-foreground flex items-center justify-center shadow-sm">
+              <MessageSquare className="size-4" />
             </div>
             <div>
-              <span className="text-white text-xs font-bold uppercase tracking-wider block">
+              <span className="text-foreground text-xs font-black uppercase tracking-wider block font-nunito">
                 Yanapiri Mikhuy
               </span>
-              <span className="text-white/75 text-xs flex items-center gap-1">
-                <Sparkles className="size-2.5" /> NLU Multilingüe + Triaje
+              <span className="text-muted-foreground text-xs flex items-center gap-1 font-semibold">
+                <Sparkles className="size-2.5 text-primary" /> NLU Multilingüe + Triaje
               </span>
             </div>
           </div>
@@ -237,24 +237,24 @@ export function NutritionChatbot({ isOpen = true, onClose, initialContext }: Nut
           {onClose && (
             <button
               onClick={onClose}
-              className="size-9 rounded-full bg-black/10 hover:bg-black/20 text-white flex items-center justify-center transition-colors cursor-pointer relative z-10"
+              className="size-8 rounded-xl bg-muted/80 hover:bg-muted text-foreground flex items-center justify-center transition-colors cursor-pointer relative z-10"
               aria-label="Cerrar chat"
             >
-              <X className="size-5" />
+              <X className="size-4" />
             </button>
           )}
         </div>
 
       {/* Offline Alert Banner */}
       {isOffline && (
-        <div className="bg-amber-500 text-white text-xs font-bold px-4 py-2 flex items-center justify-center gap-2">
+        <div className="bg-amber-500 text-slate-950 text-xs font-black px-4 py-2 flex items-center justify-center gap-2">
           <AlertTriangle className="size-3.5" />
           Sin conexión: Respuestas limitadas a la base local. Usa La Despensa.
         </div>
       )}
 
       {/* Messages area */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-muted/15">
+      <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-muted/20">
         {messages.map((m) => {
           const isBot = m.sender === "bot";
           const isEmergency = m.nlu?.isEmergencyTriage;
@@ -266,12 +266,12 @@ export function NutritionChatbot({ isOpen = true, onClose, initialContext }: Nut
               className={`flex flex-col ${m.sender === "user" ? "items-end" : "items-start"}`}
             >
               <div
-                className={`max-w-[88%] rounded-2xl p-4 text-sm leading-relaxed relative shadow-md transition-all ${
+                className={`max-w-[88%] rounded-2xl p-4 text-sm leading-relaxed relative shadow-sm transition-all ${
                   m.sender === "user"
-                    ? "bg-primary text-primary-foreground rounded-br-sm ml-auto"
+                    ? "bg-primary text-primary-foreground rounded-br-sm ml-auto font-medium"
                     : isEmergency
-                      ? "bg-red-500/10 border border-red-500/20 text-red-700 dark:text-red-200 rounded-bl-sm"
-                      : "bg-white/80 dark:bg-black/40 backdrop-blur-md border border-white/20 text-foreground rounded-bl-sm"
+                      ? "bg-red-500/15 border border-red-500/40 text-foreground rounded-bl-sm"
+                      : "bg-card border border-border/70 text-foreground rounded-bl-sm"
                 }`}
               >
                 {/* Emergency Triage Badge */}

@@ -512,31 +512,27 @@ export function MeasurementWizard({
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 backdrop-blur-sm p-4">
       <div className="w-full max-w-sm bg-card rounded-3xl shadow-2xl overflow-hidden border border-border">
         {/* Header */}
-        <div className="bg-primary px-5 pt-5 pb-4">
+        <div className="bg-primary text-primary-foreground px-5 pt-5 pb-4 relative shadow-sm">
           <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               {step > 0 && (
                 <button
                   onClick={() => {
                     tts.stop();
                     setStep((s) => s - 1);
                   }}
-                  className="text-white/70 hover:text-white transition-colors"
+                  className="p-1.5 bg-primary-foreground/20 hover:bg-primary-foreground/30 text-primary-foreground rounded-xl transition-colors cursor-pointer"
                 >
                   <ChevronLeft className="size-5" />
                 </button>
               )}
               <div>
-                <p className="text-white/70 text-xs font-medium">
-                  {protocol.label} ·{" "}
-                  {t("wizard.step", {
-                    step: step + 1,
-                    total: protocol.steps.length,
-                  })}
-                </p>
+                <span className="inline-flex items-center gap-1.5 bg-primary-foreground/20 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[11px] font-extrabold text-primary-foreground mb-1 shadow-xs border border-primary-foreground/30">
+                  <StepIcon className="size-3 text-primary-foreground" />
+                  {protocol.label} · Paso {step + 1} de {protocol.steps.length}
+                </span>
                 <h3
-                  className="text-white font-bold text-lg leading-tight"
-                  style={{ fontFamily: "Nunito, sans-serif" }}
+                  className="text-primary-foreground font-black text-lg leading-tight font-nunito"
                 >
                   {currentStep.title}
                 </h3>
@@ -548,10 +544,10 @@ export function MeasurementWizard({
               <button
                 onClick={handleSpeech}
                 title={isSpeaking ? t("app.audio_stop") : t("app.audio_read")}
-                className={`p-2 rounded-xl transition-all ${
+                className={`p-2 rounded-xl transition-all shadow-sm cursor-pointer ${
                   isSpeaking
-                    ? "bg-accent text-white animate-pulse"
-                    : "bg-white/20 hover:bg-white/30 text-white"
+                    ? "bg-accent text-accent-foreground animate-pulse ring-2 ring-primary-foreground/50"
+                    : "bg-primary-foreground/20 hover:bg-primary-foreground/30 text-primary-foreground"
                 }`}
               >
                 {isSpeaking ? (
@@ -566,20 +562,24 @@ export function MeasurementWizard({
                   tts.stop();
                   onClose();
                 }}
-                className="text-white/70 hover:text-white transition-colors"
+                className="p-2 bg-primary-foreground/20 hover:bg-primary-foreground/30 text-primary-foreground rounded-xl transition-colors cursor-pointer"
               >
-                <X className="size-5" />
+                <X className="size-4" />
               </button>
             </div>
           </div>
 
           {/* Progress dots */}
-          <div className="flex gap-1.5">
+          <div className="flex gap-2 mt-2">
             {protocol.steps.map((_, i) => (
               <div
                 key={i}
-                className={`h-1 rounded-full flex-1 transition-all duration-300 ${
-                  i <= step ? "bg-white" : "bg-white/30"
+                className={`h-1.5 rounded-full flex-1 transition-all duration-300 ${
+                  i === step
+                    ? "bg-primary-foreground shadow-sm scale-y-125"
+                    : i < step
+                      ? "bg-primary-foreground/70"
+                      : "bg-primary-foreground/30"
                 }`}
               />
             ))}

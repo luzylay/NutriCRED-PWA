@@ -307,9 +307,9 @@ export function CostEffectivenessSimulator({ onRequestAssistant }: CostEffective
               const stratName = strategy === "A" ? "100% Animal" : strategy === "C" ? "Solo Vegetal" : "Mixta";
               onRequestAssistant(`Quiero personalizar mi ticket actual (S/ ${weeklyBudget}, Región ${region}, Opción ${stratName}). ¿Qué reemplazos me sugieres si me falta algún alimento o tengo alergias?`);
             }}
-            className="w-full py-3 rounded-2xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 dark:text-amber-400 font-extrabold text-xs border border-amber-500/30 transition-all flex items-center justify-center gap-2 cursor-pointer mt-2"
+            className="w-full py-3.5 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs border-2 border-amber-300 shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer mt-2 active:scale-98"
           >
-            <Sparkles className="size-4" />
+            <Sparkles className="size-4 text-slate-950" />
             <span>🪄 Consultar Reemplazos con Yanapiri Mikhuy</span>
           </button>
         )}

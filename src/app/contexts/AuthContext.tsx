@@ -82,13 +82,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const offlineMap: Record<string, UserRole> = {
           maria: "CAREGIVER",
           carlos: "PROFESSIONAL",
-          luisa: "COMMUNITY_AGENT",
           admin: "ADMIN",
         };
         const offlinePwd: Record<string, string> = {
           maria: "maria123",
           carlos: "carlos123",
-          luisa: "luisa123",
           admin: "admin123",
         };
         if (offlineMap[username] && offlinePwd[username] === password) {

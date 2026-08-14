@@ -7,7 +7,7 @@ import {
   type ReactNode,
 } from "react";
 
-export type ThemeId = "light" | "dark" | "andean" | "sunset";
+export type ThemeId = "red-gold" | "night-gold" | "low-vision" | "colorblind";
 export type TextScale = "normal" | "large" | "xlarge";
 
 export interface ThemeOption {
@@ -22,40 +22,40 @@ export interface ThemeOption {
 
 export const THEME_OPTIONS: ThemeOption[] = [
   {
-    id: "light",
-    nameKey: "settings.theme_light",
-    defaultName: "Yanapiri Clásico",
-    description: "Paleta médica vibrante con azul profundo y cian",
-    previewBg: "#FAFAFA",
-    previewPrimary: "#12B1E7",
-    previewAccent: "#EC2088",
+    id: "red-gold",
+    nameKey: "settings.theme_red_gold",
+    defaultName: "Rojo y Dorado (Tema Principal)",
+    description: "Estilo de marca cálido para el hogar. Colores crema, terracota y dorado suave.",
+    previewBg: "#FAF0E6",
+    previewPrimary: "#8B2C1A",
+    previewAccent: "#C68A3C",
   },
   {
-    id: "dark",
-    nameKey: "settings.theme_dark",
-    defaultName: "Oscuro Cuida-Vista",
-    description: "Modo noche para ahorro de batería y baja fatiga",
-    previewBg: "#18182B",
-    previewPrimary: "#4DD0E1",
-    previewAccent: "#FF8A80",
+    id: "night-gold",
+    nameKey: "settings.theme_night_gold",
+    defaultName: "Modo Noche (Descanso Visual)",
+    description: "Para usar la app de noche sin cansar la vista mientras el bebé duerme.",
+    previewBg: "#0B0B12",
+    previewPrimary: "#F5C842",
+    previewAccent: "#E53935",
   },
   {
-    id: "andean",
-    nameKey: "settings.theme_andean",
-    defaultName: "Andino Esmeralda",
-    description: "Alto contraste verde naturaleza para exteriores soleados",
-    previewBg: "#F4F9F5",
-    previewPrimary: "#059669",
-    previewAccent: "#D97706",
+    id: "low-vision",
+    nameKey: "settings.theme_low_vision",
+    defaultName: "Baja Visión (Alto Contraste)",
+    description: "Texto más grande, bordes gruesos y máximo contraste para lectura fácil.",
+    previewBg: "#0A0A0A",
+    previewPrimary: "#FFD700",
+    previewAccent: "#FF4444",
   },
   {
-    id: "sunset",
-    nameKey: "settings.theme_sunset",
-    defaultName: "Cálido Atardecer",
-    description: "Tonos ámbar y terracota de alto contraste",
-    previewBg: "#FCF8F5",
-    previewPrimary: "#EA580C",
-    previewAccent: "#BE185D",
+    id: "colorblind",
+    nameKey: "settings.theme_colorblind",
+    defaultName: "Daltonismo (Azul y Naranja)",
+    description: "Colores seguros azul y naranja acompañados de iconos claros en cada estado.",
+    previewBg: "#1A1A2E",
+    previewPrimary: "#6AAAFF",
+    previewAccent: "#FF8866",
   },
 ];
 
@@ -73,13 +73,13 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<ThemeId>(() => {
     try {
       const saved = localStorage.getItem("yanapiri_theme") as ThemeId;
-      if (saved && ["light", "dark", "andean", "sunset"].includes(saved)) {
+      if (saved && ["red-gold", "night-gold", "low-vision", "colorblind"].includes(saved)) {
         return saved;
       }
     } catch {
       /* ignore */
     }
-    return "light";
+    return "red-gold";
   });
 
   const [textScale, setTextScaleState] = useState<TextScale>(() => {
@@ -99,6 +99,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       const root = document.documentElement;
       root.classList.remove(
         "dark",
+        "theme-red-gold",
+        "theme-night-gold",
+        "theme-low-vision",
+        "theme-colorblind",
         "theme-andean",
         "theme-sunset",
         "text-scale-normal",
@@ -106,12 +110,14 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
         "text-scale-xlarge",
       );
 
-      if (newTheme === "dark") {
-        root.classList.add("dark");
-      } else if (newTheme === "andean") {
-        root.classList.add("theme-andean");
-      } else if (newTheme === "sunset") {
-        root.classList.add("theme-sunset");
+      if (newTheme === "red-gold") {
+        root.classList.add("theme-red-gold");
+      } else if (newTheme === "night-gold") {
+        root.classList.add("theme-night-gold");
+      } else if (newTheme === "low-vision") {
+        root.classList.add("theme-low-vision");
+      } else if (newTheme === "colorblind") {
+        root.classList.add("theme-colorblind");
       }
 
       root.classList.add(`text-scale-${newScale}`);

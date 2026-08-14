@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import * as crypto from 'crypto';
 
 @Injectable()
 export class MeasurementsService {
@@ -61,16 +62,26 @@ export class MeasurementsService {
       alertMessage = `Atención: Z-Score bajo (${zscore}). Monitoreo preventivo recomendado.`;
     }
 
+    const measurementData = {
+      childId: data.child_id,
+      weight: data.weight,
+      height: data.height,
+      muac: data.muac,
+      zscore,
+      registeredBy: data.registered_by || 'system',
+      alertTriggered,
+    };
+
+    // Calculate digital signature for integrity
+    const secretKey = process.env.SIGNATURE_SECRET || 'fallback_secret_key_for_demo';
+    const payloadToSign = JSON.stringify(measurementData);
+    const digitalSignature = crypto.createHmac('sha256', secretKey).update(payloadToSign).digest('hex');
+
     // Crear la medición
     const measurement = await this.prisma.measurement.create({
       data: {
-        childId: data.child_id,
-        weight: data.weight,
-        height: data.height,
-        muac: data.muac,
-        zscore,
-        registeredBy: data.registered_by || 'system',
-        alertTriggered,
+        ...measurementData,
+        digitalSignature,
       },
     });
 

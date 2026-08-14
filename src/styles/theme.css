@@ -174,6 +174,190 @@
   --gradient-primary: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
 }
 
+.theme-red-gold {
+  /* Modo 1: Rojo·Dorado (Modo Principal de Marca TXT.txt) */
+  --background: #faf0e6;
+  --foreground: #3d2b1f;
+  --card: rgba(255, 248, 240, 0.92);
+  --card-foreground: #3d2b1f;
+  --popover: #ffffff;
+  --popover-foreground: #3d2b1f;
+  --primary: #8b2c1a; /* Rojo Terracota */
+  --primary-foreground: #ffffff;
+  --secondary: #faf0e6;
+  --secondary-foreground: #3d2b1f;
+  --muted: #f0e2d5;
+  --muted-foreground: #8a7a6a; /* Marrón Grisáceo */
+  --accent: #c68a3c; /* Dorado Suave */
+  --accent-foreground: #3d2b1f;
+  --destructive: #c0395a; /* Rojo Rosado Alerta */
+  --destructive-foreground: #ffffff;
+  --border: #e8c9b0;
+  --input: #f5e6d8;
+  --input-background: #f5e6d8;
+  --switch-background: #e8c9b0;
+  --ring: #c68a3c;
+  --chart-1: #8b2c1a;
+  --chart-2: #c68a3c;
+  --chart-3: #6a8a6a;
+  --chart-4: #c0395a;
+  --chart-5: #b87333;
+  --sidebar: #faf0e6;
+  --sidebar-foreground: #3d2b1f;
+  --sidebar-primary: #8b2c1a;
+  --sidebar-primary-foreground: #ffffff;
+  --glass-bg: rgba(250, 240, 230, 0.92);
+  --glass-border: #e8c9b0;
+  --glass-shadow: 0 12px 40px rgba(120, 70, 20, 0.12);
+  --gradient-background: linear-gradient(145deg, #faf0e6 0%, #f5e6d8 50%, #faf0e6 100%);
+  --gradient-primary: linear-gradient(135deg, #8b2c1a 0%, #c68a3c 100%);
+}
+
+.theme-night-gold {
+  /* Modo 2: Nocturno (TXT.txt) */
+  --background: #0b0b12;
+  --foreground: #f0f0f5;
+  --card: #14141e;
+  --card-foreground: #f0f0f5;
+  --popover: #14141e;
+  --popover-foreground: #f0f0f5;
+  --primary: #f5c842; /* Amarillo Dorado */
+  --primary-foreground: #0b0b12;
+  --secondary: #1c1c2a;
+  --secondary-foreground: #c8c8dc;
+  --muted: #1c1c2a;
+  --muted-foreground: #8888a8;
+  --accent: #f5c842;
+  --accent-foreground: #0b0b12;
+  --destructive: #e53935;
+  --destructive-foreground: #f0f0f5;
+  --border: #2a2a3a;
+  --input: #1c1c2a;
+  --input-background: #1c1c2a;
+  --switch-background: #2a2a3a;
+  --ring: #f5c842;
+  --chart-1: #f5c842;
+  --chart-2: #e53935;
+  --chart-3: #7ec8e3;
+  --chart-4: #4caf50;
+  --chart-5: #8888a8;
+  --sidebar: #14141e;
+  --sidebar-foreground: #f0f0f5;
+  --sidebar-primary: #f5c842;
+  --sidebar-primary-foreground: #0b0b12;
+  --glass-bg: rgba(11, 11, 18, 0.88);
+  --glass-border: #2a2a3a;
+  --glass-shadow: 0 20px 40px rgba(0, 0, 0, 0.80);
+  --gradient-background: linear-gradient(135deg, #0b0b12 0%, #14141e 100%);
+  --gradient-primary: linear-gradient(135deg, #f5c842 0%, #d4a017 100%);
+}
+
+.theme-low-vision {
+  /* Modo 3: Baja Visión (High Contrast AAA TXT.txt) */
+  --background: #0a0a0a;
+  --foreground: #ffffff;
+  --card: #111111;
+  --card-foreground: #ffffff;
+  --popover: #111111;
+  --popover-foreground: #ffffff;
+  --primary: #ffd700; /* Amarillo Puro */
+  --primary-foreground: #0a0a0a;
+  --secondary: #1a1a1a;
+  --secondary-foreground: #ffffff;
+  --muted: #1a1a1a;
+  --muted-foreground: #dddddd;
+  --accent: #ffd700;
+  --accent-foreground: #0a0a0a;
+  --destructive: #ff4444;
+  --destructive-foreground: #ffffff;
+  --border: #777777;
+  --input: #1a1a1a;
+  --input-background: #1a1a1a;
+  --switch-background: #444444;
+  --ring: #ffd700;
+  --chart-1: #ffd700;
+  --chart-2: #ff4444;
+  --chart-3: #66ccff;
+  --chart-4: #66bb6a;
+  --chart-5: #ffffff;
+  --sidebar: #111111;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #ffd700;
+  --sidebar-primary-foreground: #0a0a0a;
+  --glass-bg: rgba(10, 10, 10, 0.96);
+  --glass-border: #777777;
+  --glass-shadow: 0 20px 40px rgba(0, 0, 0, 0.90);
+  --gradient-background: linear-gradient(135deg, #0a0a0a 0%, #111111 100%);
+  --gradient-primary: linear-gradient(135deg, #ffd700 0%, #e6c200 100%);
+}
+
+.theme-colorblind {
+  /* Modo 4: Daltonismo (Seguro Azul/Naranja TXT.txt) */
+  --background: #1a1a2e;
+  --foreground: #e8e8f0;
+  --card: #1a1a2e;
+  --card-foreground: #e8e8f0;
+  --popover: #1a1a2e;
+  --popover-foreground: #e8e8f0;
+  --primary: #6aaaff; /* Azul Claro Brillante */
+  --primary-foreground: #1a1a2e;
+  --secondary: #252542;
+  --secondary-foreground: #e8e8f0;
+  --muted: #252542;
+  --muted-foreground: #9999bb;
+  --accent: #ff8866; /* Naranja Seguro */
+  --accent-foreground: #1a1a2e;
+  --destructive: #ff8866;
+  --destructive-foreground: #1a1a2e;
+  --border: #4a4a6a;
+  --input: #252542;
+  --input-background: #252542;
+  --switch-background: #3d3d66;
+  --ring: #6aaaff;
+  --chart-1: #6aaaff;
+  --chart-2: #ff8866;
+  --chart-3: #66ccdd;
+  --chart-4: #66bb6a;
+  --chart-5: #9999bb;
+  --sidebar: #1a1a2e;
+  --sidebar-foreground: #e8e8f0;
+  --sidebar-primary: #6aaaff;
+  --sidebar-primary-foreground: #1a1a2e;
+  --glass-bg: rgba(26, 26, 46, 0.92);
+  --glass-border: #4a4a6a;
+  --glass-shadow: 0 20px 40px rgba(0, 0, 30, 0.70);
+  --gradient-background: linear-gradient(135deg, #1a1a2e 0%, #252542 100%);
+  --gradient-primary: linear-gradient(135deg, #6aaaff 0%, #4a88e0 100%);
+}
+
+/* Botón Warm Gold de Marca */
+.btn-gold {
+  background: #f5c842;
+  color: #0b0b12;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 4px 12px rgba(245, 200, 66, 0.25);
+}
+.btn-gold:hover {
+  background: #ffe07a;
+  transform: scale(1.02);
+}
+
+/* Animación Latido de Corazón */
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  14% { transform: scale(1.2); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.12); }
+  56% { transform: scale(1); }
+}
+.heart-beat {
+  animation: heartbeat 1.8s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

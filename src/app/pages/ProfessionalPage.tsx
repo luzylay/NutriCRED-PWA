@@ -9,6 +9,7 @@ import {
   Clock,
   AlertCircle,
   MapPin,
+  Pill,
 } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { useData } from "../contexts/DataContext";
@@ -19,6 +20,7 @@ import { GrowthChart } from "../components/shared/GrowthChart";
 import { SettingsModal } from "../components/shared/SettingsModal";
 import { HeaderActions } from "../components/shared/HeaderActions";
 import { NutritionalTwinSimulator } from "../components/simulators/NutritionalTwinSimulator";
+import { ClinicalScreeningPanel } from "../components/professional/ClinicalScreeningPanel";
 import { fetchMeasurements } from "../lib/api";
 import { getWHORef } from "../lib/who-refs";
 import { ALERT_CFG } from "../lib/constants";
@@ -26,7 +28,7 @@ import type { Child, AlertLevel, GrowthPoint } from "../lib/types";
 
 export default function ProfessionalPage() {
   const { user, logout } = useAuth();
-  const { children, auditLogs, isLoading, refreshData } = useData();
+  const { children, auditLogs, dailyTracking, isLoading, refreshData } = useData();
 
   const [selectedChild, setSelectedChild] = useState<Child | null>(null);
   const [filter, setFilter] = useState<AlertLevel | "all">("all");
@@ -69,8 +71,12 @@ export default function ProfessionalPage() {
     load();
   }, [selectedChild]);
 
-  const filtered =
-    filter === "all" ? children : children.filter((c) => c.status === filter);
+  const filtered = (
+    filter === "all" ? children : children.filter((c) => c.status === filter)
+  ).sort((a, b) => {
+    const order = { urgent: 0, "follow-up": 1, normal: 2 };
+    return order[a.status] - order[b.status];
+  });
 
   const counts = {
     total: children.length,
@@ -128,7 +134,7 @@ export default function ProfessionalPage() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6">
           {/* KPIs */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
             {[
               {
                 label: "Total Niños",
@@ -138,25 +144,32 @@ export default function ProfessionalPage() {
                 text: "text-foreground",
               },
               {
-                label: "Normales",
+                label: "Adecuado",
                 value: counts.normal,
                 icon: CheckCircle,
                 bg: "bg-emerald-50 dark:bg-emerald-950/20",
-                text: "text-emerald-600 dark:text-emerald-400",
+                text: "text-emerald-700 dark:text-emerald-300",
               },
               {
-                label: "En Seguimiento",
+                label: "En Riesgo",
                 value: counts.followUp,
                 icon: Clock,
                 bg: "bg-amber-50 dark:bg-amber-950/20",
-                text: "text-amber-600 dark:text-amber-400",
+                text: "text-amber-700 dark:text-amber-300",
               },
               {
-                label: "Urgentes",
+                label: "Alerta Médica",
                 value: counts.urgent,
                 icon: AlertCircle,
                 bg: "bg-red-50 dark:bg-red-950/20",
-                text: "text-red-600 dark:text-red-400",
+                text: "text-red-700 dark:text-red-300",
+              },
+              {
+                label: "SRSI Cumplimiento",
+                value: `${dailyTracking.filter(t => t.supplement_taken).length}/${children.length}`,
+                icon: Pill,
+                bg: "bg-violet-50 dark:bg-violet-950/20",
+                text: "text-violet-700 dark:text-violet-300",
               },
             ].map((kpi) => (
               <div
@@ -193,19 +206,19 @@ export default function ProfessionalPage() {
                     { id: "all" as const, label: "Todos", icon: null },
                     {
                       id: "urgent" as const,
-                      label: "Urgente",
+                      label: "Alerta Médica",
                       icon: AlertCircle,
                       color: "text-red-500",
                     },
                     {
                       id: "follow-up" as const,
-                      label: "Seguimiento",
+                      label: "Riesgo Nutricional",
                       icon: Clock,
                       color: "text-amber-500",
                     },
                     {
                       id: "normal" as const,
-                      label: "Normal",
+                      label: "Adecuado",
                       icon: CheckCircle,
                       color: "text-emerald-500",
                     },
@@ -259,9 +272,21 @@ export default function ProfessionalPage() {
                         className={`size-2.5 rounded-full shrink-0 ${ALERT_CFG[child.status].dotClass}`}
                       />
                       <div className="flex-1 min-w-0">
-                        <p className="font-bold text-foreground text-sm truncate">
-                          {child.name}
-                        </p>
+                        <div className="flex items-center gap-2">
+                          <p className="font-bold text-foreground text-sm truncate">
+                            {child.name}
+                          </p>
+                          {dailyTracking.some(t => t.child_id.toString() === child.id && !t.supplement_taken) && (
+                            <div className="flex items-center gap-1 bg-rose-500/10 text-rose-600 px-1.5 py-0.5 rounded text-[10px] font-bold" title="No cumplió SRSI hoy">
+                              <Pill className="size-3" /> ¡Falta!
+                            </div>
+                          )}
+                          {dailyTracking.some(t => t.child_id.toString() === child.id && t.supplement_taken) && (
+                            <div className="flex items-center gap-1 bg-emerald-500/10 text-emerald-600 px-1.5 py-0.5 rounded text-[10px] font-bold" title="Cumplió SRSI hoy">
+                              <Pill className="size-3" /> Tomó
+                            </div>
+                          )}
+                        </div>
                         <p className="text-xs text-muted-foreground truncate">
                           {child.age} · {child.community}, {child.district}
                         </p>
@@ -363,6 +388,8 @@ export default function ProfessionalPage() {
               </div>
             )}
           </div>
+          
+          <ClinicalScreeningPanel />
 
           {/* Audit logs */}
           <div className="bg-card border border-border rounded-3xl p-5 shadow-sm space-y-3">

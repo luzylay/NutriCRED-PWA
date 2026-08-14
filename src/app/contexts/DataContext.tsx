@@ -25,6 +25,7 @@ import type {
   GrowthPoint,
   MeasureType,
   AuthUser,
+  DailyTrackingRecord,
 } from "../lib/types";
 
 
@@ -196,13 +197,34 @@ const FALLBACK_MEASUREMENTS: Measurement[] = [
 
 // ─── TYPES ───────────────────────────────────────────────────────────────────
 
+export interface SyncProgressState {
+  current: number;
+  total: number;
+  isSyncing: boolean;
+}
+
+export interface ToastNotice {
+  id: string;
+  text: string;
+  type: "info" | "success" | "warning";
+}
+
 interface DataContextValue {
   children: Child[];
   measurements: Measurement[];
   auditLogs: AuditLog[];
+  dailyTracking: DailyTrackingRecord[];
+  addDailyTracking: (record: DailyTrackingRecord) => void;
   isLoading: boolean;
   isOnline: boolean;
   offlineQueue: OfflineMeasurement[];
+  syncProgress: SyncProgressState;
+  isDataSaver: boolean;
+  setDataSaver: (val: boolean) => void;
+  toastNotice: ToastNotice | null;
+  showToast: (text: string, type?: "info" | "success" | "warning") => void;
+  isOfflineGuideOpen: boolean;
+  setIsOfflineGuideOpen: (open: boolean) => void;
   refreshData: () => Promise<void>;
   syncOfflineQueue: () => Promise<void>;
   addMeasurementOffline: (m: OfflineMeasurement) => void;
@@ -237,6 +259,7 @@ export function DataProvider({
   const [children, setChildren] = useState<Child[]>([]);
   const [measurements, setMeasurements] = useState<Measurement[]>([]);
   const [auditLogs, setAuditLogs] = useState<AuditLog[]>([]);
+  const [dailyTracking, setDailyTracking] = useState<DailyTrackingRecord[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const [offlineQueue, setOfflineQueue] = useState<OfflineMeasurement[]>(() => {
@@ -247,17 +270,55 @@ export function DataProvider({
     }
   });
 
+  const [isDataSaver, setDataSaverState] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem("yanapiri_data_saver") === "true";
+    } catch {
+      return false;
+    }
+  });
+
+  const [syncProgress, setSyncProgress] = useState<SyncProgressState>({
+    current: 0,
+    total: 0,
+    isSyncing: false,
+  });
+
+  const [toastNotice, setToastNotice] = useState<ToastNotice | null>(null);
+  const [isOfflineGuideOpen, setIsOfflineGuideOpen] = useState(false);
+
+  const setDataSaver = useCallback((val: boolean) => {
+    setDataSaverState(val);
+    try {
+      localStorage.setItem("yanapiri_data_saver", val ? "true" : "false");
+    } catch {}
+  }, []);
+
+  const showToast = useCallback((text: string, type: "info" | "success" | "warning" = "info") => {
+    const id = Date.now().toString();
+    setToastNotice({ id, text, type });
+    setTimeout(() => {
+      setToastNotice((curr) => (curr?.id === id ? null : curr));
+    }, 4000);
+  }, []);
+
   // Network event listeners
   useEffect(() => {
-    const handleOnline = () => setIsOnline(true);
-    const handleOffline = () => setIsOnline(false);
+    const handleOnline = () => {
+      setIsOnline(true);
+      showToast("🌐 Conexión restablecida. Auto-sincronizando...", "success");
+    };
+    const handleOffline = () => {
+      setIsOnline(false);
+      showToast("📡 Modo Offline activo. Cambios guardados en local.", "warning");
+    };
     window.addEventListener("online", handleOnline);
     window.addEventListener("offline", handleOffline);
     return () => {
       window.removeEventListener("online", handleOnline);
       window.removeEventListener("offline", handleOffline);
     };
-  }, []);
+  }, [showToast]);
 
   // Actualizar App Badging API en el icono del celular ($0 Costo)
   useEffect(() => {
@@ -265,7 +326,6 @@ export function DataProvider({
     const badgeTotal = urgentCount + offlineQueue.length;
     updateAppBadge(badgeTotal);
   }, [children, offlineQueue]);
-
 
   const refreshData = useCallback(async () => {
     if (!isLoggedIn) return;
@@ -281,10 +341,6 @@ export function DataProvider({
             (user.username === "maria" && (c.id === "2" || c.id === "5" || c.id === "3")) ||
             user.username === "demo"
         );
-      } else if (user.role === "COMMUNITY_AGENT") {
-        const assignedCommunity =
-          user.username === "luisa" ? "Anchonga" : "Ccasapata";
-        return list.filter((c) => c.community === assignedCommunity);
       }
       return list;
     };
@@ -293,14 +349,12 @@ export function DataProvider({
       const rawData = await fetchChildren();
       let mapped = (rawData as Record<string, unknown>[]).map(mapRawChild);
       
-      // Aplicar filtro de aislamiento de datos (RBAC)
       mapped = applyRbacFilter(mapped);
       
       const sortOrder = { urgent: 0, "follow-up": 1, normal: 2 };
       mapped.sort((a, b) => sortOrder[a.status] - sortOrder[b.status]);
       setChildren(mapped);
 
-      // Load measurements for the first child (CAREGIVER context)
       const firstChild = mapped.find((c) => c.status !== "normal") ?? mapped[0];
       if (firstChild) {
         const mData = await fetchMeasurements(parseInt(firstChild.id));
@@ -310,15 +364,13 @@ export function DataProvider({
         setMeasurements([...mData, ...localOffline]);
       }
 
-      // Load audit logs
       try {
         const logs = await fetchAuditLogs();
         setAuditLogs(logs);
       } catch {
-        // Not all roles can access audit logs; silently ignore
+        // Silently ignore
       }
     } catch {
-      // Backend offline — use fallback data
       console.warn("Backend offline — using fallback data.");
 
       let localChildren: Child[] = [];
@@ -335,10 +387,15 @@ export function DataProvider({
           childStatus: "normal" | "follow-up" | "urgent";
           childWeight: number;
           childHeight: number;
+          childZScore?: number;
+          registrationDate?: string;
         }
 
-        newFamilies.forEach((f: NewFamilyData) => {
+        const newFamilies = JSON.parse(
+          localStorage.getItem("yanapiri_new_families") ?? "[]",
+        );
 
+        newFamilies.forEach((f: NewFamilyData) => {
           localChildren.push({
             id: f.id,
             name: f.childName,
@@ -351,7 +408,7 @@ export function DataProvider({
             status: f.childStatus,
             weight: f.childWeight,
             height: f.childHeight,
-            zScore: f.childZScore,
+            zScore: f.childZScore ?? -1.0,
             lastMeasured: "hoy",
             nextAction:
               f.childStatus === "urgent" ? "Atención requerida" : "Monitoreo",
@@ -360,11 +417,11 @@ export function DataProvider({
           } as any);
 
           localMeasurements.push({
-            child_id: f.id as any, // Using string id for mock
+            child_id: f.id as any,
             type: "weight",
             value: f.childWeight,
             unit: "kg",
-            measurement_date: f.registrationDate,
+            measurement_date: f.registrationDate || new Date().toISOString(),
             sync_status: "pending",
           });
         });
@@ -390,20 +447,18 @@ export function DataProvider({
     if (isLoggedIn) refreshData();
   }, [isLoggedIn, refreshData]);
 
-  // Auto-refresh mechanism (Polling)
-  // Good practice: Only poll when the tab is visible and the device is online
-  // to avoid draining battery and unnecessary network requests.
+  // Auto-refresh mechanism (Polling with Data Saver support)
   useEffect(() => {
-    if (!isLoggedIn) return;
+    if (!isLoggedIn || isDataSaver) return;
 
     const intervalId = setInterval(() => {
       if (document.visibilityState === "visible" && navigator.onLine) {
         refreshData();
       }
-    }, 30000); // 30 seconds
+    }, 30000);
 
     return () => clearInterval(intervalId);
-  }, [isLoggedIn, refreshData]);
+  }, [isLoggedIn, isDataSaver, refreshData]);
 
   const addMeasurementOffline = useCallback((m: OfflineMeasurement) => {
     setOfflineQueue((prev) => {
@@ -412,12 +467,17 @@ export function DataProvider({
       return updated;
     });
     setMeasurements((prev) => [...prev, m]);
-  }, []);
+    showToast("💾 Medición guardada localmente en la memoria del dispositivo.", "info");
+  }, [showToast]);
 
   const syncOfflineQueue = useCallback(async () => {
     if (offlineQueue.length === 0) return;
 
+    const total = offlineQueue.length;
+    setSyncProgress({ current: 0, total, isSyncing: true });
+
     const remaining: OfflineMeasurement[] = [];
+    let doneCount = 0;
 
     for (const item of offlineQueue) {
       try {
@@ -427,6 +487,9 @@ export function DataProvider({
           unit: item.unit,
           method: item.method,
         });
+        doneCount++;
+        setSyncProgress({ current: doneCount, total, isSyncing: true });
+        await new Promise((r) => setTimeout(r, 400));
       } catch {
         remaining.push(item);
       }
@@ -434,8 +497,11 @@ export function DataProvider({
 
     setOfflineQueue(remaining);
     localStorage.setItem("yanapiri_offline_queue", JSON.stringify(remaining));
+    setSyncProgress({ current: total, total, isSyncing: false });
+    
+    showToast(`✅ Sincronizados ${doneCount} de ${total} registros pendientes.`, "success");
     await refreshData();
-  }, [offlineQueue, refreshData]);
+  }, [offlineQueue, refreshData, showToast]);
 
   const buildGrowthChart = useCallback(
     (child: Child, allMeasurements: Measurement[]): GrowthPoint[] => {
@@ -497,10 +563,25 @@ export function DataProvider({
         JSON.stringify(newFamilies),
       );
 
+      showToast("👶 Menor registrado exitosamente en memoria local.", "success");
       await refreshData();
     },
-    [user, refreshData],
+    [user, refreshData, showToast],
   );
+
+  const addDailyTracking = useCallback((record: DailyTrackingRecord) => {
+    const newRecord = { ...record, id: Date.now() };
+    setDailyTracking(prev => [newRecord, ...prev]);
+    
+    if (record.has_alarms) {
+      setChildren(prev => prev.map(c => 
+        c.id === record.child_id.toString() 
+        ? { ...c, status: "urgent", nextAction: "Referencia inmediata al E.S." } 
+        : c
+      ));
+    }
+    showToast("💊 Registro de suplemento guardado.", "success");
+  }, [showToast]);
 
   return (
     <DataContext.Provider
@@ -508,9 +589,18 @@ export function DataProvider({
         children,
         measurements,
         auditLogs,
+        dailyTracking,
+        addDailyTracking,
         isLoading,
         isOnline,
         offlineQueue,
+        syncProgress,
+        isDataSaver,
+        setDataSaver,
+        toastNotice,
+        showToast,
+        isOfflineGuideOpen,
+        setIsOfflineGuideOpen,
         refreshData,
         syncOfflineQueue,
         addMeasurementOffline,
@@ -522,8 +612,6 @@ export function DataProvider({
     </DataContext.Provider>
   );
 }
-
-// ─── HOOK ────────────────────────────────────────────────────────────────────
 
 export function useData(): DataContextValue {
   const ctx = useContext(DataContext);

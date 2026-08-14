@@ -3,8 +3,7 @@
 export type AlertLevel = "normal" | "follow-up" | "urgent";
 export type AppView = "family" | "professional" | "agent" | "admin";
 export type MeasureType = "weight" | "height" | "muac";
-export type UserRole =
-  "CAREGIVER" | "PROFESSIONAL" | "COMMUNITY_AGENT" | "ADMIN";
+export type UserRole = "CAREGIVER" | "PROFESSIONAL" | "ADMIN";
 export type UserStatus = "active" | "inactive";
 
 // ─── AUTH ────────────────────────────────────────────────────────────────────
@@ -140,7 +139,6 @@ export interface AdminStats {
   visits_this_month: number;
   caregivers: number;
   professionals: number;
-  community_agents: number;
   normal_children: number;
   follow_up_children: number;
   urgent_children: number;
@@ -173,4 +171,30 @@ export interface DashboardSummary {
   normal_count: number;
   follow_up_count: number;
   urgent_count: number;
+}
+
+// ─── DAILY TRACKING (SRSI & ALARMS) ──────────────────────────────────────────
+
+export type SupplementType = 
+  | "Hierro" 
+  | "Micronutrientes en polvo (MNP)" 
+  | "Vitamina A" 
+  | "Zinc" 
+  | "Vitamina D" 
+  | "No toma suplementos";
+
+export interface DailyTrackingRecord {
+  id?: number;
+  child_id: number;
+  date: string;
+  // SRSI Data
+  supplement_taken: boolean;
+  supplement_type: SupplementType;
+  takes_every_day: boolean;
+  forgets_frequency: "Nunca" | "A veces" | "Muchas veces";
+  photo_proof_url?: string; // Data URL local (JPEG comprimido) — solo suplemento, sin rostros
+  
+  // Alarms
+  has_alarms: boolean;
+  alarm_signs: string[]; // List of strings matching the 12 signs
 }

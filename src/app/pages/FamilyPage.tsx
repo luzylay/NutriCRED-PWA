@@ -17,8 +17,14 @@ import {
   ShieldCheck,
   Hand,
   ChevronRight,
-  Sparkles,
   QrCode,
+  AlertTriangle,
+  Sparkles,
+  CheckCircle2,
+  Pill,
+  Camera,
+  Eye,
+  Cpu,
 } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { useData } from "../contexts/DataContext";
@@ -27,6 +33,7 @@ import { MeasurementWizard } from "../components/family/MeasurementWizard";
 import { NutritionChatbot } from "../components/family/NutritionChatbot";
 import { NutritionalTrivia } from "../components/family/NutritionalTrivia";
 import { NutritionalDictionary } from "../components/family/NutritionalDictionary";
+import { DailyTrackingModal } from "../components/family/DailyTrackingModal";
 import { AddChildModal } from "../components/family/AddChildModal";
 import { PlateScannerModal } from "../components/family/PlateScannerModal";
 import { LockKeyGameModal } from "../components/family/LockKeyGameModal";
@@ -37,7 +44,7 @@ import { GrowthChart } from "../components/shared/GrowthChart";
 import { SettingsModal } from "../components/shared/SettingsModal";
 import { HeaderActions } from "../components/shared/HeaderActions";
 import { QRScannerModal } from "../components/shared/QRScannerModal";
-
+import { ParentEngagementHub } from "../components/family/ParentEngagementHub";
 import confetti from "canvas-confetti";
 import { ALERT_CFG } from "../lib/constants";
 import { getWHORef } from "../lib/who-refs";
@@ -63,6 +70,8 @@ export default function FamilyPage() {
     refreshData,
     isLoading,
     registerNewChild,
+    addDailyTracking,
+    dailyTracking,
   } = useData();
   const { t, languageInfo } = useTranslation();
 
@@ -76,6 +85,7 @@ export default function FamilyPage() {
   const [isPlateScannerOpen, setIsPlateScannerOpen] = useState(false);
   const [isLockGameOpen, setIsLockGameOpen] = useState(false);
   const [isNutritionChatbotOpen, setIsNutritionChatbotOpen] = useState(false);
+  const [isDailyTrackingOpen, setIsDailyTrackingOpen] = useState(false);
   const [assistantContext, setAssistantContext] = useState<string | null>(null);
 
 
@@ -244,6 +254,21 @@ export default function FamilyPage() {
         initialContext={assistantContext}
       />
 
+      <DailyTrackingModal
+        isOpen={isDailyTrackingOpen}
+        onClose={() => setIsDailyTrackingOpen(false)}
+        onSubmit={(record) => {
+          setIsDailyTrackingOpen(false);
+          addDailyTracking({ ...record, child_id: child ? parseInt(child.id) : 0, date: new Date().toISOString() });
+          
+          if (record.has_alarms) {
+            alert("ALERTA CRÍTICA: Se han detectado signos de alarma. Por favor, acuda al establecimiento de salud más cercano INMEDIATAMENTE.");
+          } else {
+            alert("Reporte guardado con éxito. ¡Gracias por el seguimiento!");
+          }
+        }}
+      />
+
       <QRScannerModal
         isOpen={isQRModalOpen}
         onClose={() => setIsQRModalOpen(false)}
@@ -336,8 +361,6 @@ export default function FamilyPage() {
                   </h1>
                 </div>
 
-                <PublicHealthNews />
-
                 {/* Child Selector (only if multiple or adding) */}
                 {children.length > 0 && (
                   <div className="flex gap-2 overflow-x-auto pb-1 hide-scrollbar">
@@ -416,9 +439,53 @@ export default function FamilyPage() {
                 ) : (
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start mt-2">
                     <div className="lg:col-span-7 space-y-4">
+                        
+                        {/* Daily Tracking Card */}
+                        {(() => {
+                          const today = new Date().toDateString();
+                          const todayRecord = dailyTracking.find(r => r.child_id === (child ? parseInt(child.id) : -1) && new Date(r.date).toDateString() === today);
+                          const isCompleted = !!todayRecord;
+                          return (
+                            <div className={`border p-5 rounded-[2rem] shadow-sm flex items-center justify-between transition-all duration-500 ${
+                              isCompleted 
+                                ? "bg-gradient-to-r from-emerald-500/10 to-emerald-400/5 border-emerald-500/30" 
+                                : "bg-gradient-to-r from-primary/10 to-accent/10 border-primary/20"
+                            }`}>
+                              <div className="flex items-center gap-4">
+                                <div className={`p-3 rounded-2xl shadow-inner text-white ${
+                                  isCompleted ? "bg-emerald-500" : "bg-primary"
+                                }`}>
+                                  {isCompleted ? <CheckCircle2 className="size-6" /> : <Calendar className="size-6" />}
+                                </div>
+                                <div>
+                                  <h3 className="font-black text-foreground text-lg tracking-tight">
+                                    {isCompleted ? "✅ Seguimiento Completado" : "Tareas de Hoy"}
+                                  </h3>
+                                  <p className="text-sm font-medium text-muted-foreground mt-0.5">
+                                    {isCompleted 
+                                      ? `Suplemento: ${todayRecord.supplement_taken ? todayRecord.supplement_type : "No tomó"} · ${todayRecord.has_alarms ? "⚠️ Signos reportados" : "Sin alarmas"}`
+                                      : "Reporte de Suplementación y Signos de Alarma"
+                                    }
+                                  </p>
+                                </div>
+                              </div>
+                              <button
+                                onClick={() => setIsDailyTrackingOpen(true)}
+                                className={`font-bold py-2.5 px-5 rounded-xl text-sm shadow-md transition-transform hover:scale-105 active:scale-95 whitespace-nowrap ${
+                                  isCompleted
+                                    ? "bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-600/20"
+                                    : "btn-gradient text-white"
+                                }`}
+                              >
+                                {isCompleted ? "Actualizar" : "Completar Seguimiento"}
+                              </button>
+                            </div>
+                          );
+                        })()}
+
                       {/* Child status card */}
                     <div
-                      className={`rounded-[2rem] border p-6 space-y-5 shadow-lg relative overflow-hidden transition-all duration-500 hover:shadow-xl ${cfg.bgClass} ${cfg.borderClass}`}
+                      className={`rounded-[2rem] border p-6 space-y-5 shadow-lg relative overflow-hidden transition-all duration-500 hover:shadow-xl bg-card ${cfg.borderClass}`}
                     >
                       {/* Emotive Icon Background */}
                       <div className="absolute -right-6 -bottom-6 opacity-[0.03] pointer-events-none transform rotate-12 scale-110">
@@ -431,7 +498,7 @@ export default function FamilyPage() {
 
                       <div className="flex items-start justify-between gap-3 relative z-10">
                         <div className="flex items-center gap-4">
-                          <div className="size-14 bg-white/90 dark:bg-black/50 rounded-2xl flex items-center justify-center font-black text-foreground text-2xl shadow-md border border-white/20">
+                          <div className="size-14 bg-primary/10 text-primary rounded-2xl flex items-center justify-center font-black text-2xl shadow-md border border-primary/20">
                             {child.name?.charAt(0) ?? "?"}
                           </div>
                           <div>
@@ -446,9 +513,9 @@ export default function FamilyPage() {
                         </div>
                       </div>
 
-                      <div className="bg-white/60 dark:bg-black/30 backdrop-blur-xl rounded-2xl p-4 flex gap-3.5 items-start relative z-10 shadow-sm border border-white/30">
+                      <div className="bg-card/90 backdrop-blur-xl rounded-2xl p-4 flex gap-3.5 items-start relative z-10 shadow-sm border border-border/60">
                         <div
-                          className={`p-2.5 rounded-xl shrink-0 shadow-inner ${child.status === "normal" ? "bg-emerald-500/20 text-emerald-700 dark:text-emerald-300" : child.status === "follow-up" ? "bg-amber-500/20 text-amber-700 dark:text-amber-300" : "bg-red-500/20 text-red-700 dark:text-red-300"}`}
+                          className={`p-2.5 rounded-xl shrink-0 shadow-inner ${child.status === "normal" ? "bg-emerald-500/20 text-emerald-500 font-bold" : child.status === "follow-up" ? "bg-amber-500/20 text-amber-500 font-bold" : "bg-red-500/20 text-red-500 font-bold"}`}
                         >
                           {child.status === "normal" ? (
                             <HeartPulse className="size-6" />
@@ -464,7 +531,7 @@ export default function FamilyPage() {
                                 ? "Atención al crecimiento"
                                 : "Requiere Atención Médica"}
                           </p>
-                          <p className="text-[13px] text-foreground/80 leading-relaxed font-medium">
+                          <p className="text-[13px] text-muted-foreground leading-relaxed font-medium">
                             {child.status === "urgent"
                               ? "Hemos identificado una señal importante. Por favor, visita la posta médica más cercana."
                               : child.status === "follow-up"
@@ -477,61 +544,154 @@ export default function FamilyPage() {
 
                     {/* Quick actions */}
                     <div className="space-y-3 mt-2">
-                      <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider pl-1">
+                      <p className="text-xs font-black text-foreground uppercase tracking-wider pl-1">
                         {t("family.quick_actions")}
                       </p>
                       <div className="flex flex-col gap-3">
+                        
+                        {/* 🚨 PRIORITY 1: Botón S.O.S de Emergencia y Signos de Alarma */}
+                        <button
+                          onClick={() => {
+                            setAssistantContext("S.O.S. Mi niño presenta signos de alarma (fiebre, vómitos, decaimiento). Necesito ayuda clínica urgente.");
+                            setIsDailyTrackingOpen(true);
+                          }}
+                          className="group relative overflow-hidden bg-gradient-to-r from-red-600 to-rose-700 text-white p-3.5 sm:p-4 rounded-2xl sm:rounded-[2rem] flex items-center gap-3 sm:gap-4 transition-all duration-300 shadow-xl ring-2 ring-red-400 active:scale-[0.98] cursor-pointer"
+                        >
+                          <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 blur-2xl rounded-full -mr-8 -mt-8 pointer-events-none group-hover:scale-150 transition-transform duration-500"></div>
+                          
+                          <div className="p-3 sm:p-3.5 rounded-xl sm:rounded-2xl shadow-md shrink-0 bg-white text-red-600 group-hover:scale-110 transition-transform duration-300 relative z-10 animate-bounce">
+                            <AlertTriangle className="size-5 sm:size-6 drop-shadow-sm shrink-0" />
+                          </div>
+                          <div className="text-left flex-1 min-w-0 relative z-10">
+                            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                              <span className="text-base sm:text-lg font-black text-white font-nunito tracking-tight leading-snug">
+                                Reportar Emergencia S.O.S
+                              </span>
+                              <span className="bg-white text-red-700 text-[10px] sm:text-[11px] font-black uppercase px-2 sm:px-2.5 py-0.5 rounded-full shadow-xs shrink-0 flex items-center gap-1">
+                                <ShieldAlert className="size-3 text-red-700 shrink-0" />
+                                Alta Prioridad
+                              </span>
+                            </div>
+                            <span className="text-xs sm:text-sm font-extrabold text-red-100 block mt-0.5 leading-snug">
+                              Signos de alarma clínica (Fiebre, desmayo, vómitos)
+                            </span>
+                          </div>
+                          <div className="bg-white/30 text-white p-2 sm:p-2.5 rounded-full relative z-10 shrink-0 group-hover:bg-white group-hover:text-red-600 transition-colors transform group-hover:translate-x-1 duration-300 shadow-md">
+                            <ChevronRight className="size-4 sm:size-5 shrink-0" />
+                          </div>
+                        </button>
+
+                        {/* Botón 2: Evidencia Fotográfica de Suplemento */}
+                        <button
+                          onClick={() => setIsDailyTrackingOpen(true)}
+                          className="group relative overflow-hidden bg-card hover:bg-muted/40 border-2 border-primary/60 p-3.5 sm:p-4 rounded-2xl sm:rounded-[2rem] flex items-center gap-3 sm:gap-4 transition-all duration-300 shadow-sm hover:shadow-md active:scale-[0.98] cursor-pointer"
+                        >
+                          <div className="absolute top-0 right-0 w-24 h-24 bg-primary/10 blur-2xl rounded-full -mr-8 -mt-8 pointer-events-none group-hover:scale-150 transition-transform duration-500"></div>
+                          
+                          <div className="p-3 sm:p-3.5 rounded-xl sm:rounded-2xl shadow-md shrink-0 bg-primary text-primary-foreground group-hover:scale-110 transition-transform duration-300 relative z-10">
+                            <Pill className="size-5 sm:size-6 drop-shadow-sm shrink-0" />
+                          </div>
+                          <div className="text-left flex-1 min-w-0 relative z-10">
+                            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                              <span className="text-base sm:text-lg font-black text-foreground font-nunito tracking-tight leading-snug">
+                                Suplemento y Fotos de Evidencia
+                              </span>
+                              <span className="bg-emerald-600 text-white text-[10px] sm:text-[11px] font-black px-2 sm:px-2.5 py-0.5 rounded-full shadow-xs uppercase tracking-wider shrink-0 flex items-center gap-1">
+                                <Camera className="size-3 text-white shrink-0" />
+                                Cámara
+                              </span>
+                            </div>
+                            <span className="text-xs sm:text-sm font-extrabold text-foreground/90 block mt-0.5 leading-snug">
+                              Registro diario de hierro y foto del frasco
+                            </span>
+                          </div>
+                          <div className="bg-primary/10 text-primary p-2 sm:p-2.5 rounded-full relative z-10 shrink-0 group-hover:bg-primary group-hover:text-primary-foreground transition-colors transform group-hover:translate-x-1 duration-300 shadow-sm border border-primary/20">
+                            <ChevronRight className="size-4 sm:size-5 shrink-0" />
+                          </div>
+                        </button>
+
+                        {/* Botón 3: Semáforo del Plato AR 2D */}
+                        <button
+                          onClick={() => setIsPlateScannerOpen(true)}
+                          className="group relative overflow-hidden bg-card hover:bg-muted/40 border-2 border-amber-500/60 p-3.5 sm:p-4 rounded-2xl sm:rounded-[2rem] flex items-center gap-3 sm:gap-4 transition-all duration-300 shadow-sm hover:shadow-md active:scale-[0.98] cursor-pointer"
+                        >
+                          <div className="absolute top-0 right-0 w-24 h-24 bg-amber-500/10 blur-2xl rounded-full -mr-8 -mt-8 pointer-events-none group-hover:scale-150 transition-transform duration-500"></div>
+                          
+                          <div className="p-3 sm:p-3.5 rounded-xl sm:rounded-2xl shadow-md shrink-0 bg-amber-500 text-slate-950 group-hover:scale-110 transition-transform duration-300 relative z-10">
+                            <Sparkles className="size-5 sm:size-6 drop-shadow-sm shrink-0" />
+                          </div>
+                          <div className="text-left flex-1 min-w-0 relative z-10">
+                            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                              <span className="text-base sm:text-lg font-black text-foreground font-nunito tracking-tight leading-snug">
+                                Semáforo del Plato AR 2D
+                              </span>
+                              <span className="bg-amber-500 text-slate-950 text-[10px] sm:text-[11px] font-black px-2 sm:px-2.5 py-0.5 rounded-full shadow-xs uppercase tracking-wider shrink-0 flex items-center gap-1">
+                                <Sparkles className="size-3 text-slate-950 shrink-0" />
+                                Visión AI
+                              </span>
+                            </div>
+                            <span className="text-xs sm:text-sm font-extrabold text-foreground/90 block mt-0.5 leading-snug">
+                              Escanear plato para detectar sangrecita y citricos
+                            </span>
+                          </div>
+                          <div className="bg-amber-500/10 text-amber-600 p-2 sm:p-2.5 rounded-full relative z-10 shrink-0 group-hover:bg-amber-500 group-hover:text-slate-950 transition-colors transform group-hover:translate-x-1 duration-300 shadow-sm border border-amber-500/20">
+                            <ChevronRight className="size-4 sm:size-5 shrink-0" />
+                          </div>
+                        </button>
+
+                        {/* Botones de Mediciones Antropométricas */}
                         {[
                           {
                             id: "weight" as MeasureType,
                             label: t("family.weight"),
                             desc: "Sube a tu bebé a la balanza",
                             icon: Scale,
-                            bg: "from-cyan-500/20 to-blue-500/10 text-cyan-700 dark:text-cyan-300 border-cyan-500/30",
-                            iconBg: "bg-cyan-500",
+                            iconBg: "bg-cyan-600 text-white",
+                            action: () => setWizardType("weight"),
                           },
                           {
                             id: "height" as MeasureType,
                             label: t("family.height"),
                             desc: "Mide su alturita acostado",
                             icon: Ruler,
-                            bg: "from-emerald-500/20 to-teal-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/30",
-                            iconBg: "bg-emerald-500",
+                            iconBg: "bg-emerald-600 text-white",
+                            action: () => setWizardType("height"),
                           },
                           {
                             id: "muac" as MeasureType,
                             label: t("family.muac"),
                             desc: "Cinta especial del bracito",
                             icon: Activity,
-                            bg: "from-rose-500/20 to-pink-500/10 text-rose-700 dark:text-rose-300 border-rose-500/30",
-                            iconBg: "bg-rose-500",
+                            iconBg: "bg-rose-600 text-white",
+                            action: () => setWizardType("muac"),
                           },
                         ].map((act) => (
                           <button
                             key={act.id}
-                            onClick={() => setWizardType(act.id)}
-                            className={`group relative overflow-hidden bg-gradient-to-br ${act.bg} backdrop-blur-xl border p-4 rounded-[2rem] flex items-center gap-4 transition-all duration-300 hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-white/5 active:scale-[0.98] cursor-pointer`}
+                            onClick={act.action}
+                            className="group relative overflow-hidden bg-card hover:bg-muted/40 border border-border p-3.5 sm:p-4 rounded-2xl sm:rounded-[2rem] flex items-center gap-3 sm:gap-4 transition-all duration-300 shadow-sm hover:shadow-md active:scale-[0.98] cursor-pointer"
                           >
-                            <div className="absolute top-0 right-0 w-24 h-24 bg-white/20 blur-2xl rounded-full -mr-8 -mt-8 pointer-events-none group-hover:scale-150 transition-transform duration-500"></div>
+                            <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 blur-2xl rounded-full -mr-8 -mt-8 pointer-events-none group-hover:scale-150 transition-transform duration-500"></div>
                             
                             <div
-                              className={`p-3.5 rounded-2xl shadow-md shrink-0 ${act.iconBg} text-white group-hover:scale-110 transition-transform duration-300 relative z-10`}
+                              className={`p-3 sm:p-3.5 rounded-xl sm:rounded-2xl shadow-md shrink-0 ${act.iconBg} group-hover:scale-110 transition-transform duration-300 relative z-10`}
                             >
-                              <act.icon className="size-6 drop-shadow-sm" />
+                              <act.icon className="size-5 sm:size-6 drop-shadow-sm shrink-0" />
                             </div>
-                            <div className="text-left flex-1 relative z-10">
-                              <span className="text-lg font-black text-foreground block font-nunito tracking-tight drop-shadow-sm">
+                            <div className="text-left flex-1 min-w-0 relative z-10">
+                              <span className="text-base sm:text-lg font-black text-foreground block font-nunito tracking-tight leading-snug">
                                 {act.label}
                               </span>
-                              <span className="text-sm font-bold opacity-80 block mt-0.5 leading-snug group-hover:opacity-100 transition-opacity">
+                              <span className="text-xs sm:text-sm font-extrabold text-foreground/90 block mt-0.5 leading-snug">
                                 {act.desc}
                               </span>
                             </div>
-                            <div className="bg-white/40 dark:bg-black/20 p-2 rounded-full relative z-10 text-foreground group-hover:bg-white group-hover:text-black transition-colors transform group-hover:translate-x-1 duration-300 shadow-sm border border-white/30">
-                              <ChevronRight className="size-5" />
+                            <div className="bg-primary/10 text-primary p-2 sm:p-2.5 rounded-full relative z-10 shrink-0 group-hover:bg-primary group-hover:text-primary-foreground transition-colors transform group-hover:translate-x-1 duration-300 shadow-sm border border-primary/20">
+                              <ChevronRight className="size-4 sm:size-5 shrink-0" />
                             </div>
                           </button>
                         ))}
+
                       </div>
                     </div>
                     </div>
@@ -569,37 +729,48 @@ export default function FamilyPage() {
                     </div>
 
                     {/* Medical Disclaimer */}
-                    <div className="bg-card/40 border border-border rounded-2xl p-4 mt-4 flex items-start gap-3 shadow-sm">
-                      <div className="p-1.5 bg-muted rounded-lg shrink-0">
-                        <ShieldAlert className="size-4 text-muted-foreground" />
+                    <div className="bg-gradient-to-r from-blue-500/10 via-indigo-500/5 to-amber-500/10 border border-blue-500/20 dark:border-blue-500/30 rounded-2xl p-4 mt-4 flex items-start gap-3 shadow-md backdrop-blur-md">
+                      <div className="p-2 bg-blue-600 text-white rounded-xl shrink-0 shadow-sm">
+                        <ShieldAlert className="size-4" />
                       </div>
-                      <p className="text-[11px] text-muted-foreground font-medium leading-relaxed">
-                        <strong className="text-foreground">Importante:</strong>{" "}
-                        Yanapiri Wawa es una herramienta complementaria de
-                        prevención. Los estados nutricionales mostrados no
-                        reemplazan el diagnóstico clínico presencial de su
-                        Centro de Salud.
+                      <p className="text-xs text-foreground font-medium leading-relaxed">
+                        <strong className="font-extrabold text-blue-700 dark:text-blue-300">Importante:</strong>{" "}
+                        Yanapiri Wawa es una herramienta complementaria de prevención. Los estados nutricionales mostrados no reemplazan el diagnóstico clínico presencial de su Centro de Salud.
                       </p>
                     </div>
                     </div>
                   </div>
                 )}
+
+                {/* Hub de Crecimiento, Logros, Galeria & Percentiles */}
+                {child && (
+                  <div className="mt-6">
+                    <ParentEngagementHub child={child} growthData={chartData} />
+                  </div>
+                )}
+
+                <div className="mt-6">
+                  <PublicHealthNews />
+                </div>
               </>
             )}
 
             {activeTab === "history" && (
               <div className="space-y-6 max-w-2xl mx-auto w-full">
                 <div className="flex items-center gap-3">
-                  <div className="size-10 bg-gradient-to-br from-primary to-accent rounded-xl flex items-center justify-center shadow-lg text-white">
-                    <Activity className="size-5" />
+                  <div className="size-11 bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center shadow-lg text-white">
+                    <Activity className="size-6" />
                   </div>
-                  <h2 className="text-2xl font-black text-foreground font-nunito tracking-tight">
-                    {t("family.history_title")}
-                  </h2>
+                  <div>
+                    <h2 className="text-2xl font-black text-foreground font-nunito tracking-tight">
+                      {t("family.history_title")}
+                    </h2>
+                    <p className="text-xs text-muted-foreground font-medium">Diario clínico y registro de evaluaciones</p>
+                  </div>
                 </div>
                 <div className="relative pl-6">
                   {/* Vertical Timeline Line */}
-                  <div className="absolute left-[1.15rem] top-4 bottom-4 w-px bg-border" />
+                  <div className="absolute left-[1.15rem] top-4 bottom-4 w-0.5 bg-gradient-to-b from-primary/50 via-accent/30 to-transparent" />
 
                   <div className="space-y-4">
                     {child &&
@@ -630,10 +801,10 @@ export default function FamilyPage() {
                           return (
                             <div
                               key={idx}
-                              className="relative group bg-card/60 hover:bg-card backdrop-blur-md border border-border hover:border-primary/30 rounded-2xl p-4 flex items-center justify-between transition-all duration-300 hover:shadow-md ml-4"
+                              className="relative group bg-card hover:bg-card/90 border border-border hover:border-primary/40 rounded-2xl p-4 flex items-center justify-between transition-all duration-300 shadow-sm hover:shadow-md ml-4"
                             >
                               {/* Timeline Node */}
-                              <div className="absolute -left-8 top-1/2 -translate-y-1/2 size-8 bg-card border-2 border-primary rounded-full flex items-center justify-center shadow-sm z-10 group-hover:scale-110 group-hover:bg-primary transition-all duration-300">
+                              <div className="absolute -left-8 top-1/2 -translate-y-1/2 size-8 bg-card border-2 border-primary rounded-full flex items-center justify-center shadow-md z-10 group-hover:scale-110 group-hover:bg-primary transition-all duration-300">
                                 <Icon className="size-3.5 text-primary group-hover:text-primary-foreground" />
                               </div>
 
@@ -641,10 +812,10 @@ export default function FamilyPage() {
                                 <div>
                                   <p className="text-sm font-black text-foreground capitalize tracking-tight">
                                     {m.type === "weight"
-                                      ? t("family.weight")
+                                      ? "Pesar a mi bebé"
                                       : m.type === "height"
-                                        ? t("family.height")
-                                        : t("family.muac")}
+                                        ? "Medir su Alturita"
+                                        : "Medir su Bracito (MUAC)"}
                                   </p>
                                   <p className="text-[11px] font-bold text-muted-foreground mt-0.5">
                                     {date}
@@ -654,15 +825,15 @@ export default function FamilyPage() {
                               <div className="text-right flex flex-col items-end gap-1.5">
                                 <p className="text-lg font-mono font-black text-foreground">
                                   {m.value}{" "}
-                                  <span className="text-sm text-muted-foreground font-semibold">
+                                  <span className="text-xs text-muted-foreground font-bold">
                                     {m.unit}
                                   </span>
                                 </p>
                                 <span
-                                  className={`flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${
+                                  className={`flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${
                                     isSynced
-                                      ? "bg-emerald-500/10 text-emerald-600 border-emerald-500/20"
-                                      : "bg-amber-500/10 text-amber-600 border-amber-500/20"
+                                      ? "bg-emerald-500/15 text-emerald-800 dark:text-emerald-200 border-emerald-500/30"
+                                      : "bg-amber-500/15 text-amber-800 dark:text-amber-200 border-amber-500/30"
                                   }`}
                                 >
                                   <span
@@ -690,6 +861,65 @@ export default function FamilyPage() {
                     )}
                   </div>
                 </div>
+
+                {/* SRSI Tracking History */}
+                {child && dailyTracking.filter(r => r.child_id === parseInt(child.id)).length > 0 && (
+                  <div className="mt-8">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="size-10 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-xl flex items-center justify-center shadow-lg text-white">
+                        <Pill className="size-5" />
+                      </div>
+                      <h2 className="text-xl font-black text-foreground font-nunito tracking-tight">
+                        Historial de Suplementación
+                      </h2>
+                    </div>
+                    <div className="space-y-3">
+                      {dailyTracking
+                        .filter(r => r.child_id === parseInt(child.id))
+                        .map((record, idx) => {
+                          const date = new Date(record.date).toLocaleDateString("es-PE", {
+                            day: "numeric", month: "short", hour: "2-digit", minute: "2-digit"
+                          });
+                          return (
+                            <div key={idx} className={`bg-card/60 backdrop-blur-md border rounded-2xl p-4 flex items-center justify-between transition-all ${
+                              record.has_alarms ? "border-rose-500/30 bg-rose-500/5" : "border-border"
+                            }`}>
+                              <div className="flex items-center gap-3">
+                                <div className={`size-10 rounded-xl flex items-center justify-center shadow-sm ${
+                                  record.supplement_taken ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300" : "bg-rose-500/15 text-rose-700 dark:text-rose-300"
+                                }`}>
+                                  <Pill className="size-5" />
+                                </div>
+                                <div>
+                                  <p className="text-sm font-black text-foreground">
+                                    {record.supplement_taken ? record.supplement_type : "No tomó suplemento"}
+                                  </p>
+                                  <p className="text-[11px] font-bold text-muted-foreground mt-0.5">{date}</p>
+                                </div>
+                              </div>
+                              <div className="text-right flex flex-col items-end gap-1">
+                                <span className={`text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${
+                                  record.supplement_taken
+                                    ? "bg-emerald-500/20 text-emerald-900 dark:text-emerald-100 border-emerald-500/40"
+                                    : "bg-rose-500/20 text-rose-900 dark:text-rose-100 border-rose-500/40"
+                                }`}>
+                                  {record.supplement_taken ? "Tomó" : "Faltó"}
+                                </span>
+                                {record.has_alarms && (
+                                  <span className="text-[10px] font-extrabold text-rose-950 dark:text-rose-100 bg-rose-500/20 px-2.5 py-0.5 rounded-full border border-rose-500/40">
+                                    ⚠️ {record.alarm_signs.length} signos
+                                  </span>
+                                )}
+                                <span className="text-[11px] font-semibold text-foreground/80 dark:text-foreground/90">
+                                  Olvido: {record.forgets_frequency}
+                                </span>
+                              </div>
+                            </div>
+                          );
+                        })}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
@@ -783,6 +1013,21 @@ export default function FamilyPage() {
           </div>
         </div>
       </div>
+
+      {/* Daily Tracking Modal (Evidencia fotográfica de suplementos + Signos de alarma) */}
+      <DailyTrackingModal
+        isOpen={isDailyTrackingOpen}
+        onClose={() => setIsDailyTrackingOpen(false)}
+        onSubmit={(record) => {
+          setIsDailyTrackingOpen(false);
+        }}
+      />
+
+      {/* Plate Scanner Modal (Semáforo del Plato AR 2D) */}
+      <PlateScannerModal
+        isOpen={isPlateScannerOpen}
+        onClose={() => setIsPlateScannerOpen(false)}
+      />
     </>
   );
 }

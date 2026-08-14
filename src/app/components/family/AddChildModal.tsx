@@ -48,23 +48,23 @@ export function AddChildModal({ onClose, onSubmit }: AddChildModalProps) {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-in fade-in duration-300">
       <div className="w-full max-w-md bg-card rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95 duration-300">
         {/* Header */}
-        <div className="bg-primary/10 border-b border-border px-6 py-4 flex items-center justify-between">
+        <div className="bg-gradient-flow px-6 py-5 flex items-center justify-between text-white relative">
           <div className="flex items-center gap-3">
-            <div className="size-10 rounded-2xl bg-primary text-primary-foreground flex items-center justify-center shadow-sm">
-              <Baby className="size-5" />
+            <div className="size-11 rounded-2xl bg-white/20 backdrop-blur-md text-white flex items-center justify-center shadow-md">
+              <Baby className="size-6" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-foreground font-nunito">
+              <h2 className="text-lg font-black text-white font-nunito tracking-tight">
                 Registrar Niño/a
               </h2>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-white/80 font-medium">
                 Agrega un nuevo miembro a tu familia
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="text-muted-foreground hover:text-foreground p-2 rounded-xl hover:bg-muted/80 transition-colors"
+            className="p-2 bg-black/20 hover:bg-black/30 rounded-xl text-white transition-colors"
           >
             <X className="size-5" />
           </button>

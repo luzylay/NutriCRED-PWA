@@ -1,5 +1,5 @@
-import { useState, lazy, Suspense } from "react";
-import { BookOpen, Search, Droplet, Sun, Dumbbell, ShieldCheck, Sparkles, X, Info, Flame, ChevronRight, CheckCircle2 } from "lucide-react";
+import { useState } from "react";
+import { BookOpen, Search, Droplet, Sun, Dumbbell, ShieldCheck, Sparkles, X, Info, Flame, ChevronRight, CheckCircle2, AlertTriangle, ChefHat } from "lucide-react";
 
 type VitaminType = "Hierro" | "Vitamina C" | "Proteína" | "Calcio";
 
@@ -18,6 +18,8 @@ export interface FoodItem {
   portionBaby: string;
   bioavailability: string;
   bestCombo: string;
+  worstCombo: string;
+  innovativeRecipe: { title: string; desc: string };
 }
 
 const baseUrl = import.meta.env.BASE_URL;
@@ -39,7 +41,9 @@ const FOOD_CATALOG: FoodItem[] = [
     caloriesKcal: 78,
     portionBaby: "2 cucharadas soperas cocidas y desmenuzadas (30g)",
     bioavailability: "25% (Hierro HEM pase directo)",
-    bestCombo: "Gotas de limón, jugo de mandarina o camu camu."
+    bestCombo: "Gotas de limón, jugo de mandarina o camu camu.",
+    worstCombo: "Evitar mates (manzanilla, anís), té, café o lácteos (leche, queso) hasta 2 horas después, ya que los taninos y el calcio bloquean la absorción del hierro.",
+    innovativeRecipe: { title: "Croquetas Andinas de Sangrecita con Costra de Tarwi", desc: "Mezcla sangrecita cocida con puré de papa amarilla y empanízalas con harina de tarwi en vez de pan molido. Hornea hasta dorar." }
   },
   {
     id: "f2",
@@ -55,7 +59,9 @@ const FOOD_CATALOG: FoodItem[] = [
     caloriesKcal: 135,
     portionBaby: "1 a 2 cucharadas prensadas en papilla (25g)",
     bioavailability: "20% (Hierro HEM animal)",
-    bestCombo: "Puré de papa amarilla o camote dulce."
+    bestCombo: "Puré de papa amarilla o camote dulce.",
+    worstCombo: "Cualquier infusión de hierbas, lácteos o suplementos de calcio en la misma comida.",
+    innovativeRecipe: { title: "Paté de Hígado Enriquecido con Aguaymanto", desc: "Procesa hígado sancochado con un toque de aceite de oliva y acompáñalo de una salsa ligera de aguaymanto fresco rica en Vitamina C." }
   },
   {
     id: "f3",
@@ -71,7 +77,9 @@ const FOOD_CATALOG: FoodItem[] = [
     caloriesKcal: 98,
     portionBaby: "2 cucharadas raspadas sancocha das (30g)",
     bioavailability: "25% (Hierro HEM animal)",
-    bestCombo: "Sopa o papilla de zapallo con limón."
+    bestCombo: "Sopa o papilla de zapallo con limón.",
+    worstCombo: "Leche, quesos o infusiones de hierbas aromáticas que inhiben la asimilación del hierro.",
+    innovativeRecipe: { title: "Mazamorrita Salada de Bazo y Quinua", desc: "Sopa espesa tipo mazamorra a base de quinua cocida, bazo de res finamente picado y un toque generoso de limón al servir." }
   },
   {
     id: "f4",
@@ -87,7 +95,9 @@ const FOOD_CATALOG: FoodItem[] = [
     caloriesKcal: 290,
     portionBaby: "1 cucharada deshilachada muy fina en caldo (15g)",
     bioavailability: "18% (Hierro HEM seco)",
-    bestCombo: "Sopas andinas con guisantes y limón."
+    bestCombo: "Sopas andinas con guisantes y limón.",
+    worstCombo: "Bebidas oscuras, té y café, que neutralizan el escaso hierro que sobrevive al deshidratado.",
+    innovativeRecipe: { title: "Chupe Cremoso de Chalona y Habas", desc: "Guiso espeso de habas frescas, papas nativas y hebras de chalona rehidratada, coronado con gotas de jugo de tumbo." }
   },
   {
     id: "f5",
@@ -103,7 +113,9 @@ const FOOD_CATALOG: FoodItem[] = [
     caloriesKcal: 116,
     portionBaby: "3 a 4 cucharadas de puré de menestras (40g)",
     bioavailability: "5% (Hierro No HEM - Requiere Vitamina C)",
-    bestCombo: "Limonada fresca o ensalada con limón."
+    bestCombo: "Limonada fresca o ensalada con limón.",
+    worstCombo: "Lácteos, mates, o comerlas solas sin una fuente de Vitamina C, ya que su hierro es 'No Hem' (difícil de absorber).",
+    innovativeRecipe: { title: "Hamburguesitas de Lentejas y Pescado", desc: "Mezcla lentejas cocidas (sin licuar del todo) con bonito desmenuzado y huevo. Fríelas a la plancha. Puro Omega 3 e hierro." }
   },
 
   // --- VITAMINA C ---
@@ -121,7 +133,9 @@ const FOOD_CATALOG: FoodItem[] = [
     caloriesKcal: 29,
     portionBaby: "Unas cuantas gotas en la papilla o refresco (5ml)",
     bioavailability: "Potenciador x5 de absorción de hierro",
-    bestCombo: "Gotas directas sobre sangrecita o menestras."
+    bestCombo: "Gotas directas sobre sangrecita o menestras.",
+    worstCombo: "Hervir el limón o echarlo a la sopa hirviendo (el calor extremo destruye la Vitamina C inmediatamente).",
+    innovativeRecipe: { title: "Aliño Cítrico de Limón y Muña", desc: "Una emulsión de limón fresco, aceite de oliva y hojas de muña para potenciar los guisos de los niños más grandes." }
   },
   {
     id: "c2",
@@ -137,7 +151,9 @@ const FOOD_CATALOG: FoodItem[] = [
     caloriesKcal: 24,
     portionBaby: "1/2 vaso de refresco tibio o papilla (50ml)",
     bioavailability: "Potenciador Supremo de absorción",
-    bestCombo: "Refresco natural que acompañe papillas de hígado."
+    bestCombo: "Refresco natural que acompañe papillas de hígado.",
+    worstCombo: "Someterlo a cocción prolongada o mezclarlo con mucha azúcar refinada que interfiere con su valor nutricional.",
+    innovativeRecipe: { title: "Mousse Amazónico de Camu Camu", desc: "Pulpa de camu camu batida a punto de nieve con clara de huevo (bien cocida) o yogur natural. Refrescante e hipervitamínico." }
   },
   {
     id: "c3",
@@ -153,7 +169,9 @@ const FOOD_CATALOG: FoodItem[] = [
     caloriesKcal: 53,
     portionBaby: "2 a 3 frutitas picadas o trituradas (25g)",
     bioavailability: "Potenciador natural + Antioxidantes",
-    bestCombo: "Postre tras papilla de sangrecita."
+    bestCombo: "Postre tras papilla de sangrecita.",
+    worstCombo: "Hervirlos en compotas durante largos periodos; es mejor consumirlos frescos o en purés rápidos.",
+    innovativeRecipe: { title: "Salsa Agridulce de Aguaymanto", desc: "Reducción rápida de aguaymanto fresco en sartén para bañar trozos de pescado (bonito) o pollo." }
   },
   {
     id: "c4",
@@ -169,7 +187,9 @@ const FOOD_CATALOG: FoodItem[] = [
     caloriesKcal: 35,
     portionBaby: "1/2 vaso de refresco colado (50ml)",
     bioavailability: "Potenciador x4 de absorción de hierro",
-    bestCombo: "Acompañar comidas ricas en menestras."
+    bestCombo: "Acompañar comidas ricas en menestras.",
+    worstCombo: "Combinar con grandes cantidades de lácteos (la acidez intensa puede causar malestar si se mezcla mal).",
+    innovativeRecipe: { title: "Ceviche Caliente de Doncella al Tumbo", desc: "Trozos de pescado blanco cocidos al vapor y bañados en un jugo tibio de tumbo y un toque de cilantro." }
   },
   {
     id: "c5",
@@ -185,7 +205,9 @@ const FOOD_CATALOG: FoodItem[] = [
     caloriesKcal: 47,
     portionBaby: "2 a 3 gajos sin pepa o en jugo natural (40g)",
     bioavailability: "Potenciador directo de absorción",
-    bestCombo: "Postre inmediato tras comer sangrecita."
+    bestCombo: "Postre inmediato tras comer sangrecita.",
+    worstCombo: "Dejar el jugo exprimido al aire y luz por mucho tiempo (la vitamina C se oxida rápidamente).",
+    innovativeRecipe: { title: "Helados Caseros de Naranja y Zanahoria", desc: "Jugo de naranja recién exprimido licuado con zanahoria sancochada, congelados en paletas para aliviar las encías del bebé." }
   },
 
   // --- PROTEÍNA ---
@@ -203,7 +225,9 @@ const FOOD_CATALOG: FoodItem[] = [
     caloriesKcal: 155,
     portionBaby: "1 huevo sancochado aplastado (50g)",
     bioavailability: "Proteína de valor biológico 100%",
-    bestCombo: "Prensa de yema en purés desde los 6 meses."
+    bestCombo: "Prensa de yema en purés desde los 6 meses.",
+    worstCombo: "Comer huevo crudo o pasado (impide la absorción de biotina y acarrea un alto riesgo de Salmonella en niños).",
+    innovativeRecipe: { title: "Muffins Salados de Huevo, Acelga y Quinua", desc: "Bate huevos enteros con hojas de acelga picada y quinua sobrante. Hornea en moldes de quequitos para un snack perfecto." }
   },
   {
     id: "p2",
@@ -219,7 +243,9 @@ const FOOD_CATALOG: FoodItem[] = [
     caloriesKcal: 138,
     portionBaby: "2 a 3 cucharadas desmenuzadas sin espinas (35g)",
     bioavailability: "Proteína magra + Omega 3 DHA",
-    bestCombo: "Puré de papa con gotas de limón."
+    bestCombo: "Puré de papa con gotas de limón.",
+    worstCombo: "Freírlo en exceso (frituras profundas oxidan el Omega 3 tan valioso del pescado oscuro).",
+    innovativeRecipe: { title: "Albóndigas de Bonito al Horno", desc: "Pescado oscuro picado finamente, mezclado con avena y cocido al horno. Ideal para iniciar la alimentación complementaria." }
   },
   {
     id: "p3",
@@ -235,7 +261,9 @@ const FOOD_CATALOG: FoodItem[] = [
     caloriesKcal: 410,
     portionBaby: "2 cucharadas de harina o puré de tarwi (25g)",
     bioavailability: "Proteína vegetal de alta densidad",
-    bestCombo: "Mezclado con zapallo y gotas de limón."
+    bestCombo: "Mezclado con zapallo y gotas de limón.",
+    worstCombo: "No desaguarlos ni lavarlos bien (el amargor contiene alcaloides tóxicos que deben eliminarse).",
+    innovativeRecipe: { title: "Pesto Andino de Tarwi", desc: "Licúa tarwi desaguado con un poco de espinaca, albahaca y queso fresco para lograr una salsa verde súper proteica." }
   },
   {
     id: "p4",
@@ -251,7 +279,9 @@ const FOOD_CATALOG: FoodItem[] = [
     caloriesKcal: 368,
     portionBaby: "3 a 4 cucharadas de quinua graneada suavecita (40g)",
     bioavailability: "Aminoácidos esenciales completos",
-    bestCombo: "Guisos espesos con verduras y sangrecita."
+    bestCombo: "Guisos espesos con verduras y sangrecita.",
+    worstCombo: "Comerla sin lavar (contiene saponinas que son amargas e irritan la mucosa gástrica del bebé).",
+    innovativeRecipe: { title: "Risotto de Quinua Perla con Zapallo", desc: "Quinua guisada a fuego lento con caldo de pollo, coronada con un puré cremoso de zapallo macre." }
   },
   {
     id: "p5",
@@ -267,7 +297,9 @@ const FOOD_CATALOG: FoodItem[] = [
     caloriesKcal: 105,
     portionBaby: "2 a 3 cucharadas desmenuzadas (35g)",
     bioavailability: "Proteína blanca de fácil digestión",
-    bestCombo: "Papilla de plátano verde o yuca sancochada."
+    bestCombo: "Papilla de plátano verde o yuca sancochada.",
+    worstCombo: "Acompañarlo siempre de yucas fritas o grasas saturadas; es mejor al vapor para el desarrollo infantil.",
+    innovativeRecipe: { title: "Patarashca Suave en Hoja de Bijao", desc: "Filete de doncella envuelto en hoja de plátano con sacha culantro suave, asado al vapor." }
   },
 
   // --- CALCIO ---
@@ -285,7 +317,9 @@ const FOOD_CATALOG: FoodItem[] = [
     caloriesKcal: 260,
     portionBaby: "1 tajadita pequeña rallada (20g)",
     bioavailability: "Calcio lácteo de alta fijación ósea",
-    bestCombo: "Rallado sobre papilla de quinua o choclo."
+    bestCombo: "Rallado sobre papilla de quinua o choclo.",
+    worstCombo: "Consumirlo junto a suplementos o alimentos ricos en hierro (sangrecita), el calcio inhibe por completo la absorción del hierro.",
+    innovativeRecipe: { title: "Trozos de Queso Asado con Papas Nativas", desc: "Cubos de queso fresco sellados a la plancha para darles una costra crujiente, ideales como merienda sólida." }
   },
   {
     id: "ca2",
@@ -301,7 +335,9 @@ const FOOD_CATALOG: FoodItem[] = [
     caloriesKcal: 140,
     portionBaby: "2 anchovetas pequeñas molidas sin espinas duras (30g)",
     bioavailability: "Calcio marino + Hierro",
-    bestCombo: "Puré de camote amarillo o yuca."
+    bestCombo: "Puré de camote amarillo o yuca.",
+    worstCombo: "Quitarle obsesivamente los huesos diminutos si ya está cocida a presión (allí reside todo su calcio).",
+    innovativeRecipe: { title: "Tortilla de Anchoveta y Caigua", desc: "Mezcla anchoveta desmenuzada con tiras muy finas de caigua pre-cocida y huevo. Fritura muy ligera." }
   },
   {
     id: "ca3",
@@ -317,7 +353,9 @@ const FOOD_CATALOG: FoodItem[] = [
     caloriesKcal: 325,
     portionBaby: "1/2 cucharadita de harina de maca en la mazamorra (5g)",
     bioavailability: "Energético + Calcio vegetal",
-    bestCombo: "Mazamorra de avena o quinua."
+    bestCombo: "Mazamorra de avena o quinua.",
+    worstCombo: "Comerla cruda (siempre debe cocinarse o tostarse para evitar dolores estomacales fuertes e indigestión).",
+    innovativeRecipe: { title: "Avena Caliente Enriquecida con Maca y Plátano", desc: "Al hervir la avena matutina, espolvorea maca previamente tostada y añade puré de plátano de la isla." }
   },
   {
     id: "ca4",
@@ -333,7 +371,9 @@ const FOOD_CATALOG: FoodItem[] = [
     caloriesKcal: 19,
     portionBaby: "2 a 3 hojitas sancochadas y picadas fino (20g)",
     bioavailability: "Calcio vegetal + Fibra",
-    bestCombo: "Sopas espesas con papa o quinua."
+    bestCombo: "Sopas espesas con papa o quinua.",
+    worstCombo: "Comerlas siempre crudas (contienen oxalatos que impiden la absorción de calcio; se inactivan al sancochar ligeramente).",
+    innovativeRecipe: { title: "Pastelito Sin Masa de Acelga y Queso", desc: "Hojas de acelga blanqueadas, revueltas con queso fresco rallado y huevo, horneadas hasta cuajar en porciones individuales." }
   },
   {
     id: "ca5",
@@ -349,7 +389,9 @@ const FOOD_CATALOG: FoodItem[] = [
     caloriesKcal: 134,
     portionBaby: "Lactancia materna libre demanda o 1/2 taza (100ml)",
     bioavailability: "Absorción de calcio óptima",
-    bestCombo: "Servir 2 horas alejada de alimentos con hierro."
+    bestCombo: "Servir 2 horas alejada de alimentos con hierro.",
+    worstCombo: "Usarla como bebida para pasar un plato de lentejas o sangrecita (el calcio destruye casi toda la absorción del hierro).",
+    innovativeRecipe: { title: "Crema de Leche con Camote", desc: "Un puré muy sedoso donde el agua se reemplaza por un chorrito de leche materna (o evaporada diluida tibia), perfecto para bebés pequeños." }
   }
 ];
 
@@ -551,29 +593,63 @@ export function NutritionalDictionary() {
               </div>
             </div>
 
-            {/* Portion Advice for Baby */}
-            <div className="bg-primary/10 border border-primary/20 rounded-2xl p-3.5 space-y-1 text-xs">
-              <span className="font-extrabold text-primary flex items-center gap-1.5">
-                <CheckCircle2 className="size-4" /> Porción recomendada para tu bebé:
+            {/* Advice Sections */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {/* Portion Advice for Baby */}
+              <div className="bg-primary/10 border border-primary/20 rounded-2xl p-3.5 space-y-2 text-xs">
+                <span className="font-extrabold text-primary flex items-center gap-1.5">
+                  <CheckCircle2 className="size-4 shrink-0" /> Porción recomendada:
+                </span>
+                <p className="text-foreground/90 leading-relaxed font-medium">
+                  {selectedFood.portionBaby}
+                </p>
+              </div>
+
+              {/* Ideal Combination Tip */}
+              <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-3.5 space-y-2 text-xs">
+                <span className="font-extrabold text-amber-700 dark:text-amber-300 flex items-center gap-1.5">
+                  <Info className="size-4 shrink-0" /> Combinación perfecta:
+                </span>
+                <p className="text-foreground/90 leading-relaxed font-medium">
+                  {selectedFood.bestCombo}
+                </p>
+              </div>
+            </div>
+
+            {/* Worst Combination (Anti-nutrients) */}
+            <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-3.5 space-y-2 text-xs relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-2 opacity-10 pointer-events-none">
+                <AlertTriangle className="size-16 text-red-500" />
+              </div>
+              <span className="font-extrabold text-red-700 dark:text-red-400 flex items-center gap-1.5 relative z-10">
+                <AlertTriangle className="size-4 shrink-0" /> ¡Evitar combinar con!
               </span>
-              <p className="text-foreground/90 leading-relaxed font-medium">
-                {selectedFood.portionBaby}
+              <p className="text-foreground/90 leading-relaxed font-medium relative z-10">
+                {selectedFood.worstCombo}
               </p>
             </div>
 
-            {/* Ideal Combination Tip */}
-            <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-3.5 space-y-1 text-xs">
-              <span className="font-extrabold text-amber-700 dark:text-amber-300 flex items-center gap-1.5">
-                <Info className="size-4" /> Combinación perfecta en la mesa:
+            {/* Innovative Recipe */}
+            <div className="bg-gradient-to-br from-emerald-500/10 to-teal-500/5 border border-emerald-500/30 rounded-2xl p-4 space-y-2 relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-2 opacity-5 pointer-events-none">
+                <ChefHat className="size-20 text-emerald-500" />
+              </div>
+              <span className="font-extrabold text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5 relative z-10 text-xs uppercase tracking-wider">
+                <ChefHat className="size-4 shrink-0" /> Receta Innovadora
               </span>
-              <p className="text-foreground/90 leading-relaxed font-medium">
-                {selectedFood.bestCombo}
-              </p>
+              <div className="relative z-10">
+                <h4 className="font-black text-foreground text-sm font-nunito mb-1">
+                  {selectedFood.innovativeRecipe.title}
+                </h4>
+                <p className="text-muted-foreground text-xs leading-relaxed font-medium">
+                  {selectedFood.innovativeRecipe.desc}
+                </p>
+              </div>
             </div>
 
             <button
               onClick={() => setSelectedFood(null)}
-              className="w-full btn-gradient py-3.5 rounded-2xl font-black text-xs text-white shadow-md cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98]"
+              className="w-full btn-gradient py-3.5 rounded-2xl font-black text-xs text-white shadow-md cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98] mt-2"
             >
               Entendido, volver al catálogo
             </button>

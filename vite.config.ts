@@ -17,7 +17,8 @@ function figmaAssetResolver() {
 }
 
 export default defineConfig({
-  base: "/Yanapiri-Wawa/", // Requerido para GitHub Pages
+  base: process.env.VITE_BASE_PATH || "/",
+
   plugins: [
     figmaAssetResolver(),
     // The React and Tailwind plugins are both required for Make, even if

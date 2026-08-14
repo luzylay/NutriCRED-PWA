@@ -123,14 +123,14 @@ export function NutritionalTrivia() {
   return (
     <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
       {/* Header Points */}
-      <div className="flex items-center justify-between bg-white/60 dark:bg-black/30 backdrop-blur-md rounded-2xl p-4 border border-white/30 shadow-sm">
+      <div className="flex items-center justify-between bg-card/90 backdrop-blur-md rounded-2xl p-4 border border-border/60 shadow-sm">
         <div className="flex items-center gap-3">
-          <div className="size-10 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center border border-amber-200 dark:border-amber-700/50">
-            <Award className="size-5 text-amber-600 dark:text-amber-400" />
+          <div className="size-10 rounded-full bg-amber-500/20 flex items-center justify-center border border-amber-500/40">
+            <Award className="size-5 text-amber-500" />
           </div>
           <div>
             <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Puntos Yanapiri</p>
-            <p className="text-xl font-black text-foreground font-mono leading-none">{points}</p>
+            <p className="text-xl font-black text-amber-500 font-mono leading-none">{points}</p>
           </div>
         </div>
         <div className="text-right">
@@ -140,7 +140,7 @@ export function NutritionalTrivia() {
       </div>
 
       {/* Question Card */}
-      <div className="bg-card/70 backdrop-blur-xl border border-white/20 rounded-[2rem] p-6 shadow-lg relative overflow-hidden">
+      <div className="bg-card backdrop-blur-xl border border-border/60 rounded-[2rem] p-6 shadow-lg relative overflow-hidden">
         <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-2xl rounded-full -mr-10 -mt-10 pointer-events-none"></div>
         
         <h3 className="text-xl font-black text-foreground font-nunito leading-tight mb-6 relative z-10">
@@ -152,21 +152,21 @@ export function NutritionalTrivia() {
             const isSelected = selectedOption === idx;
             const isCorrect = idx === question.correctAnswer;
             
-            let btnClass = "bg-white/50 dark:bg-black/20 border-white/30 text-foreground hover:bg-white/80 dark:hover:bg-black/40 hover:border-primary/50";
+            let btnClass = "bg-card border-2 border-border/60 text-foreground hover:bg-primary/10 hover:border-primary/50 shadow-sm";
             let icon = null;
 
             if (showResult) {
               if (isCorrect) {
-                btnClass = "bg-emerald-500/10 border-emerald-500 text-emerald-700 dark:text-emerald-300 shadow-md ring-2 ring-emerald-500/20";
+                btnClass = "bg-emerald-500/20 border-emerald-500 text-emerald-400 font-extrabold shadow-md ring-2 ring-emerald-500/20";
                 icon = <CheckCircle2 className="size-5 text-emerald-500" />;
               } else if (isSelected) {
-                btnClass = "bg-red-500/10 border-red-500 text-red-700 dark:text-red-300 opacity-70";
+                btnClass = "bg-red-500/20 border-red-500 text-red-400 font-extrabold opacity-80";
                 icon = <XCircle className="size-5 text-red-500" />;
               } else {
-                btnClass = "bg-white/30 dark:bg-black/10 border-transparent opacity-50";
+                btnClass = "bg-card/30 border-transparent opacity-40 text-muted-foreground";
               }
             } else if (isSelected) {
-              btnClass = "bg-primary/10 border-primary text-primary";
+              btnClass = "bg-primary/20 border-primary text-primary font-extrabold";
             }
 
             return (
@@ -188,16 +188,16 @@ export function NutritionalTrivia() {
         {/* Explanation and Next Button */}
         {showResult && (
           <div className="mt-6 space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-500">
-            <div className={`p-4 rounded-2xl border text-sm font-medium leading-relaxed flex items-start gap-3 shadow-inner ${
+            <div className={`p-4 rounded-2xl border text-sm font-semibold leading-relaxed flex items-start gap-3 shadow-sm ${
               selectedOption === question.correctAnswer 
-                ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-800 dark:text-emerald-200" 
-                : "bg-primary/10 border-primary/30 text-foreground"
+                ? "bg-emerald-500/20 border-emerald-500/40 text-foreground" 
+                : "bg-blue-500/20 border-blue-500/40 text-foreground"
             }`}>
               <div className="shrink-0 mt-0.5">
                 {selectedOption === question.correctAnswer ? (
-                  <Sparkles className="size-5" />
+                  <Sparkles className="size-5 text-emerald-600 dark:text-emerald-300" />
                 ) : (
-                  <HeartPulse className="size-5" />
+                  <HeartPulse className="size-5 text-blue-600 dark:text-blue-300" />
                 )}
               </div>
               <p>{question.explanation}</p>
@@ -205,7 +205,7 @@ export function NutritionalTrivia() {
             
             <button
               onClick={nextQuestion}
-              className="w-full bg-foreground text-background hover:bg-foreground/90 py-4 rounded-2xl font-bold transition-all shadow-md active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full btn-gradient text-white py-4 rounded-2xl font-black transition-all shadow-lg shadow-primary/20 active:scale-95 flex items-center justify-center gap-2 cursor-pointer text-sm"
             >
               {currentQuestionIdx < TRIVIA_QUESTIONS.length - 1 ? "Siguiente Pregunta" : "Ver Resultados"}
               <ChevronRight className="size-5" />

@@ -9,6 +9,7 @@ datasource db {
 }
 
 
+/// @classification: PII
 model User {
   id           String   @id @default(uuid())
   username     String   @unique
@@ -26,6 +27,7 @@ model User {
   auditLogs    AuditLog[]
 }
 
+/// @classification: PII
 model Caregiver {
   id        String   @id @default(uuid())
   userId    String   @unique
@@ -37,6 +39,7 @@ model Caregiver {
   children  Child[]
 }
 
+/// @classification: PII
 model HealthProfessional {
   id              String   @id @default(uuid())
   userId          String   @unique
@@ -47,6 +50,7 @@ model HealthProfessional {
   children        Child[]
 }
 
+/// @classification: PII
 model CommunityAgent {
   id        String   @id @default(uuid())
   userId    String   @unique
@@ -58,6 +62,7 @@ model CommunityAgent {
   visits    Visit[]
 }
 
+/// @classification: PII
 model Child {
   id            String   @id @default(uuid())
   name          String
@@ -82,6 +87,7 @@ model Child {
   visits       Visit[]
 }
 
+/// @classification: CLINICAL
 model Measurement {
   id             String   @id @default(uuid())
   childId        String
@@ -93,10 +99,12 @@ model Measurement {
   zscore         Float
   registeredBy   String   // userId o rol
   alertTriggered String?  // normal, follow-up, urgent
+  digitalSignature String?
 
   createdAt      DateTime @default(now())
 }
 
+/// @classification: CLINICAL
 model Alert {
   id        String   @id @default(uuid())
   childId   String
@@ -108,6 +116,7 @@ model Alert {
   createdAt DateTime @default(now())
 }
 
+/// @classification: CLINICAL
 model Visit {
   id        String   @id @default(uuid())
   childId   String
@@ -120,6 +129,7 @@ model Visit {
   createdAt DateTime @default(now())
 }
 
+/// @classification: SYSTEM
 model AuditLog {
   id        String   @id @default(uuid())
   userId    String?
@@ -127,5 +137,6 @@ model AuditLog {
   action    String
   details   String?
   timestamp DateTime @default(now())
+  digitalSignature String?
 }
 

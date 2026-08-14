@@ -194,7 +194,7 @@ export default function LoginPage() {
                   className="bg-card hover:bg-primary/10 border border-border p-2 rounded-xl text-left transition-colors group"
                 >
                   <p className="text-[10px] text-muted-foreground font-bold uppercase mb-0.5">
-                    Madre
+                    Apoderado
                   </p>
                   <p className="text-xs font-black text-foreground group-hover:text-primary">
                     maria
@@ -205,23 +205,13 @@ export default function LoginPage() {
                   className="bg-card hover:bg-primary/10 border border-border p-2 rounded-xl text-left transition-colors group"
                 >
                   <p className="text-[10px] text-muted-foreground font-bold uppercase mb-0.5">
-                    Enfermero
+                    Personal de Salud
                   </p>
                   <p className="text-xs font-black text-foreground group-hover:text-primary">
                     carlos
                   </p>
                 </button>
-                <button
-                  onClick={() => autoFill("luisa", "luisa123")}
-                  className="bg-card hover:bg-primary/10 border border-border p-2 rounded-xl text-left transition-colors group"
-                >
-                  <p className="text-[10px] text-muted-foreground font-bold uppercase mb-0.5">
-                    Promotora
-                  </p>
-                  <p className="text-xs font-black text-foreground group-hover:text-primary">
-                    luisa
-                  </p>
-                </button>
+
                 <button
                   onClick={() => autoFill("admin", "admin123")}
                   className="bg-card hover:bg-primary/10 border border-border p-2 rounded-xl text-left transition-colors group"

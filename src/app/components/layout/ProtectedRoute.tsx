@@ -34,7 +34,6 @@ export function ProtectedRoute({
     const roleRoutes: Record<UserRole, string> = {
       CAREGIVER: "/familia",
       PROFESSIONAL: "/dashboard",
-      COMMUNITY_AGENT: "/actor",
       ADMIN: "/admin",
     };
     return <Navigate to={roleRoutes[user.role] ?? "/"} replace />;

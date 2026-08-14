@@ -15,28 +15,29 @@ export const ALERT_CFG: Record<
 > = {
   normal: {
     label: "Seguimiento normal",
-    textClass: "text-emerald-700 dark:text-emerald-400",
-    bgClass: "bg-emerald-50 dark:bg-emerald-950/30",
-    borderClass: "border-emerald-200 dark:border-emerald-800",
+    textClass: "text-emerald-500 font-bold",
+    bgClass: "bg-card border-emerald-500/40",
+    borderClass: "border-emerald-500/40",
     badgeClass:
-      "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300",
+      "bg-emerald-500/15 text-emerald-400 font-bold border border-emerald-500/30",
     dotClass: "bg-emerald-500",
   },
   "follow-up": {
     label: "Requiere seguimiento",
-    textClass: "text-amber-700 dark:text-amber-400",
-    bgClass: "bg-amber-50 dark:bg-amber-950/30",
-    borderClass: "border-amber-200 dark:border-amber-800",
+    textClass: "text-amber-500 font-bold",
+    bgClass: "bg-card border-amber-500/40",
+    borderClass: "border-amber-500/40",
     badgeClass:
-      "bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300",
+      "bg-amber-500/15 text-amber-400 font-bold border border-amber-500/30",
     dotClass: "bg-amber-400",
   },
   urgent: {
     label: "Evaluación prioritaria",
-    textClass: "text-red-700 dark:text-red-400",
-    bgClass: "bg-red-50 dark:bg-red-950/30",
-    borderClass: "border-red-200 dark:border-red-800",
-    badgeClass: "bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300",
+    textClass: "text-red-500 font-bold",
+    bgClass: "bg-card border-red-500/40",
+    borderClass: "border-red-500/40",
+    badgeClass:
+      "bg-red-500/15 text-red-400 font-bold border border-red-500/30",
     dotClass: "bg-red-500 animate-pulse",
   },
 } as const;
@@ -50,7 +51,6 @@ export const API_BASE = "http://127.0.0.1:8000";
 export const ROLE_TO_ROUTE: Record<string, string> = {
   CAREGIVER: "/familia",
   PROFESSIONAL: "/dashboard",
-  COMMUNITY_AGENT: "/actor",
   ADMIN: "/admin",
 };
 

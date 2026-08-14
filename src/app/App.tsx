@@ -4,8 +4,11 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { DataProvider } from "./contexts/DataContext";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { A11yProvider } from "./contexts/A11yContext";
 import { ProtectedRoute } from "./components/layout/ProtectedRoute";
 import { DemoSwitcher } from "./components/layout/DemoSwitcher";
+import { SignLanguagePanel } from "./components/shared/SignLanguagePanel";
+import { GlobalChatbotButton } from "./components/shared/GlobalChatbotButton";
 import { useAuth } from "./contexts/AuthContext";
 
 // Helper para reintentar importaciones dinámicas desactualizadas tras despliegues
@@ -34,7 +37,6 @@ const LoginPage = safeLazy(() => import("./pages/LoginPage"));
 const RegisterPage = safeLazy(() => import("./pages/RegisterPage"));
 const FamilyPage = safeLazy(() => import("./pages/FamilyPage"));
 const ProfessionalPage = safeLazy(() => import("./pages/ProfessionalPage"));
-const AgentPage = safeLazy(() => import("./pages/AgentPage"));
 const AdminPage = safeLazy(() => import("./pages/AdminPage"));
 const NutritionPage = safeLazy(() => import("./pages/NutritionPage"));
 const VaccinesPage = safeLazy(() => import("./pages/VaccinesPage"));
@@ -62,6 +64,8 @@ function PageLoader() {
   );
 }
 
+import { OfflineSystemNotifier } from "./components/shared/OfflineSystemNotifier";
+
 // ─── APP SHELL ────────────────────────────────────────────────────────────────
 function AppShell() {
   const { isLoggedIn, user } = useAuth();
@@ -73,7 +77,6 @@ function AppShell() {
       import("./pages/NutritionPage");
       import("./pages/VaccinesPage");
       import("./pages/ProfessionalPage");
-      import("./pages/AgentPage");
       import("./pages/AdminPage");
       import("./pages/PublicImpactPage");
     };
@@ -88,10 +91,11 @@ function AppShell() {
   }, []);
 
   return (
-
     <DataProvider isLoggedIn={isLoggedIn} user={user}>
-      {/* DemoSwitcher is only rendered when isDemoMode=true (handled internally) */}
       <DemoSwitcher />
+      <SignLanguagePanel />
+      <GlobalChatbotButton />
+      <OfflineSystemNotifier />
 
       <Suspense fallback={<PageLoader />}>
         <Routes>
@@ -123,7 +127,7 @@ function AppShell() {
             path="/nutricion"
             element={
               <ProtectedRoute
-                allowedRoles={["CAREGIVER", "PROFESSIONAL", "COMMUNITY_AGENT"]}
+                allowedRoles={["CAREGIVER", "PROFESSIONAL"]}
               >
                 <NutritionPage />
               </ProtectedRoute>
@@ -133,7 +137,7 @@ function AppShell() {
             path="/vacunas"
             element={
               <ProtectedRoute
-                allowedRoles={["CAREGIVER", "PROFESSIONAL", "COMMUNITY_AGENT"]}
+                allowedRoles={["CAREGIVER", "PROFESSIONAL"]}
               >
                 <VaccinesPage />
               </ProtectedRoute>
@@ -143,7 +147,7 @@ function AppShell() {
             path="/whatsapp-demo"
             element={
               <ProtectedRoute
-                allowedRoles={["CAREGIVER", "PROFESSIONAL", "COMMUNITY_AGENT"]}
+                allowedRoles={["CAREGIVER", "PROFESSIONAL"]}
               >
                 <WhatsAppDemoPage />
               </ProtectedRoute>
@@ -153,20 +157,13 @@ function AppShell() {
             path="/bienestar"
             element={
               <ProtectedRoute
-                allowedRoles={["CAREGIVER", "PROFESSIONAL", "COMMUNITY_AGENT"]}
+                allowedRoles={["CAREGIVER", "PROFESSIONAL"]}
               >
                 <WellnessPage />
               </ProtectedRoute>
             }
           />
-          <Route
-            path="/actor"
-            element={
-              <ProtectedRoute allowedRoles={["COMMUNITY_AGENT"]}>
-                <AgentPage />
-              </ProtectedRoute>
-            }
-          />
+
           <Route
             path="/admin"
             element={
@@ -193,11 +190,13 @@ function AppShell() {
 export default function App() {
   return (
     <ThemeProvider>
-      <LanguageProvider>
-        <AuthProvider>
-          <AppShell />
-        </AuthProvider>
-      </LanguageProvider>
+      <A11yProvider>
+        <LanguageProvider>
+          <AuthProvider>
+            <AppShell />
+          </AuthProvider>
+        </LanguageProvider>
+      </A11yProvider>
     </ThemeProvider>
   );
 }
