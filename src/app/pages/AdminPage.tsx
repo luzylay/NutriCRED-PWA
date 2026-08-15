@@ -2022,7 +2022,7 @@ export default function AdminPage() {
               </div>
               <div>
                 <span className="text-[10px] text-muted-foreground font-extrabold uppercase tracking-widest block">
-                  Yanapiri Wawa Enterprise
+                  NutriCRED Enterprise
                 </span>
                 <span className="font-extrabold text-foreground font-nunito text-base leading-tight">
                   Panel de Administración
@@ -2053,7 +2053,7 @@ export default function AdminPage() {
               <button
                 key={id}
                 onClick={() => setActiveTab(id)}
-                className={`flex items-center gap-2 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-2xl text-xs font-bold transition-all whitespace-nowrap shrink-0 sm:flex-1 justify-center cursor-pointer touch-manipulation ${
+                className={`flex items-center gap-2 px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-2xl text-xs sm:text-sm font-bold transition-all whitespace-nowrap shrink-0 sm:flex-1 justify-center cursor-pointer min-h-[44px] touch-manipulation ${
                   activeTab === id
                     ? "bg-primary text-primary-foreground shadow-md scale-[1.02]"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
