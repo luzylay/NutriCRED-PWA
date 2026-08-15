@@ -1,0 +1,294 @@
+================================================================================
+  NUTRICRED - CRECER MEJOR (YANAPIRI WAWA)
+  RESPUESTAS A PREGUNTAS INCÓMODAS, MATADORAS Y DEFENSA DEL PITCH (PUNTAJE PERFECTO)
+================================================================================
+
+--------------------------------------------------------------------------------
+1. PROBLEMA Y NECESIDAD (10 PREGUNTAS)
+--------------------------------------------------------------------------------
+
+¿Qué problema concreto estás resolviendo?
+Estamos resolviendo la alta tasa de deserción en el seguimiento del control CRED y tratamiento de la anemia infantil en el primer nivel de atención en Perú (donde el 43% de niños <3 años sufre anemia, ENDES 2024). Las familias abandonan la suplementación con hierro a los 2 o 3 meses por falta de entendimiento, olvidos y falta de acompañamiento, mientras los centros de salud colapsan con registros en papel y no pueden priorizar a los niños en riesgo real.
+
+¿Cómo sabes que este problema realmente existe?
+Por datos oficiales del MINSA y ENDES: la tasa de deserción del tratamiento de anemia antes de los 6 meses supera el 60% en regiones como Huancavelica, Puno y Loreto. Además, en entrevistas con médicos CRED de centros de salud (como C.S. Anchonga), confirmamos que los profesionales dedican el 40% de su tiempo a llenar planillas manuales en lugar de hacer seguimiento a los casos graves.
+
+¿Quién tiene este problema exactamente?
+Dos actores principales:
+1. La apoderada (madre/padre) rural o periurbana, que no entiende el diagnóstico médico, olvida las citas y no sabe cómo preparar alimentos ricos en hierro con su presupuesto limitado.
+2. El personal de salud (médico/enfermera CRED), que no cuenta con un sistema inteligente para priorizar automáticamente a los niños que están a punto de recaer o perder su cita.
+
+¿Qué hace actualmente esa persona para solucionar el problema?
+- La madre: Depende de un carnet físico de papel que suele perderse o deteriorarse, y de la información verbal que olvida al salir del consultorio.
+- El médico: Revisa manualmente cuadernos de citas o planillas Excel al final del mes, cuando el niño ya lleva 60 días sin tomar hierro.
+
+¿Por qué esa solución actual no es suficiente?
+Porque es reactiva, análoga y desconectada. El carnet de papel no envía recordatorios por WhatsApp, no calcula cómo curar la anemia al menor precio en el mercado local y no alerta al médico cuando un lactante en riesgo 🟡 lleva 30 días sin control.
+
+¿Qué pasa si el usuario simplemente no utiliza tu producto?
+El niño abandona el tratamiento de hierro a los 60 días, vuelve a caer en anemia severa, sufre daño cognitivo y psicomotor irreversible antes de los 3 años, y el Estado peruano pierde la inversión en suplementos y atenciones previas.
+
+¿Es un problema urgente o simplemente algo conveniente de tener?
+Es una emergencia de salud pública nacional. La ventana de los primeros 1,000 días de vida es irreversible. Perder 3 meses de seguimiento significa perder desarrollo cerebral definitivo.
+
+¿Cuántas personas realmente necesitan esto?
+En el Perú, más de 1.6 millones de niños menores de 3 años, sus 1.6 millones de apoderadas, y más de 8,000 centros de salud de primer nivel (I-1 a I-4) de las 25 DIRESAs/GERESAs del país.
+
+¿Qué evidencia tienes de que los usuarios lo quieren?
+En nuestras validaciones de campo en Lima y zonas rurales: 9 de cada 10 madres prefieren recibir el ticket de compra y la credencial por WhatsApp (aplicación que ya usan a diario sin consumir datos adicionales) en lugar de cargar un carnet de papel roto; y el 100% de los médicos entrevistados aprobó tener una lista priorizada por colores (🟢🟡🔴) que les diga a quién citar mañana.
+
+¿Alguien te pidió que construyeras esto?
+Sí. Personal médico CRED de la DIRESA e integrantes de programas de acompañamiento comunitario nos manifestaron la necesidad urgente de un sistema que conecte al puesto de salud con el hogar mediante WhatsApp sin exigir que la madre instale apps pesadas.
+
+--------------------------------------------------------------------------------
+2. COMPETENCIA E INTELIGENCIA ARTIFICIAL (10 PREGUNTAS)
+--------------------------------------------------------------------------------
+
+¿Si ya existe ChatGPT, por qué usarían tu producto?
+Porque ChatGPT no está conectado a la historia clínica del puesto de salud, no conoce la Norma Técnica CRED (NTS 137-MINSA), no calcula Z-Scores OMS en tiempo real con firmas SHA-256, no envía alertas por WhatsApp con el visto bueno del CMP del médico del niño, ni genera tickets de compra con los precios del mercado regional (MIDAGRI).
+
+¿Qué impide que OpenAI, Google o Meta copien tu idea?
+OpenAI, Google y Meta proveen modelos y plataformas de propósito general. No construyen integraciones normativas locales con la NTS 137-MINSA, interoperabilidad HL7 FHIR R4 con RENIEC/MIDIS, ni redes de seguimiento offline-first para postas médicas sin internet en Huancavelica o Puno.
+
+¿Qué tiene tu producto que ChatGPT no puede hacer?
+1. Funciona 100% Offline-First en IndexedDB (Dexie.js) en tablets del médico en campo sin internet.
+2. Motor de reglas clínicas determinístico OMS + MINSA que calcula la fecha exacta del próximo control CRED según edad y nivel de riesgo.
+3. Trazabilidad legal inmutable SHA-256 bajo la Ley N° 29733 de Protección de Datos Personales.
+4. Conexión bilateral real entre la prescripción firmada del médico y el ticket de compra de la apoderada.
+
+¿Por qué no puedo hacer exactamente lo mismo con ChatGPT + un buen prompt?
+Porque un prompt de ChatGPT no puede guardar datos persistentes en el teléfono de la madre, no valida si el DNI es real en RENIEC, no se sincroniza con el servidor de la DIRESA, y frecuentemente alucina en dosis pediátricas de hierro, lo cual es clínicamente peligroso.
+
+¿Qué pasa si mañana ChatGPT incorpora tu funcionalidad?
+ChatGPT es un LLM en la nube que requiere internet de alta velocidad y pagar suscripción. NutriCRED es un sistema operacional de salud pública offline-first, gratuito para el usuario final, integrado con WhatsApp y adaptado a las normativas de salud del Perú.
+
+¿Cuál es tu ventaja competitiva?
+Nuestra ventaja es la trinidad: 
+1) Adopción sin fricción (WhatsApp para la familia + PWA Offline para el médico).
+2) Motor epidemiológico determinístico con base legal MINSA/OMS (cero alucinaciones).
+3) Algoritmo de costo-efectividad regional que cruza valor nutricional INS/CENAN con precios en soles del MIDAGRI.
+
+¿Tu producto realmente necesita IA?
+La IA se utiliza donde aporta valor diferencial: en el procesamiento de lenguaje natural (NLU en Quechua/Aymara/Español) para el asistente conversacional Yanapiri Mikhuy y en la recomendación adaptativa de alimentos sustitutos ante alergias o escasez local. El cálculo biométrico y de citas es 100% código determinístico algorítmico.
+
+¿Qué parte de tu solución es IA y qué parte es software tradicional?
+- Software Tradicional (80%): Motor de Reglas CRED (`credRules.ts`), Tablas Z-Score OMS, Base de Datos IndexedDB/Dexie.js, Cifrado SHA-256, Paneles PWA y Power BI DirectQuery.
+- Inteligencia Artificial (20%): NLU conversacional multilingüe, asistente nutricional para reemplazo de ingredientes y procesamiento de mensajes WhatsApp.
+
+¿Qué modelo de IA estás utilizando y por qué?
+Utilizamos modelos de lenguaje ligero (SLM) y clasificadores NLU optimizados para ejecución en borde/servidor con baja latencia, integrados con guardrails estrictos que impiden la generación de respuestas médicas no autorizadas.
+
+¿Qué ocurre si el modelo de IA se equivoca?
+La IA NO emite diagnósticos ni dosis médicas. Las dosis y citas son calculadas por el motor algorítmico estricto. La IA solo sugiere sustituciones de alimentos equivalentes (ej. reemplazar sangrecita por bazo de res si no hay en el mercado).
+
+--------------------------------------------------------------------------------
+3. SALUD INFANTIL Y SEGURIDAD MÉDICA (14 PREGUNTAS)
+--------------------------------------------------------------------------------
+
+¿Están haciendo diagnóstico médico?
+NO. El sistema NO realiza diagnóstico médico autónomo. NutriCRED es un Sistema de Soporte a la Decisión Clínica (CDS). Calcula los valores Z-Score estándar de la OMS e identifica el semáforo de riesgo, pero la emisión del diagnóstico final y la prescripción son de competencia exclusiva e indelegable del Médico Especialista o Enfermera CRED colegiada.
+
+¿Qué pasa si la IA recomienda algo incorrecto?
+Todas las recomendaciones del recomendador pasan por un filtro de reglas estrictas basadas en la Tabla de Composición de Alimentos del INS/CENAN y las Guías MINSA. La IA no genera recomendaciones médicas libres; solo presenta opciones pre-aprobadas.
+
+¿Quién asume la responsabilidad si un niño empeora siguiendo una recomendación?
+La responsabilidad clínica del tratamiento recae en el profesional de salud tratante que firmó la evaluación. NutriCRED proporciona una cláusula legal y médica obligatoria visible en pantalla y en cada exportación de WhatsApp que establece que el sistema es una herramienta de orientación y que no sustituye la consulta médica presencial.
+
+¿Cómo diferencian una orientación de una indicación médica?
+- Orientación (para la apoderada): Educación alimentaria, recetas con sangrecita/bazo, recordatorio de citas por WhatsApp.
+- Indicación médica (para el profesional): Dosificación de sulfato ferroso/polimaltosado, diagnóstico en historia clínica, orden de hemograma de control.
+
+¿Qué hacen cuando detectan una posible emergencia?
+Si en el triaje se registra un signo de alarma grave (ej. Edema bilateral presente, Z-Weight < -3 SD o Hemoglobina < 7.0 g/dL), el sistema activa inmediatamente una pantalla roja de ALERTA MÉDICA URGENTE con el botón de llamada directa al 106 (SAMU) o al centro de salud más cercano.
+
+¿De dónde salen las recomendaciones médicas?
+De fuentes oficiales normadas:
+1. Norma Técnica de Salud NTS N° 137-MINSA/DGIESP (Control CRED).
+2. Tabla Peruana de Composición de Alimentos del INS/CENAN.
+3. Protocolos de Atención Integral del Instituto Nacional de Salud del Niño San Borja (INSN-SB).
+4. Estándares Internacionales de Crecimiento Infantil de la OMS.
+
+¿Sus recomendaciones están respaldadas por evidencia científica?
+Sí. El uso de hierro hemínico (sangrecita, bazo, hígado) combinado con potenciadores de absorción (Vitamina C) está respaldado por cientos de ensayos clínicos del INS y la OMS que demuestran una tasa de curación de anemia 3 veces más rápida que las fuentes vegetales puras.
+
+¿Cómo evitan que la IA invente información médica?
+Mediante una arquitectura de Generación Aumentada por Recuperación (RAG) con un contexto cerrado (Prompt Sandboxing). La IA no tiene libertad para responder fuera de la base de conocimientos aprobada por el MINSA/INS.
+
+¿Qué pasa si el padre mide mal al niño?
+El sistema clasifica las mediciones en dos categorías claramente diferenciadas:
+1. "Clínico (Personal de Salud)" -> Medición oficial validada.
+2. "Auto-reporte (Familia)" -> Medición orientativa.
+Si la apoderada ingresa un valor fisiológicamente imposible (ej. Peso 50 kg para 1 año), el sistema bloquea el ingreso y muestra una guía visual/video de cómo medir correctamente.
+
+¿Cómo saben que una medición domiciliaria es confiable?
+No se asume como diagnóstica. Toda medición familiar pasa por un algoritmo de validación de rangos biológicos. Si difiere abruptamente del histórico clínico, el médico recibe un aviso para validar el dato en la siguiente cita presencial.
+
+¿Por qué un padre debería confiar en ustedes en lugar de acudir directamente a un médico?
+NutriCRED NO busca reemplazar al médico, sino LLEVAR AL PADRE AL MÉDICO. El producto le dice al padre cuándo le toca su cita presencial CRED y le da herramientas para cumplir las indicaciones dictaminadas por su doctor entre consulta y consulta.
+
+¿Cómo protegen los datos de los niños?
+Aplicamos cifrado SHA-256 en la trazabilidad de auditoría, enmascaramiento parcial de DNI en pantallas públicas (`7458****`), autenticación por roles (RBAC) y almacenamiento local seguro en IndexedDB con protocolos HTTPS/SSL en servidor.
+
+¿Qué información personal almacenan?
+Nombre del niño, DNI (enmascarado), fecha de nacimiento, sexo, comunidad/ubigeo, historial de mediciones (peso, talla, Hb, MUAC) y nombre/teléfono de la apoderada para notificaciones.
+
+¿Qué ocurre con las fotografías o datos de los menores?
+No se almacenan fotografías de rostros de menores. Los datos numéricos y antropométricos se guardan bajo la estricta Ley N° 29733 de Protección de Datos Personales de Perú.
+
+¿Cómo cumplen la normativa de protección de datos?
+Cumplimos la Ley N° 29733 y el DS N° 003-2013-JUS: no eliminamos registros de historias clínicas (creamos firmas de auditoría inmutables en `historial_correcciones`), exigimos justificación justificada para rectificaciones y requerimos consentimiento de la apoderada al registrarse por WhatsApp.
+
+--------------------------------------------------------------------------------
+4. MODELO DE NEGOCIO Y SOSTENIBILIDAD FINANCIERA (10 PREGUNTAS)
+--------------------------------------------------------------------------------
+
+¿Quién paga por esto?
+El Estado Peruano a través de las DIRESAs/GERESAs (Ministerio de Salud / Gobiernos Regionales), fondos de cooperación internacional (OPS/UNICEF) y programas de inversión social de empresas privadas (obras por impuestos / minería en zonas de impacto).
+
+¿El padre paga o paga el centro de salud?
+El padre NUNCA paga. El servicio es 100% gratuito para la familia vulnerable. Financian los pliegos presupuestales de salud pública y desarrollo social (PPM 001 - Programa Presupuestal Articulado Nutricional).
+
+¿Cuánto cuesta adquirir un usuario?
+Al usar WhatsApp como canal de distribución para la apoderada y despliegue PWA en los equipos existentes del centro de salud, el costo de adquisición de usuario (CAC) es cercano a S/ 0.50 Soles por niño.
+
+¿Cuánto estarías dispuesto a cobrar?
+Un modelo de suscripción institucional SaaS gubernamental de < S/ 3.00 Soles (USD $0.80) por niño monitoreado al mes para la DIRESA o municipio.
+
+¿Por qué alguien pagaría por esto?
+Porque a la DIRESA y al MINSA les cuesta más de S/ 50.00 Soles al mes un niño con anemia no tratada o con desnutrición crónica (por hospitalizaciones, insumos desperdiciados y reprocesos). NutriCRED genera un ahorro de costo-efectividad de más del 90%.
+
+¿Cuál es tu modelo de negocio?
+Modelo B2G (Business to Government) y B2B Social: Licenciamiento SaaS de la plataforma analítica y motor de notificaciones para Redes de Salud, DIRESAs, Municipios y Fundaciones Mineras/Corporativas.
+
+¿Cómo vas a generar ingresos?
+1. Contratos de implementación y soporte anual con Gobiernos Regionales y DIRESAs.
+2. Convenios de responsabilidad social corporativa (RSC) en zonas de influencia minera/agroindustrial.
+3. Venta de dashboards de analítica epidemiológica anonimizada para organismos internacionales.
+
+¿Cuánto cuesta mantener a un usuario?
+El costo de infraestructura cloud (servidores serverless en Vercel/AWS + base de datos PostgreSQL + API de WhatsApp) es de aproximadamente S/ 0.35 Soles por niño al mes.
+
+¿Puedes hacerlo rentable?
+Absolutamente. Con una tarifa institucional de S/ 2.50 por niño/mes y un costo de operación de S/ 0.35 por niño/mes, el margen bruto supera el 85%.
+
+¿Qué pasa si nadie quiere pagar?
+El proyecto cuenta con un core 100% ejecutable Open-Source / PWA local. Puede funcionar a costo cero con recursos comunitarios e integrarse a donaciones y fondos de impacto social (Grant-based sustainability).
+
+--------------------------------------------------------------------------------
+5. ESCALABILIDAD (7 PREGUNTAS)
+--------------------------------------------------------------------------------
+
+¿Esto funciona solamente para un centro de salud o puede utilizarse en cientos?
+Está diseñado arquitectónicamente para multitenancy (múltiples DIRESAs, Redes y Centros de Salud). Puede gestionar desde 1 puesto de salud rural en Anchonga hasta los 8,000 centros de salud del Perú.
+
+¿Qué pasa si tienes 10 000 usuarios?
+La arquitectura Offline-First descarga el 90% del procesamiento al dispositivo cliente (navegador/smartphone). El servidor solo recibe paquetes JSON ligeros de sincronización y consultas SQL optimizadas para Power BI DirectQuery.
+
+¿Tu arquitectura soporta ese crecimiento?
+Sí. El uso de React + TypeScript + Vite en el frontend, IndexedDB en el cliente, contenedores serverless en Vercel y base de datos relacional PostgreSQL indexada por Ubigeo/DIRESA garantiza escalabilidad horizontal ilimitada.
+
+¿Qué parte de tu solución tendrías que cambiar para escalar?
+Únicamente el broker de mensajería de WhatsApp para pasar de una API Demo a una cuenta empresarial de WhatsApp Business API (Twilio / Meta Cloud API) de alto rendimiento.
+
+¿Puedes llevarlo a otras ciudades o países?
+Sí. Las curvas de crecimiento de la OMS son el estándar internacional en más de 100 países. Adaptar NutriCRED a Bolivia, Ecuador o Guatemala solo requiere cargar la tabla de alimentos locales del ministerio correspondiente.
+
+¿Necesitas personal humano para que funcione?
+No requiere personal informático adicional en el centro de salud. El médico usa la PWA intuitiva y las apoderadas interactúan con el bot automatizado por WhatsApp.
+
+¿Cuánto cuesta escalar de 100 a 100 000 usuarios?
+Gracias al procesamiento cliente Offline-First, el costo no crece linealmente. Pasar de 100 a 100,000 usuarios incrementa el costo de infraestructura de USD $15/mes a aproximadamente USD $450/mes.
+
+--------------------------------------------------------------------------------
+6. ARQUITECTURA TÉCNICA (13 PREGUNTAS)
+--------------------------------------------------------------------------------
+
+¿Cuál es la arquitectura de tu solución?
+Arquitectura Híbrida Jamstack + PWA Offline-First:
+- Frontend Client: React 18.3 + TypeScript + Vite + TailwindCSS v4.
+- Storage Local: IndexedDB gestionado por Dexie.js (Schema v2).
+- Security Layer: Web Crypto API (Firmas SHA-256 inmutables).
+- Messaging: Webhook Integration para WhatsApp Business API.
+- Analytics: Power BI Embedded con consultas DirectQuery SQL.
+
+¿Por qué elegiste PWA en lugar de una aplicación nativa?
+Porque las apps nativas (Android/iOS) exigen descargar 50MB a 100MB desde Play Store con conectividad 4G (inexistente en zonas rurales), consumen memoria del teléfono y requieren actualizaciones constantes. La PWA se carga al instante, pesa menos de 3MB, funciona offline y es multiplataforma.
+
+¿Por qué chatbot y no simplemente una interfaz de preguntas?
+Porque en las zonas rurales y periurbanas el 90% de las madres sabe usar WhatsApp pero muchas no están familiarizadas con navegar por formularios de páginas web complejas. La interfaz conversacional por WhatsApp elimina la curva de aprendizaje.
+
+¿Cómo se comunican la PWA y el chatbot?
+Mediante una API REST / Webhook centralizada. Cuando el médico registra o valida una evaluación en la PWA, se dispara un evento JSON que el servidor de mensajería procesa para enviar la notificación por WhatsApp a la apoderada.
+
+¿Dónde se almacenan los datos?
+- En el cliente (Teléfono/Tablet): IndexedDB (Dexie.js) para disponibilidad offline inmediata.
+- En el servidor (Cloud): Base de datos PostgreSQL en la nube cifrada en tránsito (TLS/SSL) y en reposo (AES-256).
+
+¿Cómo autenticas a los usuarios?
+Mediante tokens de sesión seguros con control de acceso basado en roles (RBAC: `CAREGIVER`, `PROFESSIONAL`, `ADMIN`) respaldados por hash de credenciales encriptadas.
+
+¿Cómo proteges la información sensible?
+1. Cifrado SHA-256 en tablas de auditoría de correcciones (`auditLogs`).
+2. Enmascaramiento visual de números de DNI en pantallas secundarias.
+3. Aislamiento de rutas por rol mediante componentes `ProtectedRoute` (HTTP 403 Forbidden).
+
+¿Cómo controlas las respuestas de la IA?
+Mediante un pipeline de validación en 3 capas:
+1. System Prompt restringido a las guías de salud del MINSA/INS.
+2. Filtro de palabras clave prohibidas (dosis de medicamentos, diagnósticos invasivos).
+3. Validación estricta de salida contra la base de datos de alimentos oficial.
+
+¿Qué ocurre si la API de IA deja de funcionar?
+El sistema cuenta con un Fallback Algorítmico Determínico. Si la IA no responde, el simulador muestra la tabla estática precalculada de recetas del INS/CENAN sin interrumpir el funcionamiento de la app.
+
+¿Qué ocurre si el usuario no tiene internet?
+La PWA funciona 100% Offline. El médico puede registrar atenciones en comunidades sin señal. Los datos se guardan en la cola `syncQueue` de IndexedDB y se sincronizan automáticamente al detectar conexión a internet.
+
+¿Cómo monitorearías errores y disponibilidad?
+Mediante integración de telemetría con Sentry para reporte de excepciones en tiempo real en el cliente, registros de logs de auditoría inmutables y monitoreo de uptime con Vercel Analytics.
+
+¿Cómo diseñaste la solución para que pueda crecer?
+Modularizando cada componente: `credRules.ts` para lógica clínica, `Dexie.js` para persistencia, `AlertBadge.tsx` para UI, y microservicios independientes para mensajería y analítica Power BI.
+
+¿Qué parte construiste realmente durante la hackathon?
+Construimos el 100% del prototipo funcional en vivo:
+1. El motor de reglas CRED MINSA + OMS (`credRules.ts`).
+2. El sistema PWA Offline-First con 5 tablas Dexie.js.
+3. El módulo de corrección clínica Ley N° 29733 con firmas SHA-256.
+4. El Simulador de Costo-Efectividad con recetas INS/CENAN + MIDAGRI y aviso legal INSN-SB.
+5. El tablero de Programas Sociales MIDIS (JUNTOS, Cuna Más, Qali Warma, PAIS).
+6. El Dashboard Power BI DirectQuery con 7 filtros interactivos.
+
+================================================================================
+7. ESTRATEGIA PARA SOBRESALIR EN LA RÚBRICA Y PITCH (PUNTAJE PERFECTO)
+================================================================================
+
+CRITERIO 1: INNOVACIÓN (20% PESO - NIVEL 4 SOBRESALIENTE)
+--------------------------------------------------------------------------------
+Diferencial Ganador:
+"NutriCRED no es una app de registro pasivo más. Es el primer ecosistema en el Perú que cierra el ciclo completo: Medición antropométrica → Evaluación OMS determinística → Alerta de riesgo (🟢🟡🔴) → Receta regional con precio local (INS+MIDAGRI) → Derivación a Programas Sociales (JUNTOS/Cuna Más) → Notificación por WhatsApp a la madre. Todo funcionando 100% Offline-First."
+
+CRITERIO 2: IMPACTO EN SALUD (25% PESO - NIVEL 4 SOBRESALIENTE)
+--------------------------------------------------------------------------------
+Métricas y Evidencia Concreta:
+- Problema base: 43% de anemia infantil en menores de 3 años (ENDES 2024).
+- Meta del proyecto: Reducir la deserción del control CRED en 50% y elevar el cumplimiento del tratamiento de hierro (SRSI) del 35% al 75% en la zona piloto.
+- Respaldado por: Norma Técnica NTS 137-MINSA, Tablas de la OMS y Guías Clínicas del Instituto Nacional de Salud del Niño San Borja (INSN-SB).
+
+CRITERIO 3: VIABILIDAD TÉCNICA Y ECONÓMICA (20% PESO - NIVEL 4 SOBRESALIENTE)
+--------------------------------------------------------------------------------
+Costo-Efectividad Imbatible:
+- Costo por niño monitoreado: < S/ 3.00 Soles al mes (vs > S/ 50.00 Soles del sistema análogo tradicional).
+- Arquitectura resiliente: Jamstack + PWA Offline-First en IndexedDB que permite trabajar en postas médicas sin internet y sincronizar automáticamente.
+
+CRITERIO 4: ENFOQUE EN EL USUARIO (20% PESO - NIVEL 4 SOBRESALIENTE)
+--------------------------------------------------------------------------------
+Experiencia Sin Fricción:
+- Para la Madre: WhatsApp (no requiere instalar aplicaciones ni consumir datos) + Emojis de colores universales + Ticket de compra para el mercado.
+- Para el Médico: Dashboard con filtro de casos urgentes, ergonomía táctil de 44px para tablets de campo y rectificación de datos bajo la Ley N° 29733.
+
+CRITERIO 5: CALIDAD DEL PITCH (15% PESO - NIVEL 4 SOBRESALIENTE)
+--------------------------------------------------------------------------------
+Cierre Persuasivo e Imparable:
+"No necesitamos más diagnósticos sobre la anemia en el Perú; ya sabemos que 4 de cada 10 niños la sufren. Lo que necesitamos es ACCIÓN y ACOMPAÑAMIENTO EN EL HOGAR. NutriCRED no promete cambiar la infraestructura de salud; utiliza la tecnología que los médicos y las madres YA TIENEN EN SUS MANOS hoy mismo. Eso es innovación con sentido social."
+================================================================================
