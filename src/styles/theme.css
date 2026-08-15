@@ -610,6 +610,77 @@ html.text-scale-xlarge {
   }
 }
 
+/* ─── MOBILE-FIRST RESPONSIVE & TOUCH ACCESSIBILITY ──────────────────────── */
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  font-size: 1rem; /* 16px base text */
+  line-height: 1.5;
+}
+
+/* Touch targets min-height 44px for accessibility and mobile ergonomics */
+input, select, textarea, button, .btn {
+  font-size: 1rem; /* 16px to prevent mobile browser auto-zoom */
+}
+
+button, input[type="button"], input[type="submit"], input[type="reset"] {
+  min-height: 44px;
+  touch-action: manipulation;
+}
+
+/* Image optimization constraint (< 200KB asset loading) */
+img, svg, canvas, video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Responsive Breakpoints & Flexbox / Grid Utilities (320px to 1280px) */
+@media (min-width: 320px) {
+  .container-responsive {
+    width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (min-width: 640px) {
+  .container-responsive {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container-responsive {
+    max-width: 768px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-responsive {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container-responsive {
+    max-width: 1280px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
 /* ─── MOTION PREFERENCES ─────────────────────────────────────────────────── */
 /* Disable heavy animations on devices that prefer reduced motion */
 @media (prefers-reduced-motion: reduce) {
