@@ -39,6 +39,7 @@ import {
   parseAgeInMonths,
 } from "../lib/credRules";
 import { PowerBIDashboard } from "../components/professional/PowerBIDashboard";
+import { SocialProgramsPanel } from "../components/admin/SocialProgramsPanel";
 import { fetchMeasurements } from "../lib/api";
 import { getWHORef } from "../lib/who-refs";
 import { ALERT_CFG } from "../lib/constants";
@@ -300,6 +301,17 @@ export default function ProfessionalPage() {
             >
               <FileText className="size-4 shrink-0" />
               Justificación de Insumos (MINSA / DIRIS)
+            </button>
+            <button
+              onClick={() => setActiveTab("programs")}
+              className={`px-4 sm:px-5 py-2.5 sm:py-3 font-black text-xs sm:text-sm rounded-xl transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap shrink-0 min-h-[44px] ${
+                activeTab === "programs"
+                  ? "bg-primary text-primary-foreground shadow-md"
+                  : "bg-transparent text-muted-foreground hover:bg-muted hover:text-foreground"
+              }`}
+            >
+              <Shield className="size-4 text-indigo-500 shrink-0" />
+              Programas Sociales (JUNTOS, Qali Warma, Cuna Más, PAIS)
             </button>
             <button
               onClick={() => setActiveTab("powerbi")}
@@ -1212,6 +1224,12 @@ export default function ProfessionalPage() {
                   </div>
                 </div>
               </div>
+            </div>
+          )}
+
+          {activeTab === "programs" && (
+            <div className="relative z-10 pt-2">
+              <SocialProgramsPanel />
             </div>
           )}
 
