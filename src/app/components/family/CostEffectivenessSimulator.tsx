@@ -312,6 +312,24 @@ export function CostEffectivenessSimulator({ onRequestAssistant }: CostEffective
       <div className={`bg-card border-2 border-dashed rounded-3xl p-5 space-y-4 shadow-sm relative overflow-hidden transition-colors duration-500 ${
         strategy === "A" ? "border-emerald-500/40" : strategy === "B" ? "border-primary/40" : "border-amber-500/40"
       }`}>
+        {/* Explicación ultra-clara de la diferencia entre compra semanal y ración diaria */}
+        <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-2xl p-3 text-xs space-y-1">
+          <p className="font-black text-emerald-800 dark:text-emerald-300 flex items-center gap-1.5">
+            <ShoppingBag className="size-4 text-emerald-600 shrink-0" />
+            ¿Cómo se usa este Ticket? (COMPRA SEMANAL vs COMIDA DIARIA)
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] text-muted-foreground pt-1">
+            <div className="bg-card/70 p-2 rounded-xl border border-emerald-500/20">
+              <strong className="text-foreground block">🛒 1. COMPRA EN EL MERCADO (SEMANAL):</strong>
+              Con este ticket compras los ingredientes 1 vez por semana con tu presupuesto disponible (S/ {totalActiveCost.toFixed(2)} Soles).
+            </div>
+            <div className="bg-card/70 p-2 rounded-xl border border-emerald-500/20">
+              <strong className="text-foreground block">🍲 2. COMIDA EN EL HOGAR (TODOS LOS DÍAS):</strong>
+              Preparas y sirves <strong>2 a 3 cucharadas diarias de sangrecita o bazo</strong> en el almuerzo de tu niño.
+            </div>
+          </div>
+        </div>
+
         <div className="flex items-center justify-between border-b border-border pb-3">
           <div className="flex items-center gap-2">
             <ShoppingBag className={`size-5 ${
@@ -319,17 +337,17 @@ export function CostEffectivenessSimulator({ onRequestAssistant }: CostEffective
             }`} />
             <div>
               <h4 className="font-extrabold text-foreground text-sm font-nunito">
-                Ticket Semanal ({region}) - Opción {strategy}
+                Ticket de Compra Semanal ({region}) - Opción {strategy}
               </h4>
               <p className="text-[10px] text-muted-foreground font-semibold">
-                Superalimentos clave para combatir la anemia a $0 desperdicio
+                Lista de ingredientes para comprar en la feria o mercado 1 vez a la semana
               </p>
             </div>
           </div>
           <span className={`text-xs font-mono font-black px-2.5 py-1 rounded-full ${
             strategy === "A" ? "text-emerald-600 bg-emerald-500/10" : strategy === "B" ? "text-primary bg-primary/10" : "text-amber-600 bg-amber-500/10"
           }`}>
-            Total: S/ {totalActiveCost.toFixed(2)}
+            Total Semanal: S/ {totalActiveCost.toFixed(2)}
           </span>
         </div>
 
