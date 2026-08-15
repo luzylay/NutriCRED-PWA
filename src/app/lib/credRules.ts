@@ -156,3 +156,21 @@ export function calculateCheckupSchedule(
     frequencyLabel,
   };
 }
+
+/**
+ * Convierte un texto de edad (ej. "2 años", "8 meses", "15 días") a meses numéricos.
+ */
+export function parseAgeInMonths(ageStr: string): number {
+  if (!ageStr) return 12;
+  const str = ageStr.toLowerCase().trim();
+  const match = str.match(/\d+(\.\d+)?/);
+  const num = match ? parseFloat(match[0]) : 1;
+
+  if (str.includes("año") || str.includes("year")) {
+    return num * 12;
+  }
+  if (str.includes("día") || str.includes("day")) {
+    return num / 30;
+  }
+  return num; // por defecto meses
+}

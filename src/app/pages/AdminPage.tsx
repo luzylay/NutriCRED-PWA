@@ -53,6 +53,7 @@ import {
   Zap,
   BarChart3,
 } from "lucide-react";
+import { DEFAULT_CHECK_FREQUENCIES } from "../lib/credRules";
 import {
   PieChart,
   Pie,
@@ -1388,6 +1389,63 @@ const RulesPanel = memo(function RulesPanel() {
             </div>
           );
         })}
+      </div>
+
+      {/* Tabla Configurable por el Administrador: check_frequencies */}
+      <div className="bg-card border border-border rounded-3xl p-5 shadow-sm space-y-4 mt-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border pb-3">
+          <div>
+            <h4 className="font-extrabold text-foreground font-nunito text-base flex items-center gap-2">
+              <SlidersHorizontal className="size-4 text-primary" />
+              Matriz de Frecuencias de Controles (`check_frequencies`)
+            </h4>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              Configuración de plazos máximos por Edad (CRED MINSA) y Ajuste por Riesgo (OMS)
+            </p>
+          </div>
+          <span className="text-xs bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full font-bold self-start sm:self-auto">
+            Configuración de Sistema Activa
+          </span>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-xs">
+            <thead>
+              <tr className="border-b border-border bg-muted/40 text-muted-foreground font-black uppercase text-[10px] tracking-wider">
+                <th className="p-3">Grupo de Edad (CRED MINSA)</th>
+                <th className="p-3">Frecuencia Estándar</th>
+                <th className="p-3">Plazo Estándar (Días)</th>
+                <th className="p-3">Ajuste Riesgo 🟡 (Días)</th>
+                <th className="p-3">Ajuste Urgente 🔴 (Días)</th>
+                <th className="p-3 text-right">Estado</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border font-medium">
+              {DEFAULT_CHECK_FREQUENCIES.map((freq) => (
+                <tr key={freq.id} className="hover:bg-muted/20 transition-all">
+                  <td className="p-3 font-bold text-foreground">{freq.ageLabel}</td>
+                  <td className="p-3">
+                    <span className="bg-primary/10 text-primary font-bold px-2.5 py-0.5 rounded-full">
+                      {freq.credStandardLabel}
+                    </span>
+                  </td>
+                  <td className="p-3 font-mono font-bold">{freq.credStandardDays} días</td>
+                  <td className="p-3 font-mono font-bold text-amber-600 dark:text-amber-400">
+                    {freq.riskFollowUpDays} días
+                  </td>
+                  <td className="p-3 font-mono font-bold text-rose-600 dark:text-rose-400">
+                    {freq.riskUrgentDays === 1 ? "24 horas (Inmediato)" : `${freq.riskUrgentDays} días`}
+                  </td>
+                  <td className="p-3 text-right">
+                    <span className="text-[10px] bg-emerald-500/10 text-emerald-600 px-2 py-0.5 rounded-full font-bold">
+                      Activa
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

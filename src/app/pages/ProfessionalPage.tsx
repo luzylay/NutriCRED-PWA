@@ -33,6 +33,11 @@ import { SettingsModal } from "../components/shared/SettingsModal";
 import { HeaderActions } from "../components/shared/HeaderActions";
 import { NutritionalTwinSimulator } from "../components/simulators/NutritionalTwinSimulator";
 import { CorrectionModal } from "../components/professional/CorrectionModal";
+import {
+  calculateCheckupSchedule,
+  getRecommendedCheckupIntervalDays,
+  parseAgeInMonths,
+} from "../lib/credRules";
 import { PowerBIDashboard } from "../components/professional/PowerBIDashboard";
 import { fetchMeasurements } from "../lib/api";
 import { getWHORef } from "../lib/who-refs";
@@ -145,6 +150,14 @@ export default function ProfessionalPage() {
   const selectedChildMUAC = selectedChild ? measurements.filter((m) => String(m.child_id) === String(selectedChild.id) && m.type === "muac").slice(-1)[0] : null;
   const selectedChildHb = selectedChild ? measurements.filter((m) => String(m.child_id) === String(selectedChild.id) && m.type === "hemoglobin").slice(-1)[0] : null;
   const selectedChildEdema = selectedChild ? measurements.filter((m) => String(m.child_id) === String(selectedChild.id) && m.type === "edema").slice(-1)[0] : null;
+
+  const selectedChildSchedule = selectedChild
+    ? calculateCheckupSchedule(
+        selectedChildWeight?.measurement_date || new Date().toISOString(),
+        parseAgeInMonths(selectedChild.age),
+        selectedChild.status
+      )
+    : null;
 
   const { t, languageInfo } = useTranslation();
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -513,7 +526,7 @@ export default function ProfessionalPage() {
                   </div>
 
                   {/* Ficha Clínico-Nutricional de Detalle */}
-                  <div className="px-4 sm:px-5 py-3 bg-muted/30 border-b border-border grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                  <div className="px-4 sm:px-5 py-3 bg-muted/30 border-b border-border grid grid-cols-2 sm:grid-cols-5 gap-2 text-xs">
                     <div className="bg-card p-3 rounded-2xl border border-border shadow-xs">
                       <span className="text-[9px] font-black text-muted-foreground uppercase tracking-wider block">Estado Z-Score</span>
                       <span className={`font-black text-sm block mt-0.5 ${selectedChild.status === "urgent" ? "text-rose-600 animate-pulse" : selectedChild.status === "follow-up" ? "text-amber-600" : "text-emerald-600"}`}>
@@ -549,6 +562,26 @@ export default function ProfessionalPage() {
                       </span>
                       <span className="text-[8px] font-bold text-muted-foreground block truncate">
                         {selectedChildEdema && selectedChildEdema.value === 1 ? "Kwashiorkor Riesgo" : "Sin signos"}
+                      </span>
+                    </div>
+
+                    <div className={`p-3 rounded-2xl border col-span-2 sm:col-span-1 shadow-xs ${
+                      selectedChildSchedule?.isOverdue
+                        ? "bg-rose-500/10 border-rose-500/40 text-rose-700 dark:text-rose-300"
+                        : selectedChildSchedule?.isPreventiveAlert
+                        ? "bg-amber-500/10 border-amber-500/40 text-amber-700 dark:text-amber-300"
+                        : "bg-card border-border text-foreground"
+                    }`}>
+                      <span className="text-[9px] font-black uppercase tracking-wider block opacity-80">Próximo CRED (MINSA/OMS)</span>
+                      <span className="font-black text-xs block mt-0.5 font-mono">
+                        {selectedChildSchedule ? selectedChildSchedule.nextRecommendedDate.toLocaleDateString("es-PE") : "—"}
+                      </span>
+                      <span className="text-[8px] font-bold block truncate mt-0.5">
+                        {selectedChildSchedule?.isOverdue
+                          ? "🔴 ¡Vencido! Atender hoy"
+                          : selectedChildSchedule?.isPreventiveAlert
+                          ? `🟡 En ${selectedChildSchedule.daysRemaining}d (${selectedChildSchedule.frequencyLabel})`
+                          : `🟢 Frecuencia ${selectedChildSchedule?.frequencyLabel}`}
                       </span>
                     </div>
                   </div>
