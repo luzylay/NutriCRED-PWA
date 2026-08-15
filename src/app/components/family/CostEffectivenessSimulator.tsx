@@ -60,20 +60,79 @@ export function CostEffectivenessSimulator({ onRequestAssistant }: CostEffective
   const daysVegetal = Math.max(35, Math.round(50 - (weeklyBudget / 30) * 15));
 
   const handleShareWhatsApp = () => {
-    const stratName = strategy === "A" ? "Opción 100% Animal" : strategy === "C" ? "Opción Solo Vegetal" : "Opción Mixta (Recomendada)";
+    const stratName = strategy === "A" ? "Opción 100% Animal" : strategy === "C" ? "Opción Solo Vegetal" : "Opción Mixta (Recomendada por tu Médico)";
     const text = `🛒 *TICKET DE COMPRA ANTI-ANEMIA (${region.toUpperCase()})* 🛒\n` +
-      `Estrategia: ${stratName}\n\n` +
+      `Prescripción: Aprobada por Dr. Carlos Mendoza (C.S. Anchonga)\n` +
+      `Estrategia Seleccionada: ${stratName}\n\n` +
       activeBasket.map((i) => `• ${i.name} — S/ ${i.price.toFixed(2)} (${i.bio})`).join("\n") +
-      `\n\n💰 *Total Semanal:* S/ ${totalActiveCost.toFixed(2)} Soles\n` +
-      `⚡ *Tiempo estimado de recuperación:* ${strategy === 'A' ? daysAnimal : strategy === 'B' ? daysMixed : daysVegetal} Días\n` +
-      `Fuentes: MINSA / INS. Garantizado por Yanapiriwawa.`;
+      `\n\n💰 *Total Semanal estimativo:* S/ ${totalActiveCost.toFixed(2)} Soles\n` +
+      `⚡ *Tiempo estimado de curación:* ${strategy === 'A' ? daysAnimal : strategy === 'B' ? daysMixed : daysVegetal} Días\n` +
+      `Fuentes: INS / CENAN / MIDAGRI. Aprobado en NutriCRED.`;
 
     window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, "_blank");
   };
 
   return (
-    <div className="bg-card/80 backdrop-blur-xl border border-white/20 rounded-[2.5rem] p-6 shadow-sm space-y-6 animate-in fade-in duration-500">
+    <div className="bg-card/80 backdrop-blur-xl border border-white/20 rounded-[2.5rem] p-5 sm:p-6 shadow-sm space-y-6 animate-in fade-in duration-500">
       
+      {/* Conectividad con el Médico: Banner de Plan Prescrito por el Doctor */}
+      <div className="bg-gradient-to-r from-emerald-500/15 via-primary/10 to-teal-500/15 border-2 border-emerald-500/40 rounded-3xl p-4 sm:p-5 shadow-xs relative overflow-hidden">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <div className="flex items-start gap-3">
+            <div className="size-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-black shrink-0 shadow-md">
+              <CheckCircle className="size-6" />
+            </div>
+            <div>
+              <span className="text-[10px] font-black uppercase tracking-wider text-emerald-700 dark:text-emerald-300 bg-emerald-500/20 px-2.5 py-0.5 rounded-full inline-block border border-emerald-500/30">
+                Plan Prescrito por tu Médico
+              </span>
+              <h4 className="font-extrabold text-foreground text-sm sm:text-base font-nunito leading-tight mt-1">
+                Opción B Mixta (Sangrecita + Menestras)
+              </h4>
+              <p className="text-xs text-muted-foreground font-medium mt-0.5">
+                Prescrito por: <strong className="text-foreground">Dr. Carlos Mendoza (CMP 58492)</strong> · C.S. Anchonga
+              </p>
+            </div>
+          </div>
+
+          <button
+            onClick={() => {
+              setStrategy("B");
+              setRegion("Sierra");
+              setWeeklyBudget(15);
+            }}
+            className="w-full sm:w-auto px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black rounded-xl transition-all shadow-sm cursor-pointer flex items-center justify-center gap-1.5 min-h-[44px] touch-manipulation active:scale-[0.98] shrink-0"
+          >
+            <Sparkles className="size-4" />
+            <span>Cargar Plan de tu Médico</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Guía Explicativa para la Familia en 3 Pasos */}
+      <div className="bg-muted/40 border border-border rounded-2xl p-4 space-y-3">
+        <h4 className="text-xs font-black uppercase tracking-wider text-foreground flex items-center gap-1.5">
+          <Info className="size-4 text-primary" /> ¿Cómo usar este simulador en 3 pasos sencillos?
+        </h4>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5 text-xs">
+          <div className="bg-card p-3 rounded-xl border border-border">
+            <span className="font-mono font-black text-primary text-xs block">PASO 1</span>
+            <p className="font-bold text-foreground mt-0.5">Elige tu Región y Presupuesto</p>
+            <p className="text-[11px] text-muted-foreground mt-0.5">Selecciona si estás en Sierra, Costa o Selva y el dinero semanal disponible (S/ 15, 25 o 40).</p>
+          </div>
+          <div className="bg-card p-3 rounded-xl border border-border">
+            <span className="font-mono font-black text-emerald-600 text-xs block">PASO 2</span>
+            <p className="font-bold text-foreground mt-0.5">Compara la Rapidez de Curación</p>
+            <p className="text-[11px] text-muted-foreground mt-0.5">La Sangrecita cura en pocos días; las menestras solas toman más tiempo.</p>
+          </div>
+          <div className="bg-card p-3 rounded-xl border border-border">
+            <span className="font-mono font-black text-amber-600 text-xs block">PASO 3</span>
+            <p className="font-bold text-foreground mt-0.5">Lleva tu Ticket al Mercado</p>
+            <p className="text-[11px] text-muted-foreground mt-0.5">Descarga tu lista exacta de compras anti-anemia o envíala por WhatsApp.</p>
+          </div>
+        </div>
+      </div>
+
       {/* Title Header */}
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div className="flex items-center gap-3">
@@ -86,24 +145,24 @@ export function CostEffectivenessSimulator({ onRequestAssistant }: CostEffective
               <Sparkles className="size-4 text-emerald-500" />
             </h3>
             <p className="text-xs font-semibold text-muted-foreground">
-              Maximiza la recuperación de Hemoglobina al menor costo semanal (S/ Soles)
+              Calcula cómo curar la anemia al menor precio semanal con alimentos de tu zona
             </p>
           </div>
         </div>
 
         {/* Region Selector Pills */}
-        <div className="flex items-center gap-1 bg-muted/60 p-1 rounded-2xl border border-border">
+        <div className="flex items-center gap-1 bg-muted/60 p-1 rounded-2xl border border-border w-full sm:w-auto">
           {(["Sierra", "Costa", "Selva"] as const).map((r) => (
             <button
               key={r}
               onClick={() => setRegion(r)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1 ${
+              className={`flex-1 sm:flex-initial px-3.5 py-2 rounded-xl text-xs font-extrabold transition-all cursor-pointer flex items-center justify-center gap-1 min-h-[44px] touch-manipulation ${
                 region === r
-                  ? "bg-card text-foreground shadow-sm font-black"
+                  ? "bg-card text-foreground shadow-sm font-black ring-1 ring-border"
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >
-              <MapPin className="size-3 text-emerald-500" />
+              <MapPin className="size-3.5 text-emerald-500" />
               <span>{r}</span>
             </button>
           ))}
