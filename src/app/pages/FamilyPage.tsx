@@ -48,6 +48,7 @@ import { SettingsModal } from "../components/shared/SettingsModal";
 import { HeaderActions } from "../components/shared/HeaderActions";
 import { QRScannerModal } from "../components/shared/QRScannerModal";
 import { ParentEngagementHub } from "../components/family/ParentEngagementHub";
+import { SecurityAuditModal } from "../components/shared/SecurityAuditModal";
 import confetti from "canvas-confetti";
 import { ALERT_CFG } from "../lib/constants";
 import { getWHORef } from "../lib/who-refs";
@@ -91,6 +92,7 @@ export default function FamilyPage() {
   const [isDailyTrackingOpen, setIsDailyTrackingOpen] = useState(false);
   const [isAlarmSignsOpen, setIsAlarmSignsOpen] = useState(false);
   const [assistantContext, setAssistantContext] = useState<string | null>(null);
+  const [isSecurityAuditOpen, setIsSecurityAuditOpen] = useState(false);
 
 
   // The family-view child is always the caregiver's assigned child
@@ -239,6 +241,11 @@ export default function FamilyPage() {
         onClose={() => setIsSettingsOpen(false)}
       />
 
+      <SecurityAuditModal
+        isOpen={isSecurityAuditOpen}
+        onClose={() => setIsSecurityAuditOpen(false)}
+      />
+
       <PlateScannerModal
         isOpen={isPlateScannerOpen}
         onClose={() => setIsPlateScannerOpen(false)}
@@ -340,6 +347,14 @@ export default function FamilyPage() {
               >
 
                 <QrCode className="size-4" />
+              </button>
+
+              <button
+                onClick={() => setIsSecurityAuditOpen(true)}
+                className="size-9 rounded-xl bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 hover:bg-emerald-500/20 flex items-center justify-center transition-all cursor-pointer"
+                title="Consola de Auditoría y Seguridad Executive (Ley N° 29733)"
+              >
+                <ShieldCheck className="size-4" />
               </button>
 
               <HeaderActions
