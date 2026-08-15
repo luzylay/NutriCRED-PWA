@@ -473,22 +473,22 @@ export default function FamilyPage() {
                           const todayRecord = dailyTracking.find(r => r.child_id === (child ? parseInt(child.id) : -1) && new Date(r.date).toDateString() === today && !r.has_alarms);
                           const isCompleted = !!todayRecord;
                           return (
-                            <div className={`border p-5 rounded-[2rem] shadow-sm flex items-center justify-between transition-all duration-500 ${
+                            <div className={`border p-4 sm:p-5 rounded-[2rem] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 transition-all duration-500 ${
                               isCompleted 
                                 ? "bg-gradient-to-r from-emerald-500/10 to-emerald-400/5 border-emerald-500/30" 
                                 : "bg-gradient-to-r from-primary/10 to-accent/10 border-primary/20"
                             }`}>
-                              <div className="flex items-center gap-4">
-                                <div className={`p-3 rounded-2xl shadow-inner text-white ${
+                              <div className="flex items-center gap-3 sm:gap-4">
+                                <div className={`p-3 rounded-2xl shadow-inner text-white shrink-0 ${
                                   isCompleted ? "bg-emerald-500" : "bg-primary"
                                 }`}>
                                   {isCompleted ? <CheckCircle2 className="size-6" /> : <Calendar className="size-6" />}
                                 </div>
                                 <div>
-                                  <h3 className="font-black text-foreground text-lg tracking-tight">
+                                  <h3 className="font-black text-foreground text-base sm:text-lg tracking-tight">
                                     {isCompleted ? "✅ Suplemento Registrado" : "Control de Suplemento"}
                                   </h3>
-                                  <p className="text-sm font-medium text-muted-foreground mt-0.5">
+                                  <p className="text-xs sm:text-sm font-medium text-muted-foreground mt-0.5">
                                     {isCompleted 
                                       ? `Suplemento: ${todayRecord.supplement_taken ? todayRecord.supplement_type : "No tomó"}`
                                       : "Registrar si tu niño tomó su suplemento hoy"
@@ -498,7 +498,7 @@ export default function FamilyPage() {
                               </div>
                               <button
                                 onClick={() => setIsDailyTrackingOpen(true)}
-                                className={`font-bold py-2.5 px-5 rounded-xl text-sm shadow-md transition-transform hover:scale-105 active:scale-95 whitespace-nowrap ${
+                                className={`font-bold py-3 px-5 rounded-xl text-sm min-h-[44px] shadow-md transition-transform hover:scale-105 active:scale-95 w-full sm:w-auto text-center flex items-center justify-center shrink-0 ${
                                   isCompleted
                                     ? "bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-600/20"
                                     : "btn-gradient text-white"
@@ -511,15 +511,15 @@ export default function FamilyPage() {
                         })()}
 
                       {/* CREDENCIAL VIRTUAL DEL APODERADO */}
-                      <div className="rounded-[2.5rem] border-2 border-primary/30 p-6 space-y-5 shadow-xl relative overflow-hidden bg-card/95 backdrop-blur-xl">
+                      <div className="rounded-[2rem] sm:rounded-[2.5rem] border-2 border-primary/30 p-4 sm:p-6 space-y-4 sm:space-y-5 shadow-xl relative overflow-hidden bg-card/95 backdrop-blur-xl">
                         
                         {/* Header Banner */}
-                        <div className="flex items-center justify-between pb-3 border-b border-border">
-                          <div className="flex items-center gap-2">
+                        <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-border">
+                          <div className="flex items-center gap-2 flex-wrap">
                             <span className="bg-primary text-primary-foreground text-[10px] font-black uppercase px-2.5 py-1 rounded-full tracking-wider">
                               Credencial Virtual de Salud
                             </span>
-                            <span className="text-[10px] text-muted-foreground font-bold">
+                            <span className="text-[10px] text-muted-foreground font-bold bg-muted px-2 py-0.5 rounded">
                               Solo Lectura
                             </span>
                           </div>
@@ -529,13 +529,13 @@ export default function FamilyPage() {
                         </div>
 
                         {/* Child Summary */}
-                        <div className="flex items-center justify-between gap-3">
-                          <div className="flex items-center gap-3.5">
-                            <div className="size-14 bg-primary/10 text-primary rounded-2xl flex items-center justify-center font-black text-2xl shadow-sm border border-primary/20">
+                        <div className="flex flex-wrap items-center justify-between gap-3">
+                          <div className="flex items-center gap-3">
+                            <div className="size-12 sm:size-14 bg-primary/10 text-primary rounded-2xl flex items-center justify-center font-black text-xl sm:text-2xl shadow-sm border border-primary/20 shrink-0">
                               {child.name?.charAt(0) ?? "?"}
                             </div>
                             <div>
-                              <h3 className="font-black text-foreground text-xl font-nunito leading-tight">
+                              <h3 className="font-black text-foreground text-lg sm:text-xl font-nunito leading-tight">
                                 {child.name}
                               </h3>
                               <p className="text-xs text-muted-foreground font-bold mt-0.5">
@@ -547,9 +547,9 @@ export default function FamilyPage() {
                         </div>
 
                         {/* Campaña Activa & Vigencia */}
-                        <div className="bg-blue-500/10 border border-blue-500/20 rounded-2xl p-4 flex items-center justify-between gap-3">
+                        <div className="bg-blue-500/10 border border-blue-500/20 rounded-2xl p-3.5 sm:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                           <div className="flex items-center gap-2.5">
-                            <div className="p-2 bg-blue-600 text-white rounded-xl shadow-xs">
+                            <div className="p-2 bg-blue-600 text-white rounded-xl shadow-xs shrink-0">
                               <Apple className="size-4" />
                             </div>
                             <div>
@@ -559,7 +559,7 @@ export default function FamilyPage() {
                               </p>
                             </div>
                           </div>
-                          <span className="text-[10px] font-bold text-muted-foreground bg-card px-2.5 py-1 rounded-lg border border-border">
+                          <span className="text-[10px] font-bold text-muted-foreground bg-card px-2.5 py-1 rounded-lg border border-border w-fit">
                             Vigente hasta: {child.campaignExpiry || "31/12/2026"}
                           </span>
                         </div>
