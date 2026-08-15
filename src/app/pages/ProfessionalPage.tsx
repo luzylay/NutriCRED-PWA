@@ -305,11 +305,15 @@ export default function ProfessionalPage() {
             <div className="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-4 sm:gap-6 relative z-10">
               {/* Priority list */}
               <div className="bg-card border border-border rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm flex flex-col">
+                {/* Header & Status Filter Pills */}
                 <div className="px-4 sm:px-5 py-3.5 sm:py-4 border-b border-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                  <h2 className="font-extrabold text-foreground font-nunito text-base sm:text-lg">
-                    Filtro de Casos
-                  </h2>
-                  <div className="flex gap-1.5 bg-muted/70 p-1 rounded-xl overflow-x-auto hide-scrollbar touch-pan-x w-full sm:w-auto">
+                  <div className="flex items-center gap-2">
+                    <Users className="size-5 text-primary shrink-0" />
+                    <h2 className="font-extrabold text-foreground font-nunito text-base sm:text-lg">
+                      Filtro de Casos Médicos
+                    </h2>
+                  </div>
+                  <div className="flex gap-1.5 bg-muted/70 p-1.5 rounded-2xl overflow-x-auto hide-scrollbar touch-pan-x w-full sm:w-auto -mx-1 px-1">
                     {[
                       { id: "all" as const, label: "Todos", icon: null },
                       {
@@ -334,34 +338,37 @@ export default function ProfessionalPage() {
                       <button
                         key={f.id}
                         onClick={() => setFilter(f.id)}
-                        className={`px-3 py-2 flex items-center gap-1.5 rounded-lg text-xs font-semibold whitespace-nowrap min-h-[44px] transition-all cursor-pointer ${
+                        className={`px-3.5 py-2.5 flex items-center gap-1.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap min-h-[44px] touch-manipulation transition-all cursor-pointer ${
                           filter === f.id
-                            ? "bg-card text-foreground shadow-sm font-bold"
-                            : "text-muted-foreground hover:text-foreground"
+                            ? "bg-card text-foreground shadow-sm ring-1 ring-border"
+                            : "text-muted-foreground hover:text-foreground hover:bg-card/50"
                         }`}
                       >
-                        {f.icon && <f.icon className={`size-3.5 ${f.color} shrink-0`} />}
-                        {f.label}
+                        {f.icon && <f.icon className={`size-4 ${f.color} shrink-0`} />}
+                        <span>{f.label}</span>
                       </button>
                     ))}
                   </div>
                 </div>
 
+                {/* Search & Location Filters */}
                 <div className="px-4 sm:px-5 py-3 border-b border-border bg-muted/20 space-y-3">
-                  <input
-                    type="text"
-                    placeholder="🔍 Buscar por Nombre o DNI..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full bg-card border border-border rounded-xl px-3.5 py-2.5 text-sm font-bold text-foreground placeholder:text-muted-foreground/50 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all min-h-[44px]"
-                  />
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder="🔍 Buscar por Nombre, DNI o Historia Clínica..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full bg-card border border-border rounded-xl px-4 py-3 text-base sm:text-sm font-bold text-foreground placeholder:text-muted-foreground/50 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all min-h-[44px]"
+                    />
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                     <div className="space-y-1">
-                      <label className="text-[10px] font-black text-muted-foreground uppercase tracking-wider block">Red de Salud (Distrito)</label>
+                      <label className="text-xs font-black text-muted-foreground uppercase tracking-wider block">Red de Salud (Distrito)</label>
                       <select
                         value={selectedDistrict}
                         onChange={(e) => setSelectedDistrict(e.target.value)}
-                        className="w-full bg-card border border-border rounded-xl p-2.5 text-xs font-bold text-foreground outline-none cursor-pointer min-h-[44px]"
+                        className="w-full bg-card border border-border rounded-xl px-3 py-3 text-base sm:text-sm font-bold text-foreground outline-none cursor-pointer min-h-[44px]"
                       >
                         {districts.map((d) => (
                           <option key={d} value={d}>
@@ -371,11 +378,11 @@ export default function ProfessionalPage() {
                       </select>
                     </div>
                     <div className="space-y-1">
-                      <label className="text-[10px] font-black text-muted-foreground uppercase tracking-wider block">Comunidad / Sector</label>
+                      <label className="text-xs font-black text-muted-foreground uppercase tracking-wider block">Comunidad / Sector</label>
                       <select
                         value={selectedCommunity}
                         onChange={(e) => setSelectedCommunity(e.target.value)}
-                        className="w-full bg-card border border-border rounded-xl p-2.5 text-xs font-bold text-foreground outline-none cursor-pointer min-h-[44px]"
+                        className="w-full bg-card border border-border rounded-xl px-3 py-3 text-base sm:text-sm font-bold text-foreground outline-none cursor-pointer min-h-[44px]"
                       >
                         {communities.map((c) => (
                           <option key={c} value={c}>
@@ -387,17 +394,18 @@ export default function ProfessionalPage() {
                   </div>
                 </div>
 
-                <div className="divide-y divide-border overflow-y-auto max-h-[500px]">
+                {/* Filtered Patient List */}
+                <div className="divide-y divide-border overflow-y-auto max-h-[520px]">
                   {filtered.length === 0 && (
-                    <div className="px-5 py-10 text-center">
+                    <div className="px-5 py-12 text-center space-y-2">
                       <div className="size-12 bg-muted rounded-full flex items-center justify-center mx-auto mb-3">
                         <AlertCircle className="size-6 text-muted-foreground" />
                       </div>
                       <p className="text-sm font-bold text-foreground">
-                        No hay registros
+                        No hay registros para este filtro
                       </p>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        No se encontraron niños para este filtro.
+                      <p className="text-xs text-muted-foreground">
+                        Intente modificando los términos de búsqueda o los selectores de distrito.
                       </p>
                     </div>
                   )}
@@ -407,18 +415,18 @@ export default function ProfessionalPage() {
                       <button
                         key={child.id}
                         onClick={() => setSelectedChild(child)}
-                        className={`w-full text-left px-4 sm:px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 transition-all hover:bg-muted/20 min-h-[44px] cursor-pointer ${
+                        className={`w-full text-left px-4 sm:px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-all hover:bg-muted/30 min-h-[44px] cursor-pointer touch-manipulation ${
                           isSelected
                             ? "bg-primary/5 dark:bg-primary/10 border-l-4 border-primary"
                             : "border-l-4 border-transparent"
                         }`}
                       >
                         <div className="flex items-center gap-3 min-w-0">
-                          <span className="font-mono text-xs text-muted-foreground w-4 shrink-0">
-                            {index + 1}
+                          <span className="font-mono text-xs text-muted-foreground w-5 shrink-0 font-bold">
+                            #{index + 1}
                           </span>
                           <span
-                            className={`size-2.5 rounded-full shrink-0 ${ALERT_CFG[child.status].dotClass}`}
+                            className={`size-3 rounded-full shrink-0 ${ALERT_CFG[child.status].dotClass}`}
                           />
                           <div className="flex-1 min-w-0">
                             <div className="flex flex-wrap items-center gap-1.5">
@@ -426,28 +434,28 @@ export default function ProfessionalPage() {
                                 {child.name}
                               </p>
                               {dailyTracking.some(t => t.child_id.toString() === child.id && !t.supplement_taken) && (
-                                <div className="flex items-center gap-1 bg-rose-500/10 text-rose-600 px-1.5 py-0.5 rounded text-[10px] font-bold" title="No cumplió SRSI hoy">
-                                  <Pill className="size-3" /> ¡Falta!
+                                <div className="flex items-center gap-1 bg-rose-500/10 text-rose-600 px-2 py-0.5 rounded-full text-[10px] font-extrabold border border-rose-500/20" title="No cumplió SRSI hoy">
+                                  <Pill className="size-3" /> ¡Falta Suplemento!
                                 </div>
                               )}
                               {dailyTracking.some(t => t.child_id.toString() === child.id && t.supplement_taken) && (
-                                <div className="flex items-center gap-1 bg-emerald-500/10 text-emerald-600 px-1.5 py-0.5 rounded text-[10px] font-bold" title="Cumplió SRSI hoy">
-                                  <Pill className="size-3" /> Tomó
+                                <div className="flex items-center gap-1 bg-emerald-500/10 text-emerald-600 px-2 py-0.5 rounded-full text-[10px] font-extrabold border border-emerald-500/20" title="Cumplió SRSI hoy">
+                                  <Pill className="size-3" /> Suplementado
                                 </div>
                               )}
                             </div>
-                            <p className="text-xs text-muted-foreground truncate">
+                            <p className="text-xs text-muted-foreground truncate mt-0.5">
                               DNI: {child.dni || "—"} · {child.age} · {child.community}
                             </p>
                           </div>
                         </div>
 
-                        <div className="flex items-center justify-between sm:justify-end gap-3 pl-9 sm:pl-0 shrink-0">
+                        <div className="flex items-center justify-between sm:justify-end gap-3 pl-8 sm:pl-0 shrink-0 border-t sm:border-t-0 border-border/40 pt-2 sm:pt-0">
                           <div className="text-left sm:text-right">
-                            <p className="text-xs font-mono font-bold text-foreground">
+                            <p className="text-xs font-mono font-black text-foreground">
                               {child.zScore ? `Z = ${child.zScore}` : "S/Z"}
                             </p>
-                            <p className="text-[10px] text-muted-foreground">
+                            <p className="text-[10px] font-semibold text-muted-foreground">
                               {child.lastMeasured}
                             </p>
                           </div>
