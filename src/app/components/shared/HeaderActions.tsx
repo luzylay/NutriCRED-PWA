@@ -47,19 +47,19 @@ export function HeaderActions({
       {/* Desktop View */}
       <div className="hidden sm:flex items-center gap-2.5">
         {!isOnline && (
-          <div className="flex items-center gap-1.5 px-3 py-2 bg-amber-500/10 text-amber-500 rounded-xl text-xs font-bold border border-amber-500/20">
+          <div className="flex items-center gap-1.5 px-3 py-2 bg-amber-500/10 text-amber-500 rounded-xl text-xs font-bold border border-amber-500/20 min-h-[44px]">
             <WifiOff className="size-3.5 animate-pulse" />
             <span>Sin conexión</span>
           </div>
         )}
         {hasOfflineData && isOnline && (
-          <div className="flex items-center gap-1.5 px-3 py-2 bg-amber-500 text-white rounded-xl text-xs font-bold shadow-sm">
+          <div className="flex items-center gap-1.5 px-3 py-2 bg-amber-500 text-white rounded-xl text-xs font-bold shadow-sm min-h-[44px]">
             <span>Datos pendientes</span>
           </div>
         )}
         <button
           onClick={onSettings}
-          className="bg-muted hover:bg-muted/80 text-foreground px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all border border-border cursor-pointer"
+          className="bg-muted hover:bg-muted/80 text-foreground px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all border border-border cursor-pointer min-h-[44px] touch-manipulation"
           title={t("app.settings")}
         >
           <Settings className="size-3.5" />
@@ -69,7 +69,7 @@ export function HeaderActions({
           <button
             onClick={onRefresh}
             disabled={isRefreshing}
-            className="bg-primary/10 hover:bg-primary/20 text-primary px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer"
+            className="bg-primary/10 hover:bg-primary/20 text-primary px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer min-h-[44px] touch-manipulation"
           >
             <RefreshCw
               className={`size-3.5 ${isRefreshing ? "animate-spin" : ""}`}
@@ -79,7 +79,7 @@ export function HeaderActions({
         )}
         <button
           onClick={onLogout}
-          className="bg-muted hover:bg-muted/70 text-foreground px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all border border-border cursor-pointer"
+          className="bg-muted hover:bg-muted/70 text-foreground px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all border border-border cursor-pointer min-h-[44px] touch-manipulation"
         >
           <LogOut className="size-4" />
           Cerrar Sesión
@@ -96,7 +96,8 @@ export function HeaderActions({
         )}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="bg-muted hover:bg-muted/80 text-foreground p-2 rounded-xl transition-all border border-border cursor-pointer"
+          className="bg-muted hover:bg-muted/80 text-foreground p-2.5 rounded-xl transition-all border border-border cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center touch-manipulation"
+          aria-label="Abrir Menú de Opciones"
         >
           {isOpen ? <X className="size-5" /> : <Menu className="size-5" />}
         </button>
@@ -104,17 +105,17 @@ export function HeaderActions({
 
       {/* Mobile Dropdown Menu */}
       {isOpen && (
-        <div className="absolute right-0 top-full mt-2 w-48 bg-card border border-border rounded-2xl shadow-xl z-50 overflow-hidden sm:hidden animate-in fade-in slide-in-from-top-2">
-          <div className="flex flex-col p-1.5 gap-1">
+        <div className="absolute right-0 top-full mt-2 w-56 bg-card border border-border rounded-2xl shadow-2xl z-50 overflow-hidden sm:hidden animate-in fade-in slide-in-from-top-2">
+          <div className="flex flex-col p-2 gap-1.5">
             <button
               onClick={() => {
                 onSettings();
                 setIsOpen(false);
               }}
-              className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-muted/50 text-sm font-bold text-foreground text-left transition-colors"
+              className="flex items-center gap-3 px-3.5 py-3 rounded-xl hover:bg-muted/50 text-sm font-bold text-foreground text-left transition-colors min-h-[44px] touch-manipulation"
             >
-              <Settings className="size-4 text-muted-foreground" />
-              Idioma: {languageInfo.name}
+              <Settings className="size-4 text-muted-foreground shrink-0" />
+              <span>Idioma: {languageInfo.name}</span>
             </button>
             {onRefresh && (
               <button
@@ -123,12 +124,12 @@ export function HeaderActions({
                   setIsOpen(false);
                 }}
                 disabled={isRefreshing}
-                className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-primary/10 text-sm font-bold text-primary text-left transition-colors"
+                className="flex items-center gap-3 px-3.5 py-3 rounded-xl hover:bg-primary/10 text-sm font-bold text-primary text-left transition-colors min-h-[44px] touch-manipulation"
               >
                 <RefreshCw
-                  className={`size-4 ${isRefreshing ? "animate-spin" : ""}`}
+                  className={`size-4 shrink-0 ${isRefreshing ? "animate-spin" : ""}`}
                 />
-                Sincronizar Datos
+                <span>Sincronizar Datos</span>
               </button>
             )}
             <div className="h-px bg-border my-1 mx-2" />
@@ -137,10 +138,10 @@ export function HeaderActions({
                 onLogout();
                 setIsOpen(false);
               }}
-              className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl hover:bg-red-500/10 text-sm font-bold text-red-500 text-left transition-colors"
+              className="flex items-center gap-3 px-3.5 py-3 rounded-xl hover:bg-red-500/10 text-sm font-bold text-red-500 text-left transition-colors min-h-[44px] touch-manipulation"
             >
-              <LogOut className="size-4" />
-              Cerrar Sesión
+              <LogOut className="size-4 shrink-0" />
+              <span>Cerrar Sesión</span>
             </button>
           </div>
         </div>
