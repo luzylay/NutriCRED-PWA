@@ -162,17 +162,17 @@ export default function ProfessionalPage() {
           <div className="absolute bottom-10 right-10 w-[500px] h-[500px] bg-accent/10 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-2000"></div>
         </div>
         {/* Header */}
-        <header className="bg-card border-b border-border px-6 py-4 sticky top-0 z-30">
-          <div className="max-w-7xl mx-auto flex items-center justify-between flex-wrap gap-4">
-            <div className="flex items-center gap-3">
-              <div className="size-9 rounded-xl bg-primary flex items-center justify-center shadow-sm">
+        <header className="bg-card border-b border-border px-4 sm:px-6 py-3.5 sm:py-4 sticky top-0 z-30 shadow-xs">
+          <div className="max-w-7xl mx-auto flex items-center justify-between flex-wrap gap-3">
+            <div className="flex items-center gap-2.5 sm:gap-3">
+              <div className="size-9 rounded-xl bg-primary flex items-center justify-center shadow-sm shrink-0">
                 <Baby className="size-5 text-white" />
               </div>
               <div>
-                <span className="text-xs text-muted-foreground font-bold uppercase tracking-wider block">
+                <span className="text-[10px] sm:text-xs text-muted-foreground font-bold uppercase tracking-wider block leading-none">
                   NutriCRED
                 </span>
-                <span className="font-extrabold text-foreground font-nunito">
+                <span className="font-extrabold text-foreground text-sm sm:text-base font-nunito leading-tight">
                   Panel Profesional de Salud
                 </span>
               </div>
@@ -193,9 +193,9 @@ export default function ProfessionalPage() {
           </div>
         </header>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-6">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-6 space-y-5 sm:space-y-6">
           {/* KPIs */}
-          <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
             {[
               {
                 label: "Total Niños",
@@ -235,17 +235,17 @@ export default function ProfessionalPage() {
             ].map((kpi) => (
               <div
                 key={kpi.label}
-                className={`${kpi.bg} border border-border rounded-2xl p-4 flex items-center gap-4 shadow-sm`}
+                className={`${kpi.bg} border border-border rounded-2xl p-3 sm:p-4 flex items-center gap-3 sm:gap-4 shadow-sm`}
               >
-                <kpi.icon className={`size-7 ${kpi.text}`} />
-                <div>
+                <kpi.icon className={`size-6 sm:size-7 ${kpi.text} shrink-0`} />
+                <div className="min-w-0">
                   <p
-                    className={`text-3xl font-extrabold ${kpi.text}`}
+                    className={`text-2xl sm:text-3xl font-extrabold ${kpi.text}`}
                     style={{ fontFamily: "Nunito, sans-serif" }}
                   >
                     {kpi.value}
                   </p>
-                  <p className="text-xs text-muted-foreground font-medium mt-0.5">
+                  <p className="text-[11px] sm:text-xs text-muted-foreground font-medium mt-0.5 truncate">
                     {kpi.label}
                   </p>
                 </div>
@@ -254,49 +254,49 @@ export default function ProfessionalPage() {
           </div>
 
           {/* Tab selector */}
-          <div className="flex bg-muted/60 p-1.5 rounded-2xl border border-border/80 w-fit max-w-full relative z-10">
+          <div className="flex bg-muted/60 p-1.5 rounded-2xl border border-border/80 w-full overflow-x-auto hide-scrollbar gap-1.5 relative z-10">
             <button
               onClick={() => setActiveTab("cases")}
-              className={`px-5 py-3 font-black text-sm rounded-xl transition-all cursor-pointer flex items-center gap-2 ${
+              className={`px-4 sm:px-5 py-2.5 sm:py-3 font-black text-xs sm:text-sm rounded-xl transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap shrink-0 min-h-[44px] ${
                 activeTab === "cases"
                   ? "bg-primary text-primary-foreground shadow-md"
                   : "bg-transparent text-muted-foreground hover:bg-muted hover:text-foreground"
               }`}
             >
-              <Users className="size-4" />
+              <Users className="size-4 shrink-0" />
               Priorización de Casos (Seguimiento Clínico)
             </button>
             <button
               onClick={() => setActiveTab("reach")}
-              className={`px-5 py-3 font-black text-sm rounded-xl transition-all cursor-pointer flex items-center gap-2 ${
+              className={`px-4 sm:px-5 py-2.5 sm:py-3 font-black text-xs sm:text-sm rounded-xl transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap shrink-0 min-h-[44px] ${
                 activeTab === "reach"
                   ? "bg-primary text-primary-foreground shadow-md"
                   : "bg-transparent text-muted-foreground hover:bg-muted hover:text-foreground"
               }`}
             >
-              <Activity className="size-4" />
+              <Activity className="size-4 shrink-0" />
               Indicadores de Cobertura y Alcance
             </button>
             <button
               onClick={() => setActiveTab("decision")}
-              className={`px-5 py-3 font-black text-sm rounded-xl transition-all cursor-pointer flex items-center gap-2 ${
+              className={`px-4 sm:px-5 py-2.5 sm:py-3 font-black text-xs sm:text-sm rounded-xl transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap shrink-0 min-h-[44px] ${
                 activeTab === "decision"
                   ? "bg-primary text-primary-foreground shadow-md"
                   : "bg-transparent text-muted-foreground hover:bg-muted hover:text-foreground"
               }`}
             >
-              <FileText className="size-4" />
+              <FileText className="size-4 shrink-0" />
               Justificación de Insumos (MINSA / DIRIS)
             </button>
             <button
               onClick={() => setActiveTab("powerbi")}
-              className={`px-5 py-3 font-black text-sm rounded-xl transition-all cursor-pointer flex items-center gap-2 ${
+              className={`px-4 sm:px-5 py-2.5 sm:py-3 font-black text-xs sm:text-sm rounded-xl transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap shrink-0 min-h-[44px] ${
                 activeTab === "powerbi"
                   ? "bg-primary text-primary-foreground shadow-md"
                   : "bg-transparent text-muted-foreground hover:bg-muted hover:text-foreground"
               }`}
             >
-              <Activity className="size-4 text-emerald-500" />
+              <Activity className="size-4 text-emerald-500 shrink-0" />
               Dashboard Power BI (DirectQuery SQL)
             </button>
           </div>
