@@ -2,7 +2,7 @@
 
 export type AlertLevel = "normal" | "follow-up" | "urgent";
 export type AppView = "family" | "professional" | "agent" | "admin";
-export type MeasureType = "weight" | "height" | "muac";
+export type MeasureType = "weight" | "height" | "muac" | "edema" | "hemoglobin";
 export type UserRole = "CAREGIVER" | "PROFESSIONAL" | "ADMIN";
 export type UserStatus = "active" | "inactive";
 
@@ -25,6 +25,7 @@ export interface LoginResponse {
 
 export interface Child {
   id: string;
+  dni?: string;
   name: string;
   shortName: string;
   age: string;
@@ -36,11 +37,17 @@ export interface Child {
   weight: number;
   height: number;
   muac?: number;
+  hemoglobin?: number;
+  edema?: boolean;
   lastMeasured: string;
   zScore: number;
   nextAction: string;
   district: string;
   community: string;
+  campaign?: "Campaña Hierro" | "Campaña Multinutriente" | "Campaña Leche Fortificada" | "Campaña Complementaria" | "Sin campaña";
+  campaignExpiry?: string;
+  weightTrend?: "up" | "stable" | "down";
+  doctorDiagnosis?: string;
 }
 
 export interface GrowthPoint {
@@ -61,6 +68,9 @@ export interface Measurement {
   unit: string;
   measurement_date: string;
   sync_status: "synced" | "pending";
+  operator?: "self" | "professional";
+  validated?: boolean;
+  notes?: string;
 }
 
 export interface OfflineMeasurement extends Measurement {

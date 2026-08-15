@@ -103,3 +103,24 @@ export function classifyMUAC(muac: number): "normal" | "follow-up" | "urgent" {
   if (muac < 12.5) return "follow-up";
   return "normal";
 }
+
+/**
+ * Hemoglobin classification (anemia screening).
+ * < 7.0 g/dL → urgent (severe anemia)
+ * 7.0 - 10.9 g/dL → follow-up (mild/moderate anemia)
+ * >= 11.0 g/dL → normal
+ */
+export function classifyHemoglobin(hb: number): "normal" | "follow-up" | "urgent" {
+  if (hb < 7.0) return "urgent";
+  if (hb < 11.0) return "follow-up";
+  return "normal";
+}
+
+/**
+ * Bilateral edema classification (severe acute malnutrition / kwashiorkor indicator).
+ * present (true) → urgent
+ * absent (false) → normal
+ */
+export function classifyEdema(edema: boolean): "normal" | "urgent" {
+  return edema ? "urgent" : "normal";
+}

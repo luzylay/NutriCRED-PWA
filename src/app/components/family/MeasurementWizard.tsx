@@ -8,6 +8,8 @@ import {
   CheckCircle,
   Volume2,
   VolumeX,
+  ShieldAlert,
+  HeartPulse,
 } from "lucide-react";
 import { useTranslation } from "../../contexts/LanguageContext";
 import { tts } from "../../lib/i18n/tts-helper";
@@ -25,13 +27,13 @@ const PROTOCOLS_I18N = {
     unit: "kg",
     icon: Scale,
     es: {
-      label: "Peso",
+      label: "Peso (Control CRED)",
       steps: [
         {
           title: "Prepara la balanza",
           instruction:
             "Coloca la balanza en una superficie plana y firme. Asegúrate de que marque 0.",
-          tip: "Si usas balanza digital, colócala lejos de desniveles.",
+          tip: "Asegúrate de colocar la balanza sobre una superficie plana y limpia.",
         },
         {
           title: "Coloca al niño",
@@ -58,7 +60,7 @@ const PROTOCOLS_I18N = {
           title: "Balanzata allichay",
           instruction:
             "Balanzata pampa allin allpapi churay. Qallariypi 0 yupayta qhawariy.",
-          tip: "Mana maymanpas kuyunanpaq allinta churay.",
+          tip: "Balanzata pampa allin allpapi churay.",
         },
         {
           title: "Wawachata churay",
@@ -73,7 +75,7 @@ const PROTOCOLS_I18N = {
         },
         {
           title: "Tupusqata takyachiy",
-          instruction: "Balanzapa rikurisqan yupayta qillqaykuy.",
+          instruction: "Balanzapa qillqaykuy yupayta churay.",
           tip: "Llikanchikqa OMS tupukunanwan tupachinqa.",
         },
       ],
@@ -84,7 +86,7 @@ const PROTOCOLS_I18N = {
         {
           title: "Balanza wakicht'aña",
           instruction: "Balanzaxa pampa chiqaru uskuñawa. 0 yuparu uñjañawa.",
-          tip: "Jan kuyuñapataki sum uskuñawa.",
+          tip: "Balanzaxa pampa chiqaru uskuñawa.",
         },
         {
           title: "Wawaru uskuña",
@@ -104,13 +106,13 @@ const PROTOCOLS_I18N = {
       ],
     },
     en: {
-      label: "Weight",
+      label: "Weight (CRED)",
       steps: [
         {
           title: "Prepare the scale",
           instruction:
             "Place the scale on a flat, firm surface. Make sure it reads 0.",
-          tip: "Keep digital scales away from carpets or slopes.",
+          tip: "Ensure scale is placed on a flat, firm surface.",
         },
         {
           title: "Position the child",
@@ -136,13 +138,13 @@ const PROTOCOLS_I18N = {
     unit: "cm",
     icon: Ruler,
     es: {
-      label: "Talla / Longitud",
+      label: "Talla / Longitud (Control CRED)",
       steps: [
         {
           title: "Prepara el lugar",
           instruction:
             "Menores de 2 años recostados. Mayores de 2 años de pie contra el tallímetro.",
-          tip: "Asegura una cinta métrica fija o tallímetro.",
+          tip: "Mantén al niño con los pies apoyados firmemente.",
         },
         {
           title: "Postura del niño",
@@ -169,8 +171,8 @@ const PROTOCOLS_I18N = {
         {
           title: "Tupuna kuskata allichay",
           instruction:
-            "2 watamanta uña wawakuna sirisqa. 2 watamanta wichay wawakuna sayasqa.",
-          tip: "Tallímetro nisqata pirqapi allinta watay.",
+            "2 watamanta uña wawakuna sirisqa. 2 watamanta qhipa wawakuna sayasqa.",
+          tip: "Wawakunapa sayaynin allin tupusqa kananpaq.",
         },
         {
           title: "Wawapa sayaynin",
@@ -195,7 +197,7 @@ const PROTOCOLS_I18N = {
         {
           title: "Tupurata wakicht'aña",
           instruction: "2 marata jisk'anaka ikiñani. 2 marata jiliri sayt'ata.",
-          tip: "Tallímetro sum sayt'ayaña.",
+          tip: "Tupurata wakicht'aspa suma tupuña.",
         },
         {
           title: "Wawan sayt'awipa",
@@ -216,13 +218,13 @@ const PROTOCOLS_I18N = {
       ],
     },
     en: {
-      label: "Height / Length",
+      label: "Height / Length (CRED)",
       steps: [
         {
           title: "Prepare the area",
           instruction:
             "Under 2 years lie flat. Over 2 years stand against the stadiometer.",
-          tip: "Ensure firm measuring board or stadiometer.",
+          tip: "Keep heels and back against the stadiometer.",
         },
         {
           title: "Child posture",
@@ -239,7 +241,7 @@ const PROTOCOLS_I18N = {
         {
           title: "Confirm record",
           instruction: "Enter the height in centimeters.",
-          tip: "The system assesses linear linear growth.",
+          tip: "The system assesses linear growth.",
         },
       ],
     },
@@ -254,7 +256,7 @@ const PROTOCOLS_I18N = {
           title: "Punto medio",
           instruction:
             "Dobla el brazo izquierdo a 90 grados. Mide entre hombro y codo y marca el centro.",
-          tip: "Usa un marcador lavable para el punto medio.",
+          tip: "Indicador que usa la circunferencia del brazo para detectar riesgo de desnutrición en niños de 6 a 59 meses. Verde (normal), amarillo (vigilancia) o rojo (derivación).",
         },
         {
           title: "Aplica la cinta",
@@ -282,7 +284,7 @@ const PROTOCOLS_I18N = {
           title: "Chawpi marq'ata akllay",
           instruction:
             "Ichuq marq'anta 90 gradospi k'umuykuchiy. Rikramanta marq'akama chawpinta markay.",
-          tip: "Chawpinpi huch'uy punkillata churanapaq.",
+          tip: "6-manta 59 killayuq wawakunapaq. Q'omer (Allin), Q'ellu (Qhawanapaq), Puka (Sinchi unqusqa).",
         },
         {
           title: "Cintawan pilluy",
@@ -310,7 +312,7 @@ const PROTOCOLS_I18N = {
           title: "Taypi ampar uñjaña",
           instruction:
             "Ch'iqa amparap 90 grados k'umuyaña. Taypipi unanchañawa.",
-          tip: "Taypiparu jisk'a unancha uskuña.",
+          tip: "6-ta 59 phaxsini wawanakatakiwa. Ch'uxña (Suma), Q'illu (Uñjaña), Wila (Wali usuta).",
         },
         {
           title: "Cintampi qalaña",
@@ -336,7 +338,7 @@ const PROTOCOLS_I18N = {
           title: "Find the midpoint",
           instruction:
             "Bend the left arm at 90 degrees. Measure distance between shoulder and elbow.",
-          tip: "Mark midpoint with a washable pen.",
+          tip: "Assesses malnutrition in children 6-59 months. Green (normal), yellow (vigilance), or red (referral).",
         },
         {
           title: "Apply the tape",
@@ -358,6 +360,94 @@ const PROTOCOLS_I18N = {
       ],
     },
   },
+  edema: {
+    unit: "",
+    icon: ShieldAlert,
+    es: {
+      label: "Edema Bilateral (Desnutrición Kwashiorkor)",
+      steps: [
+        {
+          title: "Presiona el empeine",
+          instruction: "Coloca tu pulgar en la parte superior de ambos pies del niño y presiona firmemente durante 3 segundos.",
+          tip: "Evaluación clínica mediante presión firme por 3 segundos en ambos empeines.",
+        },
+        {
+          title: "Verifica hundimiento",
+          instruction: "Retira los pulgares y observa si queda un hundimiento visible (fóvea) que permanece en la piel.",
+          tip: "Debe realizarse en ambos pies (debe ser bilateral y simétrico).",
+        },
+        {
+          title: "Confirmar resultado",
+          instruction: "Determina si el hundimiento persiste en ambos empeines.",
+          tip: "La presencia de edema bilateral indica desnutrición aguda severa clínica.",
+        },
+      ],
+    },
+  },
+  hemoglobin: {
+    unit: "g/dL",
+    icon: HeartPulse,
+    es: {
+      label: "Hemoglobina (Despistaje de Anemia)",
+      steps: [
+        {
+          title: "Toma de muestra rápida",
+          instruction: "El personal realiza una punción rápida en el dedo del niño para obtener una gotita de sangre.",
+          tip: "Despistaje rápido de hemoglobina mediante microhemoglobinómetro digital.",
+        },
+        {
+          title: "Coloca en el dispositivo",
+          instruction: "Introduce la muestra en la microcubeta del microhemoglobinómetro digital portátil.",
+          tip: "Espera 15 segundos para la lectura.",
+        },
+        {
+          title: "Confirmar registro",
+          instruction: "Ingresa el valor numérico en gramos por decilitro (g/dL).",
+          tip: "Hb >= 11 es normal; menor a 11 indica grado de anemia.",
+        },
+      ],
+    },
+  },
+};
+
+const renderTipContent = (text: string) => {
+  // Normalize old prompt style if found
+  const cleanText = text.replace("Link de cómo crear tu propia cinta métrica:", "Crea tu propia cinta métrica:");
+  
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  if (!urlRegex.test(cleanText)) return cleanText;
+  
+  const parts = cleanText.split(urlRegex);
+  return parts.map((part, index) => {
+    if (urlRegex.test(part)) {
+      return (
+        <a
+          key={index}
+          href={part}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary hover:underline font-extrabold break-all animate-pulse ml-1 inline-block"
+        >
+          {part}
+        </a>
+      );
+    }
+    
+    if (part.includes("Crea tu propia cinta métrica:")) {
+      const subParts = part.split("Crea tu propia cinta métrica:");
+      return (
+        <span key={index}>
+          {subParts[0]}
+          <strong className="font-extrabold text-foreground block mt-1.5">
+            Crea tu propia cinta métrica:
+          </strong>
+          {subParts[1]}
+        </span>
+      );
+    }
+    
+    return part;
+  });
 };
 
 interface MeasurementWizardProps {
@@ -398,7 +488,8 @@ export function MeasurementWizard({
       return;
     }
 
-    const textToSpeak = `${currentStep.title}. ${currentStep.instruction}. ${currentStep.tip}`;
+    const speakTip = currentStep.tip.replace(/https?:\/\/[^\s]+/g, "enlace de video");
+    const textToSpeak = `${currentStep.title}. ${currentStep.instruction}. ${speakTip}`;
     setIsSpeaking(true);
     tts.speak(textToSpeak, {
       language,
@@ -597,15 +688,49 @@ export function MeasurementWizard({
           </div>
 
           <div className="bg-muted rounded-2xl px-4 py-3">
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              <span className="font-semibold text-foreground">
-                {t("wizard.tip")}{" "}
+            <div className="text-xs text-muted-foreground leading-relaxed">
+              <span className="font-black text-foreground block mb-1">
+                {t("wizard.tip")}
               </span>
-              {currentStep.tip}
-            </p>
+              <div className="font-medium text-foreground/90 leading-relaxed">
+                {renderTipContent(currentStep.tip)}
+              </div>
+            </div>
           </div>
 
-          {isLast && (
+          {isLast && type === "edema" && (
+            <div className="space-y-3">
+              <label className="text-sm font-bold text-foreground block">
+                ¿Presenta hundimiento persistente en ambos empeines?
+              </label>
+              <div className="flex gap-4">
+                <button
+                  type="button"
+                  onClick={() => setValue("1")}
+                  className={`flex-1 py-4 rounded-2xl border-2 font-black text-sm transition-all cursor-pointer ${
+                    value === "1"
+                      ? "bg-red-500 text-white border-red-600 shadow-md"
+                      : "bg-card border-border hover:bg-muted text-foreground"
+                  }`}
+                >
+                  Sí, presenta edema
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setValue("0")}
+                  className={`flex-1 py-4 rounded-2xl border-2 font-black text-sm transition-all cursor-pointer ${
+                    value === "0"
+                      ? "bg-emerald-500 text-white border-emerald-600 shadow-md"
+                      : "bg-card border-border hover:bg-muted text-foreground"
+                  }`}
+                >
+                  No, sin edema
+                </button>
+              </div>
+            </div>
+          )}
+
+          {isLast && type !== "edema" && (
             <div className="space-y-2">
               <label className="text-sm font-semibold text-foreground block">
                 {t("wizard.measured_val")} ({protocol.label})
@@ -623,7 +748,9 @@ export function MeasurementWizard({
                       ? "11.2"
                       : type === "height"
                         ? "85.5"
-                        : "14.0"
+                        : type === "muac"
+                          ? "12.5"
+                          : "11.0"
                   }`}
                   className="w-full bg-input-background border border-border rounded-2xl px-4 py-4 text-2xl font-mono text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all"
                   disabled={loading}

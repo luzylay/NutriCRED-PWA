@@ -9,6 +9,7 @@ import {
   Calendar,
   RefreshCw,
   LogOut,
+  X,
   WifiOff,
   Settings,
   Plus,
@@ -34,6 +35,7 @@ import { NutritionChatbot } from "../components/family/NutritionChatbot";
 import { NutritionalTrivia } from "../components/family/NutritionalTrivia";
 import { NutritionalDictionary } from "../components/family/NutritionalDictionary";
 import { DailyTrackingModal } from "../components/family/DailyTrackingModal";
+import { AlarmSignsModal } from "../components/family/AlarmSignsModal";
 import { AddChildModal } from "../components/family/AddChildModal";
 import { PlateScannerModal } from "../components/family/PlateScannerModal";
 import { LockKeyGameModal } from "../components/family/LockKeyGameModal";
@@ -86,6 +88,7 @@ export default function FamilyPage() {
   const [isLockGameOpen, setIsLockGameOpen] = useState(false);
   const [isNutritionChatbotOpen, setIsNutritionChatbotOpen] = useState(false);
   const [isDailyTrackingOpen, setIsDailyTrackingOpen] = useState(false);
+  const [isAlarmSignsOpen, setIsAlarmSignsOpen] = useState(false);
   const [assistantContext, setAssistantContext] = useState<string | null>(null);
 
 
@@ -260,11 +263,18 @@ export default function FamilyPage() {
         onSubmit={(record) => {
           setIsDailyTrackingOpen(false);
           addDailyTracking({ ...record, child_id: child ? parseInt(child.id) : 0, date: new Date().toISOString() });
-          
+          alert("Seguimiento de suplemento registrado con éxito.");
+        }}
+      />
+
+      <AlarmSignsModal
+        isOpen={isAlarmSignsOpen}
+        onClose={() => setIsAlarmSignsOpen(false)}
+        onSubmit={(record) => {
+          setIsAlarmSignsOpen(false);
+          addDailyTracking({ ...record, child_id: child ? parseInt(child.id) : 0, date: new Date().toISOString() });
           if (record.has_alarms) {
             alert("ALERTA CRÍTICA: Se han detectado signos de alarma. Por favor, acuda al establecimiento de salud más cercano INMEDIATAMENTE.");
-          } else {
-            alert("Reporte guardado con éxito. ¡Gracias por el seguimiento!");
           }
         }}
       />
@@ -312,7 +322,7 @@ export default function FamilyPage() {
               </div>
               <div>
                 <p className="text-xs text-muted-foreground font-bold uppercase tracking-wider leading-none">
-                  Yanapiri Wawa
+                  NutriCRED
                 </p>
                 <p className="text-sm font-bold text-foreground leading-tight font-nunito">
                   {t("app.caregiver")}
@@ -422,7 +432,7 @@ export default function FamilyPage() {
                     </div>
                     <div>
                       <h2 className="text-xl font-extrabold text-foreground font-nunito">
-                        Bienvenida a Yanapiri Wawa
+                        Bienvenida a NutriCRED
                       </h2>
                       <p className="text-sm text-muted-foreground mt-2">
                         Para comenzar a monitorear el crecimiento y recibir
@@ -443,7 +453,8 @@ export default function FamilyPage() {
                         {/* Daily Tracking Card */}
                         {(() => {
                           const today = new Date().toDateString();
-                          const todayRecord = dailyTracking.find(r => r.child_id === (child ? parseInt(child.id) : -1) && new Date(r.date).toDateString() === today);
+                          // Filter for supplement tracking today (not alarm reports)
+                          const todayRecord = dailyTracking.find(r => r.child_id === (child ? parseInt(child.id) : -1) && new Date(r.date).toDateString() === today && !r.has_alarms);
                           const isCompleted = !!todayRecord;
                           return (
                             <div className={`border p-5 rounded-[2rem] shadow-sm flex items-center justify-between transition-all duration-500 ${
@@ -459,12 +470,12 @@ export default function FamilyPage() {
                                 </div>
                                 <div>
                                   <h3 className="font-black text-foreground text-lg tracking-tight">
-                                    {isCompleted ? "✅ Seguimiento Completado" : "Tareas de Hoy"}
+                                    {isCompleted ? "✅ Suplemento Registrado" : "Control de Suplemento"}
                                   </h3>
                                   <p className="text-sm font-medium text-muted-foreground mt-0.5">
                                     {isCompleted 
-                                      ? `Suplemento: ${todayRecord.supplement_taken ? todayRecord.supplement_type : "No tomó"} · ${todayRecord.has_alarms ? "⚠️ Signos reportados" : "Sin alarmas"}`
-                                      : "Reporte de Suplementación y Signos de Alarma"
+                                      ? `Suplemento: ${todayRecord.supplement_taken ? todayRecord.supplement_type : "No tomó"}`
+                                      : "Registrar si tu niño tomó su suplemento hoy"
                                     }
                                   </p>
                                 </div>
@@ -483,64 +494,133 @@ export default function FamilyPage() {
                           );
                         })()}
 
-                      {/* Child status card */}
-                    <div
-                      className={`rounded-[2rem] border p-6 space-y-5 shadow-lg relative overflow-hidden transition-all duration-500 hover:shadow-xl bg-card ${cfg.borderClass}`}
-                    >
-                      {/* Emotive Icon Background */}
-                      <div className="absolute -right-6 -bottom-6 opacity-[0.03] pointer-events-none transform rotate-12 scale-110">
-                        {child.status === "normal" ? (
-                          <ShieldCheck className="size-48" />
-                        ) : (
-                          <ShieldAlert className="size-48" />
-                        )}
-                      </div>
+                      {/* CREDENCIAL VIRTUAL DEL APODERADO */}
+                      <div className="rounded-[2.5rem] border-2 border-primary/30 p-6 space-y-5 shadow-xl relative overflow-hidden bg-card/95 backdrop-blur-xl">
+                        
+                        {/* Header Banner */}
+                        <div className="flex items-center justify-between pb-3 border-b border-border">
+                          <div className="flex items-center gap-2">
+                            <span className="bg-primary text-primary-foreground text-[10px] font-black uppercase px-2.5 py-1 rounded-full tracking-wider">
+                              Credencial Virtual de Salud
+                            </span>
+                            <span className="text-[10px] text-muted-foreground font-bold">
+                              Solo Lectura
+                            </span>
+                          </div>
+                          <span className="text-xs font-mono font-bold text-muted-foreground">
+                            DNI: {child.dni ? `${child.dni.slice(0, 4)}****` : "----****"}
+                          </span>
+                        </div>
 
-                      <div className="flex items-start justify-between gap-3 relative z-10">
-                        <div className="flex items-center gap-4">
-                          <div className="size-14 bg-primary/10 text-primary rounded-2xl flex items-center justify-center font-black text-2xl shadow-md border border-primary/20">
-                            {child.name?.charAt(0) ?? "?"}
+                        {/* Child Summary */}
+                        <div className="flex items-center justify-between gap-3">
+                          <div className="flex items-center gap-3.5">
+                            <div className="size-14 bg-primary/10 text-primary rounded-2xl flex items-center justify-center font-black text-2xl shadow-sm border border-primary/20">
+                              {child.name?.charAt(0) ?? "?"}
+                            </div>
+                            <div>
+                              <h3 className="font-black text-foreground text-xl font-nunito leading-tight">
+                                {child.name}
+                              </h3>
+                              <p className="text-xs text-muted-foreground font-bold mt-0.5">
+                                {child.age} · {child.sex === "M" ? "Masculino" : "Femenino"}
+                              </p>
+                            </div>
+                          </div>
+                          <AlertBadge level={child.status} size="md" />
+                        </div>
+
+                        {/* Campaña Activa & Vigencia */}
+                        <div className="bg-blue-500/10 border border-blue-500/20 rounded-2xl p-4 flex items-center justify-between gap-3">
+                          <div className="flex items-center gap-2.5">
+                            <div className="p-2 bg-blue-600 text-white rounded-xl shadow-xs">
+                              <Apple className="size-4" />
+                            </div>
+                            <div>
+                              <span className="text-[10px] font-black text-blue-700 dark:text-blue-300 uppercase tracking-wider block">Campaña Activa</span>
+                              <p className="text-xs font-black text-foreground font-nunito">
+                                {child.campaign || "Campaña Hierro"}
+                              </p>
+                            </div>
+                          </div>
+                          <span className="text-[10px] font-bold text-muted-foreground bg-card px-2.5 py-1 rounded-lg border border-border">
+                            Vigente hasta: {child.campaignExpiry || "31/12/2026"}
+                          </span>
+                        </div>
+
+                        {/* Evolución de Peso & Tendencia */}
+                        <div className="grid grid-cols-3 gap-2 text-xs">
+                          <div className="bg-card p-3 rounded-2xl border border-border">
+                            <span className="text-[9px] font-black text-muted-foreground uppercase block">Último Peso</span>
+                            <span className="font-mono text-sm font-black text-foreground block mt-0.5">
+                              {child.weight > 0 ? `${child.weight} kg` : "--"}
+                            </span>
+                          </div>
+                          <div className="bg-card p-3 rounded-2xl border border-border">
+                            <span className="text-[9px] font-black text-muted-foreground uppercase block">Última Talla</span>
+                            <span className="font-mono text-sm font-black text-foreground block mt-0.5">
+                              {child.height > 0 ? `${child.height} cm` : "--"}
+                            </span>
+                          </div>
+                          <div className="bg-card p-3 rounded-2xl border border-border">
+                            <span className="text-[9px] font-black text-muted-foreground uppercase block">Tendencia</span>
+                            <span className={`font-extrabold text-xs block mt-0.5 ${
+                              child.weightTrend === "down" 
+                                ? "text-rose-600" 
+                                : child.weightTrend === "up" 
+                                  ? "text-emerald-600" 
+                                  : "text-amber-600"
+                            }`}>
+                              {child.weightTrend === "down" ? "↓ Bajando" : child.weightTrend === "up" ? "↑ Subiendo" : "→ Estable"}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Diagnóstico Actual del Médico */}
+                        <div className="bg-card p-4 rounded-2xl border border-border space-y-1 text-xs">
+                          <span className="text-[10px] font-black text-muted-foreground uppercase tracking-wider block">
+                            Diagnóstico del Médico (Texto Libre)
+                          </span>
+                          <p className="font-medium text-foreground italic leading-relaxed">
+                            "{child.doctorDiagnosis || "Diagnóstico registrado en consulta presencial."}"
+                          </p>
+                        </div>
+
+                        {/* Alerta Semáforo & Acción Sugerida */}
+                        <div className={`p-4 rounded-2xl border text-xs flex gap-3 items-start ${
+                          child.status === "urgent"
+                            ? "bg-rose-500/10 border-rose-500/30 text-rose-800 dark:text-rose-200"
+                            : child.status === "follow-up"
+                              ? "bg-amber-500/10 border-amber-500/30 text-amber-800 dark:text-amber-200"
+                              : "bg-emerald-500/10 border-emerald-500/30 text-emerald-800 dark:text-emerald-200"
+                        }`}>
+                          <div className="p-2 bg-card rounded-xl shrink-0 border border-border shadow-xs">
+                            {child.status === "urgent" ? (
+                              <ShieldAlert className="size-5 text-rose-600" />
+                            ) : child.status === "follow-up" ? (
+                              <AlertTriangle className="size-5 text-amber-600" />
+                            ) : (
+                              <ShieldCheck className="size-5 text-emerald-600" />
+                            )}
                           </div>
                           <div>
-                            <p className="font-black text-foreground text-xl font-nunito leading-tight">
-                              {child.shortName ?? "Bebé"}
+                            <p className="font-extrabold text-xs uppercase tracking-wide">
+                              Alerta Activa: {child.status === "urgent" ? "🔴 URGENTE" : child.status === "follow-up" ? "🟡 VIGILANCIA" : "🟢 NORMAL"}
                             </p>
-                            <p className="text-[13px] text-muted-foreground font-bold mt-1 tracking-tight">
-                              {child.age} · {child.weight} kg · {child.height}{" "}
-                              cm
+                            <p className="text-[11px] font-medium leading-relaxed mt-0.5">
+                              {child.status === "urgent"
+                                ? "Acudir a emergencia o centro de salud en las próximas 24 horas. No esperar cita programada."
+                                : child.status === "follow-up"
+                                  ? "Acudir a control en los próximos 7 días. No suspender la alimentación."
+                                  : "Evolución favorable. Continuar con el plan de alimentación y acudir en la fecha programada."}
                             </p>
                           </div>
                         </div>
-                      </div>
 
-                      <div className="bg-card/90 backdrop-blur-xl rounded-2xl p-4 flex gap-3.5 items-start relative z-10 shadow-sm border border-border/60">
-                        <div
-                          className={`p-2.5 rounded-xl shrink-0 shadow-inner ${child.status === "normal" ? "bg-emerald-500/20 text-emerald-500 font-bold" : child.status === "follow-up" ? "bg-amber-500/20 text-amber-500 font-bold" : "bg-red-500/20 text-red-500 font-bold"}`}
-                        >
-                          {child.status === "normal" ? (
-                            <HeartPulse className="size-6" />
-                          ) : (
-                            <ShieldAlert className="size-6" />
-                          )}
-                        </div>
-                        <div className="pt-0.5">
-                          <p className="font-black text-sm text-foreground mb-1 tracking-tight">
-                            {child.status === "normal"
-                              ? "¡Creciendo fuerte y sano!"
-                              : child.status === "follow-up"
-                                ? "Atención al crecimiento"
-                                : "Requiere Atención Médica"}
-                          </p>
-                          <p className="text-[13px] text-muted-foreground leading-relaxed font-medium">
-                            {child.status === "urgent"
-                              ? "Hemos identificado una señal importante. Por favor, visita la posta médica más cercana."
-                              : child.status === "follow-up"
-                                ? "Su ganancia de peso es un poco baja. Un actor social coordinará una visita pronto."
-                                : "El peso y talla de tu bebé están perfectos según la Organización Mundial de la Salud."}
-                          </p>
-                        </div>
+                        <p className="text-[10px] text-muted-foreground text-center font-bold">
+                          📌 Nota: Documento de consulta exclusivo del apoderado. El médico es el único facultado para actualizar los datos.
+                        </p>
                       </div>
-                    </div>
 
                     {/* Quick actions */}
                     <div className="space-y-3 mt-2">
@@ -549,11 +629,53 @@ export default function FamilyPage() {
                       </p>
                       <div className="flex flex-col gap-3">
                         
+                        {/* Botones de Mediciones Antropométricas */}
+                        <div className="bg-primary/5 border border-primary/20 rounded-2xl p-4.5 mb-2">
+                          <p className="text-xs text-primary font-bold leading-normal">
+                            📌 <strong>Control Oficial CRED:</strong> Las mediciones de Peso y Talla son registradas y validadas exclusivamente por el personal médico durante su consulta para evitar datos inexactos.
+                          </p>
+                        </div>
+                        {[
+                          {
+                            id: "muac" as MeasureType,
+                            label: t("family.muac"),
+                            desc: "Medir el bracito de mi wawa en casa (MUAC)",
+                            icon: Activity,
+                            iconBg: "bg-rose-600 text-white",
+                            action: () => setWizardType("muac"),
+                          },
+                        ].map((act) => (
+                          <button
+                            key={act.id}
+                            onClick={act.action}
+                            className="group relative overflow-hidden bg-card hover:bg-muted/40 border border-border p-3.5 sm:p-4 rounded-2xl sm:rounded-[2rem] flex items-center gap-3 sm:gap-4 transition-all duration-300 shadow-sm hover:shadow-md active:scale-[0.98] cursor-pointer"
+                          >
+                            <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 blur-2xl rounded-full -mr-8 -mt-8 pointer-events-none group-hover:scale-150 transition-transform duration-500"></div>
+                            
+                            <div
+                              className={`p-3 sm:p-3.5 rounded-xl sm:rounded-2xl shadow-md shrink-0 ${act.iconBg} group-hover:scale-110 transition-transform duration-300 relative z-10`}
+                            >
+                              <act.icon className="size-5 sm:size-6 drop-shadow-sm shrink-0" />
+                            </div>
+                            <div className="text-left flex-1 min-w-0 relative z-10">
+                              <span className="text-base sm:text-lg font-black text-foreground block font-nunito tracking-tight leading-snug">
+                                {act.label}
+                              </span>
+                              <span className="text-xs sm:text-sm font-extrabold text-foreground/90 block mt-0.5 leading-snug">
+                                {act.desc}
+                              </span>
+                            </div>
+                            <div className="bg-primary/10 text-primary p-2 sm:p-2.5 rounded-full relative z-10 shrink-0 group-hover:bg-primary group-hover:text-primary-foreground transition-colors transform group-hover:translate-x-1 duration-300 shadow-sm border border-primary/20">
+                              <ChevronRight className="size-4 sm:size-5 shrink-0" />
+                            </div>
+                          </button>
+                        ))}
+
                         {/* 🚨 PRIORITY 1: Botón S.O.S de Emergencia y Signos de Alarma */}
                         <button
                           onClick={() => {
                             setAssistantContext("S.O.S. Mi niño presenta signos de alarma (fiebre, vómitos, decaimiento). Necesito ayuda clínica urgente.");
-                            setIsDailyTrackingOpen(true);
+                            setIsAlarmSignsOpen(true);
                           }}
                           className="group relative overflow-hidden bg-gradient-to-r from-red-600 to-rose-700 text-white p-3.5 sm:p-4 rounded-2xl sm:rounded-[2rem] flex items-center gap-3 sm:gap-4 transition-all duration-300 shadow-xl ring-2 ring-red-400 active:scale-[0.98] cursor-pointer"
                         >
@@ -639,59 +761,6 @@ export default function FamilyPage() {
                           </div>
                         </button>
 
-                        {/* Botones de Mediciones Antropométricas */}
-                        {[
-                          {
-                            id: "weight" as MeasureType,
-                            label: t("family.weight"),
-                            desc: "Sube a tu bebé a la balanza",
-                            icon: Scale,
-                            iconBg: "bg-cyan-600 text-white",
-                            action: () => setWizardType("weight"),
-                          },
-                          {
-                            id: "height" as MeasureType,
-                            label: t("family.height"),
-                            desc: "Mide su alturita acostado",
-                            icon: Ruler,
-                            iconBg: "bg-emerald-600 text-white",
-                            action: () => setWizardType("height"),
-                          },
-                          {
-                            id: "muac" as MeasureType,
-                            label: t("family.muac"),
-                            desc: "Cinta especial del bracito",
-                            icon: Activity,
-                            iconBg: "bg-rose-600 text-white",
-                            action: () => setWizardType("muac"),
-                          },
-                        ].map((act) => (
-                          <button
-                            key={act.id}
-                            onClick={act.action}
-                            className="group relative overflow-hidden bg-card hover:bg-muted/40 border border-border p-3.5 sm:p-4 rounded-2xl sm:rounded-[2rem] flex items-center gap-3 sm:gap-4 transition-all duration-300 shadow-sm hover:shadow-md active:scale-[0.98] cursor-pointer"
-                          >
-                            <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 blur-2xl rounded-full -mr-8 -mt-8 pointer-events-none group-hover:scale-150 transition-transform duration-500"></div>
-                            
-                            <div
-                              className={`p-3 sm:p-3.5 rounded-xl sm:rounded-2xl shadow-md shrink-0 ${act.iconBg} group-hover:scale-110 transition-transform duration-300 relative z-10`}
-                            >
-                              <act.icon className="size-5 sm:size-6 drop-shadow-sm shrink-0" />
-                            </div>
-                            <div className="text-left flex-1 min-w-0 relative z-10">
-                              <span className="text-base sm:text-lg font-black text-foreground block font-nunito tracking-tight leading-snug">
-                                {act.label}
-                              </span>
-                              <span className="text-xs sm:text-sm font-extrabold text-foreground/90 block mt-0.5 leading-snug">
-                                {act.desc}
-                              </span>
-                            </div>
-                            <div className="bg-primary/10 text-primary p-2 sm:p-2.5 rounded-full relative z-10 shrink-0 group-hover:bg-primary group-hover:text-primary-foreground transition-colors transform group-hover:translate-x-1 duration-300 shadow-sm border border-primary/20">
-                              <ChevronRight className="size-4 sm:size-5 shrink-0" />
-                            </div>
-                          </button>
-                        ))}
-
                       </div>
                     </div>
                     </div>
@@ -711,6 +780,41 @@ export default function FamilyPage() {
                         <GrowthChart data={chartData} height={130} />
                       </div>
                     </div>
+
+                    {/* Pediatra / Control Oficial de Salud */}
+                    {child && measurements.filter(m => m.child_id === parseInt(child.id) && m.operator === "professional").length > 0 && (
+                      <div className="bg-emerald-500/10 border-2 border-emerald-500/30 rounded-3xl p-5 space-y-3 relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/10 rounded-full blur-xl pointer-events-none"></div>
+                        <div className="flex items-center gap-2">
+                          <ShieldCheck className="size-5 text-emerald-600 shrink-0" />
+                          <h4 className="font-extrabold text-xs text-foreground uppercase tracking-wider">
+                            Control Oficial de Salud CRED (Validado)
+                          </h4>
+                        </div>
+                        <p className="text-xs text-muted-foreground leading-relaxed font-semibold">
+                          Su pediatra ha registrado y verificado el estado clínico de su wawa. Asegúrese de cumplir las siguientes recomendaciones:
+                        </p>
+                        <div className="grid grid-cols-2 gap-3 text-xs pt-1">
+                          <div className="bg-card p-3 rounded-2xl border border-border">
+                            <span className="text-[10px] font-bold text-muted-foreground block uppercase">Último Peso Registrado</span>
+                            <span className="font-mono text-sm font-black text-foreground">
+                              {measurements.filter(m => m.child_id === parseInt(child.id) && m.type === "weight" && m.operator === "professional").slice(-1)[0]?.value ?? child.weight} kg
+                            </span>
+                          </div>
+                          <div className="bg-card p-3 rounded-2xl border border-border">
+                            <span className="text-[10px] font-bold text-muted-foreground block uppercase">Hemoglobina Oficial</span>
+                            <span className="font-mono text-sm font-black text-foreground">
+                              {measurements.filter(m => m.child_id === parseInt(child.id) && m.type === "hemoglobin").slice(-1)[0]?.value ?? "No registrado"} g/dL
+                            </span>
+                          </div>
+                        </div>
+                        <div className="p-3 bg-card rounded-2xl border border-border text-xs text-muted-foreground leading-relaxed font-bold">
+                          <strong>Indicación Médica:</strong> {child.status === "urgent" || child.status === "follow-up" 
+                            ? "Administrar suplemento de hierro diario (SRSI) y acudir a control en 30 días sin falta." 
+                            : "Mantener lactancia materna complementaria y control CRED programado."}
+                        </div>
+                      </div>
+                    )}
 
                     {/* Next CRED visit */}
                     <div className="relative overflow-hidden flex items-center gap-4 bg-gradient-to-r from-primary/10 to-transparent border border-primary/20 rounded-3xl p-5 shadow-sm mt-2">
@@ -735,7 +839,7 @@ export default function FamilyPage() {
                       </div>
                       <p className="text-xs text-foreground font-medium leading-relaxed">
                         <strong className="font-extrabold text-blue-700 dark:text-blue-300">Importante:</strong>{" "}
-                        Yanapiri Wawa es una herramienta complementaria de prevención. Los estados nutricionales mostrados no reemplazan el diagnóstico clínico presencial de su Centro de Salud.
+                        NutriCRED es una herramienta complementaria de prevención. Los estados nutricionales mostrados no reemplazan el diagnóstico clínico presencial de su Centro de Salud.
                       </p>
                     </div>
                     </div>
@@ -880,39 +984,56 @@ export default function FamilyPage() {
                           const date = new Date(record.date).toLocaleDateString("es-PE", {
                             day: "numeric", month: "short", hour: "2-digit", minute: "2-digit"
                           });
+                          const isAlarmReport = record.has_alarms;
                           return (
                             <div key={idx} className={`bg-card/60 backdrop-blur-md border rounded-2xl p-4 flex items-center justify-between transition-all ${
-                              record.has_alarms ? "border-rose-500/30 bg-rose-500/5" : "border-border"
+                              isAlarmReport ? "border-rose-500/40 bg-rose-500/5 shadow-xs shadow-rose-500/5" : "border-border"
                             }`}>
-                              <div className="flex items-center gap-3">
-                                <div className={`size-10 rounded-xl flex items-center justify-center shadow-sm ${
-                                  record.supplement_taken ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300" : "bg-rose-500/15 text-rose-700 dark:text-rose-300"
+                              <div className="flex items-center gap-3 flex-1 min-w-0">
+                                <div className={`size-10 rounded-xl flex items-center justify-center shadow-sm shrink-0 ${
+                                  isAlarmReport 
+                                    ? "bg-rose-500/15 text-rose-700 dark:text-rose-300"
+                                    : record.supplement_taken 
+                                      ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300" 
+                                      : "bg-rose-500/15 text-rose-700 dark:text-rose-300"
                                 }`}>
-                                  <Pill className="size-5" />
+                                  {isAlarmReport ? <AlertTriangle className="size-5" /> : <Pill className="size-5" />}
                                 </div>
-                                <div>
-                                  <p className="text-sm font-black text-foreground">
-                                    {record.supplement_taken ? record.supplement_type : "No tomó suplemento"}
+                                <div className="flex-1 min-w-0">
+                                  <p className="text-sm font-black text-foreground truncate">
+                                    {isAlarmReport 
+                                      ? "Reporte Clínico de Alarma" 
+                                      : record.supplement_taken 
+                                        ? record.supplement_type 
+                                        : "No tomó suplemento"}
                                   </p>
                                   <p className="text-[11px] font-bold text-muted-foreground mt-0.5">{date}</p>
+                                  {isAlarmReport && record.alarm_signs && record.alarm_signs.length > 0 && (
+                                    <p className="text-[11px] text-rose-700 dark:text-rose-300 font-semibold mt-1 leading-relaxed bg-rose-500/10 p-2 rounded-lg border border-rose-500/20">
+                                      Signos: {record.alarm_signs.join(", ")}
+                                    </p>
+                                  )}
                                 </div>
                               </div>
-                              <div className="text-right flex flex-col items-end gap-1">
-                                <span className={`text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${
-                                  record.supplement_taken
-                                    ? "bg-emerald-500/20 text-emerald-900 dark:text-emerald-100 border-emerald-500/40"
-                                    : "bg-rose-500/20 text-rose-900 dark:text-rose-100 border-rose-500/40"
-                                }`}>
-                                  {record.supplement_taken ? "Tomó" : "Faltó"}
-                                </span>
-                                {record.has_alarms && (
-                                  <span className="text-[10px] font-extrabold text-rose-950 dark:text-rose-100 bg-rose-500/20 px-2.5 py-0.5 rounded-full border border-rose-500/40">
-                                    ⚠️ {record.alarm_signs.length} signos
+                              <div className="text-right flex flex-col items-end gap-1 shrink-0 ml-2">
+                                {isAlarmReport ? (
+                                  <span className="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full border bg-rose-500/20 text-rose-900 dark:text-rose-100 border-rose-500/40">
+                                    ⚠️ Emergencia
                                   </span>
+                                ) : (
+                                  <>
+                                    <span className={`text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${
+                                      record.supplement_taken
+                                        ? "bg-emerald-500/20 text-emerald-900 dark:text-emerald-100 border-emerald-500/40"
+                                        : "bg-rose-500/20 text-rose-900 dark:text-rose-100 border-rose-500/40"
+                                    }`}>
+                                      {record.supplement_taken ? "Tomó" : "Faltó"}
+                                    </span>
+                                    <span className="text-[11px] font-semibold text-foreground/80 dark:text-foreground/90">
+                                      Olvido: {record.forgets_frequency}
+                                    </span>
+                                  </>
                                 )}
-                                <span className="text-[11px] font-semibold text-foreground/80 dark:text-foreground/90">
-                                  Olvido: {record.forgets_frequency}
-                                </span>
                               </div>
                             </div>
                           );
@@ -938,7 +1059,7 @@ export default function FamilyPage() {
                     </p>
                   </div>
                 </div>
-                
+
 
                 {/* 💰 SIMULADOR DE COSTO-EFECTIVIDAD & TICKET DE COMPRA REGIONAL */}
                 <CostEffectivenessSimulator onRequestAssistant={(ctx) => {
@@ -1014,14 +1135,7 @@ export default function FamilyPage() {
         </div>
       </div>
 
-      {/* Daily Tracking Modal (Evidencia fotográfica de suplementos + Signos de alarma) */}
-      <DailyTrackingModal
-        isOpen={isDailyTrackingOpen}
-        onClose={() => setIsDailyTrackingOpen(false)}
-        onSubmit={(record) => {
-          setIsDailyTrackingOpen(false);
-        }}
-      />
+
 
       {/* Plate Scanner Modal (Semáforo del Plato AR 2D) */}
       <PlateScannerModal

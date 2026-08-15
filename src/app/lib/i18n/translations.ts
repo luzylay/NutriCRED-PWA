@@ -42,9 +42,9 @@ export const SUPPORTED_LANGUAGES: LanguageInfo[] = [
 export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
   es: {
     // General
-    "app.name": "Yanapiri Wawa",
+    "app.name": "NutriCRED",
     "app.subtitle": "Seguimiento y priorización de crecimiento infantil",
-    "app.hero_pitch": "Yanapiri Wawa es la plataforma inteligente de monitoreo nutricional infantil que acompaña el crecimiento de tu bebé, combate la anemia y conecta tu hogar con el centro de salud en el Perú.",
+    "app.hero_pitch": "NutriCRED es la plataforma inteligente de monitoreo nutricional infantil que acompaña el crecimiento de tu bebé, combate la anemia y conecta tu hogar con el centro de salud en el Perú.",
     "app.caregiver": "Cuidador Familiar",
 
     "app.online": "En Línea",
@@ -139,7 +139,7 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
 
   qu: {
     // General
-    "app.name": "Yanapiri Wawa",
+    "app.name": "NutriCRED",
     "app.subtitle": "Wawakunapa wiñaynin qawarinapaq yanapakuy",
     "app.caregiver": "Wawa Qhawaq Ayllu",
     "app.online": "Llikapi kachkan (Online)",
@@ -232,7 +232,7 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
 
   ay: {
     // General
-    "app.name": "Yanapiri Wawa",
+    "app.name": "NutriCRED",
     "app.subtitle": "Wawanakan jilawi uñjañataki yanapa",
     "app.caregiver": "Wawa Uñjir Ayllu",
     "app.online": "Llikanpiwa (Online)",
@@ -325,7 +325,7 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
 
   en: {
     // General
-    "app.name": "Yanapiri Wawa",
+    "app.name": "NutriCRED",
     "app.subtitle": "Child Growth Monitoring and Care Prioritization",
     "app.caregiver": "Family Caregiver",
     "app.online": "Online",

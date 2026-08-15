@@ -88,7 +88,7 @@ export function ParentEngagementHub({ child, growthData }: ParentEngagementHubPr
 
   // Handle Web Share
   const handleShareProgress = () => {
-    const text = `👶 Resumen de Crecimiento CRED de ${child.name}:\n• Edad: ${child.age}\n• Peso: ${child.weight} kg\n• Talla: ${child.height} cm\n• Estado: Nutrición Óptima (Yanapiri Wawa Perú)`;
+    const text = `👶 Resumen de Crecimiento CRED de ${child.name}:\n• Edad: ${child.age}\n• Peso: ${child.weight > 0 ? `${child.weight} kg` : "Pendiente"}\n• Talla: ${child.height > 0 ? `${child.height} cm` : "Pendiente"}\n• Estado: ${child.weight > 0 ? "Nutrición Óptima" : "Por medir"} (Yanapiri Wawa Perú)`;
     if (navigator.share) {
       navigator.share({
         title: `Progreso de ${child.name}`,
@@ -244,15 +244,15 @@ export function ParentEngagementHub({ child, growthData }: ParentEngagementHubPr
             </div>
             <div className="p-2.5 bg-muted/30 rounded-xl border border-border">
               <span className="text-muted-foreground block text-[10px]">Peso Actual</span>
-              <strong className="text-foreground">{child.weight} kg</strong>
+              <strong className="text-foreground">{child.weight > 0 ? `${child.weight} kg` : "--"}</strong>
             </div>
             <div className="p-2.5 bg-muted/30 rounded-xl border border-border">
               <span className="text-muted-foreground block text-[10px]">Talla Actual</span>
-              <strong className="text-foreground">{child.height} cm</strong>
+              <strong className="text-foreground">{child.height > 0 ? `${child.height} cm` : "--"}</strong>
             </div>
             <div className="p-2.5 bg-muted/30 rounded-xl border border-border">
               <span className="text-muted-foreground block text-[10px]">Z-Score OMS</span>
-              <strong className="text-emerald-600 dark:text-emerald-400 font-black">{child.zScore ?? -0.8} SD</strong>
+              <strong className="text-emerald-600 dark:text-emerald-400 font-black">{child.weight > 0 ? `${child.zScore} SD` : "--"}</strong>
             </div>
           </div>
         </div>
@@ -410,15 +410,15 @@ export function ParentEngagementHub({ child, growthData }: ParentEngagementHubPr
                     <tbody className="divide-y divide-slate-200 font-medium">
                       <tr>
                         <td className="p-2 font-bold text-slate-900">Peso Corporal</td>
-                        <td className="p-2 font-mono font-bold text-slate-900">{child.weight} kg</td>
+                        <td className="p-2 font-mono font-bold text-slate-900">{child.weight > 0 ? `${child.weight} kg` : "--"}</td>
                         <td className="p-2 text-slate-600">10.0 - 14.5 kg</td>
-                        <td className="p-2 text-emerald-700 font-bold">Rango Normal (Z: {child.zScore ?? -0.8} SD)</td>
+                        <td className="p-2 text-emerald-700 font-bold">{child.weight > 0 ? `Rango Normal (Z: ${child.zScore} SD)` : "Pendiente"}</td>
                       </tr>
                       <tr>
                         <td className="p-2 font-bold text-slate-900">Talla / Estatura</td>
-                        <td className="p-2 font-mono font-bold text-slate-900">{child.height} cm</td>
+                        <td className="p-2 font-mono font-bold text-slate-900">{child.height > 0 ? `${child.height} cm` : "--"}</td>
                         <td className="p-2 text-slate-600">72.0 - 85.0 cm</td>
-                        <td className="p-2 text-emerald-700 font-bold">Adecuada para la Edad</td>
+                        <td className="p-2 text-emerald-700 font-bold">{child.height > 0 ? "Adecuada para la Edad" : "Pendiente"}</td>
                       </tr>
                       <tr>
                         <td className="p-2 font-bold text-slate-900">Hemoglobina (Hb)</td>
