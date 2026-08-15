@@ -32,6 +32,8 @@ import { GrowthChart } from "../components/shared/GrowthChart";
 import { SettingsModal } from "../components/shared/SettingsModal";
 import { HeaderActions } from "../components/shared/HeaderActions";
 import { NutritionalTwinSimulator } from "../components/simulators/NutritionalTwinSimulator";
+import { CorrectionModal } from "../components/professional/CorrectionModal";
+import { PowerBIDashboard } from "../components/professional/PowerBIDashboard";
 import { fetchMeasurements } from "../lib/api";
 import { getWHORef } from "../lib/who-refs";
 import { ALERT_CFG } from "../lib/constants";
@@ -50,7 +52,8 @@ export default function ProfessionalPage() {
     validateMeasurement,
   } = useData();
 
-  const [activeTab, setActiveTab] = useState<"cases" | "reach" | "decision">("cases");
+  const [activeTab, setActiveTab] = useState<"cases" | "reach" | "decision" | "powerbi">("cases");
+  const [isCorrectionModalOpen, setIsCorrectionModalOpen] = useState(false);
   const [selectedChild, setSelectedChild] = useState<Child | null>(null);
   const [filter, setFilter] = useState<AlertLevel | "all">("all");
   const [childMeasurements, setChildMeasurements] = useState<GrowthPoint[]>([]);
@@ -285,6 +288,17 @@ export default function ProfessionalPage() {
               <FileText className="size-4" />
               Justificación de Insumos (MINSA / DIRIS)
             </button>
+            <button
+              onClick={() => setActiveTab("powerbi")}
+              className={`px-5 py-3 font-black text-sm rounded-xl transition-all cursor-pointer flex items-center gap-2 ${
+                activeTab === "powerbi"
+                  ? "bg-primary text-primary-foreground shadow-md"
+                  : "bg-transparent text-muted-foreground hover:bg-muted hover:text-foreground"
+              }`}
+            >
+              <Activity className="size-4 text-emerald-500" />
+              Dashboard Power BI (DirectQuery SQL)
+            </button>
           </div>
 
           {activeTab === "cases" && (
@@ -462,6 +476,14 @@ export default function ProfessionalPage() {
                       >
                         <Plus className="size-3.5" />
                         Control
+                      </button>
+                      <button
+                        onClick={() => setIsCorrectionModalOpen(true)}
+                        className="px-3 py-1.5 bg-rose-500/10 hover:bg-rose-500/25 text-rose-600 text-xs font-black rounded-xl transition-all cursor-pointer flex items-center gap-1"
+                        title="Corregir Evaluación con Trazabilidad (Ley N° 29733)"
+                      >
+                        <RefreshCw className="size-3.5" />
+                        Corregir
                       </button>
                       <AlertBadge level={selectedChild.status} size="md" />
                     </div>
@@ -1112,14 +1134,27 @@ export default function ProfessionalPage() {
                       </div>
                     </div>
                   </div>
-
                 </div>
-
               </div>
+            </div>
+          )}
+
+          {activeTab === "powerbi" && (
+            <div className="relative z-10 pt-2">
+              <PowerBIDashboard />
             </div>
           )}
         </div>
       </div>
+
+      {selectedChild && (
+        <CorrectionModal
+          isOpen={isCorrectionModalOpen}
+          onClose={() => setIsCorrectionModalOpen(false)}
+          child={selectedChild}
+          onSuccess={() => refreshData()}
+        />
+      )}
     </>
   );
 }
