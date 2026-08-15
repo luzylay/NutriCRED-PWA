@@ -121,40 +121,40 @@ export function NutritionalTwinSimulator({
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <button
               onClick={() => setAddIron(!addIron)}
-              className={`flex items-center gap-3 p-3 rounded-xl border transition-all ${addIron ? "bg-violet-50 dark:bg-violet-900/20 border-violet-200 text-violet-700 dark:text-violet-300" : "bg-card border-border text-foreground hover:bg-muted"}`}
+              className={`flex items-center gap-3 p-3 rounded-xl border transition-all min-h-[44px] cursor-pointer touch-manipulation active:scale-[0.98] ${addIron ? "bg-violet-50 dark:bg-violet-900/20 border-violet-200 text-violet-700 dark:text-violet-300 font-bold" : "bg-card border-border text-foreground hover:bg-muted"}`}
             >
-              <div className={`p-1.5 rounded-lg ${addIron ? "bg-violet-100 dark:bg-violet-800" : "bg-muted"}`}>
+              <div className={`p-2 rounded-lg shrink-0 ${addIron ? "bg-violet-100 dark:bg-violet-800" : "bg-muted"}`}>
                 <Droplet className={`size-4 ${addIron ? "text-violet-600 dark:text-violet-300" : "text-muted-foreground"}`} />
               </div>
-              <div className="text-left">
-                <p className="text-xs font-bold">Gotas de Hierro</p>
-                <p className="text-[10px] opacity-80">Multimicronutrientes</p>
+              <div className="text-left min-w-0">
+                <p className="text-xs font-bold truncate">Gotas de Hierro</p>
+                <p className="text-[10px] opacity-80 truncate">Multimicronutrientes</p>
               </div>
             </button>
 
             <button
               onClick={() => setAddProtein(!addProtein)}
-              className={`flex items-center gap-3 p-3 rounded-xl border transition-all ${addProtein ? "bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 text-emerald-700 dark:text-emerald-300" : "bg-card border-border text-foreground hover:bg-muted"}`}
+              className={`flex items-center gap-3 p-3 rounded-xl border transition-all min-h-[44px] cursor-pointer touch-manipulation active:scale-[0.98] ${addProtein ? "bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 text-emerald-700 dark:text-emerald-300 font-bold" : "bg-card border-border text-foreground hover:bg-muted"}`}
             >
-              <div className={`p-1.5 rounded-lg ${addProtein ? "bg-emerald-100 dark:bg-emerald-800" : "bg-muted"}`}>
+              <div className={`p-2 rounded-lg shrink-0 ${addProtein ? "bg-emerald-100 dark:bg-emerald-800" : "bg-muted"}`}>
                 <Apple className={`size-4 ${addProtein ? "text-emerald-600 dark:text-emerald-300" : "text-muted-foreground"}`} />
               </div>
-              <div className="text-left">
-                <p className="text-xs font-bold">Sangrecita</p>
-                <p className="text-[10px] opacity-80">3 veces por semana</p>
+              <div className="text-left min-w-0">
+                <p className="text-xs font-bold truncate">Sangrecita</p>
+                <p className="text-[10px] opacity-80 truncate">3 veces por semana</p>
               </div>
             </button>
 
             <button
               onClick={() => setAddHygiene(!addHygiene)}
-              className={`flex items-center gap-3 p-3 rounded-xl border transition-all ${addHygiene ? "bg-blue-50 dark:bg-blue-900/20 border-blue-200 text-blue-700 dark:text-blue-300" : "bg-card border-border text-foreground hover:bg-muted"}`}
+              className={`flex items-center gap-3 p-3 rounded-xl border transition-all min-h-[44px] cursor-pointer touch-manipulation active:scale-[0.98] ${addHygiene ? "bg-blue-50 dark:bg-blue-900/20 border-blue-200 text-blue-700 dark:text-blue-300 font-bold" : "bg-card border-border text-foreground hover:bg-muted"}`}
             >
-              <div className={`p-1.5 rounded-lg ${addHygiene ? "bg-blue-100 dark:bg-blue-800" : "bg-muted"}`}>
+              <div className={`p-2 rounded-lg shrink-0 ${addHygiene ? "bg-blue-100 dark:bg-blue-800" : "bg-muted"}`}>
                 <Zap className={`size-4 ${addHygiene ? "text-blue-600 dark:text-blue-300" : "text-muted-foreground"}`} />
               </div>
-              <div className="text-left">
-                <p className="text-xs font-bold">Higiene</p>
-                <p className="text-[10px] opacity-80">Lavado y agua segura</p>
+              <div className="text-left min-w-0">
+                <p className="text-xs font-bold truncate">Lavado de Manos</p>
+                <p className="text-[10px] opacity-80 truncate">Agua Segura</p>
               </div>
             </button>
           </div>

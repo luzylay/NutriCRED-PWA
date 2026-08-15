@@ -206,59 +206,59 @@ export default function RegisterPage() {
                   </p>
                 </div>
 
-                <div className="space-y-1">
-                  <label className="text-[10px] sm:text-xs font-extrabold uppercase text-foreground pl-0.5">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-extrabold uppercase text-foreground pl-0.5">
                     Nombre Completo
                   </label>
                   <div className="relative">
-                    <User className="absolute left-3 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground" />
+                    <User className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
                     <input
                       type="text"
                       value={caregiverName}
                       onChange={(e) => setCaregiverName(e.target.value)}
-                      className="w-full bg-input-background border border-border rounded-xl pl-9 pr-3 py-2 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 text-foreground font-bold"
+                      className="w-full bg-input-background border border-border rounded-xl pl-10 pr-3.5 py-3 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 text-foreground font-bold min-h-[44px]"
                       placeholder="Ej. María Quispe"
                       required
                     />
                   </div>
                 </div>
 
-                <div className="space-y-1">
-                  <label className="text-[10px] sm:text-xs font-extrabold uppercase text-foreground pl-0.5">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-extrabold uppercase text-foreground pl-0.5">
                     DNI (Documento de Identidad)
                   </label>
                   <div className="relative">
-                    <CreditCard className="absolute left-3 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground" />
+                    <CreditCard className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
                     <input
                       type="text"
                       maxLength={8}
                       pattern="\d*"
                       value={dni}
                       onChange={(e) => setDni(e.target.value.replace(/\D/g, ""))}
-                      className="w-full bg-input-background border border-border rounded-xl pl-9 pr-3 py-2 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 text-foreground font-mono font-bold"
+                      className="w-full bg-input-background border border-border rounded-xl pl-10 pr-3.5 py-3 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 text-foreground font-mono font-bold min-h-[44px]"
                       placeholder="8 dígitos"
                       required
                     />
                   </div>
-                  <span className="text-[9px] sm:text-[10px] text-muted-foreground/80 pl-0.5 block font-bold leading-tight">
+                  <span className="text-xs text-muted-foreground/80 pl-0.5 block font-bold leading-tight">
                     Requerido para el carnet de vacunación y CRED.
                   </span>
                 </div>
 
                 {error && (
-                  <div className="bg-rose-500/10 border border-rose-500/20 rounded-xl p-2.5 text-xs text-rose-600 dark:text-rose-400 font-bold">
+                  <div className="bg-rose-500/10 border border-rose-500/20 rounded-xl p-3 text-xs text-rose-600 dark:text-rose-400 font-bold">
                     {error}
                   </div>
                 )}
 
-                <div className="pt-1">
+                <div className="pt-2">
                   <button
                     type="button"
                     onClick={handleNextStep}
                     disabled={!caregiverValid}
-                    className="w-full py-3.5 rounded-2xl font-black text-xs sm:text-sm text-white shadow-md shadow-primary/25 btn-gradient transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer flex items-center justify-center gap-1"
+                    className="w-full py-3.5 rounded-2xl font-black text-sm text-white shadow-md shadow-primary/25 btn-gradient transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer flex items-center justify-center gap-1.5 min-h-[44px] touch-manipulation"
                   >
-                    Siguiente paso <ArrowRight className="size-3.5" />
+                    Siguiente paso <ArrowRight className="size-4" />
                   </button>
                 </div>
               </div>
@@ -269,39 +269,39 @@ export default function RegisterPage() {
               <div className="space-y-3.5 animate-in slide-in-from-right-4 duration-300">
                 <div className="bg-accent/5 p-3 rounded-xl border border-accent/10">
                   <h3 className="text-xs sm:text-sm font-black text-accent flex items-center gap-1.5 mb-0.5">
-                    <Baby className="size-3.5" /> Paso 2: Datos de tu Bebé
+                    <Baby className="size-4" /> Paso 2: Datos de tu Bebé
                   </h3>
-                  <p className="text-[10px] text-muted-foreground font-bold">
+                  <p className="text-xs text-muted-foreground font-bold">
                     Registra los datos de crecimiento de tu niño(a).
                   </p>
                 </div>
 
-                <div className="space-y-1">
-                  <label className="text-[10px] sm:text-xs font-extrabold uppercase text-foreground pl-0.5">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-extrabold uppercase text-foreground pl-0.5">
                     Nombre del Niño(a)
                   </label>
                   <div className="relative">
-                    <Baby className="absolute left-3 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground" />
+                    <Baby className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
                     <input
                       type="text"
                       value={childName}
                       onChange={(e) => setChildName(e.target.value)}
-                      className="w-full bg-input-background border border-border rounded-xl pl-9 pr-3 py-2 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 text-foreground font-bold"
+                      className="w-full bg-input-background border border-border rounded-xl pl-10 pr-3.5 py-3 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 text-foreground font-bold min-h-[44px]"
                       placeholder="Ej. Mateo"
                       required
                     />
                   </div>
                 </div>
 
-                <div className="space-y-1">
-                  <label className="text-[10px] sm:text-xs font-extrabold uppercase text-foreground pl-0.5">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-extrabold uppercase text-foreground pl-0.5">
                     Sexo del Bebé
                   </label>
                   <div className="grid grid-cols-2 gap-2">
                     <button
                       type="button"
                       onClick={() => setSex("M")}
-                      className={`flex items-center justify-center gap-1.5 py-2.5 rounded-xl border-2 font-black text-xs sm:text-sm transition-all cursor-pointer ${
+                      className={`flex items-center justify-center gap-1.5 py-3 rounded-xl border-2 font-black text-sm transition-all cursor-pointer min-h-[44px] touch-manipulation ${
                         sex === "M"
                           ? "border-cyan-500 bg-cyan-500/10 text-cyan-700 dark:text-cyan-400"
                           : "border-border bg-card text-muted-foreground hover:bg-muted"
@@ -312,7 +312,7 @@ export default function RegisterPage() {
                     <button
                       type="button"
                       onClick={() => setSex("F")}
-                      className={`flex items-center justify-center gap-1.5 py-2.5 rounded-xl border-2 font-black text-xs sm:text-sm transition-all cursor-pointer ${
+                      className={`flex items-center justify-center gap-1.5 py-3 rounded-xl border-2 font-black text-sm transition-all cursor-pointer min-h-[44px] touch-manipulation ${
                         sex === "F"
                           ? "border-pink-500 bg-pink-500/10 text-pink-700 dark:text-pink-400"
                           : "border-border bg-card text-muted-foreground hover:bg-muted"
@@ -323,16 +323,16 @@ export default function RegisterPage() {
                   </div>
                 </div>
 
-                <div className="space-y-1">
-                  <label className="text-[10px] sm:text-xs font-extrabold uppercase text-foreground pl-0.5">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-extrabold uppercase text-foreground pl-0.5">
                     Fecha de Nacimiento (Día / Mes / Año)
                   </label>
-                  <div className="grid grid-cols-3 gap-1.5">
+                  <div className="grid grid-cols-3 gap-2">
                     {/* Día */}
                     <select
                       value={birthDay}
                       onChange={(e) => setBirthDay(e.target.value)}
-                      className="bg-input-background border border-border rounded-xl px-1.5 py-2.5 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 text-foreground font-bold cursor-pointer"
+                      className="bg-input-background border border-border rounded-xl px-2 py-3 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 text-foreground font-bold cursor-pointer min-h-[44px]"
                       required
                     >
                       <option value="">Día</option>
@@ -347,7 +347,7 @@ export default function RegisterPage() {
                     <select
                       value={birthMonth}
                       onChange={(e) => setBirthMonth(e.target.value)}
-                      className="bg-input-background border border-border rounded-xl px-1.5 py-2.5 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 text-foreground font-bold cursor-pointer"
+                      className="bg-input-background border border-border rounded-xl px-2 py-3 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 text-foreground font-bold cursor-pointer min-h-[44px]"
                       required
                     >
                       <option value="">Mes</option>
@@ -365,7 +365,7 @@ export default function RegisterPage() {
                     <select
                       value={birthYear}
                       onChange={(e) => setBirthYear(e.target.value)}
-                      className="bg-input-background border border-border rounded-xl px-1.5 py-2.5 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 text-foreground font-bold cursor-pointer"
+                      className="bg-input-background border border-border rounded-xl px-2 py-3 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 text-foreground font-bold cursor-pointer min-h-[44px]"
                       required
                     >
                       <option value="">Año</option>
@@ -382,13 +382,13 @@ export default function RegisterPage() {
                     if (months === null || isNaN(months)) return null;
                     if (months < 0 || months > 60) {
                       return (
-                        <span className="text-[10px] font-black text-rose-600 bg-rose-600/10 px-2 py-0.5 rounded-full mt-1 inline-block border border-rose-500/10 animate-pulse">
+                        <span className="text-xs font-black text-rose-600 bg-rose-600/10 px-2.5 py-1 rounded-full mt-1 inline-block border border-rose-500/10 animate-pulse">
                           ⚠️ Debe tener de 0 a 5 años (máx 60 meses)
                         </span>
                       );
                     }
                     return (
-                      <span className="text-[10px] font-black text-emerald-600 bg-emerald-600/10 px-2 py-0.5 rounded-full mt-1 inline-block border border-emerald-500/10">
+                      <span className="text-xs font-black text-emerald-600 bg-emerald-600/10 px-2.5 py-1 rounded-full mt-1 inline-block border border-emerald-500/10">
                         👶 Tiene {months} {months === 1 ? "mes" : "meses"} de edad
                       </span>
                     );
@@ -396,45 +396,45 @@ export default function RegisterPage() {
                 </div>
 
                 <div className="bg-muted/30 p-3 rounded-xl border border-border/50 space-y-3">
-                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-muted-foreground block">
+                  <span className="text-xs font-extrabold uppercase tracking-wider text-muted-foreground block">
                     Mediciones iniciales (Opcional)
                   </span>
                   
                   <div className="grid grid-cols-2 gap-2">
                     <div className="space-y-1">
-                      <label className="text-[9px] sm:text-[10px] font-bold text-muted-foreground uppercase flex items-center gap-1">
-                        <Scale className="size-3" /> Peso (kg)
+                      <label className="text-xs font-bold text-muted-foreground uppercase flex items-center gap-1">
+                        <Scale className="size-3.5" /> Peso (kg)
                       </label>
                       <input
                         type="number"
                         step="0.1"
                         value={weight}
                         onChange={(e) => setWeight(e.target.value)}
-                        className="w-full bg-input-background border border-border rounded-xl px-2.5 py-2 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 text-foreground font-bold"
+                        className="w-full bg-input-background border border-border rounded-xl px-3 py-2.5 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 text-foreground font-bold min-h-[44px]"
                         placeholder="Ej. 10.5"
                       />
                     </div>
                     <div className="space-y-1">
-                      <label className="text-[9px] sm:text-[10px] font-bold text-muted-foreground uppercase flex items-center gap-1">
-                        <Ruler className="size-3" /> Talla (cm)
+                      <label className="text-xs font-bold text-muted-foreground uppercase flex items-center gap-1">
+                        <Ruler className="size-3.5" /> Talla (cm)
                       </label>
                       <input
                         type="number"
                         step="0.1"
                         value={height}
                         onChange={(e) => setHeight(e.target.value)}
-                        className="w-full bg-input-background border border-border rounded-xl px-2.5 py-2 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 text-foreground font-bold"
+                        className="w-full bg-input-background border border-border rounded-xl px-3 py-2.5 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 text-foreground font-bold min-h-[44px]"
                         placeholder="Ej. 80.0"
                       />
                     </div>
                   </div>
-                  <span className="text-[9px] sm:text-[10px] text-muted-foreground leading-snug block font-bold">
+                  <span className="text-xs text-muted-foreground leading-snug block font-bold">
                     💡 Si no los sabes, déjalos en blanco y podrás medirlos más tarde.
                   </span>
                 </div>
 
                 {error && (
-                  <div className="bg-rose-500/10 border border-rose-500/20 rounded-xl p-2 text-xs text-rose-600 dark:text-rose-400 font-bold">
+                  <div className="bg-rose-500/10 border border-rose-500/20 rounded-xl p-3 text-xs text-rose-600 dark:text-rose-400 font-bold">
                     {error}
                   </div>
                 )}
@@ -443,9 +443,9 @@ export default function RegisterPage() {
                   <button
                     type="button"
                     onClick={handlePrevStep}
-                    className="py-3 rounded-2xl font-bold text-xs sm:text-sm bg-muted text-foreground border border-border hover:bg-muted/80 transition-all active:scale-[0.99] cursor-pointer flex items-center justify-center gap-1 col-span-1"
+                    className="py-3 rounded-2xl font-bold text-xs sm:text-sm bg-muted text-foreground border border-border hover:bg-muted/80 transition-all active:scale-[0.99] cursor-pointer flex items-center justify-center gap-1 col-span-1 min-h-[44px] touch-manipulation"
                   >
-                    <ChevronLeft className="size-3.5" /> Atrás
+                    <ChevronLeft className="size-4" /> Atrás
                   </button>
                   <button
                     type="submit"

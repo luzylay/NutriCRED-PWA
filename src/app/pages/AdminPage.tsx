@@ -1025,7 +1025,7 @@ const UsersPanel = memo(function UsersPanel() {
                   placeholder="Ej: Lic. Rosa Morales"
                   value={newUsername}
                   onChange={(e) => setNewUsername(e.target.value)}
-                  className="w-full px-3.5 py-2.5 bg-muted/40 border border-border rounded-2xl text-foreground focus:ring-2 focus:ring-primary/40 font-medium"
+                  className="w-full px-3.5 py-3 bg-muted/40 border border-border rounded-2xl text-foreground text-base sm:text-sm focus:ring-2 focus:ring-primary/40 font-medium min-h-[44px]"
                 />
               </div>
 
@@ -1037,7 +1037,7 @@ const UsersPanel = memo(function UsersPanel() {
                   placeholder="rosamorales@minsa.gob.pe"
                   value={newContact}
                   onChange={(e) => setNewContact(e.target.value)}
-                  className="w-full px-3.5 py-2.5 bg-muted/40 border border-border rounded-2xl text-foreground focus:ring-2 focus:ring-primary/40 font-medium"
+                  className="w-full px-3.5 py-3 bg-muted/40 border border-border rounded-2xl text-foreground text-base sm:text-sm focus:ring-2 focus:ring-primary/40 font-medium min-h-[44px]"
                 />
               </div>
 
@@ -1046,19 +1046,19 @@ const UsersPanel = memo(function UsersPanel() {
                 <select
                   value={newRole}
                   onChange={(e) => setNewRole(e.target.value)}
-                  className="w-full px-3.5 py-2.5 bg-muted/40 border border-border rounded-2xl text-foreground focus:ring-2 focus:ring-primary/40 font-bold"
+                  className="w-full px-3.5 py-3 bg-muted/40 border border-border rounded-2xl text-foreground text-base sm:text-sm focus:ring-2 focus:ring-primary/40 font-bold min-h-[44px] cursor-pointer"
                 >
-                  <option value="CAREGIVER">Cuidador/a de Familia</option>
-                  <option value="PROFESSIONAL">Profesional CRED (Salud)</option>
-                  <option value="ADMIN">Administrador de Sistema</option>
+                  <option value="CAREGIVER">Cuidador / Apoderado (maria)</option>
+                  <option value="PROFESSIONAL">Personal de Salud (carlos)</option>
+                  <option value="ADMIN">Administrador de TI (admin)</option>
                 </select>
               </div>
 
-              <div className="flex gap-2 pt-3">
+              <div className="flex gap-2 pt-2">
                 <button
                   type="button"
                   onClick={() => setIsAddUserOpen(false)}
-                  className="w-full py-2.5 rounded-2xl border border-border hover:bg-muted font-bold text-foreground transition-colors cursor-pointer"
+                  className="w-full py-3 rounded-2xl border border-border hover:bg-muted font-bold text-sm text-foreground transition-colors cursor-pointer min-h-[44px] touch-manipulation"
                 >
                   Cancelar
                 </button>

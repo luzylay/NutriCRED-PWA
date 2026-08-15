@@ -292,11 +292,11 @@ export function CostEffectivenessSimulator({ onRequestAssistant }: CostEffective
         {/* WhatsApp Export Action */}
         <button
           onClick={handleShareWhatsApp}
-          className={`w-full py-3 rounded-2xl text-white font-extrabold text-xs shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer ${
+          className={`w-full py-3.5 rounded-2xl text-white font-extrabold text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer min-h-[44px] touch-manipulation active:scale-[0.98] ${
             strategy === "A" ? "bg-emerald-600 hover:bg-emerald-700 shadow-emerald-600/20" : strategy === "B" ? "bg-primary hover:bg-primary/90 shadow-primary/20" : "bg-amber-600 hover:bg-amber-700 shadow-amber-600/20"
           }`}
         >
-          <Share2 className="size-4" />
+          <Share2 className="size-4 shrink-0" />
           <span>Compartir Ticket de Compra por WhatsApp</span>
         </button>
 
@@ -307,10 +307,10 @@ export function CostEffectivenessSimulator({ onRequestAssistant }: CostEffective
               const stratName = strategy === "A" ? "100% Animal" : strategy === "C" ? "Solo Vegetal" : "Mixta";
               onRequestAssistant(`Quiero personalizar mi ticket actual (S/ ${weeklyBudget}, Región ${region}, Opción ${stratName}). ¿Qué reemplazos me sugieres si me falta algún alimento o tengo alergias?`);
             }}
-            className="w-full py-3.5 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs border-2 border-amber-300 shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer mt-2 active:scale-98"
+            className="w-full py-3.5 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm border-2 border-amber-300 shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer mt-2 active:scale-[0.98] min-h-[44px] touch-manipulation"
           >
-            <Sparkles className="size-4 text-slate-950" />
-            <span>🪄 Consultar Reemplazos con Yanapiri Mikhuy</span>
+            <Sparkles className="size-4 text-slate-950 shrink-0" />
+            <span>Consultar Reemplazos con Yanapiri Mikhuy</span>
           </button>
         )}
       </div>

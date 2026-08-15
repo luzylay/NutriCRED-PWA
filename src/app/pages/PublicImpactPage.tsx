@@ -50,18 +50,18 @@ export function PublicImpactPage() {
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
-              <h1 className="text-3xl sm:text-4xl font-black font-nunito tracking-tight text-foreground">
-                Estadísticas de Impacto Yanapiri Wawa
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black font-nunito tracking-tight text-foreground">
+                Estadísticas de Impacto NutriCRED
               </h1>
-              <p className="text-sm sm:text-base text-muted-foreground mt-1 max-w-2xl font-medium">
-                Todo lo que Yanapiri Wawa mide sobre su alcance nutricional y comunitario en abierto. Calculado directamente por el servidor sin intermediarios.
+              <p className="text-xs sm:text-sm text-muted-foreground mt-1 max-w-2xl font-medium">
+                Todo lo que NutriCRED mide sobre su alcance nutricional y comunitario en abierto. Calculado directamente por el servidor sin intermediarios.
               </p>
             </div>
 
             <button
               onClick={loadStats}
               disabled={loading}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-card border border-border text-sm font-bold shadow-sm hover:bg-muted transition-all cursor-pointer shrink-0 self-start md:self-auto"
+              className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-card border border-border text-sm font-bold shadow-sm hover:bg-muted transition-all cursor-pointer shrink-0 w-full sm:w-auto min-h-[44px] touch-manipulation active:scale-[0.98]"
             >
               <RefreshCw className={`size-4 text-primary ${loading ? "animate-spin" : ""}`} />
               <span>Actualizar ahora</span>
