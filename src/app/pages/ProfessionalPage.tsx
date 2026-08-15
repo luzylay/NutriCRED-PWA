@@ -313,14 +313,14 @@ export default function ProfessionalPage() {
                       Filtro de Casos Médicos
                     </h2>
                   </div>
-                  <div className="flex gap-1.5 bg-muted/70 p-1.5 rounded-2xl overflow-x-auto hide-scrollbar touch-pan-x w-full sm:w-auto -mx-1 px-1">
+                  <div className="grid grid-cols-2 sm:flex gap-2 w-full sm:w-auto">
                     {[
                       { id: "all" as const, label: "Todos", icon: null },
                       {
                         id: "urgent" as const,
                         label: "Alerta Médica",
                         icon: AlertCircle,
-                        color: "text-red-500",
+                        color: "text-rose-500",
                       },
                       {
                         id: "follow-up" as const,
@@ -338,13 +338,13 @@ export default function ProfessionalPage() {
                       <button
                         key={f.id}
                         onClick={() => setFilter(f.id)}
-                        className={`px-3.5 py-2.5 flex items-center gap-1.5 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap min-h-[44px] touch-manipulation transition-all cursor-pointer ${
+                        className={`px-3 py-2.5 flex items-center justify-center gap-1.5 rounded-xl text-xs sm:text-sm font-extrabold whitespace-nowrap min-h-[44px] touch-manipulation transition-all cursor-pointer w-full sm:w-auto active:scale-[0.97] ${
                           filter === f.id
-                            ? "bg-card text-foreground shadow-sm ring-1 ring-border"
-                            : "text-muted-foreground hover:text-foreground hover:bg-card/50"
+                            ? "bg-primary text-primary-foreground shadow-md ring-2 ring-primary/30"
+                            : "bg-muted/80 text-muted-foreground hover:text-foreground hover:bg-muted"
                         }`}
                       >
-                        {f.icon && <f.icon className={`size-4 ${f.color} shrink-0`} />}
+                        {f.icon && <f.icon className={`size-4 ${filter === f.id ? "text-primary-foreground" : f.color} shrink-0`} />}
                         <span>{f.label}</span>
                       </button>
                     ))}
@@ -361,6 +361,14 @@ export default function ProfessionalPage() {
                       onChange={(e) => setSearchQuery(e.target.value)}
                       className="w-full bg-card border border-border rounded-xl px-4 py-3 text-base sm:text-sm font-bold text-foreground placeholder:text-muted-foreground/50 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all min-h-[44px]"
                     />
+                    {searchQuery && (
+                      <button
+                        onClick={() => setSearchQuery("")}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold bg-muted hover:bg-muted/80 px-2 py-1 rounded-lg text-muted-foreground"
+                      >
+                        Limpiar
+                      </button>
+                    )}
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                     <div className="space-y-1">
@@ -415,9 +423,9 @@ export default function ProfessionalPage() {
                       <button
                         key={child.id}
                         onClick={() => setSelectedChild(child)}
-                        className={`w-full text-left px-4 sm:px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-all hover:bg-muted/30 min-h-[44px] cursor-pointer touch-manipulation ${
+                        className={`w-full text-left px-4 sm:px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-all hover:bg-muted/30 min-h-[44px] cursor-pointer touch-manipulation active:scale-[0.99] ${
                           isSelected
-                            ? "bg-primary/5 dark:bg-primary/10 border-l-4 border-primary"
+                            ? "bg-primary/5 dark:bg-primary/10 border-l-4 border-primary shadow-xs"
                             : "border-l-4 border-transparent"
                         }`}
                       >
@@ -484,20 +492,20 @@ export default function ProfessionalPage() {
                         </p>
                       </div>
                     </div>
-                    <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto justify-end">
+                    <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto justify-stretch sm:justify-end">
                       <button
                         onClick={() => setShowClinicalForm(!showClinicalForm)}
-                        className="px-3 py-2 bg-primary/10 hover:bg-primary/25 text-primary text-xs font-black rounded-xl transition-all cursor-pointer flex items-center gap-1 min-h-[44px]"
+                        className="flex-1 sm:flex-initial px-4 py-2.5 bg-primary hover:bg-primary/90 text-primary-foreground text-xs font-black rounded-xl transition-all cursor-pointer flex items-center justify-center gap-1.5 min-h-[44px] shadow-sm touch-manipulation active:scale-[0.98]"
                       >
-                        <Plus className="size-3.5" />
+                        <Plus className="size-4 shrink-0" />
                         Control
                       </button>
                       <button
                         onClick={() => setIsCorrectionModalOpen(true)}
-                        className="px-3 py-2 bg-rose-500/10 hover:bg-rose-500/25 text-rose-600 text-xs font-black rounded-xl transition-all cursor-pointer flex items-center gap-1 min-h-[44px]"
+                        className="flex-1 sm:flex-initial px-4 py-2.5 bg-rose-500/10 hover:bg-rose-500/25 text-rose-600 dark:text-rose-400 text-xs font-black rounded-xl transition-all cursor-pointer flex items-center justify-center gap-1.5 min-h-[44px] border border-rose-500/20 touch-manipulation active:scale-[0.98]"
                         title="Corregir Evaluación con Trazabilidad (Ley N° 29733)"
                       >
-                        <RefreshCw className="size-3.5" />
+                        <RefreshCw className="size-4 shrink-0" />
                         Corregir
                       </button>
                       <AlertBadge level={selectedChild.status} size="md" />
