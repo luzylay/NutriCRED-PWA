@@ -26,6 +26,7 @@ import {
   Camera,
   Eye,
   Cpu,
+  Apple,
 } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { useData } from "../contexts/DataContext";
