@@ -73,6 +73,8 @@ import { useAuth } from "../contexts/AuthContext";
 import { useData } from "../contexts/DataContext";
 import { useTranslation } from "../contexts/LanguageContext";
 import { AlertBadge } from "../components/shared/AlertBadge";
+import { PowerBIDashboard } from "../components/professional/PowerBIDashboard";
+import { SecurityAuditModal } from "../components/shared/SecurityAuditModal";
 import { SettingsModal } from "../components/shared/SettingsModal";
 import { HeaderActions } from "../components/shared/HeaderActions";
 import { AIRiskStratificationPanel } from "../components/admin/AIRiskStratificationPanel";
