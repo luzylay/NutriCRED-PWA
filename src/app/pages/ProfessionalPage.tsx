@@ -302,14 +302,14 @@ export default function ProfessionalPage() {
           </div>
 
           {activeTab === "cases" && (
-            <div className="grid xl:grid-cols-[1fr_400px] gap-6 relative z-10">
+            <div className="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-4 sm:gap-6 relative z-10">
               {/* Priority list */}
-              <div className="bg-card border border-border rounded-3xl overflow-hidden shadow-sm flex flex-col">
-                <div className="px-5 py-4 border-b border-border flex items-center justify-between flex-wrap gap-3">
-                  <h2 className="font-extrabold text-foreground font-nunito">
+              <div className="bg-card border border-border rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm flex flex-col">
+                <div className="px-4 sm:px-5 py-3.5 sm:py-4 border-b border-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                  <h2 className="font-extrabold text-foreground font-nunito text-base sm:text-lg">
                     Filtro de Casos
                   </h2>
-                  <div className="flex gap-1 bg-muted/70 p-1 rounded-xl overflow-x-auto hide-scrollbar touch-pan-x max-w-full -mx-1 px-1">
+                  <div className="flex gap-1.5 bg-muted/70 p-1 rounded-xl overflow-x-auto hide-scrollbar touch-pan-x w-full sm:w-auto">
                     {[
                       { id: "all" as const, label: "Todos", icon: null },
                       {
@@ -334,34 +334,34 @@ export default function ProfessionalPage() {
                       <button
                         key={f.id}
                         onClick={() => setFilter(f.id)}
-                        className={`px-3 py-1.5 flex items-center gap-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                        className={`px-3 py-2 flex items-center gap-1.5 rounded-lg text-xs font-semibold whitespace-nowrap min-h-[44px] transition-all cursor-pointer ${
                           filter === f.id
-                            ? "bg-card text-foreground shadow-sm"
+                            ? "bg-card text-foreground shadow-sm font-bold"
                             : "text-muted-foreground hover:text-foreground"
                         }`}
                       >
-                        {f.icon && <f.icon className={`size-3.5 ${f.color}`} />}
+                        {f.icon && <f.icon className={`size-3.5 ${f.color} shrink-0`} />}
                         {f.label}
                       </button>
                     ))}
                   </div>
                 </div>
 
-                <div className="px-5 py-3 border-b border-border bg-muted/20 space-y-3">
+                <div className="px-4 sm:px-5 py-3 border-b border-border bg-muted/20 space-y-3">
                   <input
                     type="text"
                     placeholder="🔍 Buscar por Nombre o DNI..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full bg-card border border-border rounded-xl px-3.5 py-2.5 text-xs font-bold text-foreground placeholder:text-muted-foreground/50 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
+                    className="w-full bg-card border border-border rounded-xl px-3.5 py-2.5 text-sm font-bold text-foreground placeholder:text-muted-foreground/50 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all min-h-[44px]"
                   />
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <div className="space-y-1">
                       <label className="text-[10px] font-black text-muted-foreground uppercase tracking-wider block">Red de Salud (Distrito)</label>
                       <select
                         value={selectedDistrict}
                         onChange={(e) => setSelectedDistrict(e.target.value)}
-                        className="w-full bg-card border border-border rounded-xl p-2 text-xs font-bold text-foreground outline-none cursor-pointer"
+                        className="w-full bg-card border border-border rounded-xl p-2.5 text-xs font-bold text-foreground outline-none cursor-pointer min-h-[44px]"
                       >
                         {districts.map((d) => (
                           <option key={d} value={d}>
@@ -375,7 +375,7 @@ export default function ProfessionalPage() {
                       <select
                         value={selectedCommunity}
                         onChange={(e) => setSelectedCommunity(e.target.value)}
-                        className="w-full bg-card border border-border rounded-xl p-2 text-xs font-bold text-foreground outline-none cursor-pointer"
+                        className="w-full bg-card border border-border rounded-xl p-2.5 text-xs font-bold text-foreground outline-none cursor-pointer min-h-[44px]"
                       >
                         {communities.map((c) => (
                           <option key={c} value={c}>
@@ -407,47 +407,52 @@ export default function ProfessionalPage() {
                       <button
                         key={child.id}
                         onClick={() => setSelectedChild(child)}
-                        className={`w-full text-left px-5 py-4 flex items-center gap-3.5 transition-all hover:bg-muted/20 ${
+                        className={`w-full text-left px-4 sm:px-5 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 transition-all hover:bg-muted/20 min-h-[44px] cursor-pointer ${
                           isSelected
                             ? "bg-primary/5 dark:bg-primary/10 border-l-4 border-primary"
                             : "border-l-4 border-transparent"
                         }`}
                       >
-                        <span className="font-mono text-xs text-muted-foreground w-4">
-                          {index + 1}
-                        </span>
-                        <span
-                          className={`size-2.5 rounded-full shrink-0 ${ALERT_CFG[child.status].dotClass}`}
-                        />
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2">
-                            <p className="font-bold text-foreground text-sm truncate">
-                              {child.name}
+                        <div className="flex items-center gap-3 min-w-0">
+                          <span className="font-mono text-xs text-muted-foreground w-4 shrink-0">
+                            {index + 1}
+                          </span>
+                          <span
+                            className={`size-2.5 rounded-full shrink-0 ${ALERT_CFG[child.status].dotClass}`}
+                          />
+                          <div className="flex-1 min-w-0">
+                            <div className="flex flex-wrap items-center gap-1.5">
+                              <p className="font-bold text-foreground text-sm truncate">
+                                {child.name}
+                              </p>
+                              {dailyTracking.some(t => t.child_id.toString() === child.id && !t.supplement_taken) && (
+                                <div className="flex items-center gap-1 bg-rose-500/10 text-rose-600 px-1.5 py-0.5 rounded text-[10px] font-bold" title="No cumplió SRSI hoy">
+                                  <Pill className="size-3" /> ¡Falta!
+                                </div>
+                              )}
+                              {dailyTracking.some(t => t.child_id.toString() === child.id && t.supplement_taken) && (
+                                <div className="flex items-center gap-1 bg-emerald-500/10 text-emerald-600 px-1.5 py-0.5 rounded text-[10px] font-bold" title="Cumplió SRSI hoy">
+                                  <Pill className="size-3" /> Tomó
+                                </div>
+                              )}
+                            </div>
+                            <p className="text-xs text-muted-foreground truncate">
+                              DNI: {child.dni || "—"} · {child.age} · {child.community}
                             </p>
-                            {dailyTracking.some(t => t.child_id.toString() === child.id && !t.supplement_taken) && (
-                              <div className="flex items-center gap-1 bg-rose-500/10 text-rose-600 px-1.5 py-0.5 rounded text-[10px] font-bold" title="No cumplió SRSI hoy">
-                                <Pill className="size-3" /> ¡Falta!
-                              </div>
-                            )}
-                            {dailyTracking.some(t => t.child_id.toString() === child.id && t.supplement_taken) && (
-                              <div className="flex items-center gap-1 bg-emerald-500/10 text-emerald-600 px-1.5 py-0.5 rounded text-[10px] font-bold" title="Cumplió SRSI hoy">
-                                <Pill className="size-3" /> Tomó
-                              </div>
-                            )}
                           </div>
-                          <p className="text-xs text-muted-foreground truncate">
-                            DNI: {child.dni || "—"} · {child.age} · {child.community}
-                          </p>
                         </div>
-                        <div className="text-right shrink-0">
-                          <p className="text-xs font-mono font-bold text-foreground">
-                            {child.zScore ? `Z = ${child.zScore}` : "S/Z"}
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            {child.lastMeasured}
-                          </p>
+
+                        <div className="flex items-center justify-between sm:justify-end gap-3 pl-9 sm:pl-0 shrink-0">
+                          <div className="text-left sm:text-right">
+                            <p className="text-xs font-mono font-bold text-foreground">
+                              {child.zScore ? `Z = ${child.zScore}` : "S/Z"}
+                            </p>
+                            <p className="text-[10px] text-muted-foreground">
+                              {child.lastMeasured}
+                            </p>
+                          </div>
+                          <AlertBadge level={child.status} />
                         </div>
-                        <AlertBadge level={child.status} />
                       </button>
                     );
                   })}
@@ -456,30 +461,32 @@ export default function ProfessionalPage() {
 
               {/* Child detail sheet */}
               {selectedChild && (
-                <div className="bg-card border border-border rounded-3xl overflow-hidden shadow-sm flex flex-col">
-                  <div className="p-5 border-b border-border flex items-center justify-between gap-3">
-                    <div className="size-11 rounded-2xl bg-primary/10 flex items-center justify-center font-extrabold text-primary text-lg">
-                      {selectedChild.name[0]}
+                <div className="bg-card border border-border rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm flex flex-col">
+                  <div className="p-4 sm:p-5 border-b border-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                    <div className="flex items-center gap-3 min-w-0 w-full sm:w-auto">
+                      <div className="size-11 rounded-2xl bg-primary/10 flex items-center justify-center font-extrabold text-primary text-lg shrink-0">
+                        {selectedChild.name[0]}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-extrabold text-foreground truncate font-nunito text-base">
+                          {selectedChild.name}
+                        </h3>
+                        <p className="text-xs text-muted-foreground truncate">
+                          DNI: {selectedChild.dni || "—"} · {selectedChild.sex === "M" ? "M" : "F"} · {selectedChild.age}
+                        </p>
+                      </div>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-extrabold text-foreground truncate font-nunito">
-                        {selectedChild.name}
-                      </h3>
-                      <p className="text-xs text-muted-foreground">
-                        DNI: {selectedChild.dni || "—"} · {selectedChild.sex === "M" ? "M" : "F"} · {selectedChild.age}
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto justify-end">
                       <button
                         onClick={() => setShowClinicalForm(!showClinicalForm)}
-                        className="px-3 py-1.5 bg-primary/10 hover:bg-primary/25 text-primary text-xs font-black rounded-xl transition-all cursor-pointer flex items-center gap-1"
+                        className="px-3 py-2 bg-primary/10 hover:bg-primary/25 text-primary text-xs font-black rounded-xl transition-all cursor-pointer flex items-center gap-1 min-h-[44px]"
                       >
                         <Plus className="size-3.5" />
                         Control
                       </button>
                       <button
                         onClick={() => setIsCorrectionModalOpen(true)}
-                        className="px-3 py-1.5 bg-rose-500/10 hover:bg-rose-500/25 text-rose-600 text-xs font-black rounded-xl transition-all cursor-pointer flex items-center gap-1"
+                        className="px-3 py-2 bg-rose-500/10 hover:bg-rose-500/25 text-rose-600 text-xs font-black rounded-xl transition-all cursor-pointer flex items-center gap-1 min-h-[44px]"
                         title="Corregir Evaluación con Trazabilidad (Ley N° 29733)"
                       >
                         <RefreshCw className="size-3.5" />
@@ -490,7 +497,7 @@ export default function ProfessionalPage() {
                   </div>
 
                   {/* Ficha Clínico-Nutricional de Detalle */}
-                  <div className="px-5 py-3 bg-muted/30 border-b border-border grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                  <div className="px-4 sm:px-5 py-3 bg-muted/30 border-b border-border grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
                     <div className="bg-card p-3 rounded-2xl border border-border shadow-xs">
                       <span className="text-[9px] font-black text-muted-foreground uppercase tracking-wider block">Estado Z-Score</span>
                       <span className={`font-black text-sm block mt-0.5 ${selectedChild.status === "urgent" ? "text-rose-600 animate-pulse" : selectedChild.status === "follow-up" ? "text-amber-600" : "text-emerald-600"}`}>
@@ -530,7 +537,7 @@ export default function ProfessionalPage() {
                     </div>
                   </div>
 
-                  <div className="p-5 overflow-y-auto space-y-4 max-h-[500px]">
+                  <div className="p-4 sm:p-5 overflow-y-auto space-y-4 max-h-[500px]">
                     {showClinicalForm && (
                       <div className="bg-primary/5 border border-primary/20 rounded-2xl p-4 space-y-3 animate-in slide-in-from-top-3 duration-300">
                         <div className="flex items-center justify-between pb-1.5 border-b border-primary/10">
@@ -539,13 +546,13 @@ export default function ProfessionalPage() {
                           </h4>
                           <button
                             onClick={() => setShowClinicalForm(false)}
-                            className="text-muted-foreground hover:text-foreground text-xs font-bold"
+                            className="text-muted-foreground hover:text-foreground text-xs font-bold p-1"
                           >
                             Cerrar
                           </button>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-2 text-xs">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
                           <div className="space-y-1">
                             <label className="font-bold text-foreground">Peso (kg)</label>
                             <input
@@ -554,7 +561,7 @@ export default function ProfessionalPage() {
                               placeholder="Ej. 11.2"
                               value={weightInput}
                               onChange={(e) => setWeightInput(e.target.value)}
-                              className="w-full bg-card border rounded-lg px-2.5 py-1.5"
+                              className="w-full bg-card border rounded-xl px-3 py-2.5 text-sm font-medium min-h-[44px]"
                             />
                           </div>
                           <div className="space-y-1">
@@ -565,12 +572,12 @@ export default function ProfessionalPage() {
                               placeholder="Ej. 85.5"
                               value={heightInput}
                               onChange={(e) => setHeightInput(e.target.value)}
-                              className="w-full bg-card border rounded-lg px-2.5 py-1.5"
+                              className="w-full bg-card border rounded-xl px-3 py-2.5 text-sm font-medium min-h-[44px]"
                             />
                           </div>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-2 text-xs">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
                           <div className="space-y-1">
                             <label className="font-bold text-foreground">MUAC (cm)</label>
                             <input
@@ -579,7 +586,7 @@ export default function ProfessionalPage() {
                               placeholder="Ej. 12.8"
                               value={muacInput}
                               onChange={(e) => setMuacInput(e.target.value)}
-                              className="w-full bg-card border rounded-lg px-2.5 py-1.5"
+                              className="w-full bg-card border rounded-xl px-3 py-2.5 text-sm font-medium min-h-[44px]"
                             />
                           </div>
                           <div className="space-y-1">
@@ -590,7 +597,7 @@ export default function ProfessionalPage() {
                               placeholder="Ej. 11.5"
                               value={hemoglobinInput}
                               onChange={(e) => setHemoglobinInput(e.target.value)}
-                              className="w-full bg-card border rounded-lg px-2.5 py-1.5"
+                              className="w-full bg-card border rounded-xl px-3 py-2.5 text-sm font-medium min-h-[44px]"
                             />
                           </div>
                         </div>
@@ -600,20 +607,20 @@ export default function ProfessionalPage() {
                           <select
                             value={edemaInput}
                             onChange={(e) => setEdemaInput(e.target.value)}
-                            className="w-full bg-card border rounded-lg px-2 py-1.5"
+                            className="w-full bg-card border rounded-xl px-3 py-2.5 text-sm font-medium min-h-[44px]"
                           >
                             <option value="0">No presenta Edema</option>
                             <option value="1">Sí, presenta Edema Bilateral</option>
                           </select>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-2 text-xs">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
                           <div className="space-y-1">
                             <label className="font-bold text-foreground">Asignar Campaña de Alimentación</label>
                             <select
                               value={campaignInput}
                               onChange={(e) => setCampaignInput(e.target.value)}
-                              className="w-full bg-card border rounded-lg px-2 py-1.5 font-bold"
+                              className="w-full bg-card border rounded-xl px-3 py-2.5 text-sm font-bold min-h-[44px]"
                             >
                               <option value="Campaña Hierro">Campaña Hierro</option>
                               <option value="Campaña Multinutriente">Campaña Multinutriente</option>
@@ -628,7 +635,7 @@ export default function ProfessionalPage() {
                             <select
                               value={trendInput}
                               onChange={(e) => setTrendInput(e.target.value as "up" | "stable" | "down")}
-                              className="w-full bg-card border rounded-lg px-2 py-1.5 font-bold"
+                              className="w-full bg-card border rounded-xl px-3 py-2.5 text-sm font-bold min-h-[44px]"
                             >
                               <option value="up">↑ Subiendo</option>
                               <option value="stable">→ Estable</option>
@@ -643,7 +650,7 @@ export default function ProfessionalPage() {
                             placeholder="Ej. Anemia leve en recuperación. Continuar suplementación diaria..."
                             value={diagnosisInput}
                             onChange={(e) => setDiagnosisInput(e.target.value)}
-                            className="w-full bg-card border rounded-lg px-3 py-2 text-xs font-medium text-foreground resize-none h-16 outline-none"
+                            className="w-full bg-card border rounded-xl px-3 py-2.5 text-sm font-medium text-foreground resize-none h-20 outline-none"
                           />
                         </div>
 
