@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { ShoppingBag, Share2, Sparkles, CheckCircle, MapPin, Calculator, Info } from "lucide-react";
+import { ShoppingBag, Share2, Sparkles, CheckCircle, MapPin, Calculator, Info, ShieldAlert } from "lucide-react";
 
 type StrategyType = "A" | "B" | "C";
 
@@ -42,9 +42,9 @@ export function CostEffectivenessSimulator({ onRequestAssistant }: CostEffective
   // Dynamic ticket calculation based on strategy
   const activeBasket = useMemo(() => {
     switch (strategy) {
-      case "A": // 100% Animal + Vit C (elimina carbohidratos/menestras vegetales puras)
+      case "A": // 100% Animal + Vit C
         return currentBasket.filter(item => item.type === "animal" || item.bio.includes("Potenciador"));
-      case "C": // 100% Vegetal (elimina carnes)
+      case "C": // 100% Vegetal
         return currentBasket.filter(item => item.type === "veg");
       case "B": // Mixto
       default:
@@ -67,7 +67,7 @@ export function CostEffectivenessSimulator({ onRequestAssistant }: CostEffective
       activeBasket.map((i) => `• ${i.name} — S/ ${i.price.toFixed(2)} (${i.bio})`).join("\n") +
       `\n\n💰 *Total Semanal estimativo:* S/ ${totalActiveCost.toFixed(2)} Soles\n` +
       `⚡ *Tiempo estimado de curación:* ${strategy === 'A' ? daysAnimal : strategy === 'B' ? daysMixed : daysVegetal} Días\n` +
-      `Fuentes: INS / CENAN / MIDAGRI. Aprobado en NutriCRED.`;
+      `⚠️ *ADVERTENCIA MÉDICA:* No tome decisiones clínicas sin la previa aprobación del Médico Especialista. Dictaminado bajo Guías MINSA, INS y protocolos INSN-SB.`;
 
     window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, "_blank");
   };
@@ -392,6 +392,16 @@ export function CostEffectivenessSimulator({ onRequestAssistant }: CostEffective
         )}
       </div>
 
+      {/* Advertencia Médica Legal Obligatoria MINSA / INSN-SB */}
+      <div className="bg-amber-500/10 border-2 border-amber-500/30 rounded-3xl p-4 sm:p-5 text-xs space-y-2 text-amber-950 dark:text-amber-200">
+        <div className="flex items-center gap-2 font-black uppercase text-[11px] tracking-wider text-amber-700 dark:text-amber-300">
+          <ShieldAlert className="size-4 text-amber-600 shrink-0" />
+          <span>Advertencia Médica Legal Obligatoria (MINSA / INSN-SB)</span>
+        </div>
+        <p className="font-medium text-[11px] leading-relaxed">
+          <strong>IMPORTANTE:</strong> No tome decisiones nutricionales, cambios de dieta o suplementación de hierro sin antes contar con la evaluación presencial y aprobación explícita de su <strong>Médico Especialista o Profesional CRED</strong>. Todas las recomendaciones y tablas de composición están estrictamente dictaminadas bajo las Guías Técnicas del <strong>Ministerio de Salud (MINSA)</strong>, el <strong>Instituto Nacional de Salud (INS)</strong> y los protocolos del <strong>Instituto Nacional de Salud del Niño San Borja (INSN-SB)</strong>.
+        </p>
+      </div>
     </div>
   );
 }
