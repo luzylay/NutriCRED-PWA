@@ -130,7 +130,7 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
       "Hemos detectado posibles signos de alarma. Te sugerimos acudir de inmediato al Centro de Salud.",
 
     // Login
-    "login.title": "Yanapiri Wawa",
+    "login.title": "NutriCRED",
     "login.user": "Usuario",
     "login.password": "Contraseña",
     "login.submit": "Ingresar",
@@ -223,7 +223,7 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
       "Wawacha unqusqatam rikurichkan. Utqaylla Hampi Wasiman pusay.",
 
     // Login
-    "login.title": "Yanapiri Wawa",
+    "login.title": "NutriCRED",
     "login.user": "Suti",
     "login.password": "Pakasqa Simi",
     "login.submit": "Yaykuy",
@@ -316,7 +316,7 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
       "Wawaxa usutat uñjasiwa. Jank'aki Qullañ Utaru irpañawa.",
 
     // Login
-    "login.title": "Yanapiri Wawa",
+    "login.title": "NutriCRED",
     "login.user": "Suma suti",
     "login.password": "Imat aru",
     "login.submit": "Mantaña",
@@ -413,7 +413,7 @@ export const TRANSLATIONS: Record<LanguageCode, Record<string, string>> = {
       "Alarm signs detected. We recommend visiting your nearest Community Health Center immediately.",
 
     // Login
-    "login.title": "Yanapiri Wawa",
+    "login.title": "NutriCRED",
     "login.user": "Username",
     "login.password": "Password",
     "login.submit": "Sign In",
