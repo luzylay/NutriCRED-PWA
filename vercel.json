@@ -1,4 +1,5 @@
 {
+  "name": "nutricred-crecer-mejor-nutrivision",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ],
