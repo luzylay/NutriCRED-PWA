@@ -14,31 +14,31 @@ export const ALERT_CFG: Record<
   }
 > = {
   normal: {
-    label: "Seguimiento normal",
-    textClass: "text-emerald-500 font-bold",
+    label: "Adecuado",
+    textClass: "text-emerald-600 dark:text-emerald-400 font-extrabold",
     bgClass: "bg-card border-emerald-500/40",
     borderClass: "border-emerald-500/40",
     badgeClass:
-      "bg-emerald-500/15 text-emerald-400 font-bold border border-emerald-500/30",
+      "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-black border border-emerald-500/30",
     dotClass: "bg-emerald-500",
   },
   "follow-up": {
-    label: "Requiere seguimiento",
-    textClass: "text-amber-500 font-bold",
+    label: "Riesgo Nutricional",
+    textClass: "text-amber-600 dark:text-amber-400 font-extrabold",
     bgClass: "bg-card border-amber-500/40",
     borderClass: "border-amber-500/40",
     badgeClass:
-      "bg-amber-500/15 text-amber-400 font-bold border border-amber-500/30",
-    dotClass: "bg-amber-400",
+      "bg-amber-500/15 text-amber-700 dark:text-amber-300 font-black border border-amber-500/30",
+    dotClass: "bg-amber-500",
   },
   urgent: {
-    label: "Evaluación prioritaria",
-    textClass: "text-red-500 font-bold",
-    bgClass: "bg-card border-red-500/40",
-    borderClass: "border-red-500/40",
+    label: "Alerta Médica",
+    textClass: "text-rose-600 dark:text-rose-400 font-extrabold",
+    bgClass: "bg-card border-rose-500/40",
+    borderClass: "border-rose-500/40",
     badgeClass:
-      "bg-red-500/15 text-red-400 font-bold border border-red-500/30",
-    dotClass: "bg-red-500 animate-pulse",
+      "bg-rose-500/15 text-rose-700 dark:text-rose-300 font-black border border-rose-500/30",
+    dotClass: "bg-rose-500 animate-pulse",
   },
 } as const;
 
