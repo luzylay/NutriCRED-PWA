@@ -843,10 +843,16 @@ export default function ProfessionalPage() {
 
                     {/* Historial de Mediciones y Validación */}
                     <div className="space-y-2">
-                      <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
-                        Historial de Evaluaciones Clínicas
-                      </p>
-                      <div className="bg-card border border-border rounded-2xl overflow-hidden divide-y divide-border text-xs max-h-[160px] overflow-y-auto">
+                      <div className="flex items-center justify-between">
+                        <p className="text-xs font-black text-muted-foreground uppercase tracking-wider flex items-center gap-1.5">
+                          <FileText className="size-3.5 text-primary" /> Historial Clínico Completo
+                        </p>
+                        <span className="text-[10px] font-mono font-bold text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
+                          {measurements.filter((m) => String(m.child_id) === String(selectedChild.id)).length} Evaluaciones
+                        </span>
+                      </div>
+
+                      <div className="bg-card border border-border rounded-2xl overflow-hidden divide-y divide-border text-xs max-h-[220px] overflow-y-auto shadow-xs">
                         {measurements
                           .filter((m) => String(m.child_id) === String(selectedChild.id))
                           .slice()
@@ -859,7 +865,7 @@ export default function ProfessionalPage() {
                               <div key={idx} className="p-3 flex items-center justify-between hover:bg-muted/15 transition-all">
                                 <div>
                                   <div className="flex items-center gap-1.5">
-                                    <span className="font-bold text-foreground capitalize">
+                                    <span className="font-extrabold text-foreground capitalize">
                                       {m.type === "weight"
                                         ? "Peso"
                                         : m.type === "height"
@@ -870,14 +876,14 @@ export default function ProfessionalPage() {
                                               ? "Hemoglobina"
                                               : "Edema Bilateral"}
                                     </span>
-                                    <span className="font-mono text-muted-foreground font-semibold">
+                                    <span className="font-mono text-foreground font-black">
                                       {m.type === "edema" ? (m.value === 1 ? "Presente" : "Ausente") : `${m.value} ${m.unit}`}
                                     </span>
                                   </div>
                                   <div className="text-[10px] text-muted-foreground flex items-center gap-1 mt-0.5 font-semibold">
                                     <span>{new Date(m.measurement_date).toLocaleDateString("es-PE")}</span>
                                     <span>·</span>
-                                    <span className={isProf ? "text-primary" : "text-amber-600"}>
+                                    <span className={isProf ? "text-primary font-bold" : "text-amber-600 font-bold"}>
                                       {isProf ? "Clínico (Personal)" : "Auto-reporte (Familia)"}
                                     </span>
                                   </div>
@@ -885,13 +891,13 @@ export default function ProfessionalPage() {
 
                                 <div className="flex items-center gap-1.5">
                                   {isValidated ? (
-                                    <span className="bg-emerald-500/10 text-emerald-600 font-extrabold text-[10px] px-2 py-0.5 rounded flex items-center gap-0.5 border border-emerald-500/20">
+                                    <span className="bg-emerald-500/10 text-emerald-600 font-extrabold text-[10px] px-2 py-1 rounded-lg flex items-center gap-1 border border-emerald-500/20">
                                       <Check className="size-3" /> Validado
                                     </span>
                                   ) : (
                                     <button
                                       onClick={() => validateMeasurement(m.id ?? 0)}
-                                      className="px-2 py-0.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-600 font-extrabold text-[10px] rounded border border-amber-500/30 transition-all cursor-pointer"
+                                      className="px-2.5 py-1 bg-amber-500/10 hover:bg-amber-500/20 text-amber-600 font-extrabold text-[10px] rounded-lg border border-amber-500/30 transition-all cursor-pointer min-h-[36px]"
                                     >
                                       Validar
                                     </button>
@@ -900,8 +906,22 @@ export default function ProfessionalPage() {
                               </div>
                             );
                           })}
+
                         {measurements.filter((m) => String(m.child_id) === String(selectedChild.id)).length === 0 && (
-                          <p className="p-3 text-center text-muted-foreground italic text-[11px]">Sin mediciones registradas.</p>
+                          <div className="p-4 text-center space-y-2 bg-muted/20">
+                            <p className="text-xs font-bold text-foreground">
+                              Apertura de Historia Clínica Activa
+                            </p>
+                            <p className="text-[11px] text-muted-foreground max-w-xs mx-auto">
+                              Este paciente está registrado en su red de atención. Aún no cuenta con consultas CRED registradas.
+                            </p>
+                            <button
+                              onClick={() => setShowClinicalForm(true)}
+                              className="px-3.5 py-2 bg-primary hover:bg-primary/90 text-primary-foreground font-black text-xs rounded-xl transition-all shadow-sm cursor-pointer inline-flex items-center gap-1.5 mt-1 min-h-[44px]"
+                            >
+                              <Plus className="size-4" /> Registrar Primer Control
+                            </button>
+                          </div>
                         )}
                       </div>
                     </div>
