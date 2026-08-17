@@ -126,8 +126,13 @@ La solución utiliza una arquitectura híbrida desacoplada y escalable:
 
 ### 5.2 Modelo de Financiamiento Propuesto
 *(Estimaciones de viabilidad sujetas a validación institucional)*:
-- **Modelo Principal:** Esquema de licenciamiento institucional B2G (Business-to-Government) para DIRESAs, GERESAs y Gobiernos Locales a través del Programa Presupuestal Articulado Nutricional (**PAN - PP 001**).
-- **Fuentes Complementarias:** Fondos de cooperación internacional en salud pública y programas de Inversión Social Corporativa (RSC / Obras por Impuestos) en zonas de influencia.
+- **Modelo Principal:** Esquema de licenciamiento institucional B2G (*Business-to-Government*), orientado a DIRESAs, GERESAs y Gobiernos Locales, en el marco del Programa Presupuestal Articulado Nutricional (**PAN - PP 001**). Este modelo asegura ingresos recurrentes mediante contratos anuales con el sector público, alineados a metas de impacto nutricional y cobertura territorial.
+
+- **Fuentes Complementarias:**  
+  - Fondos de cooperación internacional en salud pública y nutrición, aprovechando alianzas con agencias de cooperación técnica y organismos multilaterales.  
+  - Programas de Inversión Social Corporativa y Obras por Impuestos, canalizados a través de empresas privadas con operaciones en zonas de influencia, generando así un componente de sostenibilidad y responsabilidad compartida.
+
+- **Estrategia Alternativa con aliados comerciales:** Incorporación de un canal de *affiliates* con farmacias y plataformas de consumo masivo, donde los usuarios accedan a descuentos en alimentos y suplementos nutricionales mediante un código promocional (*NutriCred*). Esta iniciativa genera un ingreso variable por volumen de referidos, con una comisión mínima por transacción, ampliando el alcance del modelo sin depender exclusivamente del presupuesto público y fomentando la adherencia a hábitos saludables desde el sector privado.
 
 ### 5.3 Roadmap de Implementación Proyectado (12 Meses)
 
