@@ -24,7 +24,6 @@
 ## 🌐 Enlaces de Despliegue en Vivo
 
 - 🚀 **Despliegue Oficial en Vercel:** [https://nutricred-crecer-mejor-nutrivision.vercel.app/](https://nutricred-crecer-mejor-nutrivision.vercel.app/)
-- 🐙 **Repositorio GitHub:** [https://github.com/luzylay/Yanapiri-Wawa](https://github.com/luzylay/Yanapiri-Wawa)
 
 ---
 
