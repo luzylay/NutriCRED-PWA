@@ -1,6 +1,6 @@
 # Yanapiriwawa - Backend (API)
 
-Este es el servidor backend de la plataforma Yanapiriwawa, desarrollado con **NestJS** y **Prisma**.
+Este es el servidor backend de la plataforma, desarrollado con **NestJS** y **Prisma**.
 
 ## 🚀 Estado Actual (Mocks Funcionales)
 
