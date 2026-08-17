@@ -197,20 +197,10 @@ El repositorio contiene módulos independientes diseñados de forma modular para
 
 ```bash
 # 1. Clonar el repositorio
-git clone https://github.com/luzylay/Yanapiri-Wawa.git
-cd Yanapiri-Wawa
-
 # 2. Configurar variables de entorno
-cp .env.example .env
-
 # 3. Instalar dependencias
-npm install
-
 # 4. Iniciar servidor de desarrollo local
-npm run dev
-
 # 5. Compilar bundle de producción
-npm run build
 ```
 
 ---
