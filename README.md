@@ -138,7 +138,7 @@ La solución utiliza una arquitectura híbrida desacoplada y escalable:
  (Piloto)     (WhatsApp)    (Power BI)    (Recomend.)   (Escalam.)
 ```
 
-- **Fase 1 (Meses 1-2):** Registro e implementación piloto inicial en establecimientos de salud seleccionados de DIRESA Lima.
+- **Fase 1 (Meses 1-2):** Registro e implementación piloto inicial en el **Instituto Nacional de Salud del Niño San Borja (INSN-SB)** y centros de salud referenciales.
 - **Fase 2 (Meses 3-4):** Despliegue del canal de interacción por WhatsApp y entrega de credencial virtual a apoderados.
 - **Fase 3 (Meses 5-6):** Sincronización del Dashboard Power BI DirectQuery con el motor de cálculo Z-Score OMS.
 - **Fase 4 (Meses 7-9):** Integración completa del recomendador regional de alimentos (INS/CENAN + MIDAGRI).

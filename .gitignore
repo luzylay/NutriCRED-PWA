@@ -23,6 +23,7 @@ buildOutputCleanup/
 *.crt
 *.p12
 *.pfx
+*.pptx
 secrets/
 config/secrets*
 service_key*
