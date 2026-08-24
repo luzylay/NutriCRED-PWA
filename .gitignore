@@ -9,6 +9,8 @@ tmp/
 out/
 .vite/
 .gradle/
+**/.gradle/
+**/buildOutputCleanup/
 buildOutputCleanup/
 
 
